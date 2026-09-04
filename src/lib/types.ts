@@ -30,7 +30,7 @@ export interface Lighting {
   ambientIntensity: number;
   /** A single distant, shadow-casting light (sun-like). `direction` points from the room toward the light. */
   sun: { direction: Vec3; intensity: number; color: string };
-  /** A soft, non-shadowing fill light above the room. */
+  /** A soft, non-shadowing directional fill light from roughly opposite the sun. `position` is where it shines from. */
   fillLight: { position: Vec3; intensity: number; color: string };
 }
 
