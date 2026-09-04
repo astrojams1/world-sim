@@ -4,7 +4,7 @@
  *
  *   npm run dev                       # in another terminal, with OPENAI_API_KEY in .env.local
  *   npx playwright install chromium   # once
- *   node scripts/bench.mjs --n 10 --rounds 1 --model gpt-5-mini [--url http://localhost:3000] [--seeds 1,2,3]
+ *   node scripts/bench.mjs --n 10 --model gpt-5-mini [--url http://localhost:3000] [--seeds 1,2,3]
  */
 import { chromium } from "playwright";
 
@@ -15,7 +15,6 @@ const args = Object.fromEntries(
   }, []),
 );
 const n = Number(args.n ?? 5);
-const rounds = String(args.rounds ?? 1);
 const model = args.model ?? "gpt-5-mini";
 const url = args.url ?? "http://localhost:3000/";
 const seeds = args.seeds ? args.seeds.split(",").map(Number) : Array.from({ length: n }, () => Math.floor(Math.random() * 2 ** 31));
@@ -34,7 +33,6 @@ for (const seed of seeds) {
   await seedInput.press("Enter");
   await page.waitForTimeout(1200);
   await page.selectOption("select >> nth=0", model);
-  await page.fill('input[type="number"]', rounds);
   const t0 = Date.now();
   await page.click('button:has-text("Analyze")');
   await page.waitForFunction(
@@ -49,16 +47,15 @@ for (const seed of seeds) {
   const scores = await page.evaluate(() =>
     [...document.querySelectorAll(".text-2xl.font-semibold")].map((e) => parseFloat(e.textContent)).filter((x) => !Number.isNaN(x)),
   );
-  const row = { seed, scores, final: scores.at(-1) ?? null, best: scores.length ? Math.max(...scores) : null, seconds: +((Date.now() - t0) / 1000).toFixed(1), err };
+  const row = { seed, score: scores.at(-1) ?? null, seconds: +((Date.now() - t0) / 1000).toFixed(1), err };
   results.push(row);
   console.log(JSON.stringify(row));
   await page.close();
 }
 await browser.close();
-const ok = results.filter((r) => r.final != null);
+const ok = results.filter((r) => r.score != null);
 const mean = (xs) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : NaN);
-console.log("\nmodel", model, "rounds", rounds, "rooms", results.length);
-console.log("mean final score", mean(ok.map((r) => r.final)).toFixed(1));
-console.log("mean best score ", mean(ok.map((r) => r.best)).toFixed(1));
-console.log("exact matches    ", ok.filter((r) => r.final === 100).length);
+console.log("\nmodel", model, "rooms", results.length);
+console.log("mean score   ", mean(ok.map((r) => r.score)).toFixed(1));
+console.log("exact matches", ok.filter((r) => r.score === 100).length);
 console.log("mean seconds     ", mean(ok.map((r) => r.seconds)).toFixed(1));

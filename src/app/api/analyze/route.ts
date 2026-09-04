@@ -1,33 +1,40 @@
-import OpenAI from "openai";
+import OpenAI, { toFile } from "openai";
 import { NextRequest } from "next/server";
-import { buildFollowupUserText, buildRound1UserText, buildSystemPrompt, GUESS_SCHEMA, type PublicRoom } from "@/lib/skill";
-import type { Guess } from "@/lib/types";
+import { buildSystemPrompt, buildUserText, GUESS_SCHEMA, SANDBOX_FILES, sceneFile, type PublicRoom } from "@/lib/skill";
+import { WORLDSIM_PY } from "@/lib/sandbox/worldsim_py";
 import { ALLOWED_MODELS, type ModelId } from "@/lib/models";
+import type { Guess } from "@/lib/types";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
-
 
 interface AnalyzeBody {
   model: ModelId;
   reasoningEffort?: "low" | "medium" | "high";
   room: PublicRoom;
-  images: { A: string; B: string }; // data URLs
-  round: number;
-  previousResponseId?: string;
-  previousGuess?: Guess;
-  guessImages?: { A: string; B: string };
+  images: { A: string; B: string }; // data URLs of the unaltered feeds
 }
 
-type InputContent =
-  | { type: "input_text"; text: string }
-  | { type: "input_image"; image_url: string; detail: "high" | "low" | "auto" };
+export interface CodeRun {
+  code: string | null;
+  logs: string;
+  status: string;
+}
 
+function dataUrlToBuffer(dataUrl: string): Buffer {
+  const comma = dataUrl.indexOf(",");
+  return Buffer.from(dataUrl.slice(comma + 1), "base64");
+}
+
+/**
+ * POST: upload the feeds + helper module to the model's sandbox and start a background
+ * response. Returns { responseId }. The client then polls GET ?id=... (Vercel functions
+ * have short timeouts; the model's sandbox loop can take minutes).
+ */
 export async function POST(req: NextRequest) {
   const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    return Response.json({ error: "OPENAI_API_KEY is not set on the server." }, { status: 500 });
-  }
+  if (!apiKey) return Response.json({ error: "OPENAI_API_KEY is not set on the server." }, { status: 500 });
+
   let body: AnalyzeBody;
   try {
     body = (await req.json()) as AnalyzeBody;
@@ -37,43 +44,93 @@ export async function POST(req: NextRequest) {
   if (!ALLOWED_MODELS.includes(body.model)) {
     return Response.json({ error: `Model must be one of ${ALLOWED_MODELS.join(", ")}` }, { status: 400 });
   }
-  if (!body.images?.A?.startsWith("data:image/") || !body.images?.B?.startsWith("data:image/")) {
-    return Response.json({ error: "Two camera images are required." }, { status: 400 });
+  if (!body.images?.A?.startsWith("data:image/jpeg") || !body.images?.B?.startsWith("data:image/jpeg")) {
+    return Response.json({ error: "Two JPEG camera images are required." }, { status: 400 });
   }
 
   const client = new OpenAI({ apiKey });
   const isReasoningModel = body.model.startsWith("gpt-5");
-
-  const content: InputContent[] = [];
-  if (body.round <= 1 || !body.previousResponseId) {
-    content.push({ type: "input_text", text: buildRound1UserText() });
-    content.push({ type: "input_image", image_url: body.images.A, detail: "high" });
-    content.push({ type: "input_image", image_url: body.images.B, detail: "high" });
-  } else {
-    if (!body.previousGuess || !body.guessImages) {
-      return Response.json({ error: "Follow-up rounds need previousGuess and guessImages." }, { status: 400 });
-    }
-    content.push({ type: "input_text", text: buildFollowupUserText(body.room, body.previousGuess) });
-    content.push({ type: "input_image", image_url: body.images.A, detail: "high" });
-    content.push({ type: "input_image", image_url: body.images.B, detail: "high" });
-    content.push({ type: "input_image", image_url: body.guessImages.A, detail: "high" });
-    content.push({ type: "input_image", image_url: body.guessImages.B, detail: "high" });
-  }
-
-  const started = Date.now();
+  const uploaded: string[] = [];
   try {
+    const upload = async (name: string, content: Buffer | string) => {
+      const f = await client.files.create({ file: await toFile(Buffer.from(content), name), purpose: "user_data" });
+      uploaded.push(f.id);
+      return f.id;
+    };
+    await Promise.all([
+      upload(SANDBOX_FILES.helper, WORLDSIM_PY),
+      upload(SANDBOX_FILES.scene, JSON.stringify(sceneFile(body.room), null, 2)),
+      upload(SANDBOX_FILES.A, dataUrlToBuffer(body.images.A)),
+      upload(SANDBOX_FILES.B, dataUrlToBuffer(body.images.B)),
+    ]);
+
     const response = await client.responses.create({
       model: body.model,
+      background: true,
+      store: true,
       instructions: buildSystemPrompt(body.room),
-      input: [{ role: "user", content }],
-      previous_response_id: body.previousResponseId,
+      input: [
+        {
+          role: "user",
+          content: [
+            { type: "input_text", text: buildUserText() },
+            { type: "input_image", image_url: body.images.A, detail: "high" },
+            { type: "input_image", image_url: body.images.B, detail: "high" },
+          ],
+        },
+      ],
+      tools: [{ type: "code_interpreter", container: { type: "auto", file_ids: uploaded } }],
+      include: ["code_interpreter_call.outputs"],
       ...(isReasoningModel ? { reasoning: { effort: body.reasoningEffort ?? "medium" } } : { temperature: 0.2 }),
-      text: {
-        format: { type: "json_schema", name: "room_reconstruction", schema: GUESS_SCHEMA, strict: true },
-      },
-      max_output_tokens: 16000,
+      text: { format: { type: "json_schema", name: "room_reconstruction", schema: GUESS_SCHEMA, strict: true } },
+      max_output_tokens: 60000,
+      metadata: { files: uploaded.join(",") },
     });
+    return Response.json({ responseId: response.id, status: response.status });
+  } catch (err: unknown) {
+    await Promise.allSettled(uploaded.map((id) => client.files.delete(id)));
+    const message = err instanceof Error ? err.message : String(err);
+    return Response.json({ error: message }, { status: 502 });
+  }
+}
 
+/** GET ?id=resp_...: poll a background response. */
+export async function GET(req: NextRequest) {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) return Response.json({ error: "OPENAI_API_KEY is not set on the server." }, { status: 500 });
+  const id = req.nextUrl.searchParams.get("id");
+  if (!id || !/^resp_[A-Za-z0-9]+$/.test(id)) return Response.json({ error: "Missing or invalid id" }, { status: 400 });
+
+  const client = new OpenAI({ apiKey });
+  try {
+    const response = await client.responses.retrieve(id, { include: ["code_interpreter_call.outputs"] });
+    const codeRuns: CodeRun[] = [];
+    for (const item of response.output ?? []) {
+      if (item.type === "code_interpreter_call") {
+        const logs = (item.outputs ?? [])
+          .map((o) => (o.type === "logs" ? o.logs : "[image output]"))
+          .join("\n");
+        codeRuns.push({ code: item.code, logs, status: item.status });
+      }
+    }
+    if (response.status === "queued" || response.status === "in_progress") {
+      return Response.json({ status: response.status, codeRuns });
+    }
+
+    // Terminal state: clean up the uploaded files.
+    const files = (response.metadata?.files ?? "").split(",").filter(Boolean);
+    await Promise.allSettled(files.map((fid) => client.files.delete(fid)));
+
+    if (response.status !== "completed") {
+      return Response.json(
+        {
+          status: response.status,
+          error: response.error?.message ?? response.incomplete_details?.reason ?? `Response ${response.status}`,
+          codeRuns,
+        },
+        { status: 502 },
+      );
+    }
     const text = response.output_text ?? "";
     let parsed: { notes?: string; objects?: Guess["objects"] } | null = null;
     try {
@@ -82,10 +139,7 @@ export async function POST(req: NextRequest) {
       parsed = null;
     }
     if (!parsed || !Array.isArray(parsed.objects)) {
-      return Response.json(
-        { error: "Model did not return valid JSON.", raw: text, status: response.status, incomplete: response.incomplete_details },
-        { status: 502 },
-      );
+      return Response.json({ status: "completed", error: "Model did not return valid JSON.", raw: text, codeRuns }, { status: 502 });
     }
     const guess: Guess = {
       objects: parsed.objects.map((o) => ({
@@ -96,12 +150,13 @@ export async function POST(req: NextRequest) {
       })),
     };
     return Response.json({
-      responseId: response.id,
+      status: "completed",
       guess,
       notes: parsed.notes ?? "",
       usage: response.usage,
-      durationMs: Date.now() - started,
       model: response.model,
+      codeRuns,
+      usedSandbox: codeRuns.length > 0,
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);

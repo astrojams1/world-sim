@@ -8,16 +8,14 @@ A small experiment: can a cheap vision LLM reconstruct a 3D room from two fixed 
 
 ## The skill
 
-The whole point is the prompt design in [`src/lib/skill.ts`](src/lib/skill.ts). Naively asking "look at these images and output the JSON" is very inaccurate, so the skill gives the model:
+The whole point is the prompt design in [`src/lib/skill.ts`](src/lib/skill.ts) plus the sandbox helper in [`src/lib/sandbox/worldsim.py`](src/lib/sandbox/worldsim.py). Naively asking "look at these images and output the JSON" is very inaccurate, so instead the model runs a real **guess → render → compare → re-guess** loop itself, inside one response, using OpenAI's hosted Python sandbox (the `code_interpreter` tool):
 
-1. **The rules of the world** — object shapes/colours, the discrete size set (0.10 / 0.15 / 0.20), the 0.05 position grid, objects rest on the floor so `y = size/2`.
-2. **Camera calibration** — position, look-at and field of view of both cameras, plus a landmark table mapping known floor points and ceiling corners to pixel coordinates, and "a 0.10 object at (x,z) is N px wide" size references.
-3. **A guess → check → re-guess procedure** — inventory each view, correspond objects across views, locate each contact point on the floor independently from both cameras, size against the grid, then project the estimate back into each image and revise until both views are consistent.
-4. **Structured output** with a `notes` field before `objects`, so non-reasoning models write their working before committing.
+1. The two camera images are sent to the model **unaltered** (no overlays, markers or crops), both as image inputs and as files in its sandbox, together with `scene.json` (camera calibration and surface colours) and `worldsim.py`.
+2. The system prompt states the rules of the world (shapes, colours, the discrete size set 0.10 / 0.15 / 0.20, the 0.05 position grid, objects rest on the floor so `y = size/2`) and the camera calibration.
+3. `worldsim.py` gives the model measurement and verification primitives: `blobs()` finds red/blue regions with pixel measurements, `plane_point()`/`project()` do the camera geometry, `initial_hypothesis()` turns blobs plus the shapes the model *saw* into a first guess, `compare()` renders the hypothesis silhouettes from both cameras and reports IoU, per-object pixel offsets, phantom objects and unexplained blobs, `shape_test()` checks sphere vs cube, and `local_search()` refines positions and sizes against the images. Shapes, colours and the object count are deliberately left to the model's own vision.
+4. The method section tells the model to inventory visually, measure, hypothesise, check, and re-guess until both cameras are explained, then emit the snapped JSON. Structured output puts a `notes` field before `objects`.
 
-The camera images are sent **unaltered** — no overlays, markers or crops. All calibration help is text.
-
-Optionally (Rounds ≥ 2) the app renders the model's guess from the same two cameras and sends those renders back alongside the real feeds, with the pixel location each guessed object implies. The model compares and corrects. This is the guess-check-reguess loop made external and exact.
+The client just uploads the feeds, starts a background response and polls for the result. The model's full Python session (code and output of every run) is shown in the UI. `gpt-5-mini` reliably uses the sandbox; `gpt-4.1-mini` sometimes answers without running code, which the UI flags.
 
 ## Scoring
 
@@ -25,7 +23,7 @@ Optionally (Rounds ≥ 2) the app renders the model's guess from the same two ca
 
 ## Models
 
-Default is `gpt-5-mini` (cheap, accepts images, has built-in reasoning). `gpt-5.4-mini`, `gpt-5-nano`, `gpt-4.1-mini` and `gpt-4o-mini` are selectable. Reasoning effort applies to the gpt-5 family.
+Default is `gpt-5-mini` (cheap, accepts images, has built-in reasoning, uses the sandbox reliably). `gpt-5.4-mini`, `gpt-5-nano`, `gpt-4.1-mini` and `gpt-4o-mini` are selectable. Reasoning effort applies to the gpt-5 family. A run takes roughly 1–4 minutes and a few cents (model tokens plus one code-interpreter session).
 
 ## Running locally
 
@@ -39,4 +37,14 @@ npm run dev
 
 1. Import the repo in Vercel (framework preset: Next.js, no extra settings).
 2. Add the environment variable `OPENAI_API_KEY` (Production + Preview).
-3. Deploy. The analyze route sets `maxDuration = 60`; if you use `high` reasoning effort with many rounds, consider raising it on a plan that allows it.
+3. Deploy. The analyze route only starts a background response and polls it, so each function invocation is short (`maxDuration = 60`).
+
+## Benchmarking the skill
+
+```bash
+npm run dev                        # with OPENAI_API_KEY in .env.local
+npx playwright install chromium    # once
+npm run bench -- --n 10 --model gpt-5-mini
+```
+
+`worldsim.py` is embedded into the build by `scripts/embed-sandbox.mjs` (runs automatically before `dev` and `build`). Edit the `.py` file, not the generated `worldsim_py.ts`.

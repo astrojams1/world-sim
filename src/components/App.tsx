@@ -1,38 +1,44 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import RoomViewer from "@/components/RoomViewer";
 import { renderFeeds, type Feeds } from "@/lib/feeds";
 import { ALLOWED_MODELS, DEFAULT_MODEL, type ModelId } from "@/lib/models";
-import { generateRoom } from "@/lib/room";
+import { generateRoom, stripIds } from "@/lib/room";
 import { guessToSceneObjects } from "@/lib/scene";
 import { scoreGuess } from "@/lib/score";
 import type { Guess, Room, Score } from "@/lib/types";
 
-import RoomViewer from "@/components/RoomViewer";
-import { stripIds } from "@/lib/room";
+interface CodeRun {
+  code: string | null;
+  logs: string;
+  status: string;
+}
 
-interface RoundResult {
-  round: number;
+interface AnalysisResult {
   guess: Guess;
   score: Score;
   notes: string;
   durationMs: number;
   usage?: { input_tokens?: number; output_tokens?: number; total_tokens?: number };
+  codeRuns: CodeRun[];
+  usedSandbox: boolean;
   guessFeeds: Feeds;
 }
 
 type Effort = "low" | "medium" | "high";
+const POLL_MS = 3000;
 
 export default function App() {
   const [room, setRoom] = useState<Room>(() => generateRoom());
   const [feeds, setFeeds] = useState<Feeds | null>(null);
   const [model, setModel] = useState<ModelId>(DEFAULT_MODEL);
   const [effort, setEffort] = useState<Effort>("medium");
-  const [rounds, setRounds] = useState(1);
   const [running, setRunning] = useState(false);
   const [status, setStatus] = useState<string>("");
+  const [liveRuns, setLiveRuns] = useState<CodeRun[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [results, setResults] = useState<RoundResult[]>([]);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
   const [showGuess, setShowGuess] = useState(true);
   const [showTruth, setShowTruth] = useState(true);
   const [seedInput, setSeedInput] = useState(() => String(room.seed));
@@ -42,7 +48,8 @@ export default function App() {
     const r = generateRoom(seed);
     setRoom(r);
     setFeeds(null);
-    setResults([]);
+    setResult(null);
+    setLiveRuns([]);
     setError(null);
     setStatus("");
     setSeedInput(String(r.seed));
@@ -61,70 +68,61 @@ export default function App() {
   }, [room]);
 
   const analyze = useCallback(async () => {
-    if (!room || !feeds || running) return;
+    if (!feeds || running) return;
     setRunning(true);
     setError(null);
-    setResults([]);
+    setResult(null);
+    setLiveRuns([]);
     abortRef.current = false;
-    const publicRoom = { cameras: room.cameras, colors: room.colors };
-    // Unaltered camera renders only: no overlays, no markers.
-    const images = feeds;
-    let previousResponseId: string | undefined;
-    let previousGuess: Guess | undefined;
-    let guessImages: Feeds | undefined;
-    const collected: RoundResult[] = [];
+    const started = Date.now();
     try {
-      for (let round = 1; round <= rounds; round++) {
-        if (abortRef.current) break;
-        setStatus(`Round ${round}/${rounds}: asking ${model}…`);
-        const res = await fetch("/api/analyze", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            model,
-            reasoningEffort: effort,
-            room: publicRoom,
-            images,
-            round,
-            previousResponseId,
-            previousGuess,
-            guessImages,
-          }),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error ?? `HTTP ${res.status}`);
-        let guess: Guess = data.guess;
-        let fallbackNote = "";
-        if (round > 1 && previousGuess && guess.objects.length === 0) {
-          // The model bailed out of the refinement; keep its previous reconstruction.
-          guess = previousGuess;
-          fallbackNote = "[Model returned no objects this round; previous guess kept.]\n\n";
+      setStatus(`Uploading feeds to ${model}'s sandbox…`);
+      const res = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          model,
+          reasoningEffort: effort,
+          room: { cameras: room.cameras, colors: room.colors },
+          // Unaltered camera renders only: no overlays, no markers.
+          images: feeds,
+        }),
+      });
+      const start = await res.json();
+      if (!res.ok) throw new Error(start.error ?? `HTTP ${res.status}`);
+      const id: string = start.responseId;
+
+      // Poll until the background response finishes.
+      for (;;) {
+        if (abortRef.current) {
+          setStatus("Stopped. (The model may still finish in the background.)");
+          return;
         }
+        await new Promise((r) => setTimeout(r, POLL_MS));
+        const pollRes = await fetch(`/api/analyze?id=${encodeURIComponent(id)}`);
+        const data = await pollRes.json();
+        if (data.codeRuns) setLiveRuns(data.codeRuns);
+        if (data.status === "queued" || data.status === "in_progress") {
+          const secs = Math.round((Date.now() - started) / 1000);
+          setStatus(`${model} is working in its sandbox… ${data.codeRuns?.length ?? 0} code run(s), ${secs}s`);
+          continue;
+        }
+        if (!pollRes.ok) throw new Error(data.error ?? `HTTP ${pollRes.status}`);
+        const guess: Guess = data.guess;
         const score = scoreGuess(room, guess);
-        // Render the guess from the same cameras for the next round (and for display).
-        const rawGuessFeeds = renderFeeds(room, guessToSceneObjects(guess));
-        guessImages = rawGuessFeeds;
-        const rr: RoundResult = {
-          round,
+        const guessFeeds = renderFeeds(room, guessToSceneObjects(guess));
+        setResult({
           guess,
           score,
-          notes: fallbackNote + data.notes,
-          durationMs: data.durationMs,
+          notes: data.notes,
+          durationMs: Date.now() - started,
           usage: data.usage,
-          guessFeeds: rawGuessFeeds,
-        };
-        collected.push(rr);
-        setResults([...collected]);
-        previousResponseId = data.responseId;
-        previousGuess = guess;
-        if (score.exact) {
-          setStatus(`Exact match after round ${round}.`);
-          break;
-        }
-        setStatus(`Round ${round}: score ${score.total}%`);
-      }
-      if (!abortRef.current && collected.length && !collected[collected.length - 1].score.exact) {
-        setStatus(`Finished ${collected.length} round(s). Final score ${collected[collected.length - 1].score.total}%`);
+          codeRuns: data.codeRuns ?? [],
+          usedSandbox: Boolean(data.usedSandbox),
+          guessFeeds,
+        });
+        setStatus(score.exact ? "Exact match." : `Score ${score.total}%`);
+        return;
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -132,11 +130,10 @@ export default function App() {
     } finally {
       setRunning(false);
     }
-  }, [room, feeds, running, rounds, model, effort]);
+  }, [feeds, running, room, model, effort]);
 
-  const latest = results[results.length - 1];
-  const guessObjects = useMemo(() => (latest && showGuess ? guessToSceneObjects(latest.guess) : null), [latest, showGuess]);
-  const displayedFeeds = feeds;
+  const guessObjects = useMemo(() => (result && showGuess ? guessToSceneObjects(result.guess) : null), [result, showGuess]);
+  const runsToShow = result?.codeRuns ?? liveRuns;
 
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4 p-4">
@@ -182,7 +179,6 @@ export default function App() {
               className="rounded border border-neutral-400/40 px-3 py-1.5 hover:bg-neutral-500/10"
               onClick={() => {
                 abortRef.current = true;
-                setStatus("Stopping after this round…");
               }}
             >
               Stop
@@ -196,9 +192,9 @@ export default function App() {
           <RoomViewer room={room} guess={guessObjects} showTruth={showTruth} />
           <div className="pointer-events-none absolute left-2 top-2 rounded bg-black/50 px-2 py-1 text-xs text-white">
             Drag to rotate · scroll to zoom · A/B are the fixed cameras
-            {latest && " · wireframes = model's guess"}
+            {result && " · wireframes = model's guess"}
           </div>
-          {latest && (
+          {result && (
             <div className="absolute right-2 top-2 flex gap-2 rounded bg-black/50 px-2 py-1 text-xs text-white">
               <label className="flex items-center gap-1">
                 <input type="checkbox" checked={showTruth} onChange={(e) => setShowTruth(e.target.checked)} /> truth
@@ -212,9 +208,9 @@ export default function App() {
         <div className="flex flex-col gap-3">
           {(["A", "B"] as const).map((id) => (
             <figure key={id} className="overflow-hidden rounded-lg border border-neutral-400/30 bg-black">
-              {displayedFeeds ? (
+              {feeds ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={displayedFeeds[id]} alt={`Camera ${id}`} className="block aspect-[4/3] w-full" />
+                <img src={feeds[id]} alt={`Camera ${id}`} className="block aspect-[4/3] w-full" />
               ) : (
                 <div className="aspect-[4/3] w-full" />
               )}
@@ -259,89 +255,106 @@ export default function App() {
             <option value="high" className="text-black">high</option>
           </select>
         </label>
-        <label className="flex items-center gap-2">
-          <span className="opacity-70">Rounds</span>
-          <input
-            type="number"
-            min={1}
-            max={5}
-            value={rounds}
-            onChange={(e) => setRounds(Math.max(1, Math.min(5, Number(e.target.value) || 1)))}
-            className="w-14 rounded border border-neutral-400/40 bg-transparent px-2 py-1"
-            disabled={running}
-          />
-          <span className="text-xs opacity-60">(optional: from round 2 the model also gets a render of its own guess to compare against the real feeds)</span>
-        </label>
+        <span className="text-xs opacity-60">
+          The model runs its guess → render → compare → re-guess loop itself, in a Python sandbox, within one response.
+        </span>
         {status && <span className="ml-auto font-medium">{status}</span>}
       </section>
 
       {error && <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-3 text-sm text-red-300">{error}</div>}
 
-      {results.length > 0 && (
+      {result && (
         <section className="flex flex-col gap-4">
           <div className="flex flex-wrap gap-2">
-            {results.map((r) => (
-              <div
-                key={r.round}
-                className={`rounded-lg border px-3 py-2 text-sm ${
-                  r.score.exact ? "border-emerald-500 bg-emerald-500/10" : "border-neutral-400/30"
-                }`}
-              >
-                <div className="text-xs opacity-60">Round {r.round}</div>
-                <div className="text-2xl font-semibold">{r.score.total}%</div>
-                <div className="text-xs opacity-60">
-                  {r.score.countGuess} guessed / {r.score.countTruth} actual · {(r.durationMs / 1000).toFixed(1)}s
-                  {r.usage?.total_tokens ? ` · ${r.usage.total_tokens} tok` : ""}
-                </div>
+            <div
+              className={`rounded-lg border px-3 py-2 text-sm ${
+                result.score.exact ? "border-emerald-500 bg-emerald-500/10" : "border-neutral-400/30"
+              }`}
+            >
+              <div className="text-xs opacity-60">Score</div>
+              <div className="text-2xl font-semibold">{result.score.total}%</div>
+              <div className="text-xs opacity-60">
+                {result.score.countGuess} guessed / {result.score.countTruth} actual · {(result.durationMs / 1000).toFixed(0)}s ·{" "}
+                {result.codeRuns.length} code run(s)
+                {result.usage?.total_tokens ? ` · ${result.usage.total_tokens} tok` : ""}
               </div>
-            ))}
+            </div>
+            {!result.usedSandbox && (
+              <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 px-3 py-2 text-xs text-amber-300">
+                The model answered without running any code in its sandbox. The gpt-5 family reliably uses it.
+              </div>
+            )}
           </div>
 
-          {latest && <Comparison room={room} result={latest} />}
+          <Comparison room={room} result={result} />
 
           <details className="rounded-lg border border-neutral-400/30 p-3 text-sm">
-            <summary className="cursor-pointer font-medium">Model notes (round {latest.round})</summary>
-            <pre className="mt-2 whitespace-pre-wrap font-mono text-xs opacity-80">{latest.notes}</pre>
+            <summary className="cursor-pointer font-medium">Model notes</summary>
+            <pre className="mt-2 whitespace-pre-wrap font-mono text-xs opacity-80">{result.notes}</pre>
           </details>
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             <details className="rounded-lg border border-neutral-400/30 p-3 text-sm">
               <summary className="cursor-pointer font-medium">Ground-truth JSON</summary>
-              <pre className="mt-2 overflow-x-auto font-mono text-xs opacity-80">
-                {JSON.stringify({ objects: stripIds(room.objects) }, null, 2)}
-              </pre>
+              <pre className="mt-2 overflow-x-auto font-mono text-xs opacity-80">{JSON.stringify({ objects: stripIds(room.objects) }, null, 2)}</pre>
             </details>
             <details className="rounded-lg border border-neutral-400/30 p-3 text-sm">
-              <summary className="cursor-pointer font-medium">Model JSON (round {latest.round})</summary>
-              <pre className="mt-2 overflow-x-auto font-mono text-xs opacity-80">{JSON.stringify(latest.guess, null, 2)}</pre>
+              <summary className="cursor-pointer font-medium">Model JSON</summary>
+              <pre className="mt-2 overflow-x-auto font-mono text-xs opacity-80">{JSON.stringify(result.guess, null, 2)}</pre>
             </details>
           </div>
 
           <details className="rounded-lg border border-neutral-400/30 p-3 text-sm">
-            <summary className="cursor-pointer font-medium">Render of the model&apos;s guess (what round {latest.round + 1} would see)</summary>
+            <summary className="cursor-pointer font-medium">Render of the model&apos;s guess from the two cameras (for you, not the model)</summary>
             <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
               {(["A", "B"] as const).map((id) => (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img key={id} src={latest.guessFeeds[id]} alt={`Guess from camera ${id}`} className="w-full rounded" />
+                <img key={id} src={result.guessFeeds[id]} alt={`Guess from camera ${id}`} className="w-full rounded" />
               ))}
             </div>
           </details>
         </section>
       )}
 
-      {!results.length && (
+      {runsToShow.length > 0 && <CodeRuns runs={runsToShow} live={!result} />}
+
+      {!result && (
         <details className="rounded-lg border border-neutral-400/30 p-3 text-sm">
           <summary className="cursor-pointer font-medium">Ground-truth JSON</summary>
-          <pre className="mt-2 overflow-x-auto font-mono text-xs opacity-80">
-            {JSON.stringify({ objects: stripIds(room.objects) }, null, 2)}
-          </pre>
+          <pre className="mt-2 overflow-x-auto font-mono text-xs opacity-80">{JSON.stringify({ objects: stripIds(room.objects) }, null, 2)}</pre>
         </details>
       )}
     </main>
   );
 }
 
-function Comparison({ room, result }: { room: Room; result: RoundResult }) {
+function CodeRuns({ runs, live }: { runs: CodeRun[]; live: boolean }) {
+  return (
+    <details className="rounded-lg border border-neutral-400/30 p-3 text-sm" open={live}>
+      <summary className="cursor-pointer font-medium">
+        Model&apos;s Python session ({runs.length} run{runs.length === 1 ? "" : "s"}){live ? " · live" : ""}
+      </summary>
+      <div className="mt-2 flex flex-col gap-3">
+        {runs.map((r, i) => (
+          <div key={i} className="rounded border border-neutral-400/20">
+            <div className="flex items-center justify-between bg-neutral-500/10 px-2 py-1 text-xs">
+              <span>Run {i + 1}</span>
+              <span className="opacity-60">{r.status}</span>
+            </div>
+            <pre className="max-h-64 overflow-auto px-2 py-1 font-mono text-[11px] leading-snug text-sky-200/90">{r.code ?? ""}</pre>
+            {r.logs && (
+              <pre className="max-h-64 overflow-auto border-t border-neutral-400/20 px-2 py-1 font-mono text-[11px] leading-snug opacity-80">
+                {r.logs}
+              </pre>
+            )}
+          </div>
+        ))}
+      </div>
+    </details>
+  );
+}
+
+function Comparison({ room, result }: { room: Room; result: AnalysisResult }) {
   const { score, guess } = result;
   return (
     <div className="overflow-x-auto rounded-lg border border-neutral-400/30">
@@ -360,8 +373,7 @@ function Comparison({ room, result }: { room: Room; result: RoundResult }) {
         <tbody>
           {score.details.map((d, i) => {
             const t = room.objects[i];
-            const matchedIdx = d.matched && d.guessIndex != null ? d.guessIndex : -1;
-            const g = matchedIdx >= 0 ? guess.objects[matchedIdx] : null;
+            const g = d.matched && d.guessIndex != null ? guess.objects[d.guessIndex] : null;
             const ok = (b?: boolean) => (b ? "text-emerald-400" : "text-red-400");
             return (
               <tr key={t.id} className="border-t border-neutral-400/20 font-mono">
