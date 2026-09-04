@@ -15,7 +15,7 @@ The whole point is the prompt design in [`src/lib/skill.ts`](src/lib/skill.ts) p
 3. `worldsim.py` gives the model measurement and verification primitives: `blobs()` finds red/blue regions with pixel measurements, `plane_point()`/`project()` do the camera geometry, `initial_hypothesis()` turns blobs plus the shapes the model *saw* into a first guess, `compare()` renders the hypothesis silhouettes from both cameras and reports IoU, per-object pixel offsets, phantom objects and unexplained blobs, `shape_test()` checks sphere vs cube, and `local_search()` refines positions and sizes against the images. Shapes, colours and the object count are deliberately left to the model's own vision.
 4. The method section tells the model to inventory visually, measure, hypothesise, check, and re-guess until both cameras are explained, then emit the snapped JSON. Structured output puts a `notes` field before `objects`.
 
-The client just uploads the feeds, starts a background response and polls for the result. The model's full Python session (code and output of every run) is shown in the UI. `gpt-5-mini` reliably uses the sandbox; `gpt-4.1-mini` sometimes answers without running code, which the UI flags.
+The client just uploads the feeds, starts a background response and polls for the result. The model's full Python session (the code of every run plus the printed transcript, which the sandbox bootstrap tees into a log file fetched via the containers API) is shown in the UI. `gpt-5-mini` reliably uses the sandbox; `gpt-4.1-mini` sometimes answers without running code, which the UI flags.
 
 ## Scoring
 

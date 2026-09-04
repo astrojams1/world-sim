@@ -22,6 +22,7 @@ interface AnalysisResult {
   durationMs: number;
   usage?: { input_tokens?: number; output_tokens?: number; total_tokens?: number };
   codeRuns: CodeRun[];
+  sessionLog: string;
   usedSandbox: boolean;
   guessFeeds: Feeds;
 }
@@ -118,6 +119,7 @@ export default function App() {
           durationMs: Date.now() - started,
           usage: data.usage,
           codeRuns: data.codeRuns ?? [],
+          sessionLog: data.sessionLog ?? "",
           usedSandbox: Boolean(data.usedSandbox),
           guessFeeds,
         });
@@ -316,7 +318,7 @@ export default function App() {
         </section>
       )}
 
-      {runsToShow.length > 0 && <CodeRuns runs={runsToShow} live={!result} />}
+      {runsToShow.length > 0 && <CodeRuns runs={runsToShow} live={!result} sessionLog={result?.sessionLog ?? ""} />}
 
       {!result && (
         <details className="rounded-lg border border-neutral-400/30 p-3 text-sm">
@@ -328,13 +330,17 @@ export default function App() {
   );
 }
 
-function CodeRuns({ runs, live }: { runs: CodeRun[]; live: boolean }) {
+function CodeRuns({ runs, live, sessionLog }: { runs: CodeRun[]; live: boolean; sessionLog: string }) {
   return (
     <details className="rounded-lg border border-neutral-400/30 p-3 text-sm" open={live}>
       <summary className="cursor-pointer font-medium">
         Model&apos;s Python session ({runs.length} run{runs.length === 1 ? "" : "s"}){live ? " · live" : ""}
       </summary>
       <div className="mt-2 flex flex-col gap-3">
+        <p className="text-xs opacity-60">
+          The code of every run, in order. The API does not return per-run output for background responses, so the full
+          printed transcript of the session is shown below the code.
+        </p>
         {runs.map((r, i) => (
           <div key={i} className="rounded border border-neutral-400/20">
             <div className="flex items-center justify-between bg-neutral-500/10 px-2 py-1 text-xs">
@@ -349,6 +355,12 @@ function CodeRuns({ runs, live }: { runs: CodeRun[]; live: boolean }) {
             )}
           </div>
         ))}
+        {sessionLog && (
+          <div className="rounded border border-neutral-400/20">
+            <div className="bg-neutral-500/10 px-2 py-1 text-xs">Session transcript (everything the model printed)</div>
+            <pre className="max-h-[32rem] overflow-auto px-2 py-1 font-mono text-[11px] leading-snug opacity-80">{sessionLog}</pre>
+          </div>
+        )}
       </div>
     </details>
   );

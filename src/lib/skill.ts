@@ -39,7 +39,18 @@ for f in os.listdir('/mnt/data'):
         if f.endswith(name) and f != name:
             shutil.copy(os.path.join('/mnt/data', f), os.path.join('/mnt/data', name))
 sys.path.insert(0, '/mnt/data')
+class _Tee:  # keep a transcript of everything printed in /mnt/data/session_log.txt
+    def __init__(self, *streams): self.streams = streams
+    def write(self, data):
+        for s in self.streams: s.write(data)
+    def flush(self):
+        for s in self.streams: s.flush()
+_log = open('/mnt/data/session_log.txt', 'a')
+sys.stdout = _Tee(sys.stdout, _log)
+sys.stderr = _Tee(sys.stderr, _log)
 import worldsim as ws`;
+
+export const SESSION_LOG = "session_log.txt";
 
 function cameraBlock(cam: CameraSpec): string {
   const [px0, py0, pz0] = cam.position;

@@ -1,6 +1,6 @@
 import OpenAI, { toFile } from "openai";
 import { NextRequest } from "next/server";
-import { buildSystemPrompt, buildUserText, GUESS_SCHEMA, SANDBOX_FILES, sceneFile, type PublicRoom } from "@/lib/skill";
+import { buildSystemPrompt, buildUserText, GUESS_SCHEMA, SANDBOX_FILES, SESSION_LOG, sceneFile, type PublicRoom } from "@/lib/skill";
 import { WORLDSIM_PY } from "@/lib/sandbox/worldsim_py";
 import { ALLOWED_MODELS, type ModelId } from "@/lib/models";
 import type { Guess } from "@/lib/types";
@@ -105,11 +105,12 @@ export async function GET(req: NextRequest) {
   try {
     const response = await client.responses.retrieve(id, { include: ["code_interpreter_call.outputs"] });
     const codeRuns: CodeRun[] = [];
+    let containerId: string | null = null;
     for (const item of response.output ?? []) {
       if (item.type === "code_interpreter_call") {
-        const logs = (item.outputs ?? [])
-          .map((o) => (o.type === "logs" ? o.logs : "[image output]"))
-          .join("\n");
+        containerId = item.container_id ?? containerId;
+        // The API does not return code outputs for stored responses; the sandbox writes a transcript instead.
+        const logs = (item.outputs ?? []).map((o) => (o.type === "logs" ? o.logs : "[image output]")).join("\n");
         codeRuns.push({ code: item.code, logs, status: item.status });
       }
     }
@@ -117,7 +118,8 @@ export async function GET(req: NextRequest) {
       return Response.json({ status: response.status, codeRuns });
     }
 
-    // Terminal state: clean up the uploaded files.
+    // Terminal state: fetch the sandbox transcript, then clean up the uploaded files.
+    const sessionLog = containerId ? await fetchSessionLog(client, containerId) : "";
     const files = (response.metadata?.files ?? "").split(",").filter(Boolean);
     await Promise.allSettled(files.map((fid) => client.files.delete(fid)));
 
@@ -127,6 +129,7 @@ export async function GET(req: NextRequest) {
           status: response.status,
           error: response.error?.message ?? response.incomplete_details?.reason ?? `Response ${response.status}`,
           codeRuns,
+          sessionLog,
         },
         { status: 502 },
       );
@@ -139,7 +142,7 @@ export async function GET(req: NextRequest) {
       parsed = null;
     }
     if (!parsed || !Array.isArray(parsed.objects)) {
-      return Response.json({ status: "completed", error: "Model did not return valid JSON.", raw: text, codeRuns }, { status: 502 });
+      return Response.json({ status: "completed", error: "Model did not return valid JSON.", raw: text, codeRuns, sessionLog }, { status: 502 });
     }
     const guess: Guess = {
       objects: parsed.objects.map((o) => ({
@@ -156,10 +159,28 @@ export async function GET(req: NextRequest) {
       usage: response.usage,
       model: response.model,
       codeRuns,
+      sessionLog,
       usedSandbox: codeRuns.length > 0,
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     return Response.json({ error: message }, { status: 502 });
+  }
+}
+
+/** Read /mnt/data/session_log.txt (everything the model printed) from the sandbox container, if it still exists. */
+async function fetchSessionLog(client: OpenAI, containerId: string): Promise<string> {
+  try {
+    const page = await client.containers.files.list(containerId, { limit: 100 });
+    let logFile: { id: string } | null = null;
+    for await (const f of page) {
+      if (f.path.endsWith(SESSION_LOG)) logFile = f;
+    }
+    if (!logFile) return "";
+    const res = await client.containers.files.content.retrieve(logFile.id, { container_id: containerId });
+    const text = await res.text();
+    return text.length > 200_000 ? text.slice(-200_000) : text;
+  } catch {
+    return "";
   }
 }
