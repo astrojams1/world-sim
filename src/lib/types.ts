@@ -11,7 +11,7 @@ export interface RoomObject {
   size: number;
   /** Center of the object, in room coordinates. Objects may float anywhere inside the room. */
   position: Vec3;
-  /** Euler rotation (radians, XYZ order) for cubes. Not part of the reconstruction task. */
+  /** Euler rotation (radians, XYZ order, matrix = Rx * Ry * Rz) for cubes. Part of the task; scored modulo the cube's symmetries. */
   rotation?: Vec3;
 }
 
@@ -53,7 +53,7 @@ export interface Room {
 
 /** The subset of the room the model is asked to reconstruct. */
 export interface Guess {
-  objects: Array<{ shape: Shape; color: ObjColor; size: number; position: Vec3 }>;
+  objects: Array<{ shape: Shape; color: ObjColor; size: number; position: Vec3; rotation?: Vec3 }>;
 }
 
 export interface ScoreObjectDetail {
@@ -65,6 +65,8 @@ export interface ScoreObjectDetail {
   colorOk?: boolean;
   sizeError?: number;
   positionError?: number;
+  /** Degrees, cubes only, minimised over the cube's 24 rotational symmetries. */
+  orientationError?: number;
   points: number;
 }
 

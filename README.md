@@ -12,7 +12,7 @@ Only these, nothing else:
 
 1. The two camera images, **unaltered** (no overlays, markers or crops).
 2. That the room is a 1×1×1 cube and the two images are two views of it from unknown viewpoints.
-3. The generator's rules for objects: 2–5 objects, sphere or cube, pure red or pure blue, sizes 0.10 / 0.15 / 0.20, positions on a 0.05 grid, floating, cubes at any orientation.
+3. The generator's rules for objects: 2–5 objects, sphere or cube, pure red or pure blue, sizes 0.10 / 0.15 / 0.20, positions on a 0.05 grid, floating, cubes at any orientation (reported as Euler XYZ radians).
 4. The task: the output JSON format.
 
 No camera calibration and no surface colours are passed. Because nothing tells the model which corner of the room is the origin, scoring is invariant to the room's 48 symmetries (`src/lib/score.ts`); the model must simply use one consistent frame for both cameras.
@@ -33,7 +33,7 @@ The client uploads the feeds, starts a background response and polls for the res
 
 ## Scoring
 
-`src/lib/score.ts` matches guessed objects to true objects (exhaustive assignment) under the best of the room's 48 symmetries and awards per object: shape 20%, colour 20%, size 20%, position 40%. Position/size within tolerance (0.03 units / 0.012) get full credit and decay linearly beyond. Extra objects cost as much as a missing one. A score of 100 is only given when every object is matched exactly with no extras. Cube rotation is part of the world but not of the task, so it is not scored.
+`src/lib/score.ts` matches guessed objects to true objects (exhaustive assignment) under the best of the room's 48 symmetries and awards per object: shape 20%, colour 20%, size 20%, and for spheres position 40%; for cubes position 30% and orientation 10%. Position/size within tolerance (0.03 units / 0.012) get full credit and decay linearly beyond. Orientation error is the angle between the guessed and true rotation minimised over the cube's 24 rotational symmetries (and transformed by the room frame in use); within 10° is full credit, decaying to zero at 45°. Extra objects cost as much as a missing one. A score of 100 is only given when every object is matched exactly with no extras.
 
 ## Models
 

@@ -135,7 +135,7 @@ export async function GET(req: NextRequest) {
       );
     }
     const text = response.output_text ?? "";
-    let parsed: { notes?: string; objects?: Guess["objects"] } | null = null;
+    let parsed: { notes?: string; objects?: Array<Guess["objects"][number] & { rotation?: number[] | null }> } | null = null;
     try {
       parsed = JSON.parse(text);
     } catch {
@@ -150,6 +150,9 @@ export async function GET(req: NextRequest) {
         color: o.color,
         size: Number(o.size),
         position: [Number(o.position?.[0]), Number(o.position?.[1]), Number(o.position?.[2])],
+        ...(o.shape === "cube" && Array.isArray(o.rotation) && o.rotation.length === 3
+          ? { rotation: [Number(o.rotation[0]), Number(o.rotation[1]), Number(o.rotation[2])] as [number, number, number] }
+          : {}),
       })),
     };
     return Response.json({
