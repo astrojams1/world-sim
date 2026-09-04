@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "bench": "node scripts/bench.mjs"
+    "bench": "node scripts/bench.mjs",
+    "prebuild": "node scripts/embed-sandbox.mjs",
+    "predev": "node scripts/embed-sandbox.mjs",
+    "embed": "node scripts/embed-sandbox.mjs"
   },
   "dependencies": {
     "next": "16.3.4",
