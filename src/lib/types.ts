@@ -9,12 +9,15 @@ export interface RoomObject {
   color: ObjColor;
   /** Edge length for cubes, diameter for spheres. */
   size: number;
-  /** Center of the object, in room coordinates. */
+  /** Center of the object, in room coordinates. Objects may float anywhere inside the room. */
   position: Vec3;
+  /** Euler rotation (radians, XYZ order) for cubes. Not part of the reconstruction task. */
+  rotation?: Vec3;
 }
 
 export interface CameraSpec {
   id: "A" | "B";
+  /** Cameras sit on a virtual sphere outside the room, looking in. */
   position: Vec3;
   lookAt: Vec3;
   /** Vertical field of view in degrees. */
@@ -68,6 +71,8 @@ export interface ScoreObjectDetail {
 export interface Score {
   /** 0-100. 100 iff every object is matched exactly (within tolerance) with no extras. */
   total: number;
+  /** Name of the room symmetry under which the guess scored best (scoring is frame-invariant). */
+  symmetry: string;
   exact: boolean;
   countTruth: number;
   countGuess: number;

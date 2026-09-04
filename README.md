@@ -1,29 +1,43 @@
 # World Sim — a world model from a cheap LLM
 
-A small experiment: can a cheap vision LLM reconstruct a 3D room from two fixed camera feeds?
+A small experiment: can a cheap vision LLM reconstruct a 3D room from two photographs, given nothing but the photographs?
 
-- A random 1×1×1 room is generated (JSON): 2–5 red/blue spheres and cubes resting on the floor, random wall/floor/ceiling colours and lighting, and two fixed cameras mounted high on two different walls.
+- A random 1×1×1 room is generated (JSON): 2–5 red/blue spheres and cubes floating anywhere inside it (cubes randomly rotated), random wall/floor/ceiling colours and lighting, and two cameras on a virtual sphere outside the room looking in. Seen from outside, the renderer culls the near faces, so each feed shows the room as an open box against black.
 - The page shows a rotatable 3D view of the room plus the two camera feeds (rendered with three.js in the browser).
 - **Refresh** generates a new room. **Analyze** sends the two feeds plus a *skill* to a cheap OpenAI vision model, which must return the room's object JSON. The result is scored against the ground truth (100% = exact match within tolerance).
 
+## What the model receives
+
+Only these, nothing else:
+
+1. The two camera images, **unaltered** (no overlays, markers or crops).
+2. That the room is a 1×1×1 cube and the two images are two views of it from unknown viewpoints.
+3. The generator's rules for objects: 2–5 objects, sphere or cube, pure red or pure blue, sizes 0.10 / 0.15 / 0.20, positions on a 0.05 grid, floating, cubes at any orientation.
+4. The task: the output JSON format.
+
+No camera calibration and no surface colours are passed. Because nothing tells the model which corner of the room is the origin, scoring is invariant to the room's 48 symmetries (`src/lib/score.ts`); the model must simply use one consistent frame for both cameras.
+
 ## The skill
 
-The whole point is the prompt design in [`src/lib/skill.ts`](src/lib/skill.ts) plus the sandbox helper in [`src/lib/sandbox/worldsim.py`](src/lib/sandbox/worldsim.py). Naively asking "look at these images and output the JSON" is very inaccurate, so instead the model runs a real **guess → render → compare → re-guess** loop itself, inside one response, using OpenAI's hosted Python sandbox (the `code_interpreter` tool):
+The prompt lives in [`src/lib/skill.ts`](src/lib/skill.ts) and the sandbox helper in [`src/lib/sandbox/worldsim.py`](src/lib/sandbox/worldsim.py). The model runs a real **calibrate → measure → guess → render → compare → re-guess** loop itself, inside one response, using OpenAI's hosted Python sandbox (the `code_interpreter` tool). Every number the helper uses comes from the images or from the unit-cube geometry:
 
-1. The two camera images are sent to the model **unaltered** (no overlays, markers or crops), both as image inputs and as files in its sandbox, together with `scene.json` (camera calibration and surface colours) and `worldsim.py`.
-2. The system prompt states the rules of the world (shapes, colours, the discrete size set 0.10 / 0.15 / 0.20, the 0.05 position grid, objects rest on the floor so `y = size/2`) and the camera calibration.
-3. `worldsim.py` gives the model measurement and verification primitives: `blobs()` finds red/blue regions with pixel measurements, `plane_point()`/`project()` do the camera geometry, `initial_hypothesis()` turns blobs plus the shapes the model *saw* into a first guess, `compare()` renders the hypothesis silhouettes from both cameras and reports IoU, per-object pixel offsets, phantom objects and unexplained blobs, `shape_test()` checks sphere vs cube, and `local_search()` refines positions and sizes against the images. Shapes, colours and the object count are deliberately left to the model's own vision.
-4. The method section tells the model to inventory visually, measure, hypothesise, check, and re-guess until both cameras are explained, then emit the snapped JSON. Structured output puts a `notes` field before `objects`.
+- `room_outline` traces the room's silhouette and finds its six corner pixels.
+- `solve_camera` fits each camera's pose and focal length to those corners (all valid corner labellings are tried; they differ only by a room symmetry).
+- `align` puts camera B in camera A's frame by scoring the 48 candidate frames with the colours of faces visible in both images and the triangulation of same-colour blobs.
+- `blobs`, `auto_match`, `triangulate`, `initial_hypothesis`, `object_from_pixels` turn blob measurements (or pixel centres the model reads off the images) into a first hypothesis.
+- `compare` renders the hypothesis silhouettes from both solved cameras and reports IoU, per-object pixel offsets, phantom objects and unexplained blobs; `shape_test` and `local_search` (positions, sizes, cube rotations) refine it.
 
-The client just uploads the feeds, starts a background response and polls for the result. The model's full Python session (the code of every run plus the printed transcript, which the sandbox bootstrap tees into a log file fetched via the containers API) is shown in the UI. `gpt-5-mini` reliably uses the sandbox; `gpt-4.1-mini` sometimes answers without running code, which the UI flags.
+Shapes, colours and the object count are deliberately left to the model's own vision: overlapping same-colour objects merge into one blob, and only the model can tell that it is looking at two objects.
+
+The client uploads the feeds, starts a background response and polls for the result. The model's full Python session (the code of every run plus the printed transcript, which the bootstrap tees into a log file fetched via the containers API) is shown in the UI. `gpt-5-mini` reliably uses the sandbox; `gpt-4.1-mini` sometimes answers without running code, which the UI flags.
 
 ## Scoring
 
-`src/lib/score.ts` matches guessed objects to true objects (exhaustive assignment) and awards per object: shape 20%, colour 20%, size 20%, position 40%. Position/size within tolerance (0.03 units / 0.012) get full credit and decay linearly beyond. Extra objects cost as much as a missing one. A score of 100 is only given when every object is matched exactly with no extras.
+`src/lib/score.ts` matches guessed objects to true objects (exhaustive assignment) under the best of the room's 48 symmetries and awards per object: shape 20%, colour 20%, size 20%, position 40%. Position/size within tolerance (0.03 units / 0.012) get full credit and decay linearly beyond. Extra objects cost as much as a missing one. A score of 100 is only given when every object is matched exactly with no extras. Cube rotation is part of the world but not of the task, so it is not scored.
 
 ## Models
 
-Default is `gpt-5-mini` (cheap, accepts images, has built-in reasoning, uses the sandbox reliably). `gpt-5.4-mini`, `gpt-5-nano`, `gpt-4.1-mini` and `gpt-4o-mini` are selectable. Reasoning effort applies to the gpt-5 family. A run takes roughly 1–4 minutes and a few cents (model tokens plus one code-interpreter session).
+Default is `gpt-5-mini` (cheap, accepts images, has built-in reasoning, uses the sandbox reliably). `gpt-5.4-mini`, `gpt-5-nano`, `gpt-4.1-mini` and `gpt-4o-mini` are selectable. Reasoning effort applies to the gpt-5 family. A run takes roughly 1–5 minutes and a few cents (model tokens plus one code-interpreter session).
 
 ## Running locally
 

@@ -24,14 +24,68 @@ function pairPoints(t: Room["objects"][number], g: Guess["objects"][number]) {
 }
 
 /**
- * Score a guess against the true room. Objects are matched by exhaustive
+ * The 48 symmetries of the unit cube about its centre, as signed axis permutations.
+ * The model receives no calibration, so it cannot know which corner of the room is
+ * the origin; scoring is therefore invariant to these symmetries.
+ */
+const SYMMETRIES: Array<{ name: string; apply: (p: Vec3) => Vec3 }> = (() => {
+  const out: Array<{ name: string; apply: (p: Vec3) => Vec3 }> = [];
+  const perms: number[][] = [
+    [0, 1, 2],
+    [0, 2, 1],
+    [1, 0, 2],
+    [1, 2, 0],
+    [2, 0, 1],
+    [2, 1, 0],
+  ];
+  const axes = ["x", "y", "z"];
+  for (const perm of perms) {
+    for (const signs of [
+      [1, 1, 1],
+      [1, 1, -1],
+      [1, -1, 1],
+      [1, -1, -1],
+      [-1, 1, 1],
+      [-1, 1, -1],
+      [-1, -1, 1],
+      [-1, -1, -1],
+    ]) {
+      const name = perm.map((a, i) => `${signs[i] < 0 ? "-" : "+"}${axes[a]}`).join("");
+      out.push({
+        name,
+        apply: (p) => {
+          const c = [p[0] - 0.5, p[1] - 0.5, p[2] - 0.5];
+          return [0.5 + signs[0] * c[perm[0]], 0.5 + signs[1] * c[perm[1]], 0.5 + signs[2] * c[perm[2]]];
+        },
+      });
+    }
+  }
+  return out;
+})();
+
+/**
+ * Score a guess against the true room, invariant to the room's symmetries (the
+ * best of the 48 frames is reported). Objects are matched by exhaustive
  * assignment (n <= 6) to maximise total points. 100 means every true object is
  * matched with correct shape/color, size within tolerance, position within
  * tolerance, and there are no extra guessed objects.
  */
 export function scoreGuess(room: Room, guess: Guess): Score {
+  let best: Score | null = null;
+  for (const sym of SYMMETRIES) {
+    const transformed: Guess = {
+      objects: (Array.isArray(guess?.objects) ? guess.objects : []).map((o) => ({ ...o, position: sym.apply(o.position) })),
+    };
+    const sc = scoreInFrame(room, transformed, sym.name);
+    if (!best || sc.total > best.total || (sc.exact && !best.exact)) best = sc;
+    if (best.exact) break;
+  }
+  return best!;
+}
+
+function scoreInFrame(room: Room, guess: Guess, symmetry: string): Score {
   const truth = room.objects;
-  const guessed = Array.isArray(guess?.objects) ? guess.objects : [];
+  const guessed = guess.objects;
   const n = truth.length;
   const m = guessed.length;
 
@@ -87,5 +141,5 @@ export function scoreGuess(room: Room, guess: Guess): Score {
         (d.sizeError ?? 1) <= SIZE_TOL &&
         (d.positionError ?? 1) <= POS_TOL,
     );
-  return { total: exact ? 100 : Math.min(total, 99.9), exact, countTruth: n, countGuess: m, details, extraGuesses };
+  return { total: exact ? 100 : Math.min(total, 99.9), exact, symmetry, countTruth: n, countGuess: m, details, extraGuesses };
 }
