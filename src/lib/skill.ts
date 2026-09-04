@@ -45,6 +45,7 @@ export function buildSystemPrompt(): string {
 - It contains between 2 and 5 objects. Every object is either a "sphere" or a "cube", and is either pure "red" or pure "blue". No other object colours exist; the room's own surfaces are never red or blue.
 - Objects float anywhere inside the room (they do not rest on the floor). "size" is the sphere diameter or the cube edge length, always exactly one of: ${sizes}. Cubes have arbitrary orientation.
 - "position" is the object's centre [x, y, z]; each coordinate is a multiple of ${GRID}. Objects never overlap or touch each other or the walls. Objects cast soft shadows; shadows are not objects.
+- A cube's "rotation" is its orientation as Euler angles [rx, ry, rz] in radians, XYZ order (rotation matrix = Rx * Ry * Rz applied to the axis-aligned cube). Any of the 24 orientations that map the cube onto itself is equally correct. Spheres have no rotation (null).
 - Because nothing marks which corner of the room is the origin, you may use any of the room's symmetric frames, but you MUST express both cameras and all objects in the SAME frame. The sandbox's align() does this.
 
 ## What the photographs look like
@@ -69,8 +70,8 @@ worldsim API (pixel coordinates are (u, v) with (0,0) top-left; an "objects" lis
 - ws.triangulate(poseA, (u,v), poseB, (u,v)) -> 3D point and ray gap; poseX.project([x,y,z]) -> pixel.
 - ws.compare(objects, poseA, poseB) -> renders the hypothesis in both cameras and compares with the real images: mean IoU (1.0 perfect; a correct answer typically scores 0.8-0.95), per-object pixel offsets (du, dv) and width ratios, phantom objects and UNEXPLAINED real blobs.
 - ws.shape_test(objects, poseA, poseB, i) -> IoU with object i as a sphere vs as a cube.
-- ws.local_search(objects, poseA, poseB) -> coordinate descent over positions, sizes and cube rotations to maximise IoU. It never changes shapes, colours or the object count; those are yours.
-- ws.snap(objects), ws.to_json(objects) -> final formatting (grid positions, legal sizes, no rotations).
+- ws.local_search(objects, poseA, poseB) -> coordinate descent over positions, sizes and cube rotations to maximise IoU. It never changes shapes, colours or the object count; those are yours. ws.refine_rotation(objects, poseA, poseB, i) polishes cube i's orientation (scored to about 10 degrees).
+- ws.snap(objects), ws.to_json(objects) -> final formatting (grid positions, legal sizes, cube rotations as fitted, null for spheres).
 
 ## Method (follow it in order; do not skip the verification)
 1. LOOK at both images (attached to this message and in the sandbox). Count the objects; note the colour and shape of each (a sphere has a round silhouette with a soft highlight; a cube has straight edges and flat faces, at any orientation). Objects may overlap or hide one another in one view: reconcile the count across both views. This visual inventory is the one thing the sandbox cannot do well - get it right, and remember it when a blob turns out to be two objects.
@@ -79,17 +80,17 @@ worldsim API (pixel coordinates are (u, v) with (0,0) top-left; an "objects" lis
 4. HYPOTHESISE: ws.initial_hypothesis for the matched pairs with your shapes; add any merged/hidden object with ws.object_from_pixels using centres you read off the images.
 5. CHECK: ws.compare(objects, poseA, poseB). Read every line: large offsets or width ratios far from 1.0 mean a wrong object; UNEXPLAINED blobs mean missing objects or wrong colours; phantoms mean extra objects. Use ws.shape_test for doubtful shapes.
 6. RE-GUESS: fix what the check revealed, run ws.local_search, then ws.compare again. Repeat 5-6 until the score stops improving and every object has small offsets in BOTH cameras. Typically 2-4 iterations. Do NOT write brute-force searches over several objects at once (each compare takes ~0.1 s); ws.local_search plus targeted single-object trials is the intended tool. A final IoU of 0.8-0.95 is normal for a perfect answer; IoU is for comparing hypotheses, not a target to push to 1.0.
-7. OUTPUT the final ws.snap(objects) as JSON (positions on the 0.05 grid, no rotations).
+7. OUTPUT the final ws.snap(objects) as JSON (positions on the 0.05 grid; cube rotations from the fit, which you should polish with ws.refine_rotation since orientation is scored).
 
 ## Output
 Return JSON with exactly these keys:
 {
   "notes": "<inventory, calibration results, blob-to-object mapping, what each check revealed and what you changed, final compare score>",
   "objects": [
-    { "shape": "sphere" | "cube", "color": "red" | "blue", "size": 0.10 | 0.15 | 0.20, "position": [x, y, z] }
+    { "shape": "sphere" | "cube", "color": "red" | "blue", "size": 0.10 | 0.15 | 0.20, "position": [x, y, z], "rotation": [rx, ry, rz] | null }
   ]
 }
-Never return an empty objects list. Do not include any object you cannot see in at least one image.`;
+"rotation" is required for cubes (radians, XYZ Euler) and null for spheres. Never return an empty objects list. Do not include any object you cannot see in at least one image.`;
 }
 
 export function buildUserText(): string {
@@ -112,8 +113,9 @@ export const GUESS_SCHEMA = {
           color: { type: "string", enum: ["red", "blue"] },
           size: { type: "number" },
           position: { type: "array", items: { type: "number" }, minItems: 3, maxItems: 3 },
+          rotation: { type: ["array", "null"], items: { type: "number" }, minItems: 3, maxItems: 3 },
         },
-        required: ["shape", "color", "size", "position"],
+        required: ["shape", "color", "size", "position", "rotation"],
       },
     },
   },

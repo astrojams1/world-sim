@@ -13,7 +13,8 @@ Coordinates: the room is [0,1]^3. Which corner is the origin is not knowable fro
 symmetric frames is acceptable, as long as BOTH cameras are expressed in the SAME frame (align() does this).
 
 An "objects" list is a list of dicts: {"shape": "sphere"|"cube", "color": "red"|"blue", "size": 0.10|0.15|0.20,
-"position": [x, y, z]} (a cube may also carry "rotation": [rx, ry, rz] in radians, used only for rendering).
+"position": [x, y, z], "rotation": [rx, ry, rz] (Euler XYZ radians, matrix = Rx*Ry*Rz; cubes only, None for spheres)}.
+Orientation is part of the answer and is scored modulo the cube's 24 symmetries, to about 10 degrees.
 
 Typical workflow:
     import worldsim as ws
@@ -27,6 +28,7 @@ Typical workflow:
     ws.compare(guess, pA, pB)                                     # 7. render and compare with the real images
     guess = ws.local_search(guess, pA, pB)                        # 8. refine positions / sizes / cube rotations
     ws.compare(guess, pA, pB)                                     # 9. verify; fix what is unexplained; repeat
+    guess = ws.refine_rotation(guess, pA, pB, i)                  # 10. polish each cube's orientation
     print(ws.to_json(guess))
 """
 import itertools
@@ -1092,9 +1094,38 @@ def local_search(objects, pose_a, pose_b, passes=6, try_sizes=True, verbose=True
     return objs
 
 
+def refine_rotation(objects, pose_a, pose_b, i, verbose=True):
+    """Polish cube i's orientation: random search followed by shrinking local perturbations (orientation is scored
+    to about 10 degrees, modulo the cube's own symmetries). Returns the updated list."""
+    if objects[i]["shape"] != "cube":
+        return objects
+    objs = _fit_rotation(objects, i, pose_a, pose_b, n=60, seed=7)
+    best = compare(objs, pose_a, pose_b, verbose=False)["score"]
+    for step in (0.3, 0.15, 0.07, 0.035):
+        improved = True
+        while improved:
+            improved = False
+            base = objs[i].get("rotation") or [0.0, 0.0, 0.0]
+            for axis in range(3):
+                for d in (-step, step):
+                    trial = [dict(o) for o in objs]
+                    rot = list(base)
+                    rot[axis] += d
+                    trial[i]["rotation"] = rot
+                    sc = compare(trial, pose_a, pose_b, verbose=False)["score"]
+                    if sc > best + 1e-4:
+                        best, objs, improved = sc, trial, True
+                        base = rot
+    if verbose:
+        print(f"refine_rotation #{i}: rotation={[round(r, 3) for r in objs[i]['rotation']]} score={best}")
+    return objs
+
+
 def to_json(objects):
-    """Final answer: positions on the grid, no rotations (they are not part of the task)."""
-    return json.dumps(
-        {"objects": [{k: v for k, v in o.items() if k != "rotation"} for o in snap(objects)]},
-        indent=2,
-    )
+    """Final answer: positions on the grid, legal sizes, cube rotations (Euler XYZ radians), null for spheres."""
+    out = []
+    for o in snap(objects):
+        rec = {"shape": o["shape"], "color": o["color"], "size": o["size"], "position": o["position"]}
+        rec["rotation"] = [round(float(r), 4) for r in (o.get("rotation") or [0.0, 0.0, 0.0])] if o["shape"] == "cube" else None
+        out.append(rec)
+    return json.dumps({"objects": out}, indent=2)

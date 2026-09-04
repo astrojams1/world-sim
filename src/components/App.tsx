@@ -383,6 +383,7 @@ function Comparison({ room, result }: { room: Room; result: AnalysisResult }) {
             <th className="px-2 py-1">Color</th>
             <th className="px-2 py-1">Size err</th>
             <th className="px-2 py-1">Pos err</th>
+            <th className="px-2 py-1">Orient err</th>
             <th className="px-2 py-1">Points</th>
           </tr>
         </thead>
@@ -403,13 +404,16 @@ function Comparison({ room, result }: { room: Room; result: AnalysisResult }) {
                 <td className={`px-2 py-1 ${ok(d.colorOk)}`}>{d.matched ? (d.colorOk ? "✓" : "✗") : "–"}</td>
                 <td className="px-2 py-1">{d.matched ? d.sizeError?.toFixed(3) : "–"}</td>
                 <td className="px-2 py-1">{d.matched ? d.positionError?.toFixed(3) : "–"}</td>
+                <td className="px-2 py-1">
+                  {t.shape !== "cube" ? "n/a" : d.orientationError === undefined ? <span className="text-red-400">none</span> : `${d.orientationError.toFixed(1)}°`}
+                </td>
                 <td className="px-2 py-1">{(d.points * 100).toFixed(0)}</td>
               </tr>
             );
           })}
           {score.extraGuesses > 0 && (
             <tr className="border-t border-neutral-400/20">
-              <td className="px-2 py-1 text-red-400" colSpan={7}>
+              <td className="px-2 py-1 text-red-400" colSpan={8}>
                 {score.extraGuesses} extra object(s) guessed that do not exist (penalised).
               </td>
             </tr>
