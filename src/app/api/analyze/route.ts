@@ -1,6 +1,6 @@
 import OpenAI, { toFile } from "openai";
 import { NextRequest } from "next/server";
-import { buildSystemPrompt, buildUserText, GUESS_SCHEMA, SANDBOX_FILES, SESSION_LOG, sceneFile, type PublicRoom } from "@/lib/skill";
+import { buildSystemPrompt, buildUserText, GUESS_SCHEMA, SANDBOX_FILES, SESSION_LOG } from "@/lib/skill";
 import { WORLDSIM_PY } from "@/lib/sandbox/worldsim_py";
 import { ALLOWED_MODELS, type ModelId } from "@/lib/models";
 import type { Guess } from "@/lib/types";
@@ -11,8 +11,8 @@ export const maxDuration = 60;
 interface AnalyzeBody {
   model: ModelId;
   reasoningEffort?: "low" | "medium" | "high";
-  room: PublicRoom;
-  images: { A: string; B: string }; // data URLs of the unaltered feeds
+  /** Data URLs of the two unaltered feeds. This is the only room data the model ever receives. */
+  images: { A: string; B: string };
 }
 
 export interface CodeRun {
@@ -27,9 +27,10 @@ function dataUrlToBuffer(dataUrl: string): Buffer {
 }
 
 /**
- * POST: upload the feeds + helper module to the model's sandbox and start a background
- * response. Returns { responseId }. The client then polls GET ?id=... (Vercel functions
- * have short timeouts; the model's sandbox loop can take minutes).
+ * POST: upload the two feeds + the helper module to the model's sandbox and start a background
+ * response. Returns { responseId }. The client then polls GET ?id=... (Vercel functions have
+ * short timeouts; the model's sandbox loop can take minutes). Nothing about the room other than
+ * the two images is sent: no calibration, no colours.
  */
 export async function POST(req: NextRequest) {
   const apiKey = process.env.OPENAI_API_KEY;
@@ -59,7 +60,6 @@ export async function POST(req: NextRequest) {
     };
     await Promise.all([
       upload(SANDBOX_FILES.helper, WORLDSIM_PY),
-      upload(SANDBOX_FILES.scene, JSON.stringify(sceneFile(body.room), null, 2)),
       upload(SANDBOX_FILES.A, dataUrlToBuffer(body.images.A)),
       upload(SANDBOX_FILES.B, dataUrlToBuffer(body.images.B)),
     ]);
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
       model: body.model,
       background: true,
       store: true,
-      instructions: buildSystemPrompt(body.room),
+      instructions: buildSystemPrompt(),
       input: [
         {
           role: "user",

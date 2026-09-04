@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { OBJECT_HEX } from "./room";
 import type { CameraSpec, Room, RoomObject, Guess } from "./types";
 
-export type SceneObject = Pick<RoomObject, "shape" | "color" | "size" | "position">;
+export type SceneObject = Pick<RoomObject, "shape" | "color" | "size" | "position" | "rotation">;
 
 /** Build the room geometry + lighting. Objects are added separately so we can render guesses. */
 export function buildRoomScene(room: Room): THREE.Scene {
@@ -70,6 +70,7 @@ export function makeObjectMesh(o: SceneObject, opts: { ghost?: boolean } = {}): 
     : new THREE.MeshStandardMaterial({ color: OBJECT_HEX[o.color], roughness: 0.45, metalness: 0.05 });
   const mesh = new THREE.Mesh(geom, material);
   mesh.position.set(...o.position);
+  if (o.rotation) mesh.rotation.set(...o.rotation);
   mesh.castShadow = !opts.ghost;
   mesh.receiveShadow = !opts.ghost;
   return mesh;

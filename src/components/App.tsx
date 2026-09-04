@@ -84,8 +84,7 @@ export default function App() {
         body: JSON.stringify({
           model,
           reasoningEffort: effort,
-          room: { cameras: room.cameras, colors: room.colors },
-          // Unaltered camera renders only: no overlays, no markers.
+          // The two unaltered camera renders are the only room data sent. No calibration, no colours.
           images: feeds,
         }),
       });
@@ -143,8 +142,8 @@ export default function App() {
         <div>
           <h1 className="text-2xl font-semibold">World Sim</h1>
           <p className="text-sm opacity-70">
-            Can a cheap vision LLM rebuild a 3D room from two camera feeds? Objects rest on the floor of a 1×1×1 room; the
-            model must return the exact JSON.
+            Can a cheap vision LLM rebuild a 3D room from two camera feeds? Red and blue spheres and cubes float in a 1×1×1
+            room; the model gets only the two images and must return the exact JSON.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -224,7 +223,10 @@ export default function App() {
               </figcaption>
             </figure>
           ))}
-          <p className="text-xs opacity-60">The model receives exactly these two images, unaltered.</p>
+          <p className="text-xs opacity-60">
+            The model receives exactly these two images, unaltered, and nothing else about this room. Camera positions
+            are shown here for you only.
+          </p>
         </div>
       </section>
 
@@ -258,7 +260,8 @@ export default function App() {
           </select>
         </label>
         <span className="text-xs opacity-60">
-          The model runs its guess → render → compare → re-guess loop itself, in a Python sandbox, within one response.
+          The model calibrates the cameras from the images, then runs its guess → render → compare → re-guess loop in a
+          Python sandbox, within one response.
         </span>
         {status && <span className="ml-auto font-medium">{status}</span>}
       </section>
@@ -280,6 +283,7 @@ export default function App() {
                 {result.codeRuns.length} code run(s)
                 {result.usage?.total_tokens ? ` · ${result.usage.total_tokens} tok` : ""}
               </div>
+              <div className="text-xs opacity-60">scored in room frame {result.score.symmetry} (frame-invariant)</div>
             </div>
             {!result.usedSandbox && (
               <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 px-3 py-2 text-xs text-amber-300">
@@ -374,7 +378,7 @@ function Comparison({ room, result }: { room: Room; result: AnalysisResult }) {
         <thead className="bg-neutral-500/10">
           <tr>
             <th className="px-2 py-1">Actual object</th>
-            <th className="px-2 py-1">Matched guess</th>
+            <th className="px-2 py-1">Matched guess (model&apos;s frame)</th>
             <th className="px-2 py-1">Shape</th>
             <th className="px-2 py-1">Color</th>
             <th className="px-2 py-1">Size err</th>

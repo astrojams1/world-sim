@@ -41,7 +41,7 @@ function hsl(h: number, s: number, l: number) {
  *   x: 0 (west wall) -> 1 (east wall)
  *   y: 0 (floor)     -> 1 (ceiling)
  *   z: 0 (north wall)-> 1 (south wall)
- * Objects rest on the floor, so y = size / 2.
+ * Objects float anywhere inside the room; cubes are randomly rotated.
  */
 export function generateRoom(seed = Math.floor(Math.random() * 2 ** 31)): Room {
   const rng = makeRng(seed);
@@ -77,63 +77,70 @@ export function generateRoom(seed = Math.floor(Math.random() * 2 ** 31)): Room {
     },
   };
 
-  // Objects
+  // Objects: floating anywhere inside the room, on a 0.05 grid, never touching each other or the walls.
   const count = rng.int(2, 5);
   const objects: RoomObject[] = [];
   let attempts = 0;
-  while (objects.length < count && attempts < 500) {
+  while (objects.length < count && attempts < 1000) {
     attempts++;
     const size = rng.pick(SIZES);
     const half = size / 2;
-    const margin = half + 0.05;
+    // A rotated cube's bounding radius is half*sqrt(3); keep every object at least 0.05 from the walls.
+    const shape = rng.pick(["sphere", "cube"] as const) as Shape;
+    const reach = shape === "cube" ? half * Math.sqrt(3) : half;
+    const margin = reach + 0.05;
     const x = round(rng.range(margin, ROOM_SIZE - margin));
+    const y = round(rng.range(margin, ROOM_SIZE - margin));
     const z = round(rng.range(margin, ROOM_SIZE - margin));
     const candidate: RoomObject = {
       id: objects.length + 1,
-      shape: rng.pick(["sphere", "cube"] as const) as Shape,
+      shape,
       color: rng.pick(["red", "blue"] as const) as ObjColor,
       size,
-      position: [r3(x), r3(half), r3(z)],
+      position: [r3(x), r3(y), r3(z)],
+      ...(shape === "cube"
+        ? { rotation: [r3(rng.range(0, Math.PI * 2)), r3(rng.range(0, Math.PI * 2)), r3(rng.range(0, Math.PI * 2))] as Vec3 }
+        : {}),
     };
     const overlaps = objects.some((o) => {
-      const dx = o.position[0] - candidate.position[0];
-      const dz = o.position[2] - candidate.position[2];
-      const minDist = o.size / 2 + half + 0.06;
-      return Math.hypot(dx, dz) < minDist;
+      const d = Math.hypot(
+        o.position[0] - candidate.position[0],
+        o.position[1] - candidate.position[1],
+        o.position[2] - candidate.position[2],
+      );
+      const oReach = o.shape === "cube" ? (o.size / 2) * Math.sqrt(3) : o.size / 2;
+      return d < oReach + reach + 0.06;
     });
     if (!overlaps) objects.push(candidate);
   }
 
-  // Cameras: mounted high on two different walls, looking toward the room.
-  const walls = ["N", "S", "E", "W"] as const;
-  const wallA = rng.pick(walls);
-  let wallB = rng.pick(walls);
-  while (wallB === wallA) wallB = rng.pick(walls);
-
-  const makeCamera = (id: "A" | "B", wall: (typeof walls)[number]): CameraSpec => {
-    const along = rng.range(0.15, 0.85);
-    const height = rng.range(0.7, 0.95);
-    const inset = 0.02;
-    let position: Vec3;
-    if (wall === "N") position = [along, height, inset];
-    else if (wall === "S") position = [along, height, ROOM_SIZE - inset];
-    else if (wall === "W") position = [inset, height, along];
-    else position = [ROOM_SIZE - inset, height, along];
-    const lookAt: Vec3 = [r3(rng.range(0.35, 0.65)), r3(rng.range(0.05, 0.25)), r3(rng.range(0.35, 0.65))];
-    return {
-      id,
-      position: position.map(r3) as Vec3,
-      lookAt,
-      fov: Math.round(rng.range(62, 78)),
-      aspect: ASPECT,
-    };
+  // Cameras: on a virtual sphere outside (and above) the room, looking at roughly its centre.
+  // Seen from outside, the renderer culls the near faces, so the feed shows the room as an open box.
+  const centre: Vec3 = [0.5, 0.5, 0.5];
+  const makeCamera = (id: "A" | "B", azimuth: number): CameraSpec => {
+    const radius = rng.range(1.7, 2.6);
+    // Elevation keeps the camera above the ceiling plane and never directly above the room, so each feed shows
+    // the room as an open box with a hexagonal outline (three or four interior faces visible).
+    const elevation = (rng.range(25, 60) * Math.PI) / 180;
+    const position: Vec3 = [
+      centre[0] + radius * Math.cos(elevation) * Math.cos(azimuth),
+      centre[1] + radius * Math.sin(elevation),
+      centre[2] + radius * Math.cos(elevation) * Math.sin(azimuth),
+    ];
+    const lookAt: Vec3 = [centre[0] + rng.range(-0.08, 0.08), centre[1] + rng.range(-0.08, 0.08), centre[2] + rng.range(-0.08, 0.08)];
+    // Field of view wide enough to contain the whole room (half-diagonal ~0.87) with some slack.
+    const fov = Math.round((2 * Math.atan(1.0 / radius) * 180) / Math.PI + rng.range(2, 10));
+    return { id, position: position.map(r3) as Vec3, lookAt: lookAt.map(r3) as Vec3, fov, aspect: ASPECT };
   };
+  const azA = rng.range(0, Math.PI * 2);
+  // Second camera at least 50 degrees away in azimuth so the views are genuinely different.
+  const azB = azA + (rng.range(50, 310) * Math.PI) / 180;
 
   return {
     size: ROOM_SIZE,
     colors,
     lighting,
-    cameras: [makeCamera("A", wallA), makeCamera("B", wallB)],
+    cameras: [makeCamera("A", azA), makeCamera("B", azB)],
     objects,
     seed,
   };
@@ -141,5 +148,5 @@ export function generateRoom(seed = Math.floor(Math.random() * 2 ** 31)): Room {
 
 /** Ground-truth objects without their internal ids (the shape the model must reproduce). */
 export function stripIds(objects: RoomObject[]) {
-  return objects.map((o) => ({ shape: o.shape, color: o.color, size: o.size, position: o.position }));
+  return objects.map((o) => ({ shape: o.shape, color: o.color, size: o.size, position: o.position, ...(o.rotation ? { rotation: o.rotation } : {}) }));
 }
