@@ -66,9 +66,12 @@ export function buildRoomScene(room: Room): THREE.Scene {
   scene.add(sun);
   scene.add(sun.target);
 
-  const fill = new THREE.PointLight(room.lighting.fillLight.color, room.lighting.fillLight.intensity, 0, 0.8);
+  const fill = new THREE.DirectionalLight(room.lighting.fillLight.color, room.lighting.fillLight.intensity);
   fill.position.set(...room.lighting.fillLight.position);
+  fill.target.position.set(0.5, 0.5, 0.5);
   scene.add(fill);
+  scene.add(fill.target);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 0.6));
 
   return scene;
 }
