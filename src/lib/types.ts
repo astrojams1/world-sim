@@ -28,7 +28,9 @@ export interface CameraSpec {
 
 export interface Lighting {
   ambientIntensity: number;
-  keyLight: { position: Vec3; intensity: number; color: string };
+  /** A single distant, shadow-casting light (sun-like). `direction` points from the room toward the light. */
+  sun: { direction: Vec3; intensity: number; color: string };
+  /** A soft, non-shadowing fill light above the room. */
   fillLight: { position: Vec3; intensity: number; color: string };
 }
 

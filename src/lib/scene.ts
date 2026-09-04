@@ -48,14 +48,25 @@ export function buildRoomScene(room: Room): THREE.Scene {
 
   scene.add(new THREE.AmbientLight(0xffffff, room.lighting.ambientIntensity));
 
-  const key = new THREE.PointLight(room.lighting.keyLight.color, room.lighting.keyLight.intensity, 0, 1.2);
-  key.position.set(...room.lighting.keyLight.position);
-  key.castShadow = true;
-  key.shadow.mapSize.set(1024, 1024);
-  key.shadow.bias = -0.002;
-  scene.add(key);
+  // Distant light: parallel rays, one consistent shadow direction for every object.
+  const sun = new THREE.DirectionalLight(room.lighting.sun.color, room.lighting.sun.intensity);
+  const d = room.lighting.sun.direction;
+  sun.position.set(0.5 + d[0] * 3, 0.5 + d[1] * 3, 0.5 + d[2] * 3);
+  sun.target.position.set(0.5, 0.5, 0.5);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(2048, 2048);
+  sun.shadow.camera.left = -1;
+  sun.shadow.camera.right = 1;
+  sun.shadow.camera.top = 1;
+  sun.shadow.camera.bottom = -1;
+  sun.shadow.camera.near = 0.5;
+  sun.shadow.camera.far = 6;
+  sun.shadow.bias = -0.0005;
+  sun.shadow.normalBias = 0.01;
+  scene.add(sun);
+  scene.add(sun.target);
 
-  const fill = new THREE.PointLight(room.lighting.fillLight.color, room.lighting.fillLight.intensity, 0, 1.2);
+  const fill = new THREE.PointLight(room.lighting.fillLight.color, room.lighting.fillLight.intensity, 0, 0.8);
   fill.position.set(...room.lighting.fillLight.position);
   scene.add(fill);
 
