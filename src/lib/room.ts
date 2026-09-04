@@ -63,16 +63,20 @@ export function generateRoom(seed = Math.floor(Math.random() * 2 ** 31)): Room {
     wallWest: surfaceColor(),
   };
 
+  // One distant shadow-casting light from a random direction above the room, so every shadow falls the same way,
+  // plus ambient and a soft fill light above the room.
+  const sunAz = rng.range(0, Math.PI * 2);
+  const sunEl = (rng.range(35, 75) * Math.PI) / 180;
   const lighting = {
-    ambientIntensity: r3(rng.range(0.35, 0.7)),
-    keyLight: {
-      position: [r3(rng.range(0.15, 0.85)), r3(rng.range(0.8, 0.98)), r3(rng.range(0.15, 0.85))] as Vec3,
-      intensity: r3(rng.range(0.8, 1.6)),
+    ambientIntensity: r3(rng.range(0.35, 0.65)),
+    sun: {
+      direction: [r3(Math.cos(sunEl) * Math.cos(sunAz)), r3(Math.sin(sunEl)), r3(Math.cos(sunEl) * Math.sin(sunAz))] as Vec3,
+      intensity: r3(rng.range(1.2, 2.2)),
       color: hsl(rng.range(30, 60), rng.range(0, 0.3), rng.range(0.85, 1)),
     },
     fillLight: {
-      position: [r3(rng.range(0, 1)), r3(rng.range(0.5, 0.95)), r3(rng.range(0, 1))] as Vec3,
-      intensity: r3(rng.range(0.2, 0.6)),
+      position: [r3(rng.range(-0.5, 1.5)), r3(rng.range(1.3, 2.2)), r3(rng.range(-0.5, 1.5))] as Vec3,
+      intensity: r3(rng.range(0.3, 0.8)),
       color: hsl(rng.range(180, 240), rng.range(0, 0.25), rng.range(0.85, 1)),
     },
   };
