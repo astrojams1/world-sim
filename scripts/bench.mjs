@@ -41,7 +41,7 @@ for (const seed of seeds) {
       return b && b.textContent.trim() === "Analyze";
     },
     null,
-    { timeout: 600000 },
+    { timeout: 1500000 },
   );
   const err = await page.evaluate(() => document.querySelector(".text-red-300")?.textContent ?? null);
   const scores = await page.evaluate(() =>

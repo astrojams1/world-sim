@@ -379,7 +379,8 @@ def _iou(a, b):
 
 
 def compare(objects, cam_ids=("A", "B"), verbose=True):
-    """Render the hypothesis and compare it with the real images.
+    """Render the hypothesis and compare it with the real images. Takes ~0.1 s per call: fine for local_search and a
+    few dozen targeted trials, far too slow for exhaustive multi-object grid searches.
 
     Returns {'score': mean IoU over cameras and colours (1.0 = perfect), 'cameras': {...per-camera detail...}}.
     Per camera it lists, for every hypothesised object, where its centroid lands versus the nearest real blob of the
