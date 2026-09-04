@@ -189,12 +189,8 @@ export default function App() {
       </header>
 
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div className="relative h-[420px] overflow-hidden rounded-lg border border-neutral-400/30 bg-neutral-900 lg:col-span-2 lg:h-[520px]">
+        <div className="relative h-[360px] overflow-hidden rounded-lg border border-neutral-400/30 bg-neutral-900 lg:col-span-2 lg:h-auto lg:self-stretch">
           <RoomViewer room={room} guess={guessObjects} showTruth={showTruth} />
-          <div className="pointer-events-none absolute left-2 top-2 rounded bg-black/50 px-2 py-1 text-xs text-white">
-            Drag to rotate · scroll to zoom · A/B are the fixed cameras
-            {result && " · wireframes = model's guess"}
-          </div>
           {result && (
             <div className="absolute right-2 top-2 flex gap-2 rounded bg-black/50 px-2 py-1 text-xs text-white">
               <label className="flex items-center gap-1">
@@ -223,10 +219,6 @@ export default function App() {
               </figcaption>
             </figure>
           ))}
-          <p className="text-xs opacity-60">
-            The model receives exactly these two images, unaltered, and nothing else about this room. Camera positions
-            are shown here for you only.
-          </p>
         </div>
       </section>
 
@@ -259,10 +251,6 @@ export default function App() {
             <option value="high" className="text-black">high</option>
           </select>
         </label>
-        <span className="text-xs opacity-60">
-          The model calibrates the cameras from the images, then runs its guess → render → compare → re-guess loop in a
-          Python sandbox, within one response.
-        </span>
         {status && <span className="ml-auto font-medium">{status}</span>}
       </section>
 
