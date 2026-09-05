@@ -25,6 +25,8 @@ generator's maximum). The default benchmark above (2-5 objects per seed) is unch
 |---|---|---|---|---|---|---|---|
 | 6 | capacity-6 | 94.2 | 3 | 32.6 | 7,837 | $0.033 | below 95: room 103 at 63.0 (wrong room frame, the two best frames were 0.02 apart on triangulation), rest 94-100 |
 | 8 | capacity-8 | 93.2 | 2 | 31.1 | 8,276 | $0.033 | below 95: identical to the offline pipeline (the model copies it); rooms 104, 106, 107 miss one object merged in both views |
+| 6 | capacity-6-b | 97.7 | 3 | 28.3 | 7,917 | $0.033 | after the frame tie-breaker and tighter pairing (PR #22): room 103 97.9; passes 95 |
+| 8 | capacity-8-b | 95.9 | 3 | 29.3 | 8,821 | $0.033 | passes 95 on the first run (room 107 misses one object merged in both views); confirmation running, then 10 |
 
 ## History
 
