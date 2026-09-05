@@ -46,6 +46,9 @@ declare global {
       guess: Guess;
       truth: unknown;
       error?: string;
+      notes?: string;
+      sessionLog?: string;
+      codeCells?: string[];
     };
   }
 }
@@ -54,7 +57,7 @@ export default function App() {
   const [room, setRoom] = useState<Room>(() => generateRoom());
   const [feeds, setFeeds] = useState<Feeds | null>(null);
   const [model, setModel] = useState<ModelId>(DEFAULT_MODEL);
-  const [effort, setEffort] = useState<Effort>("medium");
+  const [effort, setEffort] = useState<Effort>("low");
   const [running, setRunning] = useState(false);
   const [status, setStatus] = useState<string>("");
   const [liveRuns, setLiveRuns] = useState<CodeRun[]>([]);
@@ -156,6 +159,9 @@ export default function App() {
           usedSandbox: Boolean(data.usedSandbox),
           guess,
           truth: stripIds(room.objects),
+          notes: data.notes,
+          sessionLog: data.sessionLog ?? "",
+          codeCells: (data.codeRuns ?? []).map((c: CodeRun) => c.code ?? ""),
         };
         return;
       }

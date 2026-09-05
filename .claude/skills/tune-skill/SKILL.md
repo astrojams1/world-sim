@@ -47,7 +47,10 @@ benchmark stops improving or the user stops you.
 6. If it is a new record: re-run `npm run check:no-cheating`, re-read the diff for anything that leaks room data,
    confirm the bench reported zero violations, update the record line in `bench/BENCH.md`, commit, push, open a PR
    and merge it. If not a record: revert the change (keep the history row) unless it is a pure cost/time win with
-   no score loss, in which case treat it as a record by the rule above.
+   no score loss, in which case treat it as a record by the rule above. Exception: a helper change that is neutral
+   on the benchmark set (within noise) but clearly better on the offline held-out set (seeds 201-210) may be kept
+   in the tree as the base for the next iteration; it is merged with the next record. The held-out set is the
+   guard against tuning to the benchmark rooms, so never choose changes on the benchmark set alone.
 
 ## The report (every iteration, verbose)
 

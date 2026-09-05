@@ -48,6 +48,17 @@ from PIL import Image, ImageDraw
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 SIZES = [0.10, 0.15, 0.20]
+_LOG_PATH = os.path.join("/mnt/data" if os.path.isdir("/mnt/data") else BASE, "session_log.txt")
+
+
+def _out(*args, **kwargs):
+    """print() that also appends to the session transcript (the kernel's own stdout is never replaced)."""
+    print(*args, **kwargs)
+    try:
+        with open(_LOG_PATH, "a") as f:
+            print(*args, **kwargs, file=f)
+    except Exception:
+        pass
 GRID = 0.05
 ROOM = 1.0
 CENTRE = np.array([0.5, 0.5, 0.5])
@@ -136,6 +147,22 @@ def _simplify_polygon(poly, n_target=6):
                 best_i, best_a = i, area
         poly.pop(best_i)
     return [(float(p[0]), float(p[1])) for p in poly]
+
+
+def _merge_close_vertices(poly, min_dist):
+    """Merge consecutive vertices closer than min_dist pixels (a real corner is never that close to another)."""
+    pts = [tuple(map(float, p)) for p in poly]
+    changed = True
+    while changed and len(pts) > 3:
+        changed = False
+        for i in range(len(pts)):
+            j = (i + 1) % len(pts)
+            if math.hypot(pts[i][0] - pts[j][0], pts[i][1] - pts[j][1]) < min_dist:
+                merged = ((pts[i][0] + pts[j][0]) / 2, (pts[i][1] + pts[j][1]) / 2)
+                pts = [merged if k == i else p for k, p in enumerate(pts) if k != j]
+                changed = True
+                break
+    return pts
 
 
 def _trace_contour(mask):
@@ -248,9 +275,9 @@ def room_outline(cam_id, verbose=True):
             hexagon = hexagon[::-1]
         _OUTLINE[cam_id] = hexagon
     if verbose:
-        print(f"camera {cam_id} room outline ({len(hexagon)} corners, pixel u,v): " + ", ".join(f"({u:.0f},{v:.0f})" for u, v in hexagon))
+        _out(f"camera {cam_id} room outline ({len(hexagon)} corners, pixel u,v): " + ", ".join(f"({u:.0f},{v:.0f})" for u, v in hexagon))
         if len(hexagon) != 6:
-            print("  WARNING: expected 6 corners; the view may be degenerate. Use set_room_outline with corners you read off the image.")
+            _out("  WARNING: expected 6 corners; the view may be degenerate. Use set_room_outline with corners you read off the image.")
     return hexagon
 
 
@@ -395,39 +422,63 @@ def _dlt_init(X, uv, W, H):
     return R, t, f
 
 
-def _fit_pose(X, uv, W, H, n_starts=None, top_k=6, seed=0):
-    """Fit R, t, f to 3D<->2D correspondences. Starts from a DLT initialisation (plus a few random-rotation
-    starts as a fallback), each refined by Levenberg-Marquardt. Returns (rms error px, R, t, f) or None."""
-    from scipy.optimize import least_squares
+def _random_starts(X, uv, W, H, n_starts, top_k, seed=0):
+    """Evaluate n_starts random rotations x 5 fields of view at once (the translation is linear given R and f,
+    so all of them are solved in one batched normal-equation solve) and return the top_k by reprojection error."""
     from scipy.spatial.transform import Rotation
+
+    fovs = np.array([35.0, 45.0, 55.0, 65.0, 75.0])
+    fs = H / 2 / np.tan(np.radians(fovs) / 2)  # (F,)
+    R = Rotation.random(n_starts, random_state=seed).as_matrix()  # (S,3,3)
+    rX = np.einsum("sij,nj->sni", R, X)  # (S,n,3)
+    du = uv[:, 0] - W / 2  # (n,)
+    dv = uv[:, 1] - H / 2
+    S, n = rX.shape[0], rX.shape[1]
+    F = len(fs)
+    # A rows per point: [-f, 0, du], [0, -f, dv]; b: f*rX_x - du*rX_z, f*rX_y - dv*rX_z
+    A = np.zeros((S, F, 2 * n, 3))
+    A[:, :, 0::2, 0] = -fs[None, :, None]
+    A[:, :, 1::2, 1] = -fs[None, :, None]
+    A[:, :, 0::2, 2] = du[None, None, :]
+    A[:, :, 1::2, 2] = dv[None, None, :]
+    b = np.zeros((S, F, 2 * n))
+    b[:, :, 0::2] = fs[None, :, None] * rX[:, None, :, 0] - du[None, None, :] * rX[:, None, :, 2]
+    b[:, :, 1::2] = fs[None, :, None] * rX[:, None, :, 1] - dv[None, None, :] * rX[:, None, :, 2]
+    AtA = np.einsum("sfki,sfkj->sfij", A, A)
+    Atb = np.einsum("sfki,sfk->sfi", A, b)
+    try:
+        t = np.linalg.solve(AtA + 1e-9 * np.eye(3), Atb[..., None])[..., 0]  # (S,F,3)
+    except np.linalg.LinAlgError:
+        return []
+    C = rX[:, None, :, :] + t[:, :, None, :]  # (S,F,n,3)
+    z = C[..., 2]
+    ok = (z > 0.05).all(axis=2)  # (S,F)
+    zs = np.where(z > 1e-3, z, 1e-3)
+    pu = fs[None, :, None] * C[..., 0] / zs + W / 2
+    pv = fs[None, :, None] * C[..., 1] / zs + H / 2
+    err = np.sqrt(((pu - uv[:, 0]) ** 2 + (pv - uv[:, 1]) ** 2).mean(axis=2))  # (S,F)
+    err = np.where(ok, err, np.inf)
+    flat = err.ravel()
+    order = np.argsort(flat)[:top_k]
+    out = []
+    for idx in order:
+        if not np.isfinite(flat[idx]):
+            break
+        si, fi = divmod(int(idx), F)
+        out.append((float(flat[idx]), R[si], t[si, fi], float(fs[fi])))
+    return out
+
+
+def _fit_pose(X, uv, W, H, n_starts=None, top_k=6, seed=0, good_enough=1.0):
+    """Fit R, t, f to 3D<->2D correspondences. Starts from a DLT initialisation (six or more points) refined by
+    Levenberg-Marquardt; random-rotation starts (evaluated in one batch) are only used when that is missing or
+    poor. Stops as soon as a start refines to under `good_enough` px. Returns (rms error px, R, t, f) or None."""
+    from scipy.optimize import least_squares
 
     uv = np.asarray(uv, dtype=float)
     if n_starts is None:
-        n_starts = 200 if len(uv) >= 6 else 40
-    starts = []
-    try:
-        init = _dlt_init(X, uv, W, H) if len(uv) >= 6 else None
-        if init is not None and 10 < init[2] < 20000:
-            starts.append((-1.0, *init))
-    except Exception:
-        pass
-    fovs = [35, 45, 55, 65, 75]
-    rots = Rotation.random(n_starts, random_state=seed).as_matrix()
-    rand = []
-    for R in rots:
-        for fov in fovs:
-            f = H / 2 / math.tan(math.radians(fov) / 2)
-            t = _solve_t_linear(R, f, X, uv, W, H)
-            C = X @ R.T + t
-            if (C[:, 2] <= 0.05).any():
-                continue
-            p, _ = _project_all(R, t, f, X, W, H)
-            err = float(np.sqrt(((p - uv) ** 2).sum(axis=1).mean()))
-            rand.append((err, R, t, f))
-    rand.sort(key=lambda s: s[0])
-    starts += rand[:top_k]
-    if not starts:
-        return None
+        # five points have no closed-form start, so they need many more random starts to find the basin
+        n_starts = 200 if len(uv) >= 6 else 600
 
     def resid(params):
         R = _rotvec_to_matrix(params[:3])
@@ -438,28 +489,57 @@ def _fit_pose(X, uv, W, H, n_starts=None, top_k=6, seed=0):
         p = np.stack([f * C[:, 0] / z + W / 2, f * C[:, 1] / z + H / 2], axis=1)
         return (p - uv).ravel()
 
-    best = None
-    for _, R0, t0, f0 in starts:
+    def refine(R0, t0, f0):
         x0 = np.concatenate([_matrix_to_rotvec(R0), t0, [f0]])
         try:
             sol = least_squares(resid, x0, method="lm", max_nfev=3000)
         except Exception:
-            continue
+            return None
         R = _rotvec_to_matrix(sol.x[:3])
         t = sol.x[3:6]
         f = float(sol.x[6])
         if f <= 0:
-            continue
+            return None
         C = X @ R.T + t
         if (C[:, 2] <= 0.05).any():
-            continue
+            return None
         err = float(np.sqrt((sol.fun.reshape(-1, 2) ** 2).sum(axis=1).mean()))
-        if best is None or err < best[0]:
-            best = (err, R, t, f)
+        return (err, R, t, f)
+
+    best = None
+    try:
+        init = _dlt_init(X, uv, W, H) if len(uv) >= 6 else None
+    except Exception:
+        init = None
+    if init is not None and 10 < init[2] < 20000:
+        best = refine(*init)
+        if best is not None and best[0] < good_enough:
+            return best
+    for _, R0, t0, f0 in _random_starts(X, uv, W, H, n_starts, top_k, seed):
+        fit = refine(R0, t0, f0)
+        if fit is None:
+            continue
+        if best is None or fit[0] < best[0]:
+            best = fit
+            if best[0] < good_enough:
+                break
     return best
 
 
-def _point_in_polygon(pt, poly):
+def _point_in_polygon(pt, poly, tol=4.0):
+    """Inside test with a tolerance: a point within `tol` pixels of an edge counts as inside (a corner that lies
+    exactly on the outline, as in a degenerate pentagonal view, must not be rejected)."""
+    if tol > 0:
+        n = len(poly)
+        for i in range(n):
+            (x1, y1), (x2, y2) = poly[i], poly[(i + 1) % n]
+            dx, dy = x2 - x1, y2 - y1
+            L2 = dx * dx + dy * dy
+            if L2 < 1e-9:
+                continue
+            t = max(0.0, min(1.0, ((pt[0] - x1) * dx + (pt[1] - y1) * dy) / L2))
+            if math.hypot(pt[0] - (x1 + t * dx), pt[1] - (y1 + t * dy)) <= tol:
+                return True
     x, y = pt
     inside = False
     n = len(poly)
@@ -514,6 +594,70 @@ def _labelings(n):
     return out
 
 
+def _candidate_outlines(cam_id, primary):
+    """Alternative outlines to try when the primary one fits poorly: near-duplicate corners merged, coarser
+    simplifications, and the primary with one corner dropped (degenerate views where two corners coincide)."""
+    mask = room_mask(cam_id)
+    lab, n = _label(mask)
+    if n > 1:
+        sizes = [(lab == i).sum() for i in range(1, n + 1)]
+        mask = lab == (1 + int(np.argmax(sizes)))
+    contour = _trace_contour(mask)
+    out = []
+    for eps in (1.0, 2.0, 3.5):
+        poly = _simplify_contour(contour, eps=eps)
+        merged = _merge_close_vertices(poly, 8.0)
+        for cand in (poly, merged):
+            if len(cand) >= 6:
+                out.append(_simplify_polygon(cand, 6))
+            elif len(cand) == 5:
+                out.append(cand)
+    for k in range(len(primary)):
+        out.append([h for i, h in enumerate(primary) if i != k])
+    # orient counter-clockwise and de-duplicate
+    seen, uniq = set(), []
+    for alt in out:
+        n_alt = len(alt)
+        area = sum(alt[i][0] * alt[(i + 1) % n_alt][1] - alt[(i + 1) % n_alt][0] * alt[i][1] for i in range(n_alt))
+        if area > 0:
+            alt = alt[::-1]
+        key = tuple((round(u), round(v)) for u, v in alt)
+        if key not in seen and key != tuple((round(u), round(v)) for u, v in primary):
+            seen.add(key)
+            uniq.append(alt)
+    return uniq
+
+
+def _best_fit_for_outline(cam_id, outline, W, H, n_starts=None, top_k=6, good_enough=1.0):
+    best = None
+    for family, X in _labelings(len(outline)):
+        fit = _fit_pose(X, outline, W, H, n_starts=n_starts, top_k=top_k, good_enough=good_enough)
+        if fit is None:
+            continue
+        err, R, t, f = fit
+        if np.linalg.det(R) < 0:
+            continue
+        pose = Pose(cam_id, R, t, f)
+        if all(-0.05 <= v <= 1.05 for v in pose.position):
+            continue  # camera inside the room
+        on_outline = {tuple(int(v) for v in row) for row in X}
+        ok = True
+        for k in CUBE_CORNERS:
+            if tuple(int(v) for v in k) in on_outline:
+                continue
+            pk = pose.project(k)
+            if pk is None or not _point_in_polygon((pk[0], pk[1]), outline):
+                ok = False
+                break
+        if not ok:
+            continue
+        if best is None or err < best[0]:
+            best = (err, R, t, f, family)
+            if err < good_enough:
+                break  # every valid labelling is equivalent up to a room symmetry; no need to try the rest
+    return best
+
+
 def solve_camera(cam_id, verbose=True):
     """Recover the camera pose and focal length from the room outline (see _labelings for how the outline's
     vertices are matched to cube corners). All candidate labellings are fitted and the best consistent one is
@@ -523,32 +667,17 @@ def solve_camera(cam_id, verbose=True):
     else:
         hexagon = room_outline(cam_id, verbose=False)
         W, H = image_size(cam_id)
-        best = None
-        for family, X in _labelings(len(hexagon)):
-            fit = _fit_pose(X, hexagon, W, H)
-            if fit is None:
-                continue
-            err, R, t, f = fit
-            if np.linalg.det(R) < 0:
-                continue
-            pose = Pose(cam_id, R, t, f)
-            cam_pos = pose.position
-            if all(-0.05 <= v <= 1.05 for v in cam_pos):
-                continue  # camera inside the room
-            # corners not on the outline must project inside it
-            on_outline = {tuple(int(v) for v in row) for row in X}
-            ok = True
-            for k in CUBE_CORNERS:
-                if tuple(int(v) for v in k) in on_outline:
-                    continue
-                pk = pose.project(k)
-                if pk is None or not _point_in_polygon((pk[0], pk[1]), hexagon):
-                    ok = False
-                    break
-            if not ok:
-                continue
-            if best is None or err < best[0]:
-                best = (err, R, t, f, family)
+        best = _best_fit_for_outline(cam_id, hexagon, W, H)
+        if best is None or best[0] > 3.0:
+            # poor or no fit: the outline probably has a spurious, merged or missing corner. Try alternatives
+            # (cheaper fits: the DLT start does most of the work, the random starts are only a fallback).
+            for alt in _candidate_outlines(cam_id, hexagon)[:8]:
+                cand = _best_fit_for_outline(cam_id, alt, W, H, top_k=3)
+                if cand is not None and (best is None or cand[0] < best[0]):
+                    best = cand
+                    _OUTLINE[cam_id] = alt
+                    if best[0] < 1.5:
+                        break
         if best is None:
             raise RuntimeError("could not solve the camera pose from the outline; check room_outline()")
         err, R, t, f, family = best
@@ -557,9 +686,9 @@ def solve_camera(cam_id, verbose=True):
         pose.family = family
         _POSE[cam_id] = pose
     if verbose:
-        print(pose)
+        _out(pose)
         if pose.reprojection_error is not None and pose.reprojection_error > 6:
-            print("  WARNING: large reprojection error - check room_outline() against the image (set_room_outline to fix).")
+            _out("  WARNING: large reprojection error - check room_outline() against the image (set_room_outline to fix).")
     return pose
 
 
@@ -619,7 +748,7 @@ def face_colours(cam_id, pose, verbose=False):
             chroma = (px / s).mean(axis=0)
             out[f"{'xyz'[axis]}={val}"] = tuple(round(float(c), 3) for c in chroma)
     if verbose:
-        print(f"camera {cam_id} visible faces: {out}")
+        _out(f"camera {cam_id} visible faces: {out}")
     return out
 
 
@@ -649,13 +778,13 @@ def align(pose_a, pose_b, blobs_a=None, blobs_b=None, verbose=True):
     total, ccost, tcost, M, pb = scored[0]
     if verbose:
         runner = scored[1]
-        print(
+        _out(
             f"align: best frame colour-mismatch={ccost:.3f}, triangulation residual={tcost:.3f} "
             f"(runner-up total {runner[0]:.3f} vs {total:.3f}); "
             f"B now at ({pb.position[0]:.2f}, {pb.position[1]:.2f}, {pb.position[2]:.2f})"
         )
         if runner[0] - total < 0.05:
-            print("  WARNING: the frame alignment is ambiguous; check compare() in both cameras carefully.")
+            _out("  WARNING: the frame alignment is ambiguous; check compare() in both cameras carefully.")
     return pb
 
 
@@ -677,7 +806,7 @@ def triangulate(pose_a, uv_a, pose_b, uv_b):
     return (p1 + p2) / 2, float(np.linalg.norm(p1 - p2))
 
 
-def _match_cost(pose_a, pose_b, blobs_a, blobs_b):
+def _match_cost(pose_a, pose_b, blobs_a, blobs_b, size_weight=0.0):
     """Best pairing of same-colour blobs across the views by triangulation residual (unpaired blobs cost 0.3)."""
     best_total, best_pairs = 0.0, []
     for color in ("red", "blue"):
@@ -697,7 +826,11 @@ def _match_cost(pose_a, pose_b, blobs_a, blobs_b):
                 for i, j in zip(sub_a, perm_b):
                     p, r = triangulate(pose_a, blobs_a[i]["centroid"], pose_b, blobs_b[j]["centroid"])
                     inside = all(-0.1 <= v <= 1.1 for v in p)
-                    cost += r + (0 if inside else 0.5)
+                    # appearance consistency: the physical size implied by the blob width in each view must agree
+                    sa = apparent_size(pose_a, blobs_a[i], p, "sphere")
+                    sb = apparent_size(pose_b, blobs_b[j], p, "sphere")
+                    size_mismatch = abs(sa - sb) / max(sa + sb, 1e-6)  # 0 = identical, ~0.33 = one is twice the other
+                    cost += r + (0 if inside else 0.5) + size_weight * size_mismatch
                     pairs.append((i, j, p, r))
                 if best is None or cost < best[0]:
                     best = (cost, pairs)
@@ -715,17 +848,17 @@ def auto_match(pose_a, pose_b, blobs_a=None, blobs_b=None, verbose=True):
         blobs_a = blobs("A", verbose=False)
     if blobs_b is None:
         blobs_b = blobs("B", verbose=False)
-    _, pairs = _match_cost(pose_a, pose_b, blobs_a, blobs_b)
+    _, pairs = _match_cost(pose_a, pose_b, blobs_a, blobs_b, size_weight=0.15)
     matches = [{"a": i, "b": j, "point": [round(float(v), 3) for v in p], "residual": round(r, 3)} for i, j, p, r in pairs]
     if verbose:
         for m in matches:
-            print(f"  A blob {m['a']} <-> B blob {m['b']}: {blobs_a[m['a']]['color']} at {m['point']} (ray gap {m['residual']})")
+            _out(f"  A blob {m['a']} <-> B blob {m['b']}: {blobs_a[m['a']]['color']} at {m['point']} (ray gap {m['residual']})")
         ua = set(range(len(blobs_a))) - {m["a"] for m in matches}
         ub = set(range(len(blobs_b))) - {m["b"] for m in matches}
         for i in ua:
-            print(f"  A blob {i} ({blobs_a[i]['color']}, centroid {blobs_a[i]['centroid']}) has no partner in B")
+            _out(f"  A blob {i} ({blobs_a[i]['color']}, centroid {blobs_a[i]['centroid']}) has no partner in B")
         for j in ub:
-            print(f"  B blob {j} ({blobs_b[j]['color']}, centroid {blobs_b[j]['centroid']}) has no partner in A")
+            _out(f"  B blob {j} ({blobs_b[j]['color']}, centroid {blobs_b[j]['centroid']}) has no partner in A")
     return matches
 
 
@@ -766,9 +899,9 @@ def blobs(cam_id, min_area=150, verbose=True):
             )
     out.sort(key=lambda b: b["centroid"][0])
     if verbose:
-        print(f"camera {cam_id}: {len(out)} blob(s)")
+        _out(f"camera {cam_id}: {len(out)} blob(s)")
         for k, b in enumerate(out):
-            print(
+            _out(
                 f"  [{k}] {b['color']:4s} area={b['area']:5d} bbox={b['bbox']} w={b['width']} h={b['height']} "
                 f"centroid={b['centroid']} circ={b['circularity']}" + (" EDGE" if b["touches_edge"] else "")
             )
@@ -827,9 +960,9 @@ def initial_hypothesis(pose_a, pose_b, matches, shapes, blobs_a=None, blobs_b=No
         objs.append(o)
     objs = snap(objs)
     if verbose:
-        print("initial hypothesis:")
+        _out("initial hypothesis:")
         for o in objs:
-            print("  ", o)
+            _out("  ", o)
     return objs
 
 
@@ -845,7 +978,7 @@ def object_from_pixels(pose_a, uv_a, pose_b, uv_b, shape, color, size=None, widt
         o["rotation"] = [0.0, 0.0, 0.0]
     o = snap([o])[0]
     if verbose:
-        print(f"object from pixels: {o} (ray gap {gap:.3f}; a gap above ~0.05 means the two pixels are not the same object)")
+        _out(f"object from pixels: {o} (ray gap {gap:.3f}; a gap above ~0.05 means the two pixels are not the same object)")
     return o
 
 
@@ -960,7 +1093,7 @@ def shape_check(objects, pose_a, pose_b, margin=0.03, cube_margin=0.06, verbose=
         if fits["sphere"] is None or fits["cube"] is None:
             recommended.append(o["shape"])
             if verbose:
-                print(f"object #{i} ({o['color']} {o['shape']}): no matching blob, keeping shape")
+                _out(f"object #{i} ({o['color']} {o['shape']}): no matching blob, keeping shape")
             continue
         # a blob much wider than the object's own render means two objects share it: unreliable
         shared = False
@@ -993,7 +1126,7 @@ def shape_check(objects, pose_a, pose_b, margin=0.03, cube_margin=0.06, verbose=
         if verbose:
             flag = " (blob shared with another object: unreliable)" if shared else ("" if rec == current else f"  <-- CHANGE to {rec} (size {c_size if rec == 'cube' else s_size})")
             shade = "" if vote is None else f", shading {'flat faces (cube-like)' if vote > 0 else 'smooth (sphere-like)'} {vote:+.2f}"
-            print(f"object #{i} ({o['color']}, currently {current}): as sphere IoU {s_sc:.3f} (size {s_size}), as cube IoU {c_sc:.3f} (size {c_size}){shade}{flag}")
+            _out(f"object #{i} ({o['color']}, currently {current}): as sphere IoU {s_sc:.3f} (size {s_size}), as cube IoU {c_sc:.3f} (size {c_size}){shade}{flag}")
     return recommended
 
 
@@ -1021,7 +1154,7 @@ def shape_test(objects, pose_a, pose_b, index):
             trial[index]["rotation"] = trial[index].get("rotation") or [0.0, 0.0, 0.0]
         trial = _fit_rotation(trial, index, pose_a, pose_b) if shape == "cube" else trial
         res[shape] = compare(trial, pose_a, pose_b, verbose=False)["score"]
-    print(f"object #{index}: as sphere -> {res['sphere']}, as cube -> {res['cube']}")
+    _out(f"object #{index}: as sphere -> {res['sphere']}, as cube -> {res['cube']}")
     return res
 
 
@@ -1210,24 +1343,24 @@ def compare(objects, pose_a, pose_b, verbose=True):
         report["cameras"][cam_id] = cam_rep
     report["score"] = round(float(np.mean(ious)) if ious else 0.0, 3)
     if verbose:
-        print(f"score (mean IoU) = {report['score']}")
+        _out(f"score (mean IoU) = {report['score']}")
         for cam_id, cr in report["cameras"].items():
-            print(f"camera {cam_id}: IoU {cr['iou']}")
+            _out(f"camera {cam_id}: IoU {cr['iou']}")
             for e in cr["objects"]:
                 o = objects[e["index"]]
                 tag = f"  #{e['index']} {o['color']} {o['shape']} {o['size']} @ {o['position']}"
                 if not e["visible"]:
-                    print(tag + " -> not visible in this camera")
+                    _out(tag + " -> not visible in this camera")
                 elif e["real_centroid"] is None:
-                    print(tag + f" -> predicted at {e['pred_centroid']} but NO real blob of that colour nearby (phantom?)")
+                    _out(tag + f" -> predicted at {e['pred_centroid']} but NO real blob of that colour nearby (phantom?)")
                 else:
-                    print(
+                    _out(
                         tag
                         + f" -> predicted {e['pred_centroid']}, real {e['real_centroid']}, offset du={e['du']} dv={e['dv']}, "
                         f"width ratio real/pred={e['width_ratio']}, overlap IoU={e['overlap_iou']}"
                     )
             for b in cr["unexplained_real_blobs"]:
-                print(f"  UNEXPLAINED real {b['color']} blob at {b['centroid']} (width {b['width']}) - missing object?")
+                _out(f"  UNEXPLAINED real {b['color']} blob at {b['centroid']} (width {b['width']}) - missing object?")
     return report
 
 
@@ -1305,7 +1438,7 @@ def local_search(objects, pose_a, pose_b, passes=6, try_sizes=True, verbose=True
     Returns the improved (snapped) list."""
     objs = snap(objects)
     if verbose:
-        print(f"local_search start score={compare(objs, pose_a, pose_b, verbose=False)['score']}")
+        _out(f"local_search start score={compare(objs, pose_a, pose_b, verbose=False)['score']}")
     for p in range(passes):
         improved = False
         for i in range(len(objs)):
@@ -1335,7 +1468,7 @@ def local_search(objects, pose_a, pose_b, passes=6, try_sizes=True, verbose=True
                         if sc > best + 1e-4:
                             best, objs, improved = sc, trial, True
         if verbose:
-            print(f"pass {p + 1}: score={compare(objs, pose_a, pose_b, verbose=False)['score']}")
+            _out(f"pass {p + 1}: score={compare(objs, pose_a, pose_b, verbose=False)['score']}")
         if not improved:
             break
     return objs
@@ -1354,7 +1487,7 @@ def refine_rotation(objects, pose_a, pose_b, i, n=300, verbose=True):
     targets = _rotation_targets(o, pose_a, pose_b)
     if not targets:
         if verbose:
-            print(f"refine_rotation #{i}: no matching blob, rotation unchanged")
+            _out(f"refine_rotation #{i}: no matching blob, rotation unchanged")
         return objects
     score = lambda rot: _rotation_score(o, rot, targets)  # noqa: E731
     rng = np.random.default_rng(7)
@@ -1381,7 +1514,7 @@ def refine_rotation(objects, pose_a, pose_b, i, n=300, verbose=True):
     out = [dict(x) for x in objects]
     out[i]["rotation"] = [float(r) for r in best_rot]
     if verbose:
-        print(f"refine_rotation #{i}: rotation={[round(r, 3) for r in best_rot]} silhouette IoU={best:.3f}")
+        _out(f"refine_rotation #{i}: rotation={[round(r, 3) for r in best_rot]} silhouette IoU={best:.3f}")
     return out
 
 
@@ -1471,16 +1604,16 @@ def explain_unpaired(objects, pose_a, pose_b, matches, blobs_a, blobs_b, min_sco
                             best = (score, cand, s_own, s_other if cov2 is not None else None)
         if best is None or best[0] < min_score:
             if verbose:
-                print(f"unpaired {blob['color']} blob {j} in {cam} at {blob['centroid']}: no consistent object found (best {0 if best is None else round(best[0], 2)}); it may be a reflection of an object you already have, or you may need object_from_pixels")
+                _out(f"unpaired {blob['color']} blob {j} in {cam} at {blob['centroid']}: no consistent object found (best {0 if best is None else round(best[0], 2)}); it may be a reflection of an object you already have, or you may need object_from_pixels")
             continue
         cand = snap([best[1]])[0]
         if _overlaps(objs + [cand]):
             if verbose:
-                print(f"unpaired {blob['color']} blob {j} in {cam}: best explanation {cand} overlaps an existing object; skipped")
+                _out(f"unpaired {blob['color']} blob {j} in {cam}: best explanation {cand} overlaps an existing object; skipped")
             continue
         objs.append(cand)
         if verbose:
-            print(f"AUTO-ADDED from unpaired {blob['color']} blob {j} in {cam} at {blob['centroid']}: {cand} (own IoU {best[2]:.2f}, other-view support {best[3] if best[3] is None else round(best[3], 2)}). Veto it if you do not see this object.")
+            _out(f"AUTO-ADDED from unpaired {blob['color']} blob {j} in {cam} at {blob['centroid']}: {cand} (own IoU {best[2]:.2f}, other-view support {best[3] if best[3] is None else round(best[3], 2)}). Veto it if you do not see this object.")
     return objs
 
 
@@ -1499,7 +1632,7 @@ def solve_all(shapes=None, verbose=True):
     bb = blobs("B", verbose=verbose)
     pb = align(pa, pb, ba, bb, verbose=verbose)
     if verbose:
-        print("matches (A blob <-> B blob):")
+        _out("matches (A blob <-> B blob):")
     matches = auto_match(pa, pb, ba, bb, verbose=verbose)
     if not matches:
         raise RuntimeError("no blob pairs matched across the two views; check the outlines and blobs")
@@ -1511,20 +1644,20 @@ def solve_all(shapes=None, verbose=True):
     objs = initial_hypothesis(pa, pb, matches, shapes, ba, bb, verbose=verbose)
     objs = local_search(objs, pa, pb, passes=3, verbose=False)
     if verbose:
-        print("unpaired blobs:")
+        _out("unpaired blobs:")
     objs = explain_unpaired(objs, pa, pb, matches, ba, bb, verbose=verbose)
     if verbose:
-        print("shape check:")
+        _out("shape check:")
     rec = shape_check(objs, pa, pb, verbose=verbose)
     objs = apply_shapes(objs, rec)
     objs = local_search(objs, pa, pb, verbose=False)
     objs = refine_all_rotations(objs, pa, pb, verbose=False)
     if verbose:
-        print("compare:")
+        _out("compare:")
     report = compare(objs, pa, pb, verbose=verbose)
     if verbose:
-        print("current answer:")
-        print(to_json(objs))
+        _out("current answer:")
+        _out(to_json(objs))
     return {"pose_a": pa, "pose_b": pb, "blobs_a": ba, "blobs_b": bb, "matches": matches, "objects": objs, "report": report}
 
 
@@ -1535,8 +1668,8 @@ def finish(objects, pose_a, pose_b, verbose=True):
     report = compare(objs, pose_a, pose_b, verbose=verbose)
     if verbose:
         open_issues = sum(len(c["unexplained_real_blobs"]) + sum(1 for e in c["objects"] if e.get("visible") and e.get("real_centroid") is None) for c in report["cameras"].values())
-        print("=== FINAL ANSWER (copy verbatim; do not run any further cell) ===" if open_issues == 0 else "=== ANSWER (one open issue remains: fix it in ONE cell, call finish once more, then stop) ===")
-        print(to_json(objs))
+        _out("=== FINAL ANSWER (copy verbatim; do not run any further cell) ===" if open_issues == 0 else "=== ANSWER (one open issue remains: fix it in ONE cell, call finish once more, then stop) ===")
+        _out(to_json(objs))
     return objs
 
 

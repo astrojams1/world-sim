@@ -25,15 +25,6 @@ for f in os.listdir('/mnt/data'):
         if f.endswith(name) and f != name:
             shutil.copy(os.path.join('/mnt/data', f), os.path.join('/mnt/data', name))
 sys.path.insert(0, '/mnt/data')
-class _Tee:  # keep a transcript of everything printed in /mnt/data/session_log.txt
-    def __init__(self, *streams): self.streams = streams
-    def write(self, data):
-        for s in self.streams: s.write(data)
-    def flush(self):
-        for s in self.streams: s.flush()
-_log = open('/mnt/data/session_log.txt', 'a')
-sys.stdout = _Tee(sys.stdout, _log)
-sys.stderr = _Tee(sys.stderr, _log)
 import worldsim as ws`;
 
 export function buildSystemPrompt(): string {
@@ -56,8 +47,8 @@ It contains camera_A.jpg, camera_B.jpg and the helper module worldsim.py. Start 
 
 \`\`\`python
 ${BOOTSTRAP_SNIPPET}
-help(ws)  # read the API once
 \`\`\`
+Do not print help(ws) or the module source: long outputs get truncated and you lose the report you need. If a cell's output comes back empty or cut off, re-run just that call in its own cell.
 
 worldsim API (pixel coordinates are (u, v) with (0,0) top-left; an "objects" list is a list of dicts in the output format below):
 - ws.solve_all(shapes=None) -> runs the whole pipeline below in one call and prints everything; returns {pose_a, pose_b, blobs_a, blobs_b, matches, objects, report}. Pass shapes=[...] (one per printed match, in order) only if you already know them.
@@ -81,7 +72,7 @@ Lower-level tools, for reconciling:
 2. SOLVE: run the bootstrap, then in ONE cell: r = ws.solve_all(); objects = r["objects"]; poseA, poseB = r["pose_a"], r["pose_b"]. It calibrates both cameras from the room outline, aligns their frames, detects and pairs the blobs, builds a hypothesis, explains any unpaired blob by searching along its ray (printed as AUTO-ADDED), decides sphere vs cube from the silhouettes, refines positions/sizes/rotations and prints a compare report and the current answer. Read the whole printout.
 3. RECONCILE the printout with your inventory, touching only what your eyes can judge better than the silhouettes:
    - An object missing from the list (merged into a shared blob, or hidden in one view): add it with ws.object_from_pixels using centres you read off the images. A blob much wider than its object, or an UNEXPLAINED blob, is the tell-tale.
-   - An AUTO-ADDED object you cannot see in either image, or a duplicate: remove it.
+   - An AUTO-ADDED object you cannot see in either image, or a duplicate: remove it. But never let the object count drop below the number you counted in step 1: an object that exists but is mispositioned (even one flagged as a phantom in one view) scores far better than a missing one, so keep it.
    - A wrong colour: fix it.
    - Shapes: the shape verdicts are final. They combine the silhouettes in both views with the shading inside each blob (flat faces with sharp edges vs one smooth gradient), which beats the eye on small objects. Never change a cube verdict to sphere. You may change a sphere verdict to cube only if you clearly see straight edges and flat faces in BOTH images.
    - Never type or edit a position, size or rotation yourself; the tools fit those far better than eyes can.

@@ -100,6 +100,13 @@ async function runSeed(browser, seed) {
     result = { seed, score: 0, exact: false, durationMs: Date.now() - t0, error: `timeout after ${timeoutMs} ms` };
   }
   await page.close();
+  // Full session transcript for diagnostics (kept out of git: bench/logs is ignored).
+  try {
+    const logDir = path.join("bench", "logs", label);
+    fs.mkdirSync(logDir, { recursive: true });
+    const cells = (result.codeCells ?? []).map((c, i) => `### cell ${i + 1}\n${c}`).join("\n\n");
+    fs.writeFileSync(path.join(logDir, `${seed}.log`), `NOTES\n${result.notes ?? ""}\n\nCODE CELLS\n${cells}\n\nTRANSCRIPT\n${result.sessionLog ?? ""}\n`);
+  } catch {}
   const usage = result.usage ?? null;
   return {
     seed,

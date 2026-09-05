@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# benchmark session transcripts (large, diagnostic only)
+bench/logs/
+__pycache__/
