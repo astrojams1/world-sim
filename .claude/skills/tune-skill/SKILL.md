@@ -26,7 +26,10 @@ benchmark stops improving or the user stops you.
 - Metrics per run: mean score (primary), exact matches, mean seconds, mean tokens, estimated cost per room.
 - A **record** is: mean score at least 1.0 point above the current record, OR mean score within 1.0 point of the
   record with cost per room at least 20% lower, OR mean score within 1.0 point of the record with time per room at
-  least 30% lower. Ties go to the cheaper, then faster, run.
+  least 30% lower. Ties go to the cheaper, then faster, run. Once the record is above 99.0 a full +1.0 is
+  impossible, so a two-run mean of 100.0 (every room exact in both runs) also counts as a record. Note that the
+  cost floor is the code-interpreter session (about $0.03 of the $0.032), so cost records are effectively closed;
+  time and score are the remaining levers.
 - Single runs are noisy (several points). A candidate record must be **confirmed by a second run** of the same
   configuration; the record is the mean of both runs. Do not spend the confirmation run on non-candidates.
 

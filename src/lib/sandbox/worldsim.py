@@ -1432,7 +1432,13 @@ def compare(objects, pose_a, pose_b, verbose=True):
         _out(f"score (mean IoU) = {report['score']}")
         for cam_id, cr in report["cameras"].items():
             _out(f"camera {cam_id}: IoU {cr['iou']}")
+            fine = [e["index"] for e in cr["objects"] if e["visible"] and e.get("real_centroid") is not None and not e.get("shared_blob")
+                    and abs(e["du"]) <= 3 and abs(e["dv"]) <= 3 and e["overlap_iou"] >= 0.8]
+            if fine:
+                _out(f"  objects {fine} match their blobs (offset within 3 px, overlap IoU >= 0.8)")
             for e in cr["objects"]:
+                if e["index"] in fine:
+                    continue
                 o = objects[e["index"]]
                 tag = f"  #{e['index']} {o['color']} {o['shape']} {o['size']} @ {o['position']}"
                 if not e["visible"]:
@@ -1508,11 +1514,22 @@ def _object_targets(objects, i, pose):
 
 
 def _object_score(o, targets):
+    """Mean soft IoU over the views; a view in which the candidate is more than half hidden behind the other
+    objects is skipped (targets may carry a depth buffer of the other objects as a third element)."""
     vals = []
-    for pose, tmask in targets:
+    for target in targets:
+        pose, tmask = target[0], target[1]
+        depth_buf = target[2] if len(target) > 2 else None
         cov, win = render_soft(o, pose)
         if cov is None:
             continue
+        if depth_buf is not None:
+            pr = pose.project(np.array(o["position"], dtype=float))
+            if pr is not None:
+                x0, y0, x1, y1 = win
+                hidden = (cov * (depth_buf[y0:y1, x0:x1] < pr[2])).sum()
+                if hidden > 0.5 * max(cov.sum(), 1e-6):
+                    continue
         vals.append(_soft_iou(cov, tmask, win))
     return float(np.mean(vals)) if vals else 0.0
 
@@ -1865,14 +1882,17 @@ def _print_answer(objs, report, first):
     else:
         _out("=== ANSWER (one open issue remains: fix it in ONE cell, call finish once more, then stop) ===")
     _LAST_ISSUES = issues
-    _out(to_json(objs))
+    _out(to_json(objs, compact=True))
 
 
-def to_json(objects):
-    """Final answer: positions on the grid, legal sizes, cube rotations (Euler XYZ radians), null for spheres."""
+def to_json(objects, compact=False):
+    """Final answer: positions on the grid, legal sizes, cube rotations (Euler XYZ radians), null for spheres.
+    `compact` prints one object per line (shorter to read and to copy)."""
     out = []
     for o in snap(objects):
         rec = {"shape": o["shape"], "color": o["color"], "size": o["size"], "position": o["position"]}
         rec["rotation"] = [round(float(r), 4) for r in (o.get("rotation") or [0.0, 0.0, 0.0])] if o["shape"] == "cube" else None
         out.append(rec)
+    if compact:
+        return '{"objects": [\n' + ",\n".join("  " + json.dumps(r) for r in out) + "\n]}"
     return json.dumps({"objects": out}, indent=2)
