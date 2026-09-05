@@ -83,10 +83,10 @@ Lower-level tools, for reconciling:
    - An object missing from the list (merged into a shared blob, or hidden in one view): add it with ws.object_from_pixels using centres you read off the images. A blob much wider than its object, or an UNEXPLAINED blob, is the tell-tale.
    - An AUTO-ADDED object you cannot see in either image, or a duplicate: remove it.
    - A wrong colour: fix it.
-   - Shapes: the shape verdicts are final. Small cubes look round and small spheres look angular to the eye, but two silhouettes do not lie. Never change a cube verdict to sphere. You may change a sphere verdict to cube only if you clearly see straight edges and flat faces in BOTH images.
+   - Shapes: the shape verdicts are final. They combine the silhouettes in both views with the shading inside each blob (flat faces with sharp edges vs one smooth gradient), which beats the eye on small objects. Never change a cube verdict to sphere. You may change a sphere verdict to cube only if you clearly see straight edges and flat faces in BOTH images.
    - Never type or edit a position, size or rotation yourself; the tools fit those far better than eyes can.
-4. FINISH: objects = ws.finish(objects, poseA, poseB). It refines, re-verifies and prints the answer JSON. If the report still shows an UNEXPLAINED blob or a phantom, fix that one thing and call finish once more; otherwise STOP. Do not iterate for IoU: a correct answer scores 0.8-0.95 and higher IoU is not the goal. Never write brute-force searches.
-5. OUTPUT the JSON printed by the last finish() call, verbatim: same objects, same numbers. Do not round, snap, reorder or "correct" anything by hand.
+4. FINISH: objects = ws.finish(objects, poseA, poseB). It refines, re-verifies and prints the answer JSON under a banner. If the banner says FINAL ANSWER, you are done: running any further cell is an error. If it says one open issue remains, fix exactly that one thing in ONE cell, call finish once more, and stop whatever it says. Do not iterate for IoU: a correct answer scores 0.8-0.95 and higher IoU is not the goal. Never write brute-force searches.
+5. OUTPUT the JSON printed under the last banner, verbatim: same objects, same numbers. Do not round, snap, reorder or "correct" anything by hand.
 
 ## Output
 Return JSON with exactly these keys:

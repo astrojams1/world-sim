@@ -783,10 +783,12 @@ def snap(objects):
         size = min(SIZES, key=lambda s: abs(s - float(o["size"])))
         reach = size / 2 * (math.sqrt(3) if o["shape"] == "cube" else 1)
         margin = reach + 0.05
+        lo = math.ceil(margin / GRID - 1e-9) * GRID
+        hi = math.floor((ROOM - margin) / GRID + 1e-9) * GRID
         pos = []
         for v in o["position"]:
             v = round(float(v) / GRID) * GRID
-            pos.append(round(min(max(v, margin), ROOM - margin), 3))
+            pos.append(round(min(max(v, lo), hi), 3))
         new = {"shape": o["shape"], "color": o["color"], "size": size, "position": pos}
         if o["shape"] == "cube" and o.get("rotation") is not None:
             new["rotation"] = [round(float(r), 3) for r in o["rotation"]]
@@ -897,6 +899,54 @@ def _object_fit(o, pose_a, pose_b, shape, n_rot=40, seed=3):
     return best
 
 
+def shading_flatness(cam_id, blob_index):
+    """Fraction of a blob's interior pixels with (nearly) zero luminance gradient. A cube's faces are flat plateaus
+    separated by sharp edges (high fraction); a sphere is one smooth gradient (low fraction). Measured from the
+    image alone. Returns None for blobs too small to erode."""
+    from scipy import ndimage
+
+    img = load_image(cam_id).astype(float)
+    mask = _blob_masks(cam_id)[blob_index]
+    lum = img.mean(axis=2)
+    er = ndimage.binary_erosion(mask, iterations=2)
+    if er.sum() < 30:
+        return None
+    gy, gx = np.gradient(lum)
+    g = np.hypot(gx, gy)[er]
+    v = lum[er]
+    rng = max(float(v.max() - v.min()), 1e-6)
+    return float((g < 0.02 * rng).mean())
+
+
+# Size-aware thresholds on shading flatness (midpoints between sphere and cube medians measured on 130 blobs).
+_FLAT_THRESHOLD = {0.10: 0.20, 0.15: 0.32, 0.20: 0.48}
+
+
+def _shading_vote(o, pose_a, pose_b, size):
+    """Mean flatness over the blobs the object matches, minus the size-aware threshold: > 0 says cube, < 0 sphere."""
+    vals = []
+    for pose in (pose_a, pose_b):
+        pr = pose.project(o["position"])
+        if pr is None:
+            continue
+        real = blobs(pose.cam_id, verbose=False)
+        best, bd = None, 1e9
+        for j, b in enumerate(real):
+            if b["color"] != o["color"]:
+                continue
+            d = math.hypot(b["centroid"][0] - pr[0], b["centroid"][1] - pr[1])
+            if d < bd:
+                best, bd = j, d
+        if best is None or bd > 120:
+            continue
+        f = shading_flatness(pose.cam_id, best)
+        if f is not None:
+            vals.append(f)
+    if not vals:
+        return None
+    return float(np.mean(vals)) - _FLAT_THRESHOLD[min(SIZES, key=lambda x: abs(x - size))]
+
+
 def shape_check(objects, pose_a, pose_b, margin=0.03, cube_margin=0.06, verbose=True):
     """Decide sphere vs cube for EVERY object from its own silhouette: each object is fitted as a sphere and as a
     cube (size and rotation re-fitted for each shape) against the real blob it matches in each camera, and the
@@ -927,13 +977,23 @@ def shape_check(objects, pose_a, pose_b, margin=0.03, cube_margin=0.06, verbose=
         other = "cube" if current == "sphere" else "sphere"
         cur_sc = s_sc if current == "sphere" else c_sc
         oth_sc = c_sc if current == "sphere" else s_sc
-        # a cube has free size AND rotation, so it can mimic a disc; it must win by a wider margin
-        need = cube_margin if other == "cube" else margin
-        rec = other if (oth_sc - cur_sc > need and not shared) else current
+        # a cube has free size AND rotation, so it can mimic a disc; it must win by a wider margin - but a small
+        # object's silhouette is only ~25 px across, where IoU differences are compressed, so scale the margin
+        scale = min(1.0, max(0.5, (fits["cube"][1] if other == "cube" else fits["sphere"][1]) / 0.15))
+        need = (cube_margin if other == "cube" else margin) * scale
+        # shading (flat faces vs smooth gradient) arbitrates when the silhouettes are inconclusive
+        vote = None if shared else _shading_vote(o, pose_a, pose_b, c_size if other == "cube" else s_size)
+        if not shared and oth_sc - cur_sc > need:
+            rec = other
+        elif not shared and vote is not None and abs(oth_sc - cur_sc) <= need and abs(vote) > 0.05:
+            rec = "cube" if vote > 0 else "sphere"
+        else:
+            rec = current
         recommended.append(rec)
         if verbose:
             flag = " (blob shared with another object: unreliable)" if shared else ("" if rec == current else f"  <-- CHANGE to {rec} (size {c_size if rec == 'cube' else s_size})")
-            print(f"object #{i} ({o['color']}, currently {current}): as sphere IoU {s_sc:.3f} (size {s_size}), as cube IoU {c_sc:.3f} (size {c_size}){flag}")
+            shade = "" if vote is None else f", shading {'flat faces (cube-like)' if vote > 0 else 'smooth (sphere-like)'} {vote:+.2f}"
+            print(f"object #{i} ({o['color']}, currently {current}): as sphere IoU {s_sc:.3f} (size {s_size}), as cube IoU {c_sc:.3f} (size {c_size}){shade}{flag}")
     return recommended
 
 
@@ -1472,8 +1532,10 @@ def finish(objects, pose_a, pose_b, verbose=True):
     """After you have corrected the inventory: refine positions/sizes/rotations, verify, and print the answer."""
     objs = local_search(objects, pose_a, pose_b, verbose=False)
     objs = refine_all_rotations(objs, pose_a, pose_b, verbose=False)
-    compare(objs, pose_a, pose_b, verbose=verbose)
+    report = compare(objs, pose_a, pose_b, verbose=verbose)
     if verbose:
+        open_issues = sum(len(c["unexplained_real_blobs"]) + sum(1 for e in c["objects"] if e.get("visible") and e.get("real_centroid") is None) for c in report["cameras"].values())
+        print("=== FINAL ANSWER (copy verbatim; do not run any further cell) ===" if open_issues == 0 else "=== ANSWER (one open issue remains: fix it in ONE cell, call finish once more, then stop) ===")
         print(to_json(objs))
     return objs
 
