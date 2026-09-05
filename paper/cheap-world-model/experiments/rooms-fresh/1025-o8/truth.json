@@ -1,0 +1,104 @@
+{
+  "objects": [
+    {
+      "shape": "cube",
+      "color": "red",
+      "size": 0.2,
+      "position": [
+        0.35,
+        0.45,
+        0.3
+      ],
+      "rotation": [
+        2.756,
+        3.271,
+        3.595
+      ]
+    },
+    {
+      "shape": "cube",
+      "color": "blue",
+      "size": 0.1,
+      "position": [
+        0.3,
+        0.25,
+        0.75
+      ],
+      "rotation": [
+        5.887,
+        4.907,
+        4.35
+      ]
+    },
+    {
+      "shape": "cube",
+      "color": "red",
+      "size": 0.1,
+      "position": [
+        0.8,
+        0.2,
+        0.4
+      ],
+      "rotation": [
+        6.25,
+        5.141,
+        0.6
+      ]
+    },
+    {
+      "shape": "sphere",
+      "color": "red",
+      "size": 0.15,
+      "position": [
+        0.35,
+        0.75,
+        0.55
+      ]
+    },
+    {
+      "shape": "cube",
+      "color": "red",
+      "size": 0.15,
+      "position": [
+        0.8,
+        0.8,
+        0.65
+      ],
+      "rotation": [
+        1.315,
+        1.129,
+        1.089
+      ]
+    },
+    {
+      "shape": "sphere",
+      "color": "blue",
+      "size": 0.15,
+      "position": [
+        0.85,
+        0.85,
+        0.2
+      ]
+    },
+    {
+      "shape": "sphere",
+      "color": "blue",
+      "size": 0.15,
+      "position": [
+        0.35,
+        0.85,
+        0.2
+      ]
+    },
+    {
+      "shape": "sphere",
+      "color": "red",
+      "size": 0.1,
+      "position": [
+        0.25,
+        0.9,
+        0.35
+      ]
+    }
+  ]
+}

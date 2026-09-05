@@ -1,0 +1,39 @@
+{
+  "objects": [
+    {
+      "shape": "cube",
+      "color": "blue",
+      "size": 0.2,
+      "position": [
+        0.25,
+        0.5,
+        0.7
+      ],
+      "rotation": [
+        3.966,
+        3.535,
+        3.431
+      ]
+    },
+    {
+      "shape": "sphere",
+      "color": "red",
+      "size": 0.15,
+      "position": [
+        0.55,
+        0.35,
+        0.7
+      ]
+    },
+    {
+      "shape": "sphere",
+      "color": "blue",
+      "size": 0.1,
+      "position": [
+        0.75,
+        0.5,
+        0.4
+      ]
+    }
+  ]
+}

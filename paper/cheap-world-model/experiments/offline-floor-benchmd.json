@@ -1,0 +1,20 @@
+{
+ "_source": "Transcribed from bench/BENCH.md history rows (the 'Offline' notes of each iteration). 'offline_bench' is the automatic pipeline (solve_all, no model) on seeds 101-110 as recorded at that iteration; 'offline_dev' the same on seeds 201-210. 'api' is the two-run mean where a confirmation exists, else the single run. iter0's offline value is the 'before' number in the iter2 row; iter4's offline values are the 'before' numbers in the iter5 row (iter4 was a prompt-only change on the iter3 helper).",
+ "rows": [
+  {"iter": 0,  "offline_bench": 76.1, "offline_dev": 75.1, "api": 90.0,  "api_runs": 1, "source": "BENCH.md iter2 row: 'Offline automatic floor: 76.1 -> 90.0 (held-out 75.1 -> 84.7)'; iter0 row"},
+  {"iter": 2,  "offline_bench": 90.0, "offline_dev": 84.7, "api": 91.0,  "api_runs": 2, "source": "BENCH.md iter2/2b rows"},
+  {"iter": 3,  "offline_bench": 90.0, "offline_dev": null, "api": 89.2,  "api_runs": 2, "source": "BENCH.md iter3 row: 'score unchanged'; iter3b"},
+  {"iter": 4,  "offline_bench": 89.9, "offline_dev": 91.0, "api": 91.85, "api_runs": 2, "source": "BENCH.md iter5 row 'before' values; iter4b"},
+  {"iter": 5,  "offline_bench": 90.9, "offline_dev": 91.5, "api": 92.35, "api_runs": 2, "source": "BENCH.md iter5/5b rows"},
+  {"iter": 7,  "offline_bench": 94.6, "offline_dev": 93.0, "api": 94.25, "api_runs": 2, "source": "BENCH.md iter7/7b rows"},
+  {"iter": 8,  "offline_bench": 94.3, "offline_dev": 95.6, "api": 94.3,  "api_runs": 1, "source": "BENCH.md iter8 row"},
+  {"iter": 14, "offline_bench": 96.6, "offline_dev": 95.6, "api": 94.45, "api_runs": 2, "source": "BENCH.md iter14/14b rows"},
+  {"iter": 15, "offline_bench": 96.4, "offline_dev": 95.5, "api": 96.4,  "api_runs": 2, "source": "BENCH.md iter15/15b rows"},
+  {"iter": 16, "offline_bench": 98.3, "offline_dev": 98.4, "api": 98.3,  "api_runs": 2, "source": "BENCH.md iter16/16b rows"},
+  {"iter": 17, "offline_bench": 98.3, "offline_dev": 98.5, "api": 98.3,  "api_runs": 2, "source": "BENCH.md iter17/17b rows"},
+  {"iter": 18, "offline_bench": 99.4, "offline_dev": 98.8, "api": 99.4,  "api_runs": 2, "source": "BENCH.md iter18/18b rows"},
+  {"iter": 21, "offline_bench": 99.5, "offline_dev": 98.8, "api": 99.5,  "api_runs": 2, "source": "BENCH.md iter21/21b rows"},
+  {"iter": 23, "offline_bench": 99.5, "offline_dev": 98.8, "api": 99.5,  "api_runs": 2, "source": "BENCH.md iter22/23 rows (printing-only changes, offline identical); iter25 row 'bench unchanged 99.5, held-out 98.8 -> 99.6'"},
+  {"iter": 25, "offline_bench": 99.5, "offline_dev": 99.6, "api": 99.5,  "api_runs": 1, "source": "BENCH.md iter25 row"}
+ ]
+}

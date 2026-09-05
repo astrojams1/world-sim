@@ -1,3 +1,4 @@
 build/
 experiments/rooms/*/_offline/
 literature/arxivweb-*.html
+experiments/rooms-fresh/*/_offline/

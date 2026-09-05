@@ -469,6 +469,128 @@
    "cells": 1
   }
  ],
+ "floor": [
+  {
+   "iter": 0,
+   "offline_bench": 76.1,
+   "offline_dev": 75.1,
+   "api": 90.0,
+   "api_runs": 1,
+   "source": "BENCH.md iter2 row: 'Offline automatic floor: 76.1 -> 90.0 (held-out 75.1 -> 84.7)'; iter0 row"
+  },
+  {
+   "iter": 2,
+   "offline_bench": 90.0,
+   "offline_dev": 84.7,
+   "api": 91.0,
+   "api_runs": 2,
+   "source": "BENCH.md iter2/2b rows"
+  },
+  {
+   "iter": 3,
+   "offline_bench": 90.0,
+   "offline_dev": null,
+   "api": 89.2,
+   "api_runs": 2,
+   "source": "BENCH.md iter3 row: 'score unchanged'; iter3b"
+  },
+  {
+   "iter": 4,
+   "offline_bench": 89.9,
+   "offline_dev": 91.0,
+   "api": 91.85,
+   "api_runs": 2,
+   "source": "BENCH.md iter5 row 'before' values; iter4b"
+  },
+  {
+   "iter": 5,
+   "offline_bench": 90.9,
+   "offline_dev": 91.5,
+   "api": 92.35,
+   "api_runs": 2,
+   "source": "BENCH.md iter5/5b rows"
+  },
+  {
+   "iter": 7,
+   "offline_bench": 94.6,
+   "offline_dev": 93.0,
+   "api": 94.25,
+   "api_runs": 2,
+   "source": "BENCH.md iter7/7b rows"
+  },
+  {
+   "iter": 8,
+   "offline_bench": 94.3,
+   "offline_dev": 95.6,
+   "api": 94.3,
+   "api_runs": 1,
+   "source": "BENCH.md iter8 row"
+  },
+  {
+   "iter": 14,
+   "offline_bench": 96.6,
+   "offline_dev": 95.6,
+   "api": 94.45,
+   "api_runs": 2,
+   "source": "BENCH.md iter14/14b rows"
+  },
+  {
+   "iter": 15,
+   "offline_bench": 96.4,
+   "offline_dev": 95.5,
+   "api": 96.4,
+   "api_runs": 2,
+   "source": "BENCH.md iter15/15b rows"
+  },
+  {
+   "iter": 16,
+   "offline_bench": 98.3,
+   "offline_dev": 98.4,
+   "api": 98.3,
+   "api_runs": 2,
+   "source": "BENCH.md iter16/16b rows"
+  },
+  {
+   "iter": 17,
+   "offline_bench": 98.3,
+   "offline_dev": 98.5,
+   "api": 98.3,
+   "api_runs": 2,
+   "source": "BENCH.md iter17/17b rows"
+  },
+  {
+   "iter": 18,
+   "offline_bench": 99.4,
+   "offline_dev": 98.8,
+   "api": 99.4,
+   "api_runs": 2,
+   "source": "BENCH.md iter18/18b rows"
+  },
+  {
+   "iter": 21,
+   "offline_bench": 99.5,
+   "offline_dev": 98.8,
+   "api": 99.5,
+   "api_runs": 2,
+   "source": "BENCH.md iter21/21b rows"
+  },
+  {
+   "iter": 23,
+   "offline_bench": 99.5,
+   "offline_dev": 98.8,
+   "api": 99.5,
+   "api_runs": 2,
+   "source": "BENCH.md iter22/23 rows (printing-only changes, offline identical); iter25 row 'bench unchanged 99.5, held-out 98.8 -> 99.6'"
+  },
+  {
+   "iter": 25,
+   "offline_bench": 99.5,
+   "offline_dev": 99.6,
+   "api": 99.5,
+   "api_runs": 1,
+   "source": "BENCH.md iter25 row"
+  }
+ ],
  "record_rooms": [
   {
    "seed": 101,
@@ -704,7 +826,21 @@
    "cells": 7.2,
    "empty": 2
   },
-  "low_excluding_empty_mean": 95.775
+  "same8": {
+   "rooms": [
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    110
+   ],
+   "low": 95.775,
+   "medium": 95.775,
+   "identical_rooms": 8
+  }
  },
  "capacity": {
   "capacity-6": {
@@ -1601,5 +1737,181 @@
    "sec": 13.620000000000001,
    "missing": 13
   }
- }
+ },
+ "fresh": {
+  "default": {
+   "rooms": 100,
+   "objects": 356,
+   "mean": 95.326,
+   "ci95": [
+    93.413,
+    96.932
+   ],
+   "exact": 58,
+   "min": 40.7,
+   "errors": 0,
+   "missing": 6,
+   "extra": 2,
+   "rooms_with_extra": 1,
+   "rooms_with_missing": 6,
+   "shape": 21,
+   "size": 25,
+   "pos": 24,
+   "ori": 23,
+   "sec": 5.892,
+   "below95": 29,
+   "worst": [
+    [
+     40.7,
+     "1087"
+    ],
+    [
+     67.9,
+     "1034"
+    ],
+    [
+     73.2,
+     "1092"
+    ],
+    [
+     73.6,
+     "1080"
+    ],
+    [
+     75,
+     "1037"
+    ]
+   ]
+  },
+  "o8": {
+   "rooms": 30,
+   "objects": 240,
+   "mean": 89.55333333333333,
+   "ci95": [
+    86.13,
+    92.87666666666667
+   ],
+   "exact": 7,
+   "min": 67.1,
+   "errors": 0,
+   "missing": 16,
+   "extra": 0,
+   "rooms_with_extra": 0,
+   "rooms_with_missing": 14,
+   "shape": 20,
+   "size": 20,
+   "pos": 33,
+   "ori": 22,
+   "sec": 11.41,
+   "below95": 18,
+   "worst": [
+    [
+     67.1,
+     "1012-o8"
+    ],
+    [
+     69.4,
+     "1020-o8"
+    ],
+    [
+     75,
+     "1007-o8"
+    ],
+    [
+     77.5,
+     "1008-o8"
+    ],
+    [
+     79.8,
+     "1029-o8"
+    ]
+   ]
+  }
+ },
+ "offline_iter23": {
+  "bench_mean": 99.48,
+  "dev_mean": 98.82,
+  "bench_identical_to_api": 10,
+  "identical_to_final_helper": 19
+ },
+ "interventions": [
+  {
+   "run": "capacity-6-b",
+   "seed": 106,
+   "n": 6,
+   "cells": 2,
+   "api": 94.2,
+   "offline": 94.2,
+   "delta": 0.0,
+   "guess_n": 6,
+   "truth_n": 6
+  },
+  {
+   "run": "capacity-6-b",
+   "seed": 110,
+   "n": 6,
+   "cells": 2,
+   "api": 98.6,
+   "offline": 94.4,
+   "delta": 4.199999999999989,
+   "guess_n": 6,
+   "truth_n": 6
+  },
+  {
+   "run": "capacity-8-b",
+   "seed": 110,
+   "n": 8,
+   "cells": 2,
+   "api": 99.2,
+   "offline": 99.2,
+   "delta": 0.0,
+   "guess_n": 8,
+   "truth_n": 8
+  },
+  {
+   "run": "capacity-8-confirm",
+   "seed": 110,
+   "n": 8,
+   "cells": 2,
+   "api": 99.2,
+   "offline": 99.2,
+   "delta": 0.0,
+   "guess_n": 8,
+   "truth_n": 8
+  },
+  {
+   "run": "capacity-10",
+   "seed": 103,
+   "n": 10,
+   "cells": 2,
+   "api": 78,
+   "offline": 78,
+   "delta": 0,
+   "guess_n": 9,
+   "truth_n": 10
+  },
+  {
+   "run": "capacity-10",
+   "seed": 108,
+   "n": 10,
+   "cells": 2,
+   "api": 99.5,
+   "offline": 99.5,
+   "delta": 0.0,
+   "guess_n": 10,
+   "truth_n": 10
+  },
+  {
+   "run": "capacity-10",
+   "seed": 110,
+   "n": 10,
+   "cells": 4,
+   "api": 86.2,
+   "offline": 95.6,
+   "delta": -9.399999999999991,
+   "guess_n": 9,
+   "truth_n": 10
+  }
+ ],
+ "interventions_total_roomruns": 40
 }

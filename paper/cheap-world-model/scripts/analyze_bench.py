@@ -11,6 +11,11 @@ import json
 import os
 import re
 import statistics
+from decimal import Decimal, ROUND_HALF_UP
+
+
+def r1(x):
+    return str(Decimal(str(x)).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP))
 import subprocess
 
 import matplotlib
@@ -71,7 +76,7 @@ SHORT = {  # one-line hypothesis per iteration (from bench/BENCH.md), keyed by i
     16: "size+rotation joint refine; chroma masks; overlap test", 17: "phantom test by footprint; stop on repeated issue",
     18: "occlusion-aware explain\\_unpaired; skip hidden views", 19: "solve\\_all prints the banner: one cell",
     20: "cheaper rotation/depth searches", 21: "no Powell polish; 150 starts; lean renderer",
-    22: "two-sentence notes; skip poor labellings", 23: "compact printout",
+    22: "two-sentence notes; skip poor labelings", 23: "compact printout",
     25: "blob shared in one view judged from the other"}
 hist = []
 for lab in ORDER:
@@ -91,25 +96,40 @@ with open(os.path.join(TAB, "history.tex"), "w") as f:
     f.write("\\bottomrule\n\\end{tabular}\n")
 A["history"] = hist
 
-# ---------------------------------------------------------------- frontier figure
-fig, axes = plt.subplots(1, 3, figsize=(7.0, 2.2))
+# ---------------------------------------------------------------- frontier figure (+ offline floor series)
+FLOOR = json.load(open(os.path.join(PAPER, "experiments", "offline-floor-benchmd.json")))["rows"]
+A["floor"] = FLOOR
+fig, axes = plt.subplots(1, 4, figsize=(7.2, 2.1))
 xs = [h["iter"] + (0.4 if h["confirm"] else 0) for h in hist]
-for ax, key, lab in zip(axes, ["mean", "sec", "tok"], ["Mean score (0–100)", "Seconds per room", "Tokens per room"]):
-    med = [(x, h[key]) for x, h in zip(xs, hist) if h["effort"] == "medium"]
-    low = [(x, h[key]) for x, h in zip(xs, hist) if h["effort"] == "low"]
-    ax.plot([m[0] for m in med], [m[1] for m in med], "o-", ms=3.5, lw=1.2, color=C["blue"], label="medium effort")
-    ax.plot([m[0] for m in low], [m[1] for m in low], "s-", ms=3.5, lw=1.2, color=C["orange"], label="low effort")
+for ax, key, lab in zip(axes[:3], ["mean", "sec", "tok"], ["Mean score (0\u2013100)", "Seconds per room", "Tokens per room"]):
+    for eff, col, mk in (("medium", C["blue"], "o"), ("low", C["orange"], "s")):
+        pts = [(x, h[key], h["confirm"]) for x, h in zip(xs, hist) if h["effort"] == eff]
+        ax.plot([p[0] for p in pts], [p[1] for p in pts], "-", lw=1.0, color=col)
+        ax.plot([p[0] for p in pts if not p[2]], [p[1] for p in pts if not p[2]], mk, ms=3.5, color=col, label=f"{eff} effort")
+        ax.plot([p[0] for p in pts if p[2]], [p[1] for p in pts if p[2]], mk, ms=3.5, mfc="white", color=col, label=f"{eff}, confirmation run")
     ax.set_xlabel("Tuning iteration")
     ax.set_title(lab, fontsize=8, loc="left")
-    if key == "mean":
-        ax.set_ylim(74, 101)
-    else:
-        ax.set_ylim(0, None)
-axes[0].legend(frameon=False, fontsize=7, loc="lower right")
-axes[0].annotate("two empty answers\n(iter 9)", xy=(9, 76.6), xytext=(11, 80), fontsize=6.5, arrowprops=dict(arrowstyle="-", lw=0.6, color=C["grey"]))
-fig.tight_layout()
-fig.savefig(os.path.join(FIG, "frontier.pdf"))
+    ax.set_ylim(74, 101) if key == "mean" else ax.set_ylim(0, None)
+axes[0].annotate("two empty\nanswers", xy=(9, 76.6), xytext=(13.5, 77.5), fontsize=6.5, va="center", arrowprops=dict(arrowstyle="-", lw=0.6, color=C["grey"]))
+ax = axes[3]
+fl = [r for r in FLOOR if r["offline_bench"] is not None]
+ax.axhline(0, color=C["grey"], lw=0.6)
+ax.plot([r["iter"] for r in fl], [r["api"] - r["offline_bench"] for r in fl], "D-", ms=3.5, lw=1.0, color=C["green"], label="VLM + helper minus helper alone")
+ax.set_xlabel("Tuning iteration")
+ax.set_title("VLM contribution (points)", fontsize=8, loc="left")
+ax.set_ylim(-4, 16)
+h, l = axes[0].get_legend_handles_labels()
+fig.legend(h, l, loc="lower center", ncol=4, frameon=False, fontsize=6.5, bbox_to_anchor=(0.5, -0.02))
+fig.tight_layout(rect=(0, 0.07, 1, 1))
+fig.savefig(os.path.join(FIG, "frontier.pdf"), bbox_inches="tight")
 plt.close(fig)
+with open(os.path.join(TAB, "floor.tex"), "w") as f:
+    f.write("\\begin{tabular}{@{}rrrrr@{}}\n\\toprule\nIteration & Helper alone, seeds 101--110 & Helper alone, seeds 201--210 & VLM + helper, seeds 101--110 & VLM contribution \\\\\n\\midrule\n")
+    for r in FLOOR:
+        dev = "--" if r["offline_dev"] is None else f"{r['offline_dev']:.1f}"
+        d = r['api'] - r['offline_bench']
+        f.write(f"{r['iter']} & {r['offline_bench']:.1f} & {dev} & {r1(r['api'])}{'' if r['api_runs'] == 2 else '$^*$'} & {'+' if d >= 0 else '-'}{r1(abs(d))} \\\\\n")
+    f.write("\\bottomrule\n\\end{tabular}\n")
 
 # ---------------------------------------------------------------- record: per-room table with error details
 REC = ["iter23-low-effort-compact-printout", "iter23-low-effort-compact-printout-confirm"]
@@ -143,14 +163,14 @@ def issues(det, truth_objs):
 
 
 with open(os.path.join(TAB, "record_rooms.tex"), "w") as f:
-    f.write("\\begin{tabular}{@{}rrrrrrl@{}}\n\\toprule\nRoom & Objects & Score (run 1) & Score (run 2) & s & Tokens & Remaining error (run 2) \\\\\n\\midrule\n")
+    f.write("\\begin{tabular}{@{}rrrrrrl@{}}\n\\toprule\nRoom & Objects & Score (run 1) & Score (run 2) & Time (s) & Tokens & Remaining error \\\\\n\\midrule\n")
     per = []
     for r1, r2 in zip(rows(REC[0]), rows(REC[1])):
         seed = r1["seed"]
         d2 = scored[f"{REC[1]}:{seed}"]
         iss = issues(d2["details"], r2["truth"]) or ["—"]
         n = len(r2["truth"])
-        f.write(f"{seed} & {n} & {r1['score']:.1f} & {r2['score']:.1f} & {r2['seconds']:.0f} & {r2['tokens']['total']:,} & {'; '.join(iss)} \\\\\n")
+        f.write(f"{seed} & {n} & {r1['score']:.1f} & {r2['score']:.1f} & {r2['seconds']:.1f} & {r2['tokens']['total']:,} & {'; '.join(iss)} \\\\\n")
         per.append({"seed": seed, "n": n, "s1": r1["score"], "s2": r2["score"], "sec": r2["seconds"], "tok": r2["tokens"], "issues": iss, "cells": r2["codeRuns"]})
     f.write("\\bottomrule\n\\end{tabular}\n")
 A["record_rooms"] = per
@@ -183,12 +203,14 @@ A["effort"] = {l: {"mean": summ(l)["meanScore"], "sec": summ(l)["meanSeconds"], 
                    "empty": sum(len(r["guess"]["objects"]) == 0 for r in rows(l))} for l in ("iter8-pairing-size-term", "iter9-low-effort")}
 r8 = {r["seed"]: r["score"] for r in rows("iter8-pairing-size-term")}
 r9 = {r["seed"]: r["score"] for r in rows("iter9-low-effort")}
-A["effort"]["low_excluding_empty_mean"] = statistics.mean(r9[s] for s in r9 if len([x for x in rows("iter9-low-effort") if x["seed"] == s][0]["guess"]["objects"]))
+nonempty = [s for s in r9 if len([x for x in rows("iter9-low-effort") if x["seed"] == s][0]["guess"]["objects"])]
+A["effort"]["same8"] = {"rooms": sorted(nonempty), "low": statistics.mean(r9[s] for s in nonempty), "medium": statistics.mean(r8[s] for s in nonempty),
+                        "identical_rooms": sum(r8[s] == r9[s] for s in nonempty)}
 
 # ---------------------------------------------------------------- capacity table
 CAP = [("capacity-6", 6), ("capacity-6-b", 6), ("capacity-8", 8), ("capacity-8-b", 8), ("capacity-8-confirm", 8), ("capacity-10", 10)]
 with open(os.path.join(TAB, "capacity.tex"), "w") as f:
-    f.write("\\begin{tabular}{@{}rlrrrrr@{}}\n\\toprule\nObjects & Run & Mean & Exact & s/room & Tokens & \\$/room \\\\\n\\midrule\n")
+    f.write("\\begin{tabular}{@{}rlrrrrr@{}}\n\\toprule\nObjects & Run & Mean & Exact (of 10) & s/room & Tokens & \\$/room \\\\\n\\midrule\n")
     for lab, n in CAP:
         s = summ(lab)
         f.write(f"{n} & {lab} & {s['meanScore']:.1f} & {s['exactMatches']} & {s['meanSeconds']:.0f} & {s['meanTokens']:,} & {s['meanCostUsd']:.3f} \\\\\n")
@@ -232,10 +254,10 @@ if "offline-default" in A:
         f.write(f"mean & {A['record']['objects_total']} & {summ(REC[1])['meanScore']:.1f} & {A['offline_summary']['bench_mean']:.1f} & \\\\\n")
         f.write("\\bottomrule\n\\end{tabular}\n")
     with open(os.path.join(TAB, "heldout.tex"), "w") as f:
-        f.write("\\begin{tabular}{@{}rrrl@{}}\n\\toprule\nRoom & Objects & Pipeline alone & Remaining error \\\\\n\\midrule\n")
+        f.write("\\begin{tabular}{@{}rrrl@{}}\n\\toprule\nRoom & Objects & Helper alone & Remaining error \\\\\n\\midrule\n")
         for r in held:
             f.write(f"{r['name']} & {r['n']} & {r['score']:.1f} & {'; '.join(r['issues']) or '—'} \\\\\n")
-        f.write(f"\\midrule\nmean & {sum(r['n'] for r in held)} & {A['offline_summary']['held_mean']:.1f} & {A['offline_summary']['held_exact']}/10 exact \\\\\n")
+        f.write(f"\\midrule\nmean / total & {sum(r['n'] for r in held)} & {A['offline_summary']['held_mean']:.1f} & {A['offline_summary']['held_exact']} of 10 rooms exact \\\\\n")
         f.write("\\bottomrule\n\\end{tabular}\n")
 
 if "offline-capacity" in A:
@@ -246,7 +268,7 @@ if "offline-capacity" in A:
     A["offline_capacity_summary"] = {n: {"mean": statistics.mean(x["score"] for x in v), "exact": sum(x["exact"] for x in v), "sec": statistics.mean(x["seconds"] for x in v),
                                         "missing": sum(sum(i.startswith("missing") for i in x["issues"]) for x in v)} for n, v in sorted(by_n.items())}
     with open(os.path.join(TAB, "capacity_offline.tex"), "w") as f:
-        f.write("\\begin{tabular}{@{}rrrrrr@{}}\n\\toprule\nObjects & Pipeline mean & Exact & Missing objects & s/room (offline) & LLM + tools mean (two-run) \\\\\n\\midrule\n")
+        f.write("\\begin{tabular}{@{}rrrrrr@{}}\n\\toprule\nObjects & Helper alone & Exact & Missing objects & s/room (offline) & VLM + helper \\\\\n\\midrule\n")
         llm = {6: statistics.mean([summ("capacity-6-b")["meanScore"]]), 8: statistics.mean([summ("capacity-8-b")["meanScore"], summ("capacity-8-confirm")["meanScore"]]), 10: summ("capacity-10")["meanScore"]}
         for n, v in sorted(A["offline_capacity_summary"].items()):
             f.write(f"{n} & {v['mean']:.1f} & {v['exact']} & {v['missing']} & {v['sec']:.0f} & {llm.get(n, float('nan')):.1f} \\\\\n".replace("nan", "—"))
@@ -254,17 +276,92 @@ if "offline-capacity" in A:
     # capacity figure
     fig, ax = plt.subplots(figsize=(3.3, 2.2))
     ns = sorted(A["offline_capacity_summary"])
-    ax.plot(ns, [A["offline_capacity_summary"][n]["mean"] for n in ns], "s-", color=C["orange"], ms=4, label="pipeline alone (offline)")
-    ax.plot([6, 8, 10], [llm[6], llm[8], llm[10]], "o-", color=C["blue"], ms=4, label="LLM + tools (API)")
+    ax.plot(ns, [A["offline_capacity_summary"][n]["mean"] for n in ns], "s-", color=C["orange"], ms=4, label="helper alone (offline)")
+    ax.plot([6, 8, 10], [llm[6], llm[8], llm[10]], "o-", color=C["blue"], ms=4, label="VLM + helper (API)")
     ax.axhline(95, color=C["grey"], lw=0.8, ls="--")
     ax.text(12.1, 95.3, "95 (capacity rule)", fontsize=6.5, ha="right", color=C["grey"])
     ax.set_xlabel("Objects per room")
-    ax.set_ylabel("Mean score")
+    ax.set_ylabel("Mean score (0\u2013100)")
     ax.set_xticks(ns)
     ax.legend(frameon=False, fontsize=7, loc="lower left")
     fig.tight_layout()
     fig.savefig(os.path.join(FIG, "capacity.pdf"))
     plt.close(fig)
 
+
+# ---------------------------------------------------------------- fresh test set (never seen by any tuning decision)
+fp = os.path.join(PAPER, "experiments", "offline-fresh.json")
+if os.path.exists(fp):
+    import random
+    subprocess.run(["npx", "tsx", os.path.join(HERE, "score_rows.ts"), fp, fp.replace(".json", "-scored.json")], cwd=REPO, check=True)
+    fr = json.load(open(fp.replace(".json", "-scored.json")))
+    def boot(vals, n=5000, seed=0):
+        rnd = random.Random(seed)
+        ms = sorted(statistics.mean(rnd.choices(vals, k=len(vals))) for _ in range(n))
+        return ms[int(0.025 * n)], ms[int(0.975 * n)]
+    groups = {"default": [r for r in fr if "-o" not in r["name"]], "o8": [r for r in fr if r["name"].endswith("-o8")]}
+    A["fresh"] = {}
+    for g, rs in groups.items():
+        if not rs:
+            continue
+        tr = lambda r: r["truth"]["objects"] if isinstance(r["truth"], dict) else r["truth"]
+        sc = [r["score"] for r in rs]
+        iss = [issues(r["details"], tr(r)) for r in rs]
+        A["fresh"][g] = {"rooms": len(rs), "objects": sum(len(tr(r)) for r in rs), "mean": statistics.mean(sc), "ci95": boot(sc),
+                         "exact": sum(r["exact"] for r in rs), "min": min(sc), "errors": sum(1 for r in rs if r["error"]),
+                         "missing": sum(sum(i.startswith("missing") for i in x) for x in iss),
+                         "extra": sum(r.get("extraGuesses", 0) for r in rs),
+                         "rooms_with_extra": sum(1 for r in rs if r.get("extraGuesses", 0)),
+                         "rooms_with_missing": sum(1 for x in iss if any(i.startswith("missing") for i in x)),
+                         "shape": sum(sum(i.startswith("shape") for i in x) for x in iss),
+                         "size": sum(sum(i.startswith("size") for i in x) for x in iss),
+                         "pos": sum(sum(i.startswith("pos") for i in x) for x in iss),
+                         "ori": sum(sum(i.startswith("ori") for i in x) for x in iss),
+                         "sec": statistics.mean(r["seconds"] for r in rs),
+                         "below95": sum(s < 95 for s in sc), "worst": sorted(((r["score"], r["name"]) for r in rs))[:5]}
+    for g in A["fresh"]:
+        v = A["fresh"][g]
+        open(os.path.join(TAB, f"fresh_mean_{g}.tex"), "w").write(f"{v['mean']:.1f}")
+    with open(os.path.join(TAB, "fresh.tex"), "w") as f:
+        f.write("\\begin{tabular}{@{}lrrlrrrrrrrr@{}}\n\\toprule\nSet & Rooms & Obj. & Mean [95\\,\\% CI] & Exact & $<95$ & Miss. & Extra & Shape & Size & Pos. & Ori. \\\\\n\\midrule\n")
+        for g, lab in (("default", "1001--1100, 2--5 obj."), ("o8", "1001--1030, 8 obj.")):
+            if g in A["fresh"]:
+                v = A["fresh"][g]
+                f.write(f"{lab} & {v['rooms']} & {v['objects']} & {v['mean']:.1f} [{v['ci95'][0]:.1f}, {v['ci95'][1]:.1f}] & {v['exact']} & {v['below95']} & {v['missing']} & {v['extra']} & {v['shape']} & {v['size']} & {v['pos']} & {v['ori']} \\\\\n")
+        f.write("\\bottomrule\n\\end{tabular}\n")
+
+# ---------------------------------------------------------------- like-for-like ablation with the iter23 helper
+lp = os.path.join(PAPER, "experiments", "offline-default-iter23helper.json")
+if os.path.exists(lp):
+    subprocess.run(["npx", "tsx", os.path.join(HERE, "score_rows.ts"), lp, lp.replace(".json", "-scored.json")], cwd=REPO, check=True)
+    l23 = {r["name"]: r for r in json.load(open(lp.replace(".json", "-scored.json")))}
+    A["offline_iter23"] = {"bench_mean": statistics.mean(l23[str(s)]["score"] for s in range(101, 111)), "dev_mean": statistics.mean(l23[str(s)]["score"] for s in range(201, 211)),
+                           "bench_identical_to_api": sum(abs(l23[str(p["seed"])]["score"] - p["s2"]) < 0.05 for p in per),
+                           "identical_to_final_helper": sum(abs(l23[n]["score"] - off[n]["score"]) < 0.05 for n in l23 if n in off)}
+    with open(os.path.join(TAB, "llm_vs_pipeline.tex"), "w") as f:
+        f.write("\\begin{tabular}{@{}rrrrr@{}}\n\\toprule\nRoom & Objects & VLM + helper (run 1 / run 2) & Helper alone, same helper & Helper alone, released helper \\\\\n\\midrule\n")
+        for p in per:
+            f.write(f"{p['seed']} & {p['n']} & {p['s1']:.1f} / {p['s2']:.1f} & {l23[str(p['seed'])]['score']:.1f} & {off[str(p['seed'])]['score']:.1f} \\\\\n")
+        f.write(f"\\midrule\nmean & {A['record']['objects_total']} & {summ(REC[0])['meanScore']:.1f} / {summ(REC[1])['meanScore']:.1f} & {A['offline_iter23']['bench_mean']:.1f} & {A['offline_summary']['bench_mean']:.1f} \\\\\n")
+        f.write("\\bottomrule\n\\end{tabular}\n")
+
+# ---------------------------------------------------------------- where the model intervened (final helper, capacity runs)
+if "offline-capacity" in A:
+    offc = {r["name"]: r for r in A["offline-capacity"]}
+    inter = []
+    for lab, n in (("capacity-6-b", 6), ("capacity-8-b", 8), ("capacity-8-confirm", 8), ("capacity-10", 10)):
+        for r in rows(lab):
+            o = offc[f"{r['seed']}-o{n}"]
+            if (r["codeRuns"] or 0) > 1 or abs(r["score"] - o["score"]) > 0.05:
+                inter.append({"run": lab, "seed": r["seed"], "n": n, "cells": r["codeRuns"], "api": r["score"], "offline": o["score"], "delta": r["score"] - o["score"],
+                              "guess_n": len(r["guess"]["objects"]), "truth_n": len(r["truth"])})
+    A["interventions"] = inter
+    A["interventions_total_roomruns"] = sum(len(rows(l)) for l, _ in (("capacity-6-b", 6), ("capacity-8-b", 8), ("capacity-8-confirm", 8), ("capacity-10", 10)))
+    with open(os.path.join(TAB, "interventions.tex"), "w") as f:
+        f.write("\\begin{tabular}{@{}llrrrrrr@{}}\n\\toprule\nRun & Room & Objects & Cells & VLM + helper & Helper alone & Difference & Objects returned \\\\\n\\midrule\n")
+        for i in inter:
+            f.write(f"{i['run']} & {i['seed']} & {i['n']} & {i['cells']} & {i['api']:.1f} & {i['offline']:.1f} & {i['delta']:+.1f} & {i['guess_n']} of {i['truth_n']} \\\\\n")
+        f.write("\\bottomrule\n\\end{tabular}\n")
+
 json.dump(A, open(os.path.join(PAPER, "experiments", "analysis.json"), "w"), indent=1)
-print(json.dumps({k: v for k, v in A.items() if k not in ("history", "record_rooms", "offline-default", "offline-capacity")}, indent=1))
+print(json.dumps({k: v for k, v in A.items() if k in ("fresh", "offline_iter23", "interventions", "effort", "variance", "offline_summary")}, indent=1))
