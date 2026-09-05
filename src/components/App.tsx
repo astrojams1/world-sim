@@ -30,6 +30,26 @@ interface AnalysisResult {
 type Effort = "low" | "medium" | "high";
 const POLL_MS = 3000;
 
+declare global {
+  interface Window {
+    /** Last analysis result, exposed for the benchmark script. */
+    __worldsim?: {
+      seed: number;
+      model: string;
+      effort: string;
+      score: number;
+      exact: boolean;
+      durationMs: number;
+      usage?: unknown;
+      codeRuns: number;
+      usedSandbox: boolean;
+      guess: Guess;
+      truth: unknown;
+      error?: string;
+    };
+  }
+}
+
 export default function App() {
   const [room, setRoom] = useState<Room>(() => generateRoom());
   const [feeds, setFeeds] = useState<Feeds | null>(null);
@@ -54,6 +74,7 @@ export default function App() {
     setError(null);
     setStatus("");
     setSeedInput(String(r.seed));
+    window.__worldsim = undefined;
   }, []);
 
   // Render feeds whenever the room changes.
@@ -123,11 +144,38 @@ export default function App() {
           guessFeeds,
         });
         setStatus(score.exact ? "Exact match." : `Score ${score.total}%`);
+        window.__worldsim = {
+          seed: room.seed,
+          model,
+          effort,
+          score: score.total,
+          exact: score.exact,
+          durationMs: Date.now() - started,
+          usage: data.usage,
+          codeRuns: (data.codeRuns ?? []).length,
+          usedSandbox: Boolean(data.usedSandbox),
+          guess,
+          truth: stripIds(room.objects),
+        };
         return;
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      const message = e instanceof Error ? e.message : String(e);
+      setError(message);
       setStatus("");
+      window.__worldsim = {
+        seed: room.seed,
+        model,
+        effort,
+        score: 0,
+        exact: false,
+        durationMs: Date.now() - started,
+        codeRuns: 0,
+        usedSandbox: false,
+        guess: { objects: [] },
+        truth: stripIds(room.objects),
+        error: message,
+      };
     } finally {
       setRunning(false);
     }
