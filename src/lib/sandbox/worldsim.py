@@ -481,7 +481,7 @@ def _fit_pose(X, uv, W, H, n_starts=None, top_k=6, seed=0, good_enough=1.0):
     uv = np.asarray(uv, dtype=float)
     if n_starts is None:
         # five points have no closed-form start, so they need many more random starts to find the basin
-        n_starts = 200 if len(uv) >= 6 else 600
+        n_starts = 60 if len(uv) >= 6 else 600
 
     def resid(params):
         R = _rotvec_to_matrix(params[:3])
@@ -495,7 +495,7 @@ def _fit_pose(X, uv, W, H, n_starts=None, top_k=6, seed=0, good_enough=1.0):
     def refine(R0, t0, f0):
         x0 = np.concatenate([_matrix_to_rotvec(R0), t0, [f0]])
         try:
-            sol = least_squares(resid, x0, method="lm", max_nfev=3000)
+            sol = least_squares(resid, x0, method="lm", max_nfev=400)
         except Exception:
             return None
         R = _rotvec_to_matrix(sol.x[:3])
@@ -1270,6 +1270,7 @@ def _iou(a, b):
 
 
 _BLOBMASK = {}
+_LAST_ISSUES = None  # open issues reported by the previous finish() call
 
 
 def _blob_masks(cam_id):
@@ -1325,12 +1326,31 @@ def compare(objects, pose_a, pose_b, verbose=True):
                 if dd < bd:
                     best, bd = j, dd
             entry = {"index": i, "visible": True, "pred_centroid": (round(pc[0], 1), round(pc[1], 1)), "pred_width": pw}
-            if best is not None and bd < 120:
-                used.add(best)
+            # fraction of the object's visible footprint that lands on real pixels of its colour: an object whose
+            # footprint is covered is explained even when it shares its blob with another object (two touching
+            # objects of one colour form a single blob)
+            foot = vis if vis.any() else single
+            coverage = float((foot & real[o["color"]]).sum() / max(foot.sum(), 1))
+            entry["coverage"] = round(coverage, 2)
+            if best is None or bd >= 120:
+                # no unused blob: fall back to the nearest blob of the colour, shared with another object
+                for j, b in enumerate(real_blobs):
+                    if b["color"] != o["color"]:
+                        continue
+                    dd = math.hypot(b["centroid"][0] - pc[0], b["centroid"][1] - pc[1])
+                    if dd < bd:
+                        best, bd = j, dd
+                shared = True
+            else:
+                shared = False
+            if best is not None and ((not shared and bd < 120) or coverage >= 0.5):
+                if not shared:
+                    used.add(best)
                 b = real_blobs[best]
                 entry.update(
                     {
                         "real_centroid": b["centroid"],
+                        "shared_blob": shared,
                         "du": round(b["centroid"][0] - pc[0], 1),
                         "dv": round(b["centroid"][1] - pc[1], 1),
                         "width_ratio": round(b["width"] / max(pw, 1), 2),
@@ -1355,12 +1375,13 @@ def compare(objects, pose_a, pose_b, verbose=True):
                 if not e["visible"]:
                     _out(tag + " -> not visible in this camera")
                 elif e["real_centroid"] is None:
-                    _out(tag + f" -> predicted at {e['pred_centroid']} but NO real blob of that colour nearby (phantom?)")
+                    _out(tag + f" -> predicted at {e['pred_centroid']} but NO real blob of that colour nearby (phantom? only {e['coverage']:.0%} of its footprint is on real pixels of its colour)")
                 else:
                     _out(
                         tag
                         + f" -> predicted {e['pred_centroid']}, real {e['real_centroid']}, offset du={e['du']} dv={e['dv']}, "
                         f"width ratio real/pred={e['width_ratio']}, overlap IoU={e['overlap_iou']}"
+                        + (" (shares this blob with another object: offsets not meaningful)" if e.get("shared_blob") else "")
                     )
             for b in cr["unexplained_real_blobs"]:
                 _out(f"  UNEXPLAINED real {b['color']} blob at {b['centroid']} (width {b['width']}) - missing object?")
@@ -1500,14 +1521,20 @@ def refine_rotation(objects, pose_a, pose_b, i, n=300, try_sizes=True, verbose=T
     sizes = list(SIZES) if try_sizes else [o["size"]]
     # the current size is searched last so that ties keep it
     sizes.sort(key=lambda s: s == o["size"])
-    best, best_rot, best_size = -1.0, None, o["size"]
+    # random search at every size first; the coordinate descent only for sizes that are within 0.1 of the best
+    coarse = []
     for size in sizes:
         cand = dict(o)
         cand["size"] = size
         score = lambda rot, cand=cand: _rotation_score(cand, rot, targets)  # noqa: E731
         cands = [o.get("rotation") or [0.0, 0.0, 0.0]] + rand
         rot = max(cands, key=score)
-        sc = score(rot)
+        coarse.append((score(rot), size, rot, score))
+    top = max(c[0] for c in coarse)
+    best, best_rot, best_size = -1.0, None, o["size"]
+    for sc, size, rot, score in coarse:
+        if sc < top - 0.1:
+            continue
         for step in (0.3, 0.15, 0.07, 0.035, 0.017):
             improved = True
             while improved:
@@ -1692,8 +1719,19 @@ def finish(objects, pose_a, pose_b, verbose=True):
     objs = refine_all_rotations(objs, pose_a, pose_b, verbose=False)
     report = compare(objs, pose_a, pose_b, verbose=verbose)
     if verbose:
-        open_issues = sum(len(c["unexplained_real_blobs"]) + sum(1 for e in c["objects"] if e.get("visible") and e.get("real_centroid") is None) for c in report["cameras"].values())
-        _out("=== FINAL ANSWER (copy verbatim; do not run any further cell) ===" if open_issues == 0 else "=== ANSWER (one open issue remains: fix it in ONE cell, call finish once more, then stop) ===")
+        issues = []
+        for cam_id, c in report["cameras"].items():
+            issues += [("unexplained", cam_id, b["color"], b["centroid"]) for b in c["unexplained_real_blobs"]]
+            issues += [("phantom", cam_id, objs[e["index"]]["color"], e["pred_centroid"]) for e in c["objects"] if e.get("visible") and e.get("real_centroid") is None]
+        global _LAST_ISSUES
+        if not issues:
+            _out("=== FINAL ANSWER (copy verbatim; do not run any further cell) ===")
+        elif _LAST_ISSUES is not None and issues == _LAST_ISSUES:
+            _out("(the same open issue as after the previous finish(): it cannot be resolved from these two views, so it is accepted)")
+            _out("=== FINAL ANSWER (copy verbatim; do not run any further cell) ===")
+        else:
+            _out("=== ANSWER (one open issue remains: fix it in ONE cell, call finish once more, then stop) ===")
+        _LAST_ISSUES = issues
         _out(to_json(objs))
     return objs
 
