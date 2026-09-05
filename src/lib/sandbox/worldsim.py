@@ -16,8 +16,14 @@ An "objects" list is a list of dicts: {"shape": "sphere"|"cube", "color": "red"|
 "position": [x, y, z], "rotation": [rx, ry, rz] (Euler XYZ radians, matrix = Rx*Ry*Rz; cubes only, None for spheres)}.
 Orientation is part of the answer and is scored modulo the cube's 24 symmetries, to about 10 degrees.
 
-Typical workflow:
+Typical workflow (short form):
     import worldsim as ws
+    r = ws.solve_all()                                            # everything below in one call; read its printout
+    objs = r["objects"]; pA, pB = r["pose_a"], r["pose_b"]
+    # reconcile with what you SEE: add merged/hidden objects with object_from_pixels, drop phantoms, fix colours
+    objs = ws.finish(objs, pA, pB)                                # refine, verify, print the answer
+
+Typical workflow (long form):
     hexA = ws.room_outline("A"); hexB = ws.room_outline("B")   # 1. hexagon of room corners in each image (check them!)
     pA = ws.solve_camera("A"); pB = ws.solve_camera("B")        # 2. camera pose + focal length from the hexagon
     pB = ws.align(pA, pB)                                         # 3. put B in the same room frame as A
@@ -26,9 +32,10 @@ Typical workflow:
     guess = ws.initial_hypothesis(pA, pB, matches, shapes)        # 6. one object per pair, shapes from YOUR eyes
     guess.append(ws.object_from_pixels(pA, (u,v), pB, (u,v), "cube", "red"))  # objects merged/hidden in a blob
     ws.compare(guess, pA, pB)                                     # 7. render and compare with the real images
+    guess = ws.apply_shapes(guess, ws.shape_check(guess, pA, pB)) # 7b. let the silhouettes arbitrate sphere vs cube
     guess = ws.local_search(guess, pA, pB)                        # 8. refine positions / sizes / cube rotations
     ws.compare(guess, pA, pB)                                     # 9. verify; fix what is unexplained; repeat
-    guess = ws.refine_rotation(guess, pA, pB, i)                  # 10. polish each cube's orientation
+    guess = ws.refine_all_rotations(guess, pA, pB)                # 10. polish every cube's orientation
     print(ws.to_json(guess))
 """
 import itertools
@@ -286,6 +293,7 @@ class Pose:
         self.t = np.asarray(t, dtype=float)
         self.f = float(f)
         self.W, self.H = image_size(cam_id)
+        self.cx, self.cy = self.W / 2, self.H / 2
         self.reprojection_error = None
 
     @property
@@ -304,10 +312,10 @@ class Pose:
         c = self.to_cam(p)
         if c[2] <= 1e-6:
             return None
-        return (float(self.f * c[0] / c[2] + self.W / 2), float(self.f * c[1] / c[2] + self.H / 2), float(c[2]))
+        return (float(self.f * c[0] / c[2] + self.cx), float(self.f * c[1] / c[2] + self.cy), float(c[2]))
 
     def ray(self, u, v):
-        d = np.array([(u - self.W / 2) / self.f, (v - self.H / 2) / self.f, 1.0])
+        d = np.array([(u - self.cx) / self.f, (v - self.cy) / self.f, 1.0])
         d = self.R.T @ d
         return self.position, d / np.linalg.norm(d)
 
@@ -835,6 +843,110 @@ def object_from_pixels(pose_a, uv_a, pose_b, uv_b, shape, color, size=None, widt
     return o
 
 
+def _matched_blob_mask(o, pose):
+    """Mask of the real blob (same colour) nearest to where object o projects in this camera, and its width."""
+    pr = pose.project(o["position"])
+    if pr is None:
+        return None, None
+    real = blobs(pose.cam_id, verbose=False)
+    masks = _blob_masks(pose.cam_id)
+    best, bd = None, 1e9
+    for j, b in enumerate(real):
+        if b["color"] != o["color"]:
+            continue
+        d = math.hypot(b["centroid"][0] - pr[0], b["centroid"][1] - pr[1])
+        if d < bd:
+            best, bd = j, d
+    if best is None or bd > 120:
+        return None, None
+    return masks[best], real[best]
+
+
+def _object_fit(o, pose_a, pose_b, shape, n_rot=40, seed=3):
+    """Best per-object silhouette IoU (mean over the two cameras) for `shape`, over legal sizes and, for cubes,
+    random rotations. Returns (score, size, rotation)."""
+    from scipy.spatial.transform import Rotation
+
+    targets = []
+    for pose in (pose_a, pose_b):
+        m, b = _matched_blob_mask(o, pose)
+        targets.append((pose, m))
+    if all(m is None for _, m in targets):
+        return None
+    rng = np.random.default_rng(seed)
+    rots = [[0.0, 0.0, 0.0]] + ([list(Rotation.random(random_state=int(rng.integers(1 << 30))).as_euler("xyz")) for _ in range(n_rot)] if shape == "cube" else [])
+    best = None
+    for size in SIZES:
+        for rot in rots:
+            cand = {"shape": shape, "color": o["color"], "size": size, "position": o["position"]}
+            if shape == "cube":
+                cand["rotation"] = rot
+            ious = []
+            for pose, m in targets:
+                if m is None:
+                    continue
+                cov, win = render_soft(cand, pose)
+                ious.append(_soft_iou(cov, m, win))
+            sc = float(np.mean(ious))
+            if best is None or sc > best[0]:
+                best = (sc, size, rot if shape == "cube" else None)
+    return best
+
+
+def shape_check(objects, pose_a, pose_b, margin=0.03, cube_margin=0.06, verbose=True):
+    """Decide sphere vs cube for EVERY object from its own silhouette: each object is fitted as a sphere and as a
+    cube (size and rotation re-fitted for each shape) against the real blob it matches in each camera, and the
+    shape with the clearly higher per-object overlap wins. Returns the recommended shapes (and prints the sizes
+    that go with them). Small cubes look round and small spheres look angular to the eye, but two silhouettes do
+    not lie; adopt the recommendation unless the object shares its blob with another object (flagged) or you can
+    clearly see the contrary in BOTH images."""
+    recommended = []
+    for i, o in enumerate(objects):
+        fits = {shape: _object_fit(o, pose_a, pose_b, shape) for shape in ("sphere", "cube")}
+        if fits["sphere"] is None or fits["cube"] is None:
+            recommended.append(o["shape"])
+            if verbose:
+                print(f"object #{i} ({o['color']} {o['shape']}): no matching blob, keeping shape")
+            continue
+        # a blob much wider than the object's own render means two objects share it: unreliable
+        shared = False
+        for pose in (pose_a, pose_b):
+            m, b = _matched_blob_mask(o, pose)
+            if b is not None:
+                r = render_masks([o], pose)[o["color"]]
+                xs = np.nonzero(r.any(axis=0))[0]
+                if len(xs) and b["width"] > 1.6 * (xs.max() - xs.min() + 1):
+                    shared = True
+        s_sc, s_size, _ = fits["sphere"]
+        c_sc, c_size, c_rot = fits["cube"]
+        current = o["shape"]
+        other = "cube" if current == "sphere" else "sphere"
+        cur_sc = s_sc if current == "sphere" else c_sc
+        oth_sc = c_sc if current == "sphere" else s_sc
+        # a cube has free size AND rotation, so it can mimic a disc; it must win by a wider margin
+        need = cube_margin if other == "cube" else margin
+        rec = other if (oth_sc - cur_sc > need and not shared) else current
+        recommended.append(rec)
+        if verbose:
+            flag = " (blob shared with another object: unreliable)" if shared else ("" if rec == current else f"  <-- CHANGE to {rec} (size {c_size if rec == 'cube' else s_size})")
+            print(f"object #{i} ({o['color']}, currently {current}): as sphere IoU {s_sc:.3f} (size {s_size}), as cube IoU {c_sc:.3f} (size {c_size}){flag}")
+    return recommended
+
+
+def apply_shapes(objects, shapes):
+    """Return a copy of objects with the given shapes (cubes get a zero rotation to be fitted by local_search)."""
+    out = []
+    for o, shape in zip(objects, shapes):
+        n = dict(o)
+        n["shape"] = shape
+        if shape == "cube":
+            n["rotation"] = n.get("rotation") or [0.0, 0.0, 0.0]
+        else:
+            n.pop("rotation", None)
+        out.append(n)
+    return out
+
+
 def shape_test(objects, pose_a, pose_b, index):
     """IoU with object `index` as a sphere vs as a cube (each briefly refined). Prints and returns both."""
     res = {}
@@ -895,6 +1007,46 @@ def render_masks(objects, pose):
             masks[col][nearer] = False
         masks[o["color"]][nearer] = True
     return masks
+
+
+def _crop_window(o, pose, pad=1.35):
+    """Pixel window (x0, y0, x1, y1) that contains object o's silhouette in this camera, or None."""
+    pr = pose.project(o["position"])
+    if pr is None:
+        return None
+    reach = o["size"] / 2 * (math.sqrt(3) if o["shape"] == "cube" else 1.0)
+    r_px = pose.f * reach / pr[2] * pad + 2
+    x0, x1 = int(max(0, pr[0] - r_px)), int(min(pose.W, pr[0] + r_px + 1))
+    y0, y1 = int(max(0, pr[1] - r_px)), int(min(pose.H, pr[1] + r_px + 1))
+    if x1 <= x0 or y1 <= y0:
+        return None
+    return x0, y0, x1, y1
+
+
+def render_soft(o, pose, scale=3, window=None):
+    """Sub-pixel silhouette coverage (0..1 per pixel) of a single object, rendered at `scale` x resolution inside a
+    crop window around the object and box-filtered down. Returns (coverage, window)."""
+    if window is None:
+        window = _crop_window(o, pose)
+    if window is None:
+        return None, None
+    x0, y0, x1, y1 = window
+    big = Pose(pose.cam_id, pose.R, pose.t, pose.f * scale)
+    big.W, big.H = (x1 - x0) * scale, (y1 - y0) * scale
+    big.cx, big.cy = (pose.cx - x0) * scale, (pose.cy - y0) * scale
+    m = render_masks([o], big)[o["color"]].astype(np.float32)
+    return m.reshape(y1 - y0, scale, x1 - x0, scale).mean(axis=(1, 3)), window
+
+
+def _soft_iou(cov, mask, window):
+    """Soft IoU between a cropped coverage map and a full-size binary mask."""
+    if cov is None:
+        return 0.0
+    x0, y0, x1, y1 = window
+    m = mask[y0:y1, x0:x1].astype(np.float32)
+    inter = np.minimum(cov, m).sum()
+    union = np.maximum(cov, m).sum() + (mask.sum() - m.sum())  # blob pixels outside the window count against
+    return float(inter / union) if union else 1.0
 
 
 def render(objects, pose, path=None):
@@ -1027,25 +1179,39 @@ def _overlaps(objects):
     return False
 
 
+def _rotation_targets(o, pose_a, pose_b):
+    targets = [(pose, _matched_blob_mask(o, pose)[0]) for pose in (pose_a, pose_b)]
+    return [(p, m) for p, m in targets if m is not None]
+
+
+def _rotation_score(o, rot, targets):
+    cand = dict(o)
+    cand["rotation"] = list(rot)
+    vals = []
+    for p, m in targets:
+        cov, win = render_soft(cand, p)
+        vals.append(_soft_iou(cov, m, win))
+    return float(np.mean(vals)) if vals else 0.0
+
+
 def _fit_rotation(objects, i, pose_a, pose_b, n=40, seed=0):
-    """Random search over the rotation of cube i (rotation is a rendering nuisance, not part of the answer)."""
+    """Random search over the rotation of cube i against its own silhouette in both cameras (fast, sub-pixel)."""
     from scipy.spatial.transform import Rotation
 
     if objects[i]["shape"] != "cube":
         return objects
+    o = objects[i]
+    targets = _rotation_targets(o, pose_a, pose_b)
+    if not targets:
+        return objects
     rng = np.random.default_rng(seed)
-    best_objs = objects
-    best = compare(objects, pose_a, pose_b, verbose=False)["score"]
-    cands = [objects[i].get("rotation") or [0.0, 0.0, 0.0]] + [
+    cands = [o.get("rotation") or [0.0, 0.0, 0.0]] + [
         list(Rotation.random(random_state=int(rng.integers(1 << 30))).as_euler("xyz")) for _ in range(n)
     ]
-    for rot in cands:
-        trial = [dict(o) for o in objects]
-        trial[i]["rotation"] = [float(r) for r in rot]
-        sc = compare(trial, pose_a, pose_b, verbose=False)["score"]
-        if sc > best + 1e-4:
-            best, best_objs = sc, trial
-    return best_objs
+    best_rot = max(cands, key=lambda r: _rotation_score(o, r, targets))
+    out = [dict(x) for x in objects]
+    out[i]["rotation"] = [float(r) for r in best_rot]
+    return out
 
 
 def local_search(objects, pose_a, pose_b, passes=6, try_sizes=True, verbose=True):
@@ -1094,30 +1260,200 @@ def local_search(objects, pose_a, pose_b, passes=6, try_sizes=True, verbose=True
     return objs
 
 
-def refine_rotation(objects, pose_a, pose_b, i, verbose=True):
-    """Polish cube i's orientation: random search followed by shrinking local perturbations (orientation is scored
-    to about 10 degrees, modulo the cube's own symmetries). Returns the updated list."""
+def refine_rotation(objects, pose_a, pose_b, i, n=300, verbose=True):
+    """Polish cube i's orientation against its own silhouette in both cameras (sub-pixel coverage): random search
+    over `n` orientations, shrinking coordinate steps, then a Powell polish. Orientation is scored to about
+    10 degrees modulo the cube's own symmetries. Returns the updated list."""
+    from scipy.optimize import minimize
+    from scipy.spatial.transform import Rotation
+
     if objects[i]["shape"] != "cube":
         return objects
-    objs = _fit_rotation(objects, i, pose_a, pose_b, n=60, seed=7)
-    best = compare(objs, pose_a, pose_b, verbose=False)["score"]
-    for step in (0.3, 0.15, 0.07, 0.035):
+    o = objects[i]
+    targets = _rotation_targets(o, pose_a, pose_b)
+    if not targets:
+        if verbose:
+            print(f"refine_rotation #{i}: no matching blob, rotation unchanged")
+        return objects
+    score = lambda rot: _rotation_score(o, rot, targets)  # noqa: E731
+    rng = np.random.default_rng(7)
+    cands = [o.get("rotation") or [0.0, 0.0, 0.0]] + [list(Rotation.random(random_state=int(rng.integers(1 << 30))).as_euler("xyz")) for _ in range(n)]
+    best_rot = max(cands, key=score)
+    best = score(best_rot)
+    for step in (0.3, 0.15, 0.07, 0.035, 0.017):
         improved = True
         while improved:
             improved = False
-            base = objs[i].get("rotation") or [0.0, 0.0, 0.0]
             for axis in range(3):
                 for d in (-step, step):
-                    trial = [dict(o) for o in objs]
-                    rot = list(base)
+                    rot = list(best_rot)
                     rot[axis] += d
-                    trial[i]["rotation"] = rot
-                    sc = compare(trial, pose_a, pose_b, verbose=False)["score"]
-                    if sc > best + 1e-4:
-                        best, objs, improved = sc, trial, True
-                        base = rot
+                    sc = score(rot)
+                    if sc > best + 1e-5:
+                        best, best_rot, improved = sc, rot, True
+    try:
+        res = minimize(lambda r: -score(r), best_rot, method="Powell", options={"xtol": 1e-3, "ftol": 1e-5, "maxfev": 400})
+        if -res.fun > best:
+            best, best_rot = float(-res.fun), list(res.x)
+    except Exception:
+        pass
+    out = [dict(x) for x in objects]
+    out[i]["rotation"] = [float(r) for r in best_rot]
     if verbose:
-        print(f"refine_rotation #{i}: rotation={[round(r, 3) for r in objs[i]['rotation']]} score={best}")
+        print(f"refine_rotation #{i}: rotation={[round(r, 3) for r in best_rot]} silhouette IoU={best:.3f}")
+    return out
+
+
+def refine_all_rotations(objects, pose_a, pose_b, verbose=True):
+    """refine_rotation for every cube."""
+    for i, o in enumerate(objects):
+        if o["shape"] == "cube":
+            objects = refine_rotation(objects, pose_a, pose_b, i, verbose=verbose)
+    return objects
+
+
+def _ray_room_span(origin, direction):
+    """Parameter interval [t0, t1] where origin + t*direction lies inside the room (with a small margin)."""
+    t0, t1 = -np.inf, np.inf
+    for k in range(3):
+        if abs(direction[k]) < 1e-9:
+            if not (0.05 <= origin[k] <= 0.95):
+                return None
+            continue
+        a = (0.05 - origin[k]) / direction[k]
+        b = (0.95 - origin[k]) / direction[k]
+        lo, hi = min(a, b), max(a, b)
+        t0, t1 = max(t0, lo), min(t1, hi)
+    if t1 <= t0:
+        return None
+    return max(t0, 0.0), t1
+
+
+def _residual_mask(objects, pose, color):
+    """Real pixels of `color` not explained by the current objects."""
+    real = color_masks(load_image(pose.cam_id))[color]
+    pred = render_masks(objects, pose)[color]
+    return real & ~pred
+
+
+def explain_unpaired(objects, pose_a, pose_b, matches, blobs_a, blobs_b, min_score=0.35, verbose=True):
+    """For every blob that auto_match left without a partner (usually an object that shares a blob with another
+    object in the other view, or is hidden there), search along its viewing ray for the object that best explains
+    it: every depth inside the room x legal sizes x sphere/cube (rotation fitted). The candidate is scored by its
+    silhouette overlap with the unpaired blob and with the still-unexplained pixels of that colour in the other
+    view. Accepted candidates are appended (printed as AUTO-ADDED) so you can veto them. Returns the new list."""
+    from scipy.spatial.transform import Rotation
+
+    objs = [dict(o) for o in objects]
+    used_a = {m["a"] for m in matches}
+    used_b = {m["b"] for m in matches}
+    todo = [("A", j) for j in range(len(blobs_a)) if j not in used_a] + [("B", j) for j in range(len(blobs_b)) if j not in used_b]
+    poses = {"A": pose_a, "B": pose_b}
+    masks = {"A": _blob_masks("A"), "B": _blob_masks("B")}
+    rng = np.random.default_rng(5)
+    rots = [[0.0, 0.0, 0.0]] + [list(Rotation.random(random_state=int(rng.integers(1 << 30))).as_euler("xyz")) for _ in range(20)]
+    for cam, j in todo:
+        blob = (blobs_a if cam == "A" else blobs_b)[j]
+        pose = poses[cam]
+        other = "B" if cam == "A" else "A"
+        opose = poses[other]
+        own_mask = masks[cam][j]
+        # is this blob already explained by an existing object (e.g. a second blob of an occluded object)?
+        if (own_mask & render_masks(objs, pose)[blob["color"]]).sum() > 0.5 * own_mask.sum():
+            continue
+        resid_other = _residual_mask(objs, opose, blob["color"])
+        o, d = pose.ray(*blob["centroid"])
+        span = _ray_room_span(o, d)
+        if span is None:
+            continue
+        best = None
+        for t in np.linspace(span[0], span[1], 30):
+            p = o + t * d
+            for size in SIZES:
+                for shape in ("sphere", "cube"):
+                    for rot in (rots if shape == "cube" else [None]):
+                        cand = {"shape": shape, "color": blob["color"], "size": size, "position": [float(v) for v in p]}
+                        if rot is not None:
+                            cand["rotation"] = rot
+                        cov, win = render_soft(cand, pose)
+                        s_own = _soft_iou(cov, own_mask, win)
+                        cov2, win2 = render_soft(cand, opose)
+                        if cov2 is not None:
+                            # overlap with unexplained pixels in the other view (intersection over candidate area)
+                            x0, y0, x1, y1 = win2
+                            inter = np.minimum(cov2, resid_other[y0:y1, x0:x1]).sum()
+                            s_other = float(inter / max(cov2.sum(), 1e-6))
+                            score = 0.6 * s_own + 0.4 * s_other
+                        else:
+                            score = s_own
+                        if best is None or score > best[0]:
+                            best = (score, cand, s_own, s_other if cov2 is not None else None)
+        if best is None or best[0] < min_score:
+            if verbose:
+                print(f"unpaired {blob['color']} blob {j} in {cam} at {blob['centroid']}: no consistent object found (best {0 if best is None else round(best[0], 2)}); it may be a reflection of an object you already have, or you may need object_from_pixels")
+            continue
+        cand = snap([best[1]])[0]
+        if _overlaps(objs + [cand]):
+            if verbose:
+                print(f"unpaired {blob['color']} blob {j} in {cam}: best explanation {cand} overlaps an existing object; skipped")
+            continue
+        objs.append(cand)
+        if verbose:
+            print(f"AUTO-ADDED from unpaired {blob['color']} blob {j} in {cam} at {blob['centroid']}: {cand} (own IoU {best[2]:.2f}, other-view support {best[3] if best[3] is None else round(best[3], 2)}). Veto it if you do not see this object.")
+    return objs
+
+
+def solve_all(shapes=None, verbose=True):
+    """One-shot pipeline: outline -> cameras -> align -> blobs -> match -> hypothesis -> shape check -> refine.
+    `shapes` (optional) is your visual inventory for the matched pairs, in the order auto_match prints them; if
+    omitted, shapes start from blob circularity and the silhouette shape check decides. Unpaired blobs are
+    explained automatically (explain_unpaired) and printed as AUTO-ADDED. Prints everything you need to review
+    (cameras, blobs, matches, auto-added objects, shape verdicts, compare report) and returns a dict with
+    pose_a, pose_b, blobs_a, blobs_b, matches, objects, report."""
+    room_outline("A", verbose=verbose)
+    room_outline("B", verbose=verbose)
+    pa = solve_camera("A", verbose=verbose)
+    pb = solve_camera("B", verbose=verbose)
+    ba = blobs("A", verbose=verbose)
+    bb = blobs("B", verbose=verbose)
+    pb = align(pa, pb, ba, bb, verbose=verbose)
+    if verbose:
+        print("matches (A blob <-> B blob):")
+    matches = auto_match(pa, pb, ba, bb, verbose=verbose)
+    if not matches:
+        raise RuntimeError("no blob pairs matched across the two views; check the outlines and blobs")
+    if shapes is None:
+        shapes = []
+        for m in matches:
+            circ = 0.5 * (ba[m["a"]]["circularity"] + bb[m["b"]]["circularity"])
+            shapes.append("sphere" if circ > 0.95 else "cube")
+    objs = initial_hypothesis(pa, pb, matches, shapes, ba, bb, verbose=verbose)
+    objs = local_search(objs, pa, pb, passes=3, verbose=False)
+    if verbose:
+        print("unpaired blobs:")
+    objs = explain_unpaired(objs, pa, pb, matches, ba, bb, verbose=verbose)
+    if verbose:
+        print("shape check:")
+    rec = shape_check(objs, pa, pb, verbose=verbose)
+    objs = apply_shapes(objs, rec)
+    objs = local_search(objs, pa, pb, verbose=False)
+    objs = refine_all_rotations(objs, pa, pb, verbose=False)
+    if verbose:
+        print("compare:")
+    report = compare(objs, pa, pb, verbose=verbose)
+    if verbose:
+        print("current answer:")
+        print(to_json(objs))
+    return {"pose_a": pa, "pose_b": pb, "blobs_a": ba, "blobs_b": bb, "matches": matches, "objects": objs, "report": report}
+
+
+def finish(objects, pose_a, pose_b, verbose=True):
+    """After you have corrected the inventory: refine positions/sizes/rotations, verify, and print the answer."""
+    objs = local_search(objects, pose_a, pose_b, verbose=False)
+    objs = refine_all_rotations(objs, pose_a, pose_b, verbose=False)
+    compare(objs, pose_a, pose_b, verbose=verbose)
+    if verbose:
+        print(to_json(objs))
     return objs
 
 
