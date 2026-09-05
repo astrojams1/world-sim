@@ -43,3 +43,5 @@ next-env.d.ts
 # benchmark session transcripts (large, diagnostic only)
 bench/logs/
 __pycache__/
+# helper transcript written when the sandbox module runs outside the sandbox
+src/lib/sandbox/session_log.txt
