@@ -835,13 +835,13 @@ def triangulate(pose_a, uv_a, pose_b, uv_b):
     return (p1 + p2) / 2, float(np.linalg.norm(p1 - p2))
 
 
-def _match_cost(pose_a, pose_b, blobs_a, blobs_b, size_weight=0.0):
+def _match_cost(pose_a, pose_b, blobs_a, blobs_b, size_weight=0.0, unpaired=0.15):
     """Best pairing of same-colour blobs across the views by triangulation residual (unpaired blobs cost 0.08).
     The pair costs are computed once and the assignment is solved exactly (Hungarian algorithm with a 0.3 dummy
     per blob), so any number of objects is tractable."""
     from scipy.optimize import linear_sum_assignment
 
-    UNPAIRED = 0.08  # a pair must cost under 0.16: correct pairs have ray gaps up to 0.075 (99th percentile 0.058) plus a small size term; wrong ones are often above
+    UNPAIRED = unpaired  # a pair must cost under 2 x unpaired or both blobs stay unpaired
     best_total, best_pairs = 0.0, []
     for color in ("red", "blue"):
         ia = [i for i, b in enumerate(blobs_a) if b["color"] == color]
@@ -896,7 +896,10 @@ def auto_match(pose_a, pose_b, blobs_a=None, blobs_b=None, verbose=True):
         blobs_a = blobs("A", verbose=False)
     if blobs_b is None:
         blobs_b = blobs("B", verbose=False)
-    _, pairs = _match_cost(pose_a, pose_b, blobs_a, blobs_b, size_weight=0.15)
+    # final pairing: a pair must cost under 0.16 (correct pairs have ray gaps up to 0.075, 99th percentile 0.058,
+    # plus a small size term; wrong pairs are often above). The frame scoring in align() keeps the 0.15 penalty:
+    # a cheap "unpaired" there would favour frames that pair fewer blobs.
+    _, pairs = _match_cost(pose_a, pose_b, blobs_a, blobs_b, size_weight=0.15, unpaired=0.08)
     matches = [{"a": i, "b": j, "point": [round(float(v), 3) for v in p], "residual": round(r, 3)} for i, j, p, r in pairs]
     if verbose:
         for m in matches:
