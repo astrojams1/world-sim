@@ -813,12 +813,12 @@ def triangulate(pose_a, uv_a, pose_b, uv_b):
 
 
 def _match_cost(pose_a, pose_b, blobs_a, blobs_b, size_weight=0.0):
-    """Best pairing of same-colour blobs across the views by triangulation residual (unpaired blobs cost 0.3).
+    """Best pairing of same-colour blobs across the views by triangulation residual (unpaired blobs cost 0.15).
     The pair costs are computed once and the assignment is solved exactly (Hungarian algorithm with a 0.3 dummy
     per blob), so any number of objects is tractable."""
     from scipy.optimize import linear_sum_assignment
 
-    UNPAIRED = 0.3
+    UNPAIRED = 0.15  # a pair must cost under 0.3 (real pairs cost about 0.05) or both blobs stay unpaired
     best_total, best_pairs = 0.0, []
     for color in ("red", "blue"):
         ia = [i for i, b in enumerate(blobs_a) if b["color"] == color]
@@ -834,7 +834,9 @@ def _match_cost(pose_a, pose_b, blobs_a, blobs_b, size_weight=0.0):
         for r_i, i in enumerate(ia):
             for c_j, j in enumerate(ib):
                 p, r = triangulate(pose_a, blobs_a[i]["centroid"], pose_b, blobs_b[j]["centroid"])
-                inside = all(-0.1 <= v <= 1.1 for v in p)
+                # an object's centre is at least 0.1 from every wall (size/2 + 0.05), so a triangulated point
+                # outside [0.05, 0.95] is a wrong pairing or a wrong frame
+                inside = all(0.05 <= v <= 0.95 for v in p)
                 # appearance consistency: the physical size implied by the blob width in each view must agree
                 sa = apparent_size(pose_a, blobs_a[i], p, "sphere")
                 sb = apparent_size(pose_b, blobs_b[j], p, "sphere")
@@ -1744,6 +1746,7 @@ def explain_unpaired(objects, pose_a, pose_b, matches, blobs_a, blobs_b, min_sco
         if span is None:
             continue
         best = None
+        ranked = []  # every candidate scored, so that the best NON-overlapping one can be chosen
         step = (span[1] - span[0]) / 14
         depths = list(np.linspace(span[0], span[1], 15))
         for t in depths:
@@ -1774,8 +1777,9 @@ def explain_unpaired(objects, pose_a, pose_b, matches, blobs_a, blobs_b, min_sco
                             score = 0.6 * s_own + 0.4 * s_other
                         else:
                             score = s_own
+                        ranked.append((score, cand, s_own, s_other if cov2 is not None else None))
                         if best is None or score > best[0]:
-                            best = (score, cand, s_own, s_other if cov2 is not None else None)
+                            best = ranked[-1]
         if best is not None:
             # fine pass: neighbouring depths around the best, same shape and size, a few rotations
             base = dict(best[1])
@@ -1802,18 +1806,29 @@ def explain_unpaired(objects, pose_a, pose_b, matches, blobs_a, blobs_b, min_sco
                         sc = 0.6 * s_own + 0.4 * s_other
                     else:
                         s_other, sc = None, s_own
+                    ranked.append((sc, cand, s_own, s_other))
                     if sc > best[0]:
-                        best = (sc, cand, s_own, s_other)
+                        best = ranked[-1]
         if best is None or best[0] < min_score:
             if verbose:
                 _out(f"unpaired {blob['color']} blob {j} in {cam} at {blob['centroid']}: no consistent object found (best {0 if best is None else round(best[0], 2)}); it may be a reflection of an object you already have, or you may need object_from_pixels")
             continue
-        cand = snap([best[1]])[0]
-        # only the new object is tested (existing objects may already sit closer together than the rule allows)
-        if any(_overlaps([cand, o]) for o in objs):
+        # the best candidate that does not overlap an existing object (only the new object is tested: existing
+        # objects may already sit closer together than the rule allows)
+        ranked.sort(key=lambda c: -c[0])
+        chosen, cand = None, None
+        for c in ranked:
+            if c[0] < min_score:
+                break
+            trial = snap([c[1]])[0]
+            if not any(_overlaps([trial, o]) for o in objs):
+                chosen, cand = c, trial
+                break
+        if chosen is None:
             if verbose:
-                _out(f"unpaired {blob['color']} blob {j} in {cam}: best explanation {cand} overlaps an existing object; skipped")
+                _out(f"unpaired {blob['color']} blob {j} in {cam}: every consistent explanation overlaps an existing object; skipped")
             continue
+        best = chosen
         objs.append(cand)
         if verbose:
             _out(f"AUTO-ADDED from unpaired {blob['color']} blob {j} in {cam} at {blob['centroid']}: {cand} (own IoU {best[2]:.2f}, other-view support {best[3] if best[3] is None else round(best[3], 2)}). Veto it if you do not see this object.")
