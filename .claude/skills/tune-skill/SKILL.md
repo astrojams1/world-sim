@@ -16,6 +16,8 @@ benchmark stops improving or the user stops you.
   effort defaults, and the request plumbing as long as it carries nothing new. NOT allowed: touching the scorer to
   make scoring easier, the generator to make rooms easier, or the benchmark seed set.
 - Every run must pass `npm run check:no-cheating` (static) and the bench's runtime request check (no violations).
+- A room that fails with an API-side error (rate limit, moderation false positive, network) is retried once by the
+  bench (`--retry-errors`); a timeout or a bad answer is never retried. Say so in the report when it happens.
 
 ## The benchmark
 
@@ -23,7 +25,8 @@ benchmark stops improving or the user stops you.
   about the model. `bench/BENCH.md` holds the record and the history.
 - Metrics per run: mean score (primary), exact matches, mean seconds, mean tokens, estimated cost per room.
 - A **record** is: mean score at least 1.0 point above the current record, OR mean score within 1.0 point of the
-  record with cost per room at least 20% lower. Ties go to the cheaper run.
+  record with cost per room at least 20% lower, OR mean score within 1.0 point of the record with time per room at
+  least 30% lower. Ties go to the cheaper, then faster, run.
 - Single runs are noisy (several points). A candidate record must be **confirmed by a second run** of the same
   configuration; the record is the mean of both runs. Do not spend the confirmation run on non-candidates.
 

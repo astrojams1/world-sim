@@ -33,6 +33,9 @@ const url = args.url ?? "http://localhost:3000/";
 const label = args.label ?? new Date().toISOString().replace(/[:.]/g, "-");
 const outDir = args.out ?? "bench/results";
 const timeoutMs = Number(args.timeout ?? 1500000);
+// Rooms whose run failed with an API-side error (rate limit, moderation false positive, network) are retried once;
+// such failures say nothing about the skill. Timeouts and model answers are never retried.
+const retryErrors = Number(args["retry-errors"] ?? 1);
 
 // Published list prices (USD per 1M tokens) used for the cost estimate; edit if pricing changes.
 const PRICES = {
@@ -127,7 +130,12 @@ await Promise.all(
   Array.from({ length: Math.min(parallel, queue.length) }, async () => {
     while (queue.length) {
       const seed = queue.shift();
-      const row = await runSeed(browser, seed);
+      let row = await runSeed(browser, seed);
+      for (let attempt = 0; attempt < retryErrors && row.error && !/timeout/i.test(row.error); attempt++) {
+        console.log(JSON.stringify({ seed, retry: attempt + 1, error: row.error }));
+        row = await runSeed(browser, seed);
+        row.retried = attempt + 1;
+      }
       rows.push(row);
       console.log(JSON.stringify({ seed: row.seed, score: row.score, exact: row.exact, seconds: row.seconds, tokens: row.tokens?.total ?? null, costUsd: row.costUsd?.toFixed(3) ?? null, codeRuns: row.codeRuns, violations: row.violations, error: row.error }));
     }
