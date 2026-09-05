@@ -985,10 +985,28 @@ def object_from_pixels(pose_a, uv_a, pose_b, uv_b, shape, color, size=None, widt
     return o
 
 
-def _matched_blob_mask(o, pose):
-    """Mask of the real blob (same colour) nearest to where object o projects in this camera, and its width."""
+def _hidden_fraction(o, others, pose):
+    """Fraction of object o's silhouette in this camera that lies behind nearer objects in `others`."""
+    if not others:
+        return 0.0
+    own = render_masks([o], pose)[o["color"]]
+    n = own.sum()
+    if n == 0:
+        return 0.0
+    pr = pose.project(np.array(o["position"], dtype=float))
+    if pr is None:
+        return 0.0
+    hidden = own & (_depth_buffer(others, pose) < pr[2])
+    return float(hidden.sum() / n)
+
+
+def _matched_blob_mask(o, pose, others=None):
+    """Mask of the real blob (same colour) nearest to where object o projects in this camera, and its width.
+    A view in which the object is mostly hidden behind other objects (`others`) has no usable blob."""
     pr = pose.project(o["position"])
     if pr is None:
+        return None, None
+    if others is not None and _hidden_fraction(o, others, pose) > 0.5:
         return None, None
     real = blobs(pose.cam_id, verbose=False)
     masks = _blob_masks(pose.cam_id)
@@ -1004,14 +1022,14 @@ def _matched_blob_mask(o, pose):
     return masks[best], real[best]
 
 
-def _object_fit(o, pose_a, pose_b, shape, n_rot=40, seed=3):
+def _object_fit(o, pose_a, pose_b, shape, n_rot=40, seed=3, others=None):
     """Best per-object silhouette IoU (mean over the two cameras) for `shape`, over legal sizes and, for cubes,
     random rotations. Returns (score, size, rotation)."""
     from scipy.spatial.transform import Rotation
 
     targets = []
     for pose in (pose_a, pose_b):
-        m, b = _matched_blob_mask(o, pose)
+        m, b = _matched_blob_mask(o, pose, others)
         targets.append((pose, m))
     if all(m is None for _, m in targets):
         return None
@@ -1058,12 +1076,14 @@ def shading_flatness(cam_id, blob_index):
 _FLAT_THRESHOLD = {0.10: 0.20, 0.15: 0.32, 0.20: 0.48}
 
 
-def _shading_vote(o, pose_a, pose_b, size):
+def _shading_vote(o, pose_a, pose_b, size, others=None):
     """Mean flatness over the blobs the object matches, minus the size-aware threshold: > 0 says cube, < 0 sphere."""
     vals = []
     for pose in (pose_a, pose_b):
         pr = pose.project(o["position"])
         if pr is None:
+            continue
+        if others is not None and _hidden_fraction(o, others, pose) > 0.5:
             continue
         real = blobs(pose.cam_id, verbose=False)
         best, bd = None, 1e9
@@ -1092,7 +1112,8 @@ def shape_check(objects, pose_a, pose_b, margin=0.03, cube_margin=0.06, verbose=
     clearly see the contrary in BOTH images."""
     recommended = []
     for i, o in enumerate(objects):
-        fits = {shape: _object_fit(o, pose_a, pose_b, shape) for shape in ("sphere", "cube")}
+        others = [x for k, x in enumerate(objects) if k != i]
+        fits = {shape: _object_fit(o, pose_a, pose_b, shape, others=others) for shape in ("sphere", "cube")}
         if fits["sphere"] is None or fits["cube"] is None:
             recommended.append(o["shape"])
             if verbose:
@@ -1101,7 +1122,7 @@ def shape_check(objects, pose_a, pose_b, margin=0.03, cube_margin=0.06, verbose=
         # a blob much wider than the object's own render means two objects share it: unreliable
         shared = False
         for pose in (pose_a, pose_b):
-            m, b = _matched_blob_mask(o, pose)
+            m, b = _matched_blob_mask(o, pose, others)
             if b is not None:
                 r = render_masks([o], pose)[o["color"]]
                 xs = np.nonzero(r.any(axis=0))[0]
@@ -1118,7 +1139,7 @@ def shape_check(objects, pose_a, pose_b, margin=0.03, cube_margin=0.06, verbose=
         scale = min(1.0, max(0.5, (fits["cube"][1] if other == "cube" else fits["sphere"][1]) / 0.15))
         need = (cube_margin if other == "cube" else margin) * scale
         # shading (flat faces vs smooth gradient) arbitrates when the silhouettes are inconclusive
-        vote = None if shared else _shading_vote(o, pose_a, pose_b, c_size if other == "cube" else s_size)
+        vote = None if shared else _shading_vote(o, pose_a, pose_b, c_size if other == "cube" else s_size, others)
         if not shared and oth_sc - cur_sc > need:
             rec = other
         elif not shared and vote is not None and abs(oth_sc - cur_sc) <= need and abs(vote) > 0.05:
@@ -1174,6 +1195,19 @@ def _cube_corners(c, s, rot):
     h = s / 2
     R = _euler_matrix(*rot) if rot is not None else np.eye(3)
     return [np.asarray(c) + R @ np.array([dx * h, dy * h, dz * h]) for dx in (-1, 1) for dy in (-1, 1) for dz in (-1, 1)]
+
+
+def _depth_buffer(objects, pose):
+    """Per-pixel depth of the nearest object silhouette in this camera (inf where no object is drawn)."""
+    W, H = pose.W, pose.H
+    depth_buf = np.full((H, W), np.inf)
+    for o in objects:
+        m = render_masks([o], pose)[o["color"]]
+        pr = pose.project(np.array(o["position"], dtype=float))
+        if pr is None:
+            continue
+        depth_buf[m & (pr[2] < depth_buf)] = pr[2]
+    return depth_buf
 
 
 def render_masks(objects, pose):
@@ -1271,6 +1305,7 @@ def _iou(a, b):
 
 _BLOBMASK = {}
 _LAST_ISSUES = None  # open issues reported by the previous finish() call
+_REFINED = set()  # JSON of object lists that have already been through local_search + refine_all_rotations
 
 
 def _blob_masks(cam_id):
@@ -1400,8 +1435,8 @@ def _overlaps(objects):
     return False
 
 
-def _rotation_targets(o, pose_a, pose_b):
-    targets = [(pose, _matched_blob_mask(o, pose)[0]) for pose in (pose_a, pose_b)]
+def _rotation_targets(o, pose_a, pose_b, others=None):
+    targets = [(pose, _matched_blob_mask(o, pose, others)[0]) for pose in (pose_a, pose_b)]
     return [(p, m) for p, m in targets if m is not None]
 
 
@@ -1422,7 +1457,7 @@ def _fit_rotation(objects, i, pose_a, pose_b, n=40, seed=0):
     if objects[i]["shape"] != "cube":
         return objects
     o = objects[i]
-    targets = _rotation_targets(o, pose_a, pose_b)
+    targets = _rotation_targets(o, pose_a, pose_b, [x for k, x in enumerate(objects) if k != i])
     if not targets:
         return objects
     rng = np.random.default_rng(seed)
@@ -1511,7 +1546,7 @@ def refine_rotation(objects, pose_a, pose_b, i, n=300, try_sizes=True, verbose=T
     if objects[i]["shape"] != "cube":
         return objects
     o = dict(objects[i])
-    targets = _rotation_targets(o, pose_a, pose_b)
+    targets = _rotation_targets(o, pose_a, pose_b, [x for k, x in enumerate(objects) if k != i])
     if not targets:
         if verbose:
             _out(f"refine_rotation #{i}: no matching blob, rotation and size unchanged")
@@ -1623,6 +1658,7 @@ def explain_unpaired(objects, pose_a, pose_b, matches, blobs_a, blobs_b, min_sco
         if (own_mask & render_masks(objs, pose)[blob["color"]]).sum() > 0.5 * own_mask.sum():
             continue
         resid_other = _residual_mask(objs, opose, blob["color"])
+        depth_other = _depth_buffer(objs, opose)
         o, d = pose.ray(*blob["centroid"])
         span = _ray_room_span(o, d)
         if span is None:
@@ -1639,11 +1675,20 @@ def explain_unpaired(objects, pose_a, pose_b, matches, blobs_a, blobs_b, min_sco
                         cov, win = render_soft(cand, pose)
                         s_own = _soft_iou(cov, own_mask, win)
                         cov2, win2 = render_soft(cand, opose)
-                        if cov2 is not None:
-                            # overlap with unexplained pixels in the other view (intersection over candidate area)
+                        if cov2 is not None and cov2.sum() > 1e-6:
+                            # consistency with the other view: the part of the footprint hidden behind a nearer
+                            # object is consistent whatever the image shows there; the visible part must land on
+                            # unexplained pixels of the colour (a visible footprint on nothing is a contradiction)
                             x0, y0, x1, y1 = win2
-                            inter = np.minimum(cov2, resid_other[y0:y1, x0:x1]).sum()
-                            s_other = float(inter / max(cov2.sum(), 1e-6))
+                            pr2 = opose.project(p)
+                            hidden = (depth_other[y0:y1, x0:x1] < pr2[2]) if pr2 is not None else np.zeros_like(cov2, dtype=bool)
+                            visible = cov2 * ~hidden
+                            vis_area = visible.sum()
+                            if vis_area < 0.2 * cov2.sum():
+                                s_other = 0.5  # (almost) entirely hidden: the other view neither confirms nor denies
+                            else:
+                                inter = np.minimum(visible, resid_other[y0:y1, x0:x1]).sum()
+                                s_other = float(inter / vis_area)
                             score = 0.6 * s_own + 0.4 * s_other
                         else:
                             score = s_own
@@ -1704,6 +1749,7 @@ def solve_all(shapes=None, verbose=True):
     if any(a["size"] != b["size"] for a, b in zip(objs, before)):
         # a size changed: let the positions settle again (sizes now fixed)
         objs = local_search(objs, pa, pb, passes=2, try_sizes=False, verbose=False)
+    _REFINED.add(to_json(objs))
     if verbose:
         _out("compare:")
     report = compare(objs, pa, pb, verbose=verbose)
@@ -1714,9 +1760,17 @@ def solve_all(shapes=None, verbose=True):
 
 
 def finish(objects, pose_a, pose_b, verbose=True):
-    """After you have corrected the inventory: refine positions/sizes/rotations, verify, and print the answer."""
-    objs = local_search(objects, pose_a, pose_b, verbose=False)
-    objs = refine_all_rotations(objs, pose_a, pose_b, verbose=False)
+    """After you have corrected the inventory: refine positions/sizes/rotations, verify, and print the answer.
+    Objects that are exactly the list solve_all() (or a previous finish()) returned are already refined and are
+    only verified again."""
+    global _REFINED
+    key = to_json(objects)
+    if key in _REFINED:
+        objs = [dict(o) for o in objects]
+    else:
+        objs = local_search(objects, pose_a, pose_b, verbose=False)
+        objs = refine_all_rotations(objs, pose_a, pose_b, verbose=False)
+        _REFINED.add(to_json(objs))
     report = compare(objs, pose_a, pose_b, verbose=verbose)
     if verbose:
         issues = []
