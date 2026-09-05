@@ -33,8 +33,9 @@ if (/#[0-9a-f]{6}/i.test(skill)) fail.push("skill.ts: prompt contains a hex colo
 if (/scene\.json|truth|cams\.json/.test(helper)) fail.push("worldsim.py: references scene/truth data");
 const finds = [...helper.matchAll(/(?<!def )_find\((f?"[^"]*")\)/g)].map((m) => m[1]);
 for (const o of finds) if (!/camera_/.test(o)) fail.push(`worldsim.py: opens unexpected file ${o}`);
+// Any open() other than the images must be the append-mode write of the session transcript.
 const reads = [...helper.matchAll(/open\(([^)]*)\)/g)].map((m) => m[1]).filter((a) => !/_find\(/.test(a));
-for (const r of reads) fail.push(`worldsim.py: unexpected open(${r})`);
+for (const r of reads) if (!/^_LOG_PATH, "a"$/.test(r.trim())) fail.push(`worldsim.py: unexpected open(${r})`);
 
 // 5. The client sends nothing but the feeds.
 const body = app.match(/body: JSON\.stringify\(\{([\s\S]*?)\}\),/)?.[1] ?? "";

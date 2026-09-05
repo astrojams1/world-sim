@@ -37,7 +37,7 @@ The client uploads the feeds, starts a background response and polls for the res
 
 ## Models
 
-Default is `gpt-5-mini` (cheap, accepts images, has built-in reasoning, uses the sandbox reliably). `gpt-5.4-mini`, `gpt-5-nano`, `gpt-4.1-mini` and `gpt-4o-mini` are selectable. Reasoning effort applies to the gpt-5 family. A run takes roughly 1–5 minutes and a few cents (model tokens plus one code-interpreter session).
+Default is `gpt-5-mini` (cheap, accepts images, has built-in reasoning, uses the sandbox reliably). `gpt-5.4-mini`, `gpt-5-nano`, `gpt-4.1-mini` and `gpt-4o-mini` are selectable. Reasoning effort applies to the gpt-5 family and defaults to `low`: on the benchmark, low effort scores the same as medium at roughly half the time and 30% fewer tokens. A run takes roughly 30 s to 2 minutes and about 3.5 cents (model tokens plus one code-interpreter session).
 
 ## Running locally
 
