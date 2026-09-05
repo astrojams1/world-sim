@@ -59,7 +59,10 @@ ${BOOTSTRAP_SNIPPET}
 help(ws)  # read the API once
 \`\`\`
 
-worldsim API (pixel coordinates are (u, v) with (0,0) top-left; an "objects" list is a list of dicts in the output format below; cubes may carry a "rotation" used only for rendering):
+worldsim API (pixel coordinates are (u, v) with (0,0) top-left; an "objects" list is a list of dicts in the output format below):
+- ws.solve_all(shapes=None) -> runs the whole pipeline below in one call and prints everything; returns {pose_a, pose_b, blobs_a, blobs_b, matches, objects, report}. Pass shapes=[...] (one per printed match, in order) only if you already know them.
+- ws.finish(objects, poseA, poseB) -> refine positions, sizes and rotations, verify, print the answer JSON.
+Lower-level tools, for reconciling:
 - ws.room_outline(cam) -> the 6 pixel corners of the room's outline (verify them against the image; ws.set_room_outline(cam, corners) overrides them).
 - ws.solve_camera(cam) -> Pose: camera position, focal length and reprojection error, recovered from the outline and the unit-cube geometry. A reprojection error above a few pixels means the outline is wrong.
 - ws.align(poseA, poseB) -> poseB re-expressed in camera A's frame (it scores all 48 candidate frames by matching the colours of faces visible in both images and by how well same-colour blobs triangulate). It warns when ambiguous.
@@ -69,18 +72,16 @@ worldsim API (pixel coordinates are (u, v) with (0,0) top-left; an "objects" lis
 - ws.object_from_pixels(poseA, (u,v), poseB, (u,v), shape, color, width_px_a=...) -> one object from pixel centres you read off the images yourself; use it for objects merged into a shared blob, partly hidden, or missed by blobs().
 - ws.triangulate(poseA, (u,v), poseB, (u,v)) -> 3D point and ray gap; poseX.project([x,y,z]) -> pixel.
 - ws.compare(objects, poseA, poseB) -> renders the hypothesis in both cameras and compares with the real images: mean IoU (1.0 perfect; a correct answer typically scores 0.8-0.95), per-object pixel offsets (du, dv) and width ratios, phantom objects and UNEXPLAINED real blobs.
-- ws.shape_test(objects, poseA, poseB, i) -> IoU with object i as a sphere vs as a cube.
-- ws.local_search(objects, poseA, poseB) -> coordinate descent over positions, sizes and cube rotations to maximise IoU. It never changes shapes, colours or the object count; those are yours. ws.refine_rotation(objects, poseA, poseB, i) polishes cube i's orientation (scored to about 10 degrees).
+- ws.shape_check(objects, poseA, poseB) -> tests EVERY object as a sphere and as a rotation-fitted cube against both images and returns the recommended shapes; ws.apply_shapes(objects, shapes) applies them. ws.shape_test(objects, poseA, poseB, i) does one object.
+- ws.local_search(objects, poseA, poseB) -> coordinate descent over positions, sizes and cube rotations to maximise IoU. It never changes shapes, colours or the object count; those are yours. ws.refine_all_rotations(objects, poseA, poseB) polishes every cube's orientation against its own silhouette (orientation is scored to about 10 degrees); run it once at the end.
 - ws.snap(objects), ws.to_json(objects) -> final formatting (grid positions, legal sizes, cube rotations as fitted, null for spheres).
 
-## Method (follow it in order; do not skip the verification)
+## Method (follow it in order; keep it to at most 8 code cells)
 1. LOOK at both images (attached to this message and in the sandbox). Count the objects; note the colour and shape of each (a sphere has a round silhouette with a soft highlight; a cube has straight edges and flat faces, at any orientation). Objects may overlap or hide one another in one view: reconcile the count across both views. This visual inventory is the one thing the sandbox cannot do well - get it right, and remember it when a blob turns out to be two objects.
-2. CALIBRATE: ws.room_outline for both cameras (sanity-check the corners against the images), ws.solve_camera for both, then poseB = ws.align(poseA, poseB). Check the reprojection errors and the alignment message.
-3. MEASURE: ws.blobs for both cameras, then ws.auto_match. Map blobs to your inventory; unpaired or oversized blobs usually mean merged or hidden objects.
-4. HYPOTHESISE: ws.initial_hypothesis for the matched pairs with your shapes; add any merged/hidden object with ws.object_from_pixels using centres you read off the images.
-5. CHECK: ws.compare(objects, poseA, poseB). Read every line: large offsets or width ratios far from 1.0 mean a wrong object; UNEXPLAINED blobs mean missing objects or wrong colours; phantoms mean extra objects. Use ws.shape_test for doubtful shapes.
-6. RE-GUESS: fix what the check revealed, run ws.local_search, then ws.compare again. Repeat 5-6 until the score stops improving and every object has small offsets in BOTH cameras. Typically 2-4 iterations. Do NOT write brute-force searches over several objects at once (each compare takes ~0.1 s); ws.local_search plus targeted single-object trials is the intended tool. A final IoU of 0.8-0.95 is normal for a perfect answer; IoU is for comparing hypotheses, not a target to push to 1.0.
-7. OUTPUT the final ws.snap(objects) as JSON (positions on the 0.05 grid; cube rotations from the fit, which you should polish with ws.refine_rotation since orientation is scored).
+2. SOLVE: run the bootstrap, then in ONE cell: r = ws.solve_all(); objects = r["objects"]; poseA, poseB = r["pose_a"], r["pose_b"]. It calibrates both cameras from the room outline, aligns their frames, detects and pairs the blobs, builds a hypothesis, explains any unpaired blob by searching along its ray (printed as AUTO-ADDED), decides sphere vs cube from the silhouettes, refines positions/sizes/rotations and prints a compare report and the current answer. Read the whole printout: reprojection errors, the alignment message, the blob lists, AUTO-ADDED objects (veto any you cannot see), the shape verdicts, and every compare line.
+3. RECONCILE the printout with your inventory. Typical fixes: an object merged into a shared blob or hidden in one view -> add it with ws.object_from_pixels using centres you read off the images (an unpaired blob or a blob much wider than its object are the tell-tales); a phantom or duplicate -> remove it; a wrong colour -> fix it. Do NOT overrule the shape verdicts unless you can clearly see the contrary in BOTH images. Do not hand-tune positions or rotations; the tools do that better.
+4. FINISH: objects = ws.finish(objects, poseA, poseB) (refines, re-verifies, prints the answer). If the compare report still shows an UNEXPLAINED blob or a phantom, go back to step 3 once; otherwise stop. Do not iterate for small IoU gains: a correct answer typically scores 0.8-0.95 and IoU is not the target. Never write brute-force searches (each compare takes ~0.1 s).
+5. OUTPUT the printed JSON.
 
 ## Output
 Return JSON with exactly these keys:
