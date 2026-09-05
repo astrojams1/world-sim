@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/dGynHaIkxFNoCAbpA7iKzFV+E8k</id>
+  <title>arXiv Query: search_query=ti:"Scene as code" OR ti:"scene description" AND ti:"LLM" AND ti:"program" AND ti:"3D"&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T21:42:23Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22Scene+as+code%22+OR+(ti:%22scene+description%22+AND+(ti:%22LLM%22+AND+(ti:%22program%22+AND+ti:%223D%22)))&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/1506.05942v2</id>
+    <title>Scene-adaptive Coded Apertures Imaging</title>
+    <updated>2015-12-18T02:13:08Z</updated>
+    <link href="https://arxiv.org/abs/1506.05942v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1506.05942v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Coded aperture imaging systems have recently shown great success in recovering scene depth and extending the depth-of-field. The ideal pattern, however, would have to serve two conflicting purposes: 1) be broadband to ensure robust deconvolution and 2) has sufficient zero-crossings for a high depth discrepancy. This paper presents a simple but effective scene-adaptive coded aperture solution to bridge this gap. We observe that the geometric structures in a natural scene often exhibit only a few edge directions, and the successive frames are closely correlated. Therefore we adopt a spatial partitioning and temporal propagation scheme. In each frame, we address one principal direction by applying depth-discriminative codes along it and broadband codes along its orthogonal direction. Since within a frame only the regions with edge direction corresponding to its aperture code behaves well, we utilize the close among-frame correlation to propagate the high quality single frame results temporally to obtain high performance over the whole image lattice. To physically implement this scheme, we use a Liquid Crystal on Silicon (LCoS) microdisplay that permits fast changing pattern codes. Firstly, we capture the scene with a pinhole and analyze the scene content to determine primary edge orientations. Secondly, we sequentially apply the proposed coding scheme with these orientations in the following frames. Experiments on both synthetic and real scenes show that our technique is able to combine advantages of the state-of-the-art patterns for recovering better quality depth map and all-focus images.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2015-06-19T10:09:45Z</published>
+    <arxiv:comment>This paper has been withdrawn by the author due to bad motivation proof and poor experiment performance</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Xuehui Wang</name>
+    </author>
+    <author>
+      <name>Jinli Suo</name>
+    </author>
+    <author>
+      <name>Jingyi Yu</name>
+    </author>
+    <author>
+      <name>Yongdong Zhang</name>
+    </author>
+    <author>
+      <name>Qionghai Dai</name>
+    </author>
+  </entry>
+</feed>

@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/5tMQYvCI+/TTsYycqNAs5g0r7Qg</id>
+  <title>arXiv Query: search_query=abs:"multi-view" AND abs:"object pose" AND abs:"training-free" AND abs:"CAD model"&amp;id_list=&amp;start=0&amp;max_results=15</title>
+  <updated>2026-09-05T21:54:56Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=abs:%22multi-view%22+AND+(abs:%22object+pose%22+AND+(abs:%22training-free%22+AND+abs:%22CAD+model%22))&amp;start=0&amp;max_results=15&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>15</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2601.07333v1</id>
+    <title>OSCAR: Open-Set CAD Retrieval from a Language Prompt and a Single Image</title>
+    <updated>2026-01-12T08:59:22Z</updated>
+    <link href="https://arxiv.org/abs/2601.07333v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2601.07333v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>6D object pose estimation plays a crucial role in scene understanding for applications such as robotics and augmented reality. To support the needs of ever-changing object sets in such context, modern zero-shot object pose estimators were developed to not require object-specific training but only rely on CAD models. Such models are hard to obtain once deployed, and a continuously changing and growing set of objects makes it harder to reliably identify the instance model of interest. To address this challenge, we introduce an Open-Set CAD Retrieval from a Language Prompt and a Single Image (OSCAR), a novel training-free method that retrieves a matching object model from an unlabeled 3D object database. During onboarding, OSCAR generates multi-view renderings of database models and annotates them with descriptive captions using an image captioning model. At inference, GroundedSAM detects the queried object in the input image, and multi-modal embeddings are computed for both the Region-of-Interest and the database captions. OSCAR employs a two-stage retrieval: text-based filtering using CLIP identifies candidate models, followed by image-based refinement using DINOv2 to select the most visually similar object. In our experiments we demonstrate that OSCAR outperforms all state-of-the-art methods on the cross-domain 3D model retrieval benchmark MI3DOR. Furthermore, we demonstrate OSCAR's direct applicability in automating object model sourcing for 6D object pose estimation. We propose using the most similar object model for pose estimation if the exact instance is not available and show that OSCAR achieves an average precision of 90.48\% during object retrieval on the YCB-V object dataset. Moreover, we demonstrate that the most similar object model can be utilized for pose estimation using Megapose achieving better results than a reconstruction-based approach.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-01-12T08:59:22Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Tessa Pulli</name>
+    </author>
+    <author>
+      <name>Jean-Baptiste Weibel</name>
+    </author>
+    <author>
+      <name>Peter Hönig</name>
+    </author>
+    <author>
+      <name>Matthias Hirschmanner</name>
+    </author>
+    <author>
+      <name>Markus Vincze</name>
+    </author>
+    <author>
+      <name>Andreas Holzinger</name>
+    </author>
+  </entry>
+</feed>

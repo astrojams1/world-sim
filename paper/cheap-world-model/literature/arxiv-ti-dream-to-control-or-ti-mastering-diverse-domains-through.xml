@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/tJYhb50xmeXIjKoK9s6UKzDrCJ4</id>
+  <title>arXiv Query: search_query=ti:"Dream to Control" OR ti:"Mastering Diverse Domains through World Models"&amp;id_list=&amp;start=0&amp;max_results=8</title>
+  <updated>2026-09-05T21:42:50Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22Dream+to+Control%22+OR+ti:%22Mastering+Diverse+Domains+through+World+Models%22&amp;start=0&amp;max_results=8&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>8</opensearch:itemsPerPage>
+  <opensearch:totalResults>3</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2301.04104v2</id>
+    <title>Mastering Diverse Domains through World Models</title>
+    <updated>2024-04-17T17:41:20Z</updated>
+    <link href="https://arxiv.org/abs/2301.04104v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2301.04104v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Developing a general algorithm that learns to solve tasks across a wide range of applications has been a fundamental challenge in artificial intelligence. Although current reinforcement learning algorithms can be readily applied to tasks similar to what they have been developed for, configuring them for new application domains requires significant human expertise and experimentation. We present DreamerV3, a general algorithm that outperforms specialized methods across over 150 diverse tasks, with a single configuration. Dreamer learns a model of the environment and improves its behavior by imagining future scenarios. Robustness techniques based on normalization, balancing, and transformations enable stable learning across domains. Applied out of the box, Dreamer is the first algorithm to collect diamonds in Minecraft from scratch without human data or curricula. This achievement has been posed as a significant challenge in artificial intelligence that requires exploring farsighted strategies from pixels and sparse rewards in an open world. Our work allows solving challenging control problems without extensive experimentation, making reinforcement learning broadly applicable.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.ML" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-01-10T18:12:16Z</published>
+    <arxiv:comment>Website: https://danijar.com/dreamerv3</arxiv:comment>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Danijar Hafner</name>
+    </author>
+    <author>
+      <name>Jurgis Pasukonis</name>
+    </author>
+    <author>
+      <name>Jimmy Ba</name>
+    </author>
+    <author>
+      <name>Timothy Lillicrap</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1912.01603v3</id>
+    <title>Dream to Control: Learning Behaviors by Latent Imagination</title>
+    <updated>2020-03-17T17:10:58Z</updated>
+    <link href="https://arxiv.org/abs/1912.01603v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1912.01603v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Learned world models summarize an agent's experience to facilitate learning complex behaviors. While learning world models from high-dimensional sensory inputs is becoming feasible through deep learning, there are many potential ways for deriving behaviors from them. We present Dreamer, a reinforcement learning agent that solves long-horizon tasks from images purely by latent imagination. We efficiently learn behaviors by propagating analytic gradients of learned state values back through trajectories imagined in the compact state space of a learned world model. On 20 challenging visual control tasks, Dreamer exceeds existing approaches in data-efficiency, computation time, and final performance.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2019-12-03T18:57:16Z</published>
+    <arxiv:comment>9 pages, 12 figures</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Danijar Hafner</name>
+    </author>
+    <author>
+      <name>Timothy Lillicrap</name>
+    </author>
+    <author>
+      <name>Jimmy Ba</name>
+    </author>
+    <author>
+      <name>Mohammad Norouzi</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2604.22847v1</id>
+    <title>Dream-Cubed: Controllable Generative Modeling in Minecraft by Training on Billions of Cubes</title>
+    <updated>2026-04-22T00:46:12Z</updated>
+    <link href="https://arxiv.org/abs/2604.22847v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2604.22847v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We introduce Dream-Cubed, a large-scale dataset of Minecraft worlds at voxel resolution, and a family of models using cubes as powerful compositional units for efficient generation of interactive 3D environments. Dream-Cubed comprises tens of billions of tokens from a carefully curated mixture of procedural biome terrain and high-quality human-authored maps. We use this dataset to conduct the first large-scale study of 3D diffusion models for voxel generation, analyzing discrete and continuous diffusion formulations, data compositions, and architectural design choices. Our models operate directly in the space of blocks, enabling efficient and semantically grounded generation while supporting interactive user workflows such as inpainting and outpainting from user-authored blocks. To quantitatively evaluate our models, we adapt the FID metric to assess semantic differences between real and generated world renderings, and validate generation quality through a human preference study. We release the full dataset, code, and all our pretrained models, which we hope will provide a foundation for future research in efficient generative modeling for structured, interactive 3D environments.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-04-22T00:46:12Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Tim Merino</name>
+    </author>
+    <author>
+      <name>Sam Earle</name>
+    </author>
+    <author>
+      <name>Ryunosuke Iwai</name>
+    </author>
+    <author>
+      <name>Julian Togelius</name>
+    </author>
+    <author>
+      <name>Edoardo Cetin</name>
+    </author>
+  </entry>
+</feed>

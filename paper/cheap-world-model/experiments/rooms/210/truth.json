@@ -1,0 +1,59 @@
+{
+  "objects": [
+    {
+      "shape": "cube",
+      "color": "blue",
+      "size": 0.1,
+      "position": [
+        0.75,
+        0.45,
+        0.25
+      ],
+      "rotation": [
+        0.8,
+        2.419,
+        6.175
+      ]
+    },
+    {
+      "shape": "sphere",
+      "color": "blue",
+      "size": 0.2,
+      "position": [
+        0.3,
+        0.45,
+        0.2
+      ]
+    },
+    {
+      "shape": "cube",
+      "color": "blue",
+      "size": 0.2,
+      "position": [
+        0.7,
+        0.35,
+        0.7
+      ],
+      "rotation": [
+        3.233,
+        4.551,
+        1.59
+      ]
+    },
+    {
+      "shape": "cube",
+      "color": "blue",
+      "size": 0.2,
+      "position": [
+        0.35,
+        0.6,
+        0.5
+      ],
+      "rotation": [
+        3,
+        2.697,
+        2.653
+      ]
+    }
+  ]
+}

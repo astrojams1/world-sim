@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/xHCIvdaSorsZK5baHyQBiYlXoh0</id>
+  <title>arXiv Query: search_query=ti:"SpatialVLM" OR ti:"Chain-of-Spot" OR (ti:"VLM" AND ti:"zoom" AND ti:tool)&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T21:42:30Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22SpatialVLM%22+OR+(ti:%22Chain-of-Spot%22+OR+(ti:%22VLM%22+AND+(ti:%22zoom%22+AND+ti:tool)))&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>2</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2401.12168v1</id>
+    <title>SpatialVLM: Endowing Vision-Language Models with Spatial Reasoning Capabilities</title>
+    <updated>2024-01-22T18:01:01Z</updated>
+    <link href="https://arxiv.org/abs/2401.12168v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2401.12168v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Understanding and reasoning about spatial relationships is a fundamental capability for Visual Question Answering (VQA) and robotics. While Vision Language Models (VLM) have demonstrated remarkable performance in certain VQA benchmarks, they still lack capabilities in 3D spatial reasoning, such as recognizing quantitative relationships of physical objects like distances or size differences. We hypothesize that VLMs' limited spatial reasoning capability is due to the lack of 3D spatial knowledge in training data and aim to solve this problem by training VLMs with Internet-scale spatial reasoning data. To this end, we present a system to facilitate this approach. We first develop an automatic 3D spatial VQA data generation framework that scales up to 2 billion VQA examples on 10 million real-world images. We then investigate various factors in the training recipe, including data quality, training pipeline, and VLM architecture. Our work features the first internet-scale 3D spatial reasoning dataset in metric space. By training a VLM on such data, we significantly enhance its ability on both qualitative and quantitative spatial VQA. Finally, we demonstrate that this VLM unlocks novel downstream applications in chain-of-thought spatial reasoning and robotics due to its quantitative estimation capability. Project website: https://spatial-vlm.github.io/</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-01-22T18:01:01Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Boyuan Chen</name>
+    </author>
+    <author>
+      <name>Zhuo Xu</name>
+    </author>
+    <author>
+      <name>Sean Kirmani</name>
+    </author>
+    <author>
+      <name>Brian Ichter</name>
+    </author>
+    <author>
+      <name>Danny Driess</name>
+    </author>
+    <author>
+      <name>Pete Florence</name>
+    </author>
+    <author>
+      <name>Dorsa Sadigh</name>
+    </author>
+    <author>
+      <name>Leonidas Guibas</name>
+    </author>
+    <author>
+      <name>Fei Xia</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2403.12966v2</id>
+    <title>Chain-of-Spot: Interactive Reasoning Improves Large Vision-Language Models</title>
+    <updated>2024-03-21T16:26:44Z</updated>
+    <link href="https://arxiv.org/abs/2403.12966v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2403.12966v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>In the realm of vision-language understanding, the proficiency of models in interpreting and reasoning over visual content has become a cornerstone for numerous applications. However, it is challenging for the visual encoder in Large Vision-Language Models (LVLMs) to extract useful features tailored to questions that aid the language model's response. Furthermore, a common practice among existing LVLMs is to utilize lower-resolution images, which restricts the ability for visual recognition. Our work introduces the Chain-of-Spot (CoS) method, which we describe as Interactive Reasoning, a novel approach that enhances feature extraction by focusing on key regions of interest (ROI) within the image, corresponding to the posed questions or instructions. This technique allows LVLMs to access more detailed visual information without altering the original image resolution, thereby offering multi-granularity image features. By integrating Chain-of-Spot with instruct-following LLaVA-1.5 models, the process of image reasoning consistently improves performance across a wide range of multimodal datasets and benchmarks without bells and whistles and achieves new state-of-the-art results. Our empirical findings demonstrate a significant improvement in LVLMs' ability to understand and reason about visual content, paving the way for more sophisticated visual instruction-following applications. Code and models are available at https://github.com/dongyh20/Chain-of-Spot</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-03-19T17:59:52Z</published>
+    <arxiv:comment>Project Page: https://sites.google.com/view/chain-of-spot/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Zuyan Liu</name>
+    </author>
+    <author>
+      <name>Yuhao Dong</name>
+    </author>
+    <author>
+      <name>Yongming Rao</name>
+    </author>
+    <author>
+      <name>Jie Zhou</name>
+    </author>
+    <author>
+      <name>Jiwen Lu</name>
+    </author>
+  </entry>
+</feed>

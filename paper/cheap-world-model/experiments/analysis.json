@@ -1,0 +1,1605 @@
+{
+ "history": [
+  {
+   "label": "iter0-baseline",
+   "iter": 0,
+   "confirm": false,
+   "effort": "medium",
+   "mean": 90,
+   "exact": 2,
+   "sec": 231.7,
+   "tok": 23132,
+   "cost": 0.045,
+   "cells": 21.7
+  },
+  {
+   "label": "iter1-shape-check",
+   "iter": 1,
+   "confirm": false,
+   "effort": "medium",
+   "mean": 87.1,
+   "exact": 3,
+   "sec": 174.2,
+   "tok": 22089,
+   "cost": 0.044,
+   "cells": 20.3
+  },
+  {
+   "label": "iter2-solve-all",
+   "iter": 2,
+   "confirm": false,
+   "effort": "medium",
+   "mean": 91.1,
+   "exact": 3,
+   "sec": 243.2,
+   "tok": 15160,
+   "cost": 0.038,
+   "cells": 11.3
+  },
+  {
+   "label": "iter2-solve-all-confirm",
+   "iter": 2,
+   "confirm": true,
+   "effort": "medium",
+   "mean": 90.9,
+   "exact": 3,
+   "sec": 281.8,
+   "tok": 17429,
+   "cost": 0.04,
+   "cells": 16.6
+  },
+  {
+   "label": "iter3-fast-helper",
+   "iter": 3,
+   "confirm": false,
+   "effort": "medium",
+   "mean": 90.8,
+   "exact": 4,
+   "sec": 94.7,
+   "tok": 16809,
+   "cost": 0.04,
+   "cells": 11.9
+  },
+  {
+   "label": "iter3-fast-helper-confirm",
+   "iter": 3,
+   "confirm": true,
+   "effort": "medium",
+   "mean": 87.5,
+   "exact": 4,
+   "sec": 89.2,
+   "tok": 16373,
+   "cost": 0.04,
+   "cells": 13.6
+  },
+  {
+   "label": "iter4-verbatim-output",
+   "iter": 4,
+   "confirm": false,
+   "effort": "medium",
+   "mean": 92.7,
+   "exact": 5,
+   "sec": 97.1,
+   "tok": 17128,
+   "cost": 0.04,
+   "cells": 14.1
+  },
+  {
+   "label": "iter4-verbatim-output-confirm",
+   "iter": 4,
+   "confirm": true,
+   "effort": "medium",
+   "mean": 91.0,
+   "exact": 4,
+   "sec": 89.1,
+   "tok": 15339,
+   "cost": 0.039,
+   "cells": 13.2
+  },
+  {
+   "label": "iter5-small-cube-margin",
+   "iter": 5,
+   "confirm": false,
+   "effort": "medium",
+   "mean": 93,
+   "exact": 3,
+   "sec": 90.7,
+   "tok": 16886,
+   "cost": 0.04,
+   "cells": 14.1
+  },
+  {
+   "label": "iter5-small-cube-margin-confirm",
+   "iter": 5,
+   "confirm": true,
+   "effort": "medium",
+   "mean": 91.7,
+   "exact": 2,
+   "sec": 81.9,
+   "tok": 16814,
+   "cost": 0.04,
+   "cells": 12.8
+  },
+  {
+   "label": "iter6-hard-stop",
+   "iter": 6,
+   "confirm": false,
+   "effort": "medium",
+   "mean": 90.9,
+   "exact": 2,
+   "sec": 87.4,
+   "tok": 16173,
+   "cost": 0.04,
+   "cells": 11.6
+  },
+  {
+   "label": "iter7-shading-tiebreak",
+   "iter": 7,
+   "confirm": false,
+   "effort": "medium",
+   "mean": 95.8,
+   "exact": 4,
+   "sec": 85.2,
+   "tok": 14680,
+   "cost": 0.038,
+   "cells": 10
+  },
+  {
+   "label": "iter7-shading-tiebreak-confirm",
+   "iter": 7,
+   "confirm": true,
+   "effort": "medium",
+   "mean": 92.7,
+   "exact": 3,
+   "sec": 92.4,
+   "tok": 16453,
+   "cost": 0.04,
+   "cells": 13.8
+  },
+  {
+   "label": "iter8-pairing-size-term",
+   "iter": 8,
+   "confirm": false,
+   "effort": "medium",
+   "mean": 94.3,
+   "exact": 3,
+   "sec": 97.3,
+   "tok": 15368,
+   "cost": 0.039,
+   "cells": 11.4
+  },
+  {
+   "label": "iter9-low-effort",
+   "iter": 9,
+   "confirm": false,
+   "effort": "low",
+   "mean": 76.6,
+   "exact": 3,
+   "sec": 47.7,
+   "tok": 10845,
+   "cost": 0.034,
+   "cells": 7.2
+  },
+  {
+   "label": "iter10-low-effort-robust",
+   "iter": 10,
+   "confirm": false,
+   "effort": "low",
+   "mean": 86.8,
+   "exact": 4,
+   "sec": 47,
+   "tok": 7803,
+   "cost": 0.033,
+   "cells": 2.5
+  },
+  {
+   "label": "iter11-low-effort-outlines",
+   "iter": 11,
+   "confirm": false,
+   "effort": "low",
+   "mean": 90.4,
+   "exact": 3,
+   "sec": 61.7,
+   "tok": 7923,
+   "cost": 0.034,
+   "cells": 2.8
+  },
+  {
+   "label": "iter12-low-effort-nolog-tee",
+   "iter": 12,
+   "confirm": false,
+   "effort": "low",
+   "mean": 95.2,
+   "exact": 3,
+   "sec": 91.7,
+   "tok": 11828,
+   "cost": 0.036,
+   "cells": 4.3
+  },
+  {
+   "label": "iter12-low-effort-nolog-tee-confirm",
+   "iter": 12,
+   "confirm": true,
+   "effort": "low",
+   "mean": 92.3,
+   "exact": 3,
+   "sec": 60.8,
+   "tok": 10560,
+   "cost": 0.035,
+   "cells": 3
+  },
+  {
+   "label": "iter13-low-effort-fast-fallback",
+   "iter": 13,
+   "confirm": false,
+   "effort": "low",
+   "mean": 94.3,
+   "exact": 3,
+   "sec": 62.4,
+   "tok": 10856,
+   "cost": 0.035,
+   "cells": 3
+  },
+  {
+   "label": "iter14-low-effort-pentagon",
+   "iter": 14,
+   "confirm": false,
+   "effort": "low",
+   "mean": 94.3,
+   "exact": 3,
+   "sec": 55.4,
+   "tok": 10422,
+   "cost": 0.035,
+   "cells": 2.6
+  },
+  {
+   "label": "iter14-low-effort-pentagon-confirm",
+   "iter": 14,
+   "confirm": true,
+   "effort": "low",
+   "mean": 94.6,
+   "exact": 4,
+   "sec": 72.7,
+   "tok": 10508,
+   "cost": 0.035,
+   "cells": 3
+  },
+  {
+   "label": "iter15-low-effort-fast-pose",
+   "iter": 15,
+   "confirm": false,
+   "effort": "low",
+   "mean": 96.4,
+   "exact": 5,
+   "sec": 57.8,
+   "tok": 11442,
+   "cost": 0.035,
+   "cells": 3.8
+  },
+  {
+   "label": "iter15-low-effort-fast-pose-confirm",
+   "iter": 15,
+   "confirm": true,
+   "effort": "low",
+   "mean": 96.4,
+   "exact": 5,
+   "sec": 43.7,
+   "tok": 10534,
+   "cost": 0.035,
+   "cells": 3
+  },
+  {
+   "label": "iter16-low-effort-size-rot-chroma",
+   "iter": 16,
+   "confirm": false,
+   "effort": "low",
+   "mean": 98.3,
+   "exact": 7,
+   "sec": 54.8,
+   "tok": 10613,
+   "cost": 0.035,
+   "cells": 3.1
+  },
+  {
+   "label": "iter16-low-effort-size-rot-chroma-confirm",
+   "iter": 16,
+   "confirm": true,
+   "effort": "low",
+   "mean": 88.3,
+   "exact": 6,
+   "sec": 64.9,
+   "tok": 10736,
+   "cost": 0.035,
+   "cells": 3
+  },
+  {
+   "label": "iter17-low-effort-final-banner",
+   "iter": 17,
+   "confirm": false,
+   "effort": "low",
+   "mean": 98.3,
+   "exact": 6,
+   "sec": 39.3,
+   "tok": 8551,
+   "cost": 0.033,
+   "cells": 2.1
+  },
+  {
+   "label": "iter17-low-effort-final-banner-confirm",
+   "iter": 17,
+   "confirm": true,
+   "effort": "low",
+   "mean": 98.3,
+   "exact": 6,
+   "sec": 38.7,
+   "tok": 8533,
+   "cost": 0.033,
+   "cells": 2.1
+  },
+  {
+   "label": "iter18-low-effort-occlusion",
+   "iter": 18,
+   "confirm": false,
+   "effort": "low",
+   "mean": 99.4,
+   "exact": 6,
+   "sec": 35.6,
+   "tok": 8457,
+   "cost": 0.033,
+   "cells": 2
+  },
+  {
+   "label": "iter18-low-effort-occlusion-confirm",
+   "iter": 18,
+   "confirm": true,
+   "effort": "low",
+   "mean": 99.4,
+   "exact": 6,
+   "sec": 36.4,
+   "tok": 8318,
+   "cost": 0.033,
+   "cells": 2
+  },
+  {
+   "label": "iter19-low-effort-one-cell",
+   "iter": 19,
+   "confirm": false,
+   "effort": "low",
+   "mean": 99.4,
+   "exact": 6,
+   "sec": 34.1,
+   "tok": 7260,
+   "cost": 0.033,
+   "cells": 1.1
+  },
+  {
+   "label": "iter20-low-effort-cheaper-search",
+   "iter": 20,
+   "confirm": false,
+   "effort": "low",
+   "mean": 99.4,
+   "exact": 6,
+   "sec": 32.1,
+   "tok": 7080,
+   "cost": 0.033,
+   "cells": 1.1
+  },
+  {
+   "label": "iter21-low-effort-lean-compute",
+   "iter": 21,
+   "confirm": false,
+   "effort": "low",
+   "mean": 99.5,
+   "exact": 6,
+   "sec": 25.9,
+   "tok": 7087,
+   "cost": 0.033,
+   "cells": 1
+  },
+  {
+   "label": "iter21-low-effort-lean-compute-confirm",
+   "iter": 21,
+   "confirm": true,
+   "effort": "low",
+   "mean": 99.5,
+   "exact": 6,
+   "sec": 26.8,
+   "tok": 7076,
+   "cost": 0.033,
+   "cells": 1
+  },
+  {
+   "label": "iter22-low-effort-short-notes",
+   "iter": 22,
+   "confirm": false,
+   "effort": "low",
+   "mean": 99.5,
+   "exact": 6,
+   "sec": 23.6,
+   "tok": 6755,
+   "cost": 0.032,
+   "cells": 1
+  },
+  {
+   "label": "iter22-low-effort-short-notes-confirm",
+   "iter": 22,
+   "confirm": true,
+   "effort": "low",
+   "mean": 99.5,
+   "exact": 6,
+   "sec": 23,
+   "tok": 6791,
+   "cost": 0.032,
+   "cells": 1
+  },
+  {
+   "label": "iter23-low-effort-compact-printout",
+   "iter": 23,
+   "confirm": false,
+   "effort": "low",
+   "mean": 99.5,
+   "exact": 6,
+   "sec": 21.1,
+   "tok": 6347,
+   "cost": 0.032,
+   "cells": 1
+  },
+  {
+   "label": "iter23-low-effort-compact-printout-confirm",
+   "iter": 23,
+   "confirm": true,
+   "effort": "low",
+   "mean": 99.5,
+   "exact": 6,
+   "sec": 23.4,
+   "tok": 6200,
+   "cost": 0.032,
+   "cells": 1
+  },
+  {
+   "label": "iter25-low-effort-shared-one-view",
+   "iter": 25,
+   "confirm": false,
+   "effort": "low",
+   "mean": 99.5,
+   "exact": 6,
+   "sec": 23.3,
+   "tok": 6290,
+   "cost": 0.032,
+   "cells": 1
+  }
+ ],
+ "record_rooms": [
+  {
+   "seed": 101,
+   "n": 5,
+   "s1": 99.3,
+   "s2": 99.3,
+   "sec": 28.5,
+   "tok": {
+    "input": 6337,
+    "cached": 2688,
+    "output": 495,
+    "reasoning": 192,
+    "total": 6832
+   },
+   "issues": [
+    "pos 0.071"
+   ],
+   "cells": 1
+  },
+  {
+   "seed": 102,
+   "n": 3,
+   "s1": 100,
+   "s2": 100,
+   "sec": 17.4,
+   "tok": {
+    "input": 5420,
+    "cached": 2688,
+    "output": 332,
+    "reasoning": 128,
+    "total": 5752
+   },
+   "issues": [
+    "\u2014"
+   ],
+   "cells": 1
+  },
+  {
+   "seed": 103,
+   "n": 3,
+   "s1": 100,
+   "s2": 100,
+   "sec": 17.5,
+   "tok": {
+    "input": 5565,
+    "cached": 2688,
+    "output": 365,
+    "reasoning": 128,
+    "total": 5930
+   },
+   "issues": [
+    "\u2014"
+   ],
+   "cells": 1
+  },
+  {
+   "seed": 104,
+   "n": 5,
+   "s1": 99.9,
+   "s2": 99.9,
+   "sec": 31.1,
+   "tok": {
+    "input": 6113,
+    "cached": 3072,
+    "output": 533,
+    "reasoning": 64,
+    "total": 6646
+   },
+   "issues": [
+    "ori 11\u00b0"
+   ],
+   "cells": 1
+  },
+  {
+   "seed": 105,
+   "n": 3,
+   "s1": 97,
+   "s2": 97,
+   "sec": 19.3,
+   "tok": {
+    "input": 5597,
+    "cached": 2688,
+    "output": 400,
+    "reasoning": 192,
+    "total": 5997
+   },
+   "issues": [
+    "ori 41\u00b0"
+   ],
+   "cells": 1
+  },
+  {
+   "seed": 106,
+   "n": 3,
+   "s1": 100,
+   "s2": 100,
+   "sec": 22.9,
+   "tok": {
+    "input": 5475,
+    "cached": 2688,
+    "output": 342,
+    "reasoning": 128,
+    "total": 5817
+   },
+   "issues": [
+    "\u2014"
+   ],
+   "cells": 1
+  },
+  {
+   "seed": 107,
+   "n": 5,
+   "s1": 100,
+   "s2": 100,
+   "sec": 31.2,
+   "tok": {
+    "input": 6198,
+    "cached": 2688,
+    "output": 492,
+    "reasoning": 192,
+    "total": 6690
+   },
+   "issues": [
+    "\u2014"
+   ],
+   "cells": 1
+  },
+  {
+   "seed": 108,
+   "n": 4,
+   "s1": 98.6,
+   "s2": 98.6,
+   "sec": 22.9,
+   "tok": {
+    "input": 5916,
+    "cached": 2688,
+    "output": 433,
+    "reasoning": 128,
+    "total": 6349
+   },
+   "issues": [
+    "pos 0.071",
+    "ori 18\u00b0"
+   ],
+   "cells": 1
+  },
+  {
+   "seed": 109,
+   "n": 5,
+   "s1": 100,
+   "s2": 100,
+   "sec": 21.4,
+   "tok": {
+    "input": 6056,
+    "cached": 2688,
+    "output": 456,
+    "reasoning": 192,
+    "total": 6512
+   },
+   "issues": [
+    "\u2014"
+   ],
+   "cells": 1
+  },
+  {
+   "seed": 110,
+   "n": 2,
+   "s1": 100,
+   "s2": 100,
+   "sec": 21.4,
+   "tok": {
+    "input": 5155,
+    "cached": 2688,
+    "output": 320,
+    "reasoning": 128,
+    "total": 5475
+   },
+   "issues": [
+    "\u2014"
+   ],
+   "cells": 1
+  }
+ ],
+ "record": {
+  "mean": 99.5,
+  "sec": 22.25,
+  "tok": 6273.5,
+  "cost": 0.032,
+  "exact": [
+   6,
+   6
+  ],
+  "objects_total": 38,
+  "wall_clock": [
+   114.8,
+   134.3
+  ]
+ },
+ "record_tokens": {
+  "input": 5783.2,
+  "cached": 2726.4,
+  "output": 416.8,
+  "reasoning": 147.2,
+  "total": 6200
+ },
+ "record_seconds_range": [
+  17.4,
+  31.2
+ ],
+ "variance": {
+  "pairs": 14,
+  "room_abs_diff_median": 0,
+  "room_abs_diff_p90": 7.0,
+  "room_abs_diff_max": 26.999999999999993,
+  "rooms_identical_frac": 0.841726618705036,
+  "mean_abs_diff_median": 0.2499999999999929,
+  "mean_abs_diff_max": 10.0,
+  "record_pair_identical_rooms": 10,
+  "record_pair_max_diff": 0.0
+ },
+ "effort": {
+  "iter8-pairing-size-term": {
+   "mean": 94.3,
+   "sec": 97.3,
+   "tok": 15368,
+   "cells": 11.4,
+   "empty": 0
+  },
+  "iter9-low-effort": {
+   "mean": 76.6,
+   "sec": 47.7,
+   "tok": 10845,
+   "cells": 7.2,
+   "empty": 2
+  },
+  "low_excluding_empty_mean": 95.775
+ },
+ "capacity": {
+  "capacity-6": {
+   "n": 6,
+   "mean": 94.2,
+   "sec": 32.6,
+   "tok": 7837
+  },
+  "capacity-6-b": {
+   "n": 6,
+   "mean": 97.7,
+   "sec": 28.3,
+   "tok": 7917
+  },
+  "capacity-8": {
+   "n": 8,
+   "mean": 93.2,
+   "sec": 31.1,
+   "tok": 8276
+  },
+  "capacity-8-b": {
+   "n": 8,
+   "mean": 95.9,
+   "sec": 29.3,
+   "tok": 8821
+  },
+  "capacity-8-confirm": {
+   "n": 8,
+   "mean": 95.9,
+   "sec": 29.1,
+   "tok": 8313
+  },
+  "capacity-10": {
+   "n": 10,
+   "mean": 89.5,
+   "sec": 35.4,
+   "tok": 9391
+  }
+ },
+ "totals": {
+  "files": 48,
+  "rooms": 454,
+  "usd": 16.07,
+  "tokens": 5130409,
+  "first": "2026-09-05T01:47:07.925Z",
+  "last": "2026-09-05T12:31:08.627Z",
+  "api_errors": 1,
+  "violations": 0
+ },
+ "baseline": {
+  "mean": 90,
+  "sec": 231.7,
+  "tok": 23132,
+  "cost": 0.045,
+  "cells": 21.7,
+  "exact": 2
+ },
+ "offline-default": [
+  {
+   "name": "101",
+   "score": 99.3,
+   "exact": false,
+   "seconds": 21.4,
+   "n": 5,
+   "issues": [
+    "pos 0.071"
+   ],
+   "error": null
+  },
+  {
+   "name": "102",
+   "score": 100,
+   "exact": true,
+   "seconds": 8,
+   "n": 3,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "103",
+   "score": 100,
+   "exact": true,
+   "seconds": 11.5,
+   "n": 3,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "104",
+   "score": 99.9,
+   "exact": false,
+   "seconds": 17.2,
+   "n": 5,
+   "issues": [
+    "ori 11\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "105",
+   "score": 97,
+   "exact": false,
+   "seconds": 11.8,
+   "n": 3,
+   "issues": [
+    "ori 41\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "106",
+   "score": 100,
+   "exact": true,
+   "seconds": 15.7,
+   "n": 3,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "107",
+   "score": 100,
+   "exact": true,
+   "seconds": 17.2,
+   "n": 5,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "108",
+   "score": 98.6,
+   "exact": false,
+   "seconds": 13.8,
+   "n": 4,
+   "issues": [
+    "pos 0.071",
+    "ori 18\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "109",
+   "score": 100,
+   "exact": true,
+   "seconds": 20.1,
+   "n": 5,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "110",
+   "score": 100,
+   "exact": true,
+   "seconds": 9.8,
+   "n": 2,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "201",
+   "score": 100,
+   "exact": true,
+   "seconds": 5.4,
+   "n": 5,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "202",
+   "score": 100,
+   "exact": true,
+   "seconds": 4.1,
+   "n": 2,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "203",
+   "score": 100,
+   "exact": true,
+   "seconds": 5.4,
+   "n": 3,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "204",
+   "score": 98.2,
+   "exact": false,
+   "seconds": 5.9,
+   "n": 5,
+   "issues": [
+    "pos 0.071",
+    "ori 16\u00b0",
+    "ori 23\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "205",
+   "score": 99.1,
+   "exact": false,
+   "seconds": 6,
+   "n": 5,
+   "issues": [
+    "pos 0.071"
+   ],
+   "error": null
+  },
+  {
+   "name": "206",
+   "score": 100,
+   "exact": true,
+   "seconds": 5.3,
+   "n": 4,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "207",
+   "score": 100,
+   "exact": true,
+   "seconds": 3.5,
+   "n": 2,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "208",
+   "score": 100,
+   "exact": true,
+   "seconds": 3.6,
+   "n": 3,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "209",
+   "score": 100,
+   "exact": true,
+   "seconds": 9.8,
+   "n": 5,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "210",
+   "score": 98.8,
+   "exact": false,
+   "seconds": 8.1,
+   "n": 4,
+   "issues": [
+    "ori 15\u00b0",
+    "pos 0.071"
+   ],
+   "error": null
+  }
+ ],
+ "offline-capacity": [
+  {
+   "name": "101-o10",
+   "score": 99.9,
+   "exact": false,
+   "seconds": 14.4,
+   "n": 10,
+   "issues": [
+    "ori 14\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "101-o12",
+   "score": 82.2,
+   "exact": false,
+   "seconds": 15.8,
+   "n": 12,
+   "issues": [
+    "size 0.050",
+    "pos 0.050",
+    "pos 0.450",
+    "ori 19\u00b0",
+    "ori 25\u00b0",
+    "size 0.100",
+    "pos 0.587",
+    "size 0.050",
+    "pos 0.071",
+    "ori 36\u00b0",
+    "missing blue sphere",
+    "ori 16\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "101-o6",
+   "score": 100,
+   "exact": true,
+   "seconds": 8.3,
+   "n": 6,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "101-o8",
+   "score": 100,
+   "exact": true,
+   "seconds": 11.5,
+   "n": 8,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "102-o10",
+   "score": 74,
+   "exact": false,
+   "seconds": 11.4,
+   "n": 10,
+   "issues": [
+    "shape (cube\u2192)",
+    "size 0.050",
+    "missing blue sphere",
+    "missing red sphere",
+    "shape (sphere\u2192)",
+    "pos 0.071"
+   ],
+   "error": null
+  },
+  {
+   "name": "102-o12",
+   "score": 90.4,
+   "exact": false,
+   "seconds": 12.5,
+   "n": 12,
+   "issues": [
+    "pos 0.071",
+    "ori 31\u00b0",
+    "pos 0.071",
+    "missing blue sphere"
+   ],
+   "error": null
+  },
+  {
+   "name": "102-o6",
+   "score": 100,
+   "exact": true,
+   "seconds": 7.8,
+   "n": 6,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "102-o8",
+   "score": 100,
+   "exact": true,
+   "seconds": 8.6,
+   "n": 8,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "103-o10",
+   "score": 78,
+   "exact": false,
+   "seconds": 16.7,
+   "n": 10,
+   "issues": [
+    "pos 0.658",
+    "pos 0.071",
+    "pos 0.087",
+    "ori 55\u00b0",
+    "size 0.050",
+    "pos 0.071",
+    "missing red cube",
+    "pos 0.707",
+    "size 0.050",
+    "ori 31\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "103-o12",
+   "score": 74.2,
+   "exact": false,
+   "seconds": 12.6,
+   "n": 12,
+   "issues": [
+    "missing red sphere",
+    "size 0.050",
+    "pos 0.050",
+    "ori 43\u00b0",
+    "missing red sphere",
+    "pos 0.071",
+    "ori 57\u00b0",
+    "shape (sphere\u2192)",
+    "size 0.050",
+    "pos 0.112",
+    "shape (sphere\u2192)",
+    "size 0.050",
+    "pos 0.087",
+    "pos 0.150"
+   ],
+   "error": null
+  },
+  {
+   "name": "103-o6",
+   "score": 97.9,
+   "exact": false,
+   "seconds": 8.6,
+   "n": 6,
+   "issues": [
+    "pos 0.122",
+    "ori 12\u00b0",
+    "ori 15\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "103-o8",
+   "score": 95.6,
+   "exact": false,
+   "seconds": 9.1,
+   "n": 8,
+   "issues": [
+    "shape (cube\u2192)",
+    "size 0.050"
+   ],
+   "error": null
+  },
+  {
+   "name": "104-o10",
+   "score": 77.9,
+   "exact": false,
+   "seconds": 11.3,
+   "n": 10,
+   "issues": [
+    "pos 0.050",
+    "ori 39\u00b0",
+    "missing blue sphere",
+    "shape (sphere\u2192)",
+    "pos 0.292",
+    "shape (cube\u2192)",
+    "size 0.050",
+    "pos 0.071",
+    "shape (sphere\u2192)",
+    "pos 0.050"
+   ],
+   "error": null
+  },
+  {
+   "name": "104-o12",
+   "score": 69.6,
+   "exact": false,
+   "seconds": 11.4,
+   "n": 12,
+   "issues": [
+    "missing blue sphere",
+    "size 0.050",
+    "pos 0.122",
+    "ori 45\u00b0",
+    "missing red sphere",
+    "size 0.050",
+    "pos 0.572",
+    "ori 32\u00b0",
+    "missing red sphere"
+   ],
+   "error": null
+  },
+  {
+   "name": "104-o6",
+   "score": 96.7,
+   "exact": false,
+   "seconds": 9.7,
+   "n": 6,
+   "issues": [
+    "ori 58\u00b0",
+    "ori 46\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "104-o8",
+   "score": 100,
+   "exact": true,
+   "seconds": 11.9,
+   "n": 8,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "105-o10",
+   "score": 97.3,
+   "exact": false,
+   "seconds": 13.2,
+   "n": 10,
+   "issues": [
+    "ori 28\u00b0",
+    "pos 0.206",
+    "ori 15\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "105-o12",
+   "score": 72.6,
+   "exact": false,
+   "seconds": 12.9,
+   "n": 12,
+   "issues": [
+    "size 0.050",
+    "pos 0.071",
+    "ori 53\u00b0",
+    "missing red cube",
+    "pos 0.071",
+    "ori 17\u00b0",
+    "ori 15\u00b0",
+    "shape (sphere\u2192)",
+    "pos 0.071",
+    "shape (sphere\u2192)",
+    "pos 0.087",
+    "missing red sphere",
+    "shape (cube\u2192)",
+    "pos 0.071",
+    "pos 0.187"
+   ],
+   "error": null
+  },
+  {
+   "name": "105-o6",
+   "score": 100,
+   "exact": true,
+   "seconds": 9.6,
+   "n": 6,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "105-o8",
+   "score": 93.5,
+   "exact": false,
+   "seconds": 10.9,
+   "n": 8,
+   "issues": [
+    "pos 0.122",
+    "ori 39\u00b0",
+    "shape (sphere\u2192)",
+    "pos 0.071",
+    "pos 0.050",
+    "ori 28\u00b0",
+    "pos 0.071"
+   ],
+   "error": null
+  },
+  {
+   "name": "106-o10",
+   "score": 89.4,
+   "exact": false,
+   "seconds": 11.5,
+   "n": 10,
+   "issues": [
+    "pos 0.087",
+    "ori 14\u00b0",
+    "missing blue sphere"
+   ],
+   "error": null
+  },
+  {
+   "name": "106-o12",
+   "score": 77.9,
+   "exact": false,
+   "seconds": 15.2,
+   "n": 12,
+   "issues": [
+    "pos 0.071",
+    "ori 42\u00b0",
+    "pos 0.071",
+    "ori 35\u00b0",
+    "ori 60\u00b0",
+    "shape (sphere\u2192)",
+    "pos 0.071",
+    "shape (sphere\u2192)",
+    "size 0.050",
+    "pos 0.087",
+    "missing red sphere",
+    "shape (sphere\u2192)",
+    "size 0.100",
+    "pos 0.218",
+    "shape (sphere\u2192)",
+    "pos 0.050"
+   ],
+   "error": null
+  },
+  {
+   "name": "106-o6",
+   "score": 94.2,
+   "exact": false,
+   "seconds": 6.1,
+   "n": 6,
+   "issues": [
+    "shape (cube\u2192)",
+    "size 0.050"
+   ],
+   "error": null
+  },
+  {
+   "name": "106-o8",
+   "score": 97,
+   "exact": false,
+   "seconds": 8.7,
+   "n": 8,
+   "issues": [
+    "size 0.050",
+    "pos 0.087",
+    "ori 50\u00b0",
+    "pos 0.071",
+    "ori 13\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "107-o10",
+   "score": 92.3,
+   "exact": false,
+   "seconds": 18.1,
+   "n": 10,
+   "issues": [
+    "ori 11\u00b0",
+    "size 0.050",
+    "pos 0.087",
+    "ori 30\u00b0",
+    "ori 22\u00b0",
+    "size 0.050",
+    "pos 0.071",
+    "ori 30\u00b0",
+    "shape (sphere\u2192)",
+    "size 0.050",
+    "pos 0.071",
+    "ori 45\u00b0",
+    "ori 24\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "107-o12",
+   "score": 83.5,
+   "exact": false,
+   "seconds": 13.6,
+   "n": 12,
+   "issues": [
+    "size 0.050",
+    "pos 0.050",
+    "ori 36\u00b0",
+    "pos 0.050",
+    "ori 45\u00b0",
+    "shape (cube\u2192)",
+    "pos 0.335",
+    "size 0.050",
+    "pos 0.050",
+    "ori 43\u00b0",
+    "missing red sphere"
+   ],
+   "error": null
+  },
+  {
+   "name": "107-o6",
+   "score": 97.9,
+   "exact": false,
+   "seconds": 12.5,
+   "n": 6,
+   "issues": [
+    "pos 0.071",
+    "ori 37\u00b0",
+    "ori 12\u00b0",
+    "ori 14\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "107-o8",
+   "score": 83.6,
+   "exact": false,
+   "seconds": 10,
+   "n": 8,
+   "issues": [
+    "pos 0.050",
+    "ori 20\u00b0",
+    "missing red cube",
+    "ori 51\u00b0",
+    "size 0.050",
+    "pos 0.050",
+    "ori 31\u00b0",
+    "ori 24\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "108-o10",
+   "score": 99.5,
+   "exact": false,
+   "seconds": 15.4,
+   "n": 10,
+   "issues": [
+    "pos 0.071"
+   ],
+   "error": null
+  },
+  {
+   "name": "108-o12",
+   "score": 93,
+   "exact": false,
+   "seconds": 16.1,
+   "n": 12,
+   "issues": [
+    "pos 0.087",
+    "ori 40\u00b0",
+    "shape (cube\u2192)",
+    "size 0.050",
+    "shape (cube\u2192)",
+    "size 0.050"
+   ],
+   "error": null
+  },
+  {
+   "name": "108-o6",
+   "score": 93.6,
+   "exact": false,
+   "seconds": 7.7,
+   "n": 6,
+   "issues": [
+    "shape (cube\u2192)",
+    "size 0.050",
+    "ori 21\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "108-o8",
+   "score": 92.8,
+   "exact": false,
+   "seconds": 13,
+   "n": 8,
+   "issues": [
+    "size 0.050",
+    "pos 0.071",
+    "ori 20\u00b0",
+    "shape (sphere\u2192)",
+    "size 0.050",
+    "ori 28\u00b0",
+    "size 0.050",
+    "pos 0.071",
+    "ori 36\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "109-o10",
+   "score": 100,
+   "exact": true,
+   "seconds": 12.8,
+   "n": 10,
+   "issues": [],
+   "error": null
+  },
+  {
+   "name": "109-o12",
+   "score": 86.9,
+   "exact": false,
+   "seconds": 13,
+   "n": 12,
+   "issues": [
+    "missing red cube",
+    "pos 0.087",
+    "shape (cube\u2192)",
+    "size 0.050",
+    "pos 0.122",
+    "size 0.050",
+    "pos 0.050"
+   ],
+   "error": null
+  },
+  {
+   "name": "109-o6",
+   "score": 98.3,
+   "exact": false,
+   "seconds": 7.3,
+   "n": 6,
+   "issues": [
+    "ori 57\u00b0"
+   ],
+   "error": null
+  },
+  {
+   "name": "109-o8",
+   "score": 97.5,
+   "exact": false,
+   "seconds": 10.2,
+   "n": 8,
+   "issues": [
+    "shape (sphere\u2192)"
+   ],
+   "error": null
+  },
+  {
+   "name": "110-o10",
+   "score": 95.6,
+   "exact": false,
+   "seconds": 9.3,
+   "n": 10,
+   "issues": [
+    "ori 20\u00b0",
+    "pos 0.087",
+    "ori 45\u00b0",
+    "shape (sphere\u2192)",
+    "size 0.050"
+   ],
+   "error": null
+  },
+  {
+   "name": "110-o12",
+   "score": 78.1,
+   "exact": false,
+   "seconds": 13.1,
+   "n": 12,
+   "issues": [
+    "size 0.050",
+    "pos 0.296",
+    "ori 59\u00b0",
+    "pos 0.071",
+    "size 0.100",
+    "pos 0.071",
+    "pos 0.050",
+    "ori 35\u00b0",
+    "shape (sphere\u2192)",
+    "pos 0.087",
+    "missing blue sphere",
+    "shape (cube\u2192)",
+    "size 0.050",
+    "shape (sphere\u2192)",
+    "pos 0.150"
+   ],
+   "error": null
+  },
+  {
+   "name": "110-o6",
+   "score": 94.4,
+   "exact": false,
+   "seconds": 6.2,
+   "n": 6,
+   "issues": [
+    "shape (cube\u2192)",
+    "pos 0.071"
+   ],
+   "error": null
+  },
+  {
+   "name": "110-o8",
+   "score": 99.2,
+   "exact": false,
+   "seconds": 9.5,
+   "n": 8,
+   "issues": [
+    "pos 0.087"
+   ],
+   "error": null
+  }
+ ],
+ "offline_summary": {
+  "bench_mean": 99.48,
+  "bench_exact": 6,
+  "held_mean": 99.61,
+  "held_exact": 7,
+  "sec_mean": 10.18,
+  "sec_max": 21.4
+ },
+ "offline_capacity_summary": {
+  "6": {
+   "mean": 97.3,
+   "exact": 3,
+   "sec": 8.379999999999999,
+   "missing": 0
+  },
+  "8": {
+   "mean": 95.92,
+   "exact": 3,
+   "sec": 10.34,
+   "missing": 1
+  },
+  "10": {
+   "mean": 90.39,
+   "exact": 1,
+   "sec": 13.41,
+   "missing": 5
+  },
+  "12": {
+   "mean": 80.84,
+   "exact": 0,
+   "sec": 13.620000000000001,
+   "missing": 13
+  }
+ }
+}

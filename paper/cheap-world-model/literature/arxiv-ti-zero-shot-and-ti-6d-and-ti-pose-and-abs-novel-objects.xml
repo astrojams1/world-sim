@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/ktANSP6EGgNVF88crUcQQabMFEI</id>
+  <title>arXiv Query: search_query=ti:"zero-shot" AND ti:"6D" AND ti:pose AND abs:"novel objects"&amp;id_list=&amp;start=0&amp;max_results=25</title>
+  <updated>2026-09-05T21:54:35Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22zero-shot%22+AND+(ti:%226D%22+AND+(ti:pose+AND+abs:%22novel+objects%22))&amp;start=0&amp;max_results=25&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>25</opensearch:itemsPerPage>
+  <opensearch:totalResults>6</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2311.15707v2</id>
+    <title>SAM-6D: Segment Anything Model Meets Zero-Shot 6D Object Pose Estimation</title>
+    <updated>2024-03-06T12:23:29Z</updated>
+    <link href="https://arxiv.org/abs/2311.15707v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2311.15707v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Zero-shot 6D object pose estimation involves the detection of novel objects with their 6D poses in cluttered scenes, presenting significant challenges for model generalizability. Fortunately, the recent Segment Anything Model (SAM) has showcased remarkable zero-shot transfer performance, which provides a promising solution to tackle this task. Motivated by this, we introduce SAM-6D, a novel framework designed to realize the task through two steps, including instance segmentation and pose estimation. Given the target objects, SAM-6D employs two dedicated sub-networks, namely Instance Segmentation Model (ISM) and Pose Estimation Model (PEM), to perform these steps on cluttered RGB-D images. ISM takes SAM as an advanced starting point to generate all possible object proposals and selectively preserves valid ones through meticulously crafted object matching scores in terms of semantics, appearance and geometry. By treating pose estimation as a partial-to-partial point matching problem, PEM performs a two-stage point matching process featuring a novel design of background tokens to construct dense 3D-3D correspondence, ultimately yielding the pose estimates. Without bells and whistles, SAM-6D outperforms the existing methods on the seven core datasets of the BOP Benchmark for both instance segmentation and pose estimation of novel objects.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-11-27T10:50:47Z</published>
+    <arxiv:comment>Accepted by CVPR2024. Github Page: https://github.com/JiehongLin/SAM-6D</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Jiehong Lin</name>
+    </author>
+    <author>
+      <name>Lihua Liu</name>
+    </author>
+    <author>
+      <name>Dekun Lu</name>
+    </author>
+    <author>
+      <name>Kui Jia</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2309.11986v1</id>
+    <title>ZS6D: Zero-shot 6D Object Pose Estimation using Vision Transformers</title>
+    <updated>2023-09-21T11:53:01Z</updated>
+    <link href="https://arxiv.org/abs/2309.11986v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2309.11986v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>As robotic systems increasingly encounter complex and unconstrained real-world scenarios, there is a demand to recognize diverse objects. The state-of-the-art 6D object pose estimation methods rely on object-specific training and therefore do not generalize to unseen objects. Recent novel object pose estimation methods are solving this issue using task-specific fine-tuned CNNs for deep template matching. This adaptation for pose estimation still requires expensive data rendering and training procedures. MegaPose for example is trained on a dataset consisting of two million images showing 20,000 different objects to reach such generalization capabilities. To overcome this shortcoming we introduce ZS6D, for zero-shot novel object 6D pose estimation. Visual descriptors, extracted using pre-trained Vision Transformers (ViT), are used for matching rendered templates against query images of objects and for establishing local correspondences. These local correspondences enable deriving geometric correspondences and are used for estimating the object's 6D pose with RANSAC-based PnP. This approach showcases that the image descriptors extracted by pre-trained ViTs are well-suited to achieve a notable improvement over two state-of-the-art novel object 6D pose estimation methods, without the need for task-specific fine-tuning. Experiments are performed on LMO, YCBV, and TLESS. In comparison to one of the two methods we improve the Average Recall on all three datasets and compared to the second method we improve on two datasets.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-09-21T11:53:01Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Philipp Ausserlechner</name>
+    </author>
+    <author>
+      <name>David Haberger</name>
+    </author>
+    <author>
+      <name>Stefan Thalhammer</name>
+    </author>
+    <author>
+      <name>Jean-Baptiste Weibel</name>
+    </author>
+    <author>
+      <name>Markus Vincze</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2305.17934v3</id>
+    <title>ZeroPose: CAD-Prompted Zero-shot Object 6D Pose Estimation in Cluttered Scenes</title>
+    <updated>2024-09-29T05:56:47Z</updated>
+    <link href="https://arxiv.org/abs/2305.17934v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2305.17934v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Many robotics and industry applications have a high demand for the capability to estimate the 6D pose of novel objects from the cluttered scene. However, existing classic pose estimation methods are object-specific, which can only handle the specific objects seen during training. When applied to a novel object, these methods necessitate a cumbersome onboarding process, which involves extensive dataset preparation and model retraining. The extensive duration and resource consumption of onboarding limit their practicality in real-world applications. In this paper, we introduce ZeroPose, a novel zero-shot framework that performs pose estimation following a Discovery-Orientation-Registration (DOR) inference pipeline. This framework generalizes to novel objects without requiring model retraining. Given the CAD model of a novel object, ZeroPose enables in seconds onboarding time to extract visual and geometric embeddings from the CAD model as a prompt. With the prompting of the above embeddings, DOR can discover all related instances and estimate their 6D poses without additional human interaction or presupposing scene conditions. Compared with existing zero-shot methods solved by the render-and-compare paradigm, the DOR pipeline formulates the object pose estimation into a feature-matching problem, which avoids time-consuming online rendering and improves efficiency. Experimental results on the seven datasets show that ZeroPose as a zero-shot method achieves comparable performance with object-specific training methods and outperforms the state-of-the-art zero-shot method with 50x inference speed improvement.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-05-29T07:54:04Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Jianqiu Chen</name>
+    </author>
+    <author>
+      <name>Zikun Zhou</name>
+    </author>
+    <author>
+      <name>Mingshan Sun</name>
+    </author>
+    <author>
+      <name>Tianpeng Bao</name>
+    </author>
+    <author>
+      <name>Rui Zhao</name>
+    </author>
+    <author>
+      <name>Liwei Wu</name>
+    </author>
+    <author>
+      <name>Zhenyu He</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2506.09784v1</id>
+    <title>Accurate and efficient zero-shot 6D pose estimation with frozen foundation models</title>
+    <updated>2025-06-11T14:23:38Z</updated>
+    <link href="https://arxiv.org/abs/2506.09784v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2506.09784v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Estimating the 6D pose of objects from RGBD data is a fundamental problem in computer vision, with applications in robotics and augmented reality. A key challenge is achieving generalization to novel objects that were not seen during training. Most existing approaches address this by scaling up training on synthetic data tailored to the task, a process that demands substantial computational resources. But is task-specific training really necessary for accurate and efficient 6D pose estimation of novel objects? To answer No!, we introduce FreeZeV2, the second generation of FreeZe: a training-free method that achieves strong generalization to unseen objects by leveraging geometric and vision foundation models pre-trained on unrelated data. FreeZeV2 improves both accuracy and efficiency over FreeZe through three key contributions: (i) a sparse feature extraction strategy that reduces inference-time computation without sacrificing accuracy; (ii) a feature-aware scoring mechanism that improves both pose selection during RANSAC-based 3D registration and the final ranking of pose candidates; and (iii) a modular design that supports ensembles of instance segmentation models, increasing robustness to segmentation masks errors. We evaluate FreeZeV2 on the seven core datasets of the BOP Benchmark, where it establishes a new state-of-the-art in 6D pose estimation of unseen objects. When using the same segmentation masks, FreeZeV2 achieves a remarkable 8x speedup over FreeZe while also improving accuracy by 5%. When using ensembles of segmentation models, FreeZeV2 gains an additional 8% in accuracy while still running 2.5x faster than FreeZe. FreeZeV2 was awarded Best Overall Method at the BOP Challenge 2024.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-06-11T14:23:38Z</published>
+    <arxiv:comment>Technical report</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Andrea Caraffa</name>
+    </author>
+    <author>
+      <name>Davide Boscaini</name>
+    </author>
+    <author>
+      <name>Fabio Poiesi</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2509.23647v1</id>
+    <title>Color-Pair Guided Robust Zero-Shot 6D Pose Estimation and Tracking of Cluttered Objects on Edge Devices</title>
+    <updated>2025-09-28T05:07:49Z</updated>
+    <link href="https://arxiv.org/abs/2509.23647v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2509.23647v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Robust 6D pose estimation of novel objects under challenging illumination remains a significant challenge, often requiring a trade-off between accurate initial pose estimation and efficient real-time tracking. We present a unified framework explicitly designed for efficient execution on edge devices, which synergizes a robust initial estimation module with a fast motion-based tracker. The key to our approach is a shared, lighting-invariant color-pair feature representation that forms a consistent foundation for both stages. For initial estimation, this feature facilitates robust registration between the live RGB-D view and the object's 3D mesh. For tracking, the same feature logic validates temporal correspondences, enabling a lightweight model to reliably regress the object's motion. Extensive experiments on benchmark datasets demonstrate that our integrated approach is both effective and robust, providing competitive pose estimation accuracy while maintaining high-fidelity tracking even through abrupt pose changes.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-09-28T05:07:49Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Xingjian Yang</name>
+    </author>
+    <author>
+      <name>Ashis G. Banerjee</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2502.10606v1</id>
+    <title>HIPPo: Harnessing Image-to-3D Priors for Model-free Zero-shot 6D Pose Estimation</title>
+    <updated>2025-02-14T23:44:26Z</updated>
+    <link href="https://arxiv.org/abs/2502.10606v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2502.10606v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This work focuses on model-free zero-shot 6D object pose estimation for robotics applications. While existing methods can estimate the precise 6D pose of objects, they heavily rely on curated CAD models or reference images, the preparation of which is a time-consuming and labor-intensive process. Moreover, in real-world scenarios, 3D models or reference images may not be available in advance and instant robot reaction is desired. In this work, we propose a novel framework named HIPPo, which eliminates the need for curated CAD models and reference images by harnessing image-to-3D priors from Diffusion Models, enabling model-free zero-shot 6D pose estimation. Specifically, we construct HIPPo Dreamer, a rapid image-to-mesh model built on a multiview Diffusion Model and a 3D reconstruction foundation model. Our HIPPo Dreamer can generate a 3D mesh of any unseen objects from a single glance in just a few seconds. Then, as more observations are acquired, we propose to continuously refine the diffusion prior mesh model by joint optimization of object geometry and appearance. This is achieved by a measurement-guided scheme that gradually replaces the plausible diffusion priors with more reliable online observations. Consequently, HIPPo can instantly estimate and track the 6D pose of a novel object and maintain a complete mesh for immediate robotic applications. Thorough experiments on various benchmarks show that HIPPo outperforms state-of-the-art methods in 6D object pose estimation when prior reference images are limited.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-02-14T23:44:26Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yibo Liu</name>
+    </author>
+    <author>
+      <name>Zhaodong Jiang</name>
+    </author>
+    <author>
+      <name>Binbin Xu</name>
+    </author>
+    <author>
+      <name>Guile Wu</name>
+    </author>
+    <author>
+      <name>Yuan Ren</name>
+    </author>
+    <author>
+      <name>Tongtong Cao</name>
+    </author>
+    <author>
+      <name>Bingbing Liu</name>
+    </author>
+    <author>
+      <name>Rui Heng Yang</name>
+    </author>
+    <author>
+      <name>Amir Rasouli</name>
+    </author>
+    <author>
+      <name>Jinjun Shan</name>
+    </author>
+  </entry>
+</feed>

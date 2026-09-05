@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/BsFHAYMtBX7xT8EWuwB2I6ZE6s8</id>
+  <title>arXiv Query: search_query=ti:"structure from motion" AND ti:"two views" AND ti:"unknown focal"&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T21:42:20Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22structure+from+motion%22+AND+(ti:%22two+views%22+AND+ti:%22unknown+focal%22)&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>0</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+</feed>

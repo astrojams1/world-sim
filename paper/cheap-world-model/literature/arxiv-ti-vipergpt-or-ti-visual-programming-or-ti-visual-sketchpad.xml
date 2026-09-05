@@ -1,0 +1,298 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/GhprJINmBg2mnAPWZUDer0Ldp6g</id>
+  <title>arXiv Query: search_query=ti:"ViperGPT" OR ti:"Visual Programming" OR ti:"Visual Sketchpad"&amp;id_list=&amp;start=0&amp;max_results=12</title>
+  <updated>2026-09-05T21:41:29Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22ViperGPT%22+OR+(ti:%22Visual+Programming%22+OR+ti:%22Visual+Sketchpad%22)&amp;start=0&amp;max_results=12&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>12</opensearch:itemsPerPage>
+  <opensearch:totalResults>63</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2406.09403v3</id>
+    <title>Visual Sketchpad: Sketching as a Visual Chain of Thought for Multimodal Language Models</title>
+    <updated>2024-11-11T00:54:32Z</updated>
+    <link href="https://arxiv.org/abs/2406.09403v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2406.09403v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Humans draw to facilitate reasoning: we draw auxiliary lines when solving geometry problems; we mark and circle when reasoning on maps; we use sketches to amplify our ideas and relieve our limited-capacity working memory. However, such actions are missing in current multimodal language models (LMs). Current chain-of-thought and tool-use paradigms only use text as intermediate reasoning steps. In this work, we introduce Sketchpad, a framework that gives multimodal LMs a visual sketchpad and tools to draw on the sketchpad. The LM conducts planning and reasoning according to the visual artifacts it has drawn. Different from prior work, which uses text-to-image models to enable LMs to draw, Sketchpad enables LMs to draw with lines, boxes, marks, etc., which is closer to human sketching and better facilitates reasoning. Sketchpad can also use specialist vision models during the sketching process (e.g., draw bounding boxes with object detection models, draw masks with segmentation models), to further enhance visual perception and reasoning. We experiment with a wide range of math tasks (including geometry, functions, graphs, and chess) and complex visual reasoning tasks. Sketchpad substantially improves performance on all tasks over strong base models with no sketching, yielding an average gain of 12.7% on math tasks, and 8.6% on vision tasks. GPT-4o with Sketchpad sets a new state of the art on all tasks, including V*Bench (80.3%), BLINK spatial reasoning (83.9%), and visual correspondence (80.8%). All codes and data are in https://visualsketchpad.github.io/.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-06-13T17:59:31Z</published>
+    <arxiv:comment>Accepted to NeurIPS 2024. Project and codes url: https://visualsketchpad.github.io/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yushi Hu</name>
+    </author>
+    <author>
+      <name>Weijia Shi</name>
+    </author>
+    <author>
+      <name>Xingyu Fu</name>
+    </author>
+    <author>
+      <name>Dan Roth</name>
+    </author>
+    <author>
+      <name>Mari Ostendorf</name>
+    </author>
+    <author>
+      <name>Luke Zettlemoyer</name>
+    </author>
+    <author>
+      <name>Noah A Smith</name>
+    </author>
+    <author>
+      <name>Ranjay Krishna</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2312.02249v2</id>
+    <title>Recursive Visual Programming</title>
+    <updated>2024-07-10T17:26:21Z</updated>
+    <link href="https://arxiv.org/abs/2312.02249v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2312.02249v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Visual Programming (VP) has emerged as a powerful framework for Visual Question Answering (VQA). By generating and executing bespoke code for each question, these methods demonstrate impressive compositional and reasoning capabilities, especially in few-shot and zero-shot scenarios. However, existing VP methods generate all code in a single function, resulting in code that is suboptimal in terms of both accuracy and interpretability. Inspired by human coding practices, we propose Recursive Visual Programming (RVP), which simplifies generated routines, provides more efficient problem solving, and can manage more complex data structures. RVP is inspired by human coding practices and approaches VQA tasks with an iterative recursive code generation approach, allowing decomposition of complicated problems into smaller parts. Notably, RVP is capable of dynamic type assignment, i.e., as the system recursively generates a new piece of code, it autonomously determines the appropriate return type and crafts the requisite code to generate that output. We show RVP's efficacy through extensive experiments on benchmarks including VSR, COVR, GQA, and NextQA, underscoring the value of adopting human-like recursive and modular programming techniques for solving VQA tasks through coding.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-12-04T17:27:24Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Jiaxin Ge</name>
+    </author>
+    <author>
+      <name>Sanjay Subramanian</name>
+    </author>
+    <author>
+      <name>Baifeng Shi</name>
+    </author>
+    <author>
+      <name>Roei Herzig</name>
+    </author>
+    <author>
+      <name>Trevor Darrell</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2303.08128v1</id>
+    <title>ViperGPT: Visual Inference via Python Execution for Reasoning</title>
+    <updated>2023-03-14T17:57:47Z</updated>
+    <link href="https://arxiv.org/abs/2303.08128v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2303.08128v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Answering visual queries is a complex task that requires both visual processing and reasoning. End-to-end models, the dominant approach for this task, do not explicitly differentiate between the two, limiting interpretability and generalization. Learning modular programs presents a promising alternative, but has proven challenging due to the difficulty of learning both the programs and modules simultaneously. We introduce ViperGPT, a framework that leverages code-generation models to compose vision-and-language models into subroutines to produce a result for any query. ViperGPT utilizes a provided API to access the available modules, and composes them by generating Python code that is later executed. This simple approach requires no further training, and achieves state-of-the-art results across various complex visual tasks.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-03-14T17:57:47Z</published>
+    <arxiv:comment>Website: https://viper.cs.columbia.edu/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Dídac Surís</name>
+    </author>
+    <author>
+      <name>Sachit Menon</name>
+    </author>
+    <author>
+      <name>Carl Vondrick</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2305.18342v3</id>
+    <title>Neural Task Synthesis for Visual Programming</title>
+    <updated>2024-01-14T11:52:11Z</updated>
+    <link href="https://arxiv.org/abs/2305.18342v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2305.18342v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Generative neural models hold great promise in enhancing programming education by synthesizing new content. We seek to design neural models that can automatically generate programming tasks for a given specification in the context of visual programming domains. Despite the recent successes of large generative models like GPT-4, our initial results show that these models are ineffective in synthesizing visual programming tasks and struggle with logical and spatial reasoning. We propose a novel neuro-symbolic technique, NeurTaskSyn, that can synthesize programming tasks for a specification given in the form of desired programming concepts exercised by its solution code and constraints on the visual task. NeurTaskSyn has two components: the first component is trained via imitation learning procedure to generate possible solution codes, and the second component is trained via reinforcement learning procedure to guide an underlying symbolic execution engine that generates visual tasks for these codes. We demonstrate the effectiveness of NeurTaskSyn through an extensive empirical evaluation and a qualitative study on reference tasks taken from the Hour of Code: Classic Maze challenge by Code-dot-org and the Intro to Programming with Karel course by CodeHS-dot-com.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CY" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.PL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-05-26T01:08:18Z</published>
+    <arxiv:comment>Published in Transactions on Machine Learning Research (TMLR) 2024</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Victor-Alexandru Pădurean</name>
+    </author>
+    <author>
+      <name>Georgios Tzannetos</name>
+    </author>
+    <author>
+      <name>Adish Singla</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1605.00807v1</id>
+    <title>Block Shelves for Visual Programming Languages</title>
+    <updated>2016-05-03T09:27:55Z</updated>
+    <link href="https://arxiv.org/abs/1605.00807v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1605.00807v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>The blocks editor, such as the editor in Scratch, is widely applied for visual programming languages (VPL) nowadays. Despite it's friendly for non-programmers, it exists three main limitations while displaying block codes: (1) the readability, (2) the program structure, and (3) the re-use. To cope with these issues, we introduce a novel formatting tool, block shelves, into the editor for organizing blocks. A user could utilize shelves to constitute a user-defined structure for the VPL projects. Based on the experiment results, block shelves improves the block code navigating and searching significantly. Besides, for achieving code re-use, users could use shelf export/import to share/re-use their block codes between projects in the file format of eXtensible Markup Language (xml.) All functions were demonstrated on MIT App inventor 2, while all modifications were made in Google Blockly.</summary>
+    <category term="cs.HC" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2016-05-03T09:27:55Z</published>
+    <arxiv:comment>6 pages, 6 figures, short paper</arxiv:comment>
+    <arxiv:primary_category term="cs.HC"/>
+    <author>
+      <name>Sheng-yi Hsu</name>
+    </author>
+    <author>
+      <name>Yuan-fu Lou</name>
+    </author>
+    <author>
+      <name>Chuen-tsai Sun</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2211.11559v1</id>
+    <title>Visual Programming: Compositional visual reasoning without training</title>
+    <updated>2022-11-18T18:50:09Z</updated>
+    <link href="https://arxiv.org/abs/2211.11559v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2211.11559v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We present VISPROG, a neuro-symbolic approach to solving complex and compositional visual tasks given natural language instructions. VISPROG avoids the need for any task-specific training. Instead, it uses the in-context learning ability of large language models to generate python-like modular programs, which are then executed to get both the solution and a comprehensive and interpretable rationale. Each line of the generated program may invoke one of several off-the-shelf computer vision models, image processing routines, or python functions to produce intermediate outputs that may be consumed by subsequent parts of the program. We demonstrate the flexibility of VISPROG on 4 diverse tasks - compositional visual question answering, zero-shot reasoning on image pairs, factual knowledge object tagging, and language-guided image editing. We believe neuro-symbolic approaches like VISPROG are an exciting avenue to easily and effectively expand the scope of AI systems to serve the long tail of complex tasks that people may wish to perform.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2022-11-18T18:50:09Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Tanmay Gupta</name>
+    </author>
+    <author>
+      <name>Aniruddha Kembhavi</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1204.6411v1</id>
+    <title>Catroid: A Mobile Visual Programming System for Children</title>
+    <updated>2012-04-28T14:26:56Z</updated>
+    <link href="https://arxiv.org/abs/1204.6411v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1204.6411v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Catroid is a free and open source visual programming language, programming environment, image manipulation program, and website. Catroid allows casual and first-time users starting from age eight to develop their own animations and games solely using their Android phones or tablets. Catroid also allows to wirelessly control external hardware such as Lego Mindstorms robots via Bluetooth, Bluetooth Arduino boards, as well as Parrot's popular and inexpensive AR.Drone quadcopters via WiFi.</summary>
+    <category term="cs.PL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CY" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.HC" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2012-04-28T14:26:56Z</published>
+    <arxiv:comment>4 pages. Demo paper at the 11th International Conference on Interaction Design and Children (IDC 2012)</arxiv:comment>
+    <arxiv:primary_category term="cs.PL"/>
+    <author>
+      <name>Wolfgang Slany</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2308.02522v1</id>
+    <title>Evaluating ChatGPT and GPT-4 for Visual Programming</title>
+    <updated>2023-07-30T22:13:20Z</updated>
+    <link href="https://arxiv.org/abs/2308.02522v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2308.02522v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Generative AI and large language models have the potential to drastically improve the landscape of computing education by automatically generating personalized feedback and content. Recent works have studied the capabilities of these models for different programming education scenarios; however, these works considered only text-based programming, in particular, Python programming. Consequently, they leave open the question of how well these models would perform in visual programming domains popularly used for K-8 programming education. The main research question we study is: Do state-of-the-art generative models show advanced capabilities in visual programming on par with their capabilities in text-based Python programming? In our work, we evaluate two models, ChatGPT (based on GPT-3.5) and GPT-4, in visual programming domains for various scenarios and assess performance using expert-based annotations. In particular, we base our evaluation using reference tasks from the domains of Hour of Code: Maze Challenge by Code-dot-org and Karel. Our results show that these models perform poorly and struggle to combine spatial, logical, and programming skills crucial for visual programming. These results also provide exciting directions for future work on developing techniques to improve the performance of generative models in visual programming.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CY" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-07-30T22:13:20Z</published>
+    <arxiv:comment>This article is a full version of the poster (extended abstract) from ICER'23</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Adish Singla</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2411.00264v2</id>
+    <title>TurtleBench: A Visual Programming Benchmark in Turtle Geometry</title>
+    <updated>2025-04-11T21:25:02Z</updated>
+    <link href="https://arxiv.org/abs/2411.00264v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2411.00264v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Humans have the ability to reason about geometric patterns in images and scenes from a young age. However, developing large multimodal models (LMMs) capable of similar reasoning remains a challenge, highlighting the need for robust evaluation methods to assess these capabilities. We introduce \Turtle, a benchmark designed to evaluate LMMs' capacity to interpret geometric patterns -- given visual examples, textual instructions, or both -- and generate precise code outputs. Inspired by turtle geometry, a notion used to teach children foundational coding and geometric concepts, TurtleBench features tasks with patterned shapes that have underlying algorithmic logic. Our evaluation reveals that leading LMMs struggle significantly with these tasks, with GPT-4o achieving only 19\% accuracy on the simplest tasks and few-shot prompting only marginally improves their performance ($&lt;2\%$). \Turtle highlights the gap between human and AI performance in intuitive and visual geometrical understanding, setting the stage for future research in this area. \Turtle stands as one of the few benchmarks to evaluate the integration of visual understanding and code generation capabilities in LMMs, setting the stage for future research. Code and Dataset for this paper is provided here: \href{https://github.com/sinaris76/TurtleBench}{https://github.com/sinaris76/TurtleBench}</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-10-31T23:52:06Z</published>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Sina Rismanchian</name>
+    </author>
+    <author>
+      <name>Yasaman Razeghi</name>
+    </author>
+    <author>
+      <name>Sameer Singh</name>
+    </author>
+    <author>
+      <name>Shayan Doroudi</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/cs/0305057v1</id>
+    <title>The Persint visualization program for the ATLAS experiment</title>
+    <updated>2003-05-29T22:06:27Z</updated>
+    <link href="https://arxiv.org/abs/cs/0305057v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/cs/0305057v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>  The Persint program is designed for the three-dimensional representation of objects and for the interfacing and access to a variety of independent applications, in a fully interactive way. Facilities are provided for the spatial navigation and the definition of the visualization properties, in order to interactively set the viewing and viewed points, and to obtain the desired perspective. In parallel, applications may be launched through the use of dedicated interfaces, such as the interactive reconstruction and display of physics events. Recent developments have focalized on the interfacing to the XML ATLAS General Detector Description AGDD, making it a widely used tool for XML developers. The graphics capabilities of this program were exploited in the context of the ATLAS 2002 Muon Testbeam where it was used as an online event display, integrated in the online software framework and participating in the commissioning and debug of the detector system.</summary>
+    <category term="cs.GR" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2003-05-29T22:06:27Z</published>
+    <arxiv:comment>9 pages, 10 figures, proceedings of CHEP2003</arxiv:comment>
+    <arxiv:primary_category term="cs.GR"/>
+    <arxiv:journal_ref>ECONFC0303241:MOLT009,2003</arxiv:journal_ref>
+    <author>
+      <name>D. Pomarede</name>
+    </author>
+    <author>
+      <name>M. Virchaux</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2107.07212v1</id>
+    <title>Duplicated Code Pattern Mining in Visual Programming Languages</title>
+    <updated>2021-07-15T09:39:52Z</updated>
+    <link href="https://arxiv.org/abs/2107.07212v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2107.07212v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Visual Programming Languages (VPLs), coupled with the high-level abstractions that are commonplace in visual programming environments, enable users with less technical knowledge to become proficient programmers. However, the lower skill floor required by VPLs also entails that programmers are more likely to not adhere to best practices of software development, producing systems with high technical debt, and thus poor maintainability. Duplicated code is one important example of such technical debt. In fact, we observed that the amount of duplication in the OutSystems VPL code bases can reach as high as $39\%$.
+  Duplicated code detection in text-based programming languages is still an active area of research with important implications regarding software maintainability and evolution. However, to the best of our knowledge, the literature on duplicated code detection for VPLs is very limited. We propose a novel and scalable duplicated code pattern mining algorithm that leverages the visual structure of VPLs in order to not only detect duplicated code, but also highlight duplicated code patterns that explain the reported duplication. The performance of the proposed approach is evaluated on a wide range of real-world mobile and web applications developed using OutSystems.</summary>
+    <category term="cs.SE" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2021-07-15T09:39:52Z</published>
+    <arxiv:comment>Shorter version accepted for publication at FSE 2021</arxiv:comment>
+    <arxiv:primary_category term="cs.SE"/>
+    <author>
+      <name>Miguel Terra-Neves</name>
+    </author>
+    <author>
+      <name>João Nadkarni</name>
+    </author>
+    <author>
+      <name>Miguel Ventura</name>
+    </author>
+    <author>
+      <name>Pedro Resende</name>
+    </author>
+    <author>
+      <name>Hugo Veiga</name>
+    </author>
+    <author>
+      <name>António Alegria</name>
+    </author>
+    <arxiv:doi>10.1145/3468264.3473928</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1145/3468264.3473928" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2403.16921v2</id>
+    <title>PropTest: Automatic Property Testing for Improved Visual Programming</title>
+    <updated>2024-07-22T23:21:33Z</updated>
+    <link href="https://arxiv.org/abs/2403.16921v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2403.16921v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Visual Programming has recently emerged as an alternative to end-to-end black-box visual reasoning models. This type of method leverages Large Language Models (LLMs) to generate the source code for an executable computer program that solves a given problem. This strategy has the advantage of offering an interpretable reasoning path and does not require finetuning a model with task-specific data. We propose PropTest, a general strategy that improves visual programming by further using an LLM to generate code that tests for visual properties in an initial round of proposed solutions. Our method generates tests for data-type consistency, output syntax, and semantic properties. PropTest achieves comparable results to state-of-the-art methods while using publicly available LLMs. This is demonstrated across different benchmarks on visual question answering and referring expression comprehension. Particularly, PropTest improves ViperGPT by obtaining 46.1\% accuracy (+6.0\%) on GQA using Llama3-8B and 59.5\% (+8.1\%) on RefCOCO+ using CodeLlama-34B.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-03-25T16:39:15Z</published>
+    <arxiv:comment>Project Page: https://jaywonkoo17.github.io/PropTest/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Jaywon Koo</name>
+    </author>
+    <author>
+      <name>Ziyan Yang</name>
+    </author>
+    <author>
+      <name>Paola Cascante-Bonilla</name>
+    </author>
+    <author>
+      <name>Baishakhi Ray</name>
+    </author>
+    <author>
+      <name>Vicente Ordonez</name>
+    </author>
+  </entry>
+</feed>

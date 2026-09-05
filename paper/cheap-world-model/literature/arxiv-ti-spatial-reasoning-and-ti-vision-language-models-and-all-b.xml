@@ -1,0 +1,469 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/UvVtj2+lL80acWcPsdePMknEdq4</id>
+  <title>arXiv Query: search_query=ti:"spatial reasoning" AND ti:"vision language models" AND all:benchmark&amp;id_list=&amp;start=0&amp;max_results=12</title>
+  <updated>2026-09-05T21:41:52Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22spatial+reasoning%22+AND+(ti:%22vision+language+models%22+AND+all:benchmark)&amp;start=0&amp;max_results=12&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>12</opensearch:itemsPerPage>
+  <opensearch:totalResults>26</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2510.13394v4</id>
+    <title>Spatial-DISE: A Unified Benchmark for Evaluating Spatial Reasoning in Vision-Language Models</title>
+    <updated>2026-08-25T16:01:24Z</updated>
+    <link href="https://arxiv.org/abs/2510.13394v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2510.13394v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Spatial reasoning ability is crucial for Vision Language Models (VLMs) to support real-world applications in diverse domains including robotics, augmented reality, and autonomous navigation. Unfortunately, existing benchmarks are inadequate in assessing spatial reasoning ability, especially the \emph{intrinsic-dynamic} spatial reasoning which is a fundamental aspect of human spatial cognition. In this paper, we propose a unified benchmark, \textbf{Spatial-DISE}, based on a cognitively grounded taxonomy that categorizes tasks into four fundamental quadrants: \textbf{I}ntrinsic-\textbf{S}tatic, Intrinsic-\textbf{D}ynamic, \textbf{E}xtrinsic-Static, and Extrinsic-Dynamic spatial reasoning. Moreover, to address the issue of data scarcity, we develop a scalable and automated pipeline to generate diverse and verifiable spatial reasoning questions, resulting in a new \textbf{Spatial-DISE} dataset that includes Spatial-DISE Bench (559 evaluation VQA pairs) and Spatial-DISE-12K (12K+ training VQA pairs). Our comprehensive evaluation across 28 state-of-the-art VLMs reveals that, current VLMs have a large and consistent gap to human competence, especially on multi-step multi-view spatial reasoning. Spatial-DISE offers a robust framework, valuable dataset, and clear direction for future research toward human-like spatial intelligence. Benchmark, dataset, and code will be publicly released.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-10-15T10:44:01Z</published>
+    <arxiv:comment>ICLR 2026 Accepted Project Page: https://shinmohuang.github.io/spatialdise_page/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Xinmiao Huang</name>
+    </author>
+    <author>
+      <name>Qisong He</name>
+    </author>
+    <author>
+      <name>Zhenglin Huang</name>
+    </author>
+    <author>
+      <name>Boxuan Wang</name>
+    </author>
+    <author>
+      <name>Zhuoyun Li</name>
+    </author>
+    <author>
+      <name>Guangliang Cheng</name>
+    </author>
+    <author>
+      <name>Yi Dong</name>
+    </author>
+    <author>
+      <name>Xiaowei Huang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2601.14339v1</id>
+    <title>CityCube: Benchmarking Cross-view Spatial Reasoning on Vision-Language Models in Urban Environments</title>
+    <updated>2026-01-20T13:44:02Z</updated>
+    <link href="https://arxiv.org/abs/2601.14339v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2601.14339v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Cross-view spatial reasoning is essential for embodied AI, underpinning spatial understanding, mental simulation and planning in complex environments. Existing benchmarks primarily emphasize indoor or street settings, overlooking the unique challenges of open-ended urban spaces characterized by rich semantics, complex geometries, and view variations. To address this, we introduce CityCube, a systematic benchmark designed to probe cross-view reasoning capabilities of current VLMs in urban settings. CityCube integrates four viewpoint dynamics to mimic camera movements and spans a wide spectrum of perspectives from multiple platforms, e.g., vehicles, drones and satellites. For a comprehensive assessment, it features 5,022 meticulously annotated multi-view QA pairs categorized into five cognitive dimensions and three spatial relation expressions. A comprehensive evaluation of 33 VLMs reveals a significant performance disparity with humans: even large-scale models struggle to exceed 54.1% accuracy, remaining 34.2% below human performance. By contrast, small-scale fine-tuned VLMs achieve over 60.0% accuracy, highlighting the necessity of our benchmark. Further analyses indicate the task correlations and fundamental cognitive disparity between VLMs and human-like reasoning.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-01-20T13:44:02Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Haotian Xu</name>
+    </author>
+    <author>
+      <name>Yue Hu</name>
+    </author>
+    <author>
+      <name>Zhengqiu Zhu</name>
+    </author>
+    <author>
+      <name>Chen Gao</name>
+    </author>
+    <author>
+      <name>Ziyou Wang</name>
+    </author>
+    <author>
+      <name>Junreng Rao</name>
+    </author>
+    <author>
+      <name>Wenhao Lu</name>
+    </author>
+    <author>
+      <name>Weishi Li</name>
+    </author>
+    <author>
+      <name>Quanjun Yin</name>
+    </author>
+    <author>
+      <name>Yong Li</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2603.18892v1</id>
+    <title>MultihopSpatial: Multi-hop Compositional Spatial Reasoning Benchmark for Vision-Language Model</title>
+    <updated>2026-03-19T13:33:26Z</updated>
+    <link href="https://arxiv.org/abs/2603.18892v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2603.18892v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Spatial reasoning is foundational for Vision-Language Models (VLMs), particularly when deployed as Vision-Language-Action (VLA) agents in physical environments. However, existing benchmarks predominantly focus on elementary, single-hop relations, neglecting the multi-hop compositional reasoning and precise visual grounding essential for real-world scenarios. To address this, we introduce MultihopSpatial, offering three key contributions: (1) A comprehensive benchmark designed for multi-hop and compositional spatial reasoning, featuring 1- to 3-hop complex queries across diverse spatial perspectives. (2) Acc@50IoU, a complementary metric that simultaneously evaluates reasoning and visual grounding by requiring both answer selection and precise bounding box prediction - capabilities vital for robust VLA deployment. (3) MultihopSpatial-Train, a dedicated large-scale training corpus to foster spatial intelligence. Extensive evaluation of 37 state-of-the-art VLMs yields eight key insights, revealing that compositional spatial reasoning remains a formidable challenge. Finally, we demonstrate that reinforcement learning post-training on our corpus enhances both intrinsic VLM spatial reasoning and downstream embodied manipulation performance.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-03-19T13:33:26Z</published>
+    <arxiv:comment>Project page: https://youngwanlee.github.io/multihopspatial</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Youngwan Lee</name>
+    </author>
+    <author>
+      <name>Soojin Jang</name>
+    </author>
+    <author>
+      <name>Yoorhim Cho</name>
+    </author>
+    <author>
+      <name>Seunghwan Lee</name>
+    </author>
+    <author>
+      <name>Yong-Ju Lee</name>
+    </author>
+    <author>
+      <name>Sung Ju Hwang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2510.19400v2</id>
+    <title>Seeing Across Views: Benchmarking Spatial Reasoning of Vision-Language Models in Robotic Scenes</title>
+    <updated>2026-03-02T08:22:31Z</updated>
+    <link href="https://arxiv.org/abs/2510.19400v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2510.19400v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Vision-language models (VLMs) are essential to Embodied AI, enabling robots to perceive, reason, and act in complex environments. They also serve as the foundation for the recent Vision-Language-Action (VLA) models. Yet most evaluations of VLMs focus on single-view settings, leaving their ability to integrate multi-view information underexplored. At the same time, multi-camera setups are increasingly standard in robotic platforms, as they provide complementary perspectives to mitigate occlusion and depth ambiguity. Whether VLMs can effectively leverage such multi-view inputs for robotic reasoning therefore remains an open question. To bridge this gap, we introduce MV-RoboBench, a benchmark specifically designed to evaluate the multi-view spatial reasoning capabilities of VLMs in robotic manipulation. MV-RoboBench consists of 1.7k manually curated QA items across eight subtasks, divided into two primary categories: spatial understanding and robotic execution. We evaluate a diverse set of existing VLMs, including both open-source and closed-source models, along with enhanced versions incorporating CoT-inspired techniques. The results show that state-of-the-art models remain far below human performance, underscoring the substantial challenges VLMs face in multi-view robotic perception. Additionally, our analysis uncovers two key findings: (i) spatial intelligence and robotic task execution are positively correlated in multi-view robotic scenarios; and (ii) strong performance on existing general-purpose single-view spatial understanding benchmarks does not reliably translate to success in the robotic spatial tasks assessed by our benchmark. We release MV-RoboBench as an open resource to foster progress in spatially grounded VLMs and VLAs, providing not only data but also a standardized evaluation protocol for multi-view embodied reasoning.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-10-22T09:20:09Z</published>
+    <arxiv:comment>Accepted to ICLR 2026. Camera-ready version. Project page: https://aaronfengzy.github.io/MV-RoboBench-Webpage/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <arxiv:journal_ref>International Conference on Learning Representations (ICLR), 2026</arxiv:journal_ref>
+    <author>
+      <name>Zhiyuan Feng</name>
+    </author>
+    <author>
+      <name>Zhaolu Kang</name>
+    </author>
+    <author>
+      <name>Qijie Wang</name>
+    </author>
+    <author>
+      <name>Zhiying Du</name>
+    </author>
+    <author>
+      <name>Jiongrui Yan</name>
+    </author>
+    <author>
+      <name>Shubin Shi</name>
+    </author>
+    <author>
+      <name>Chengbo Yuan</name>
+    </author>
+    <author>
+      <name>Huizhi Liang</name>
+    </author>
+    <author>
+      <name>Yu Deng</name>
+    </author>
+    <author>
+      <name>Qixiu Li</name>
+    </author>
+    <author>
+      <name>Rushuai Yang</name>
+    </author>
+    <author>
+      <name>Arctanx An</name>
+    </author>
+    <author>
+      <name>Leqi Zheng</name>
+    </author>
+    <author>
+      <name>Weijie Wang</name>
+    </author>
+    <author>
+      <name>Shawn Chen</name>
+    </author>
+    <author>
+      <name>Sicheng Xu</name>
+    </author>
+    <author>
+      <name>Yaobo Liang</name>
+    </author>
+    <author>
+      <name>Jiaolong Yang</name>
+    </author>
+    <author>
+      <name>Baining Guo</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2608.01709v1</id>
+    <title>SpatialQuery: Benchmarking Geometry-Grounded Multi-Instance Spatial Reasoning in Vision-Language Models</title>
+    <updated>2026-08-03T05:15:46Z</updated>
+    <link href="https://arxiv.org/abs/2608.01709v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2608.01709v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Vision-language models (VLMs) achieve strong semantic understanding but remain unreliable in metric spatial reasoning, particularly when queries require comparing multiple instances of the same object category. We study this problem through the Closest-Instance Distance Query (CIDQ), where a model must identify the nearest visible candidate to a unique reference object and estimate their gravity-aligned floor-plane distance. We introduce SPATIALQUERY, a training- free framework for CIDQ reasoning from a single RGB image, together with SPATIALQUERY-1M, a benchmark containing over one million RGB-only question-answer pairs from 200 indoor scenes. SPATIALQUERY recovers instance-level metric geometry and transforms it into a canonical Bird's-Eye View through Scene Cubifying, which represents objects as uniformly sized, category-coded blocks to emphasize their relative floor- plane locations. We further propose Uncertainty-Aware Chain-of-Thought (UA-CoT) prompting, which incorporates geometry- derived per-instance uncertainty into the VLM reasoning process. Without task-specific fine-tuning or architectural modification, SPATIALQUERY with Qwen3-VL-8B achieves a Floor-MAE of 0.259 m, an Unc-Acc@0.3 m of 90.5%, and a proximity-decision accuracy of 84.18%, outperforming fine-tuned spatial specialists, general-purpose VLMs, and closed-source frontier models. Code, benchmark resources, and an interactive demo are available at https://namhai1810.github.io/SpatialQuery/.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-08-03T05:15:46Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Hai Nguyen</name>
+    </author>
+    <author>
+      <name>Tung Vu</name>
+    </author>
+    <author>
+      <name>Cong Tran</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2506.03135v3</id>
+    <title>OmniSpatial: Towards Comprehensive Spatial Reasoning Benchmark for Vision Language Models</title>
+    <updated>2026-02-28T06:27:01Z</updated>
+    <link href="https://arxiv.org/abs/2506.03135v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2506.03135v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Spatial reasoning is a key aspect of cognitive psychology and remains a bottleneck for current vision-language models (VLMs). While extensive research has aimed to evaluate or improve VLMs' understanding of basic spatial relations, such as distinguishing left from right, near from far, and object counting, these tasks cover only the most elementary layer of spatial reasoning and are largely approaching saturation in the latest reasoning models. In this work, we introduce OmniSpatial, a comprehensive and challenging benchmark for spatial reasoning, grounded in cognitive psychology. OmniSpatial covers four major categories: dynamic reasoning, complex spatial logic, spatial interaction, and perspective-taking, with 50 fine-grained subcategories. Through careful manual annotation, we construct over 8.4K question-answer pairs. Extensive experiments show that both open- and closed-source VLMs exhibit significant limitations in comprehensive spatial reasoning. We also explore two strategies-PointGraph (explicit scene graph cues) and SpatialCoT (novel-view chain-of-thought)-to bolster spatial reasoning.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-06-03T17:58:29Z</published>
+    <arxiv:comment>ICLR 2026</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Mengdi Jia</name>
+    </author>
+    <author>
+      <name>Zekun Qi</name>
+    </author>
+    <author>
+      <name>Shaochen Zhang</name>
+    </author>
+    <author>
+      <name>Wenyao Zhang</name>
+    </author>
+    <author>
+      <name>Xinqiang Yu</name>
+    </author>
+    <author>
+      <name>Jiawei He</name>
+    </author>
+    <author>
+      <name>He Wang</name>
+    </author>
+    <author>
+      <name>Li Yi</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2603.13033v1</id>
+    <title>ESPIRE: A Diagnostic Benchmark for Embodied Spatial Reasoning of Vision-Language Models</title>
+    <updated>2026-03-13T14:43:00Z</updated>
+    <link href="https://arxiv.org/abs/2603.13033v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2603.13033v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>A recent trend in vision-language models (VLMs) has been to enhance their spatial cognition for embodied domains. Despite progress, existing evaluations have been limited both in paradigm and in coverage, hindering rapid, iterative model development. To address these limitations, we propose ESPIRE, a diagnostic benchmark for embodied spatial reasoning. ESPIRE offers a simulated world that physically grounds VLMs and evaluates them on spatial-reasoning-centric robotic tasks, thus narrowing the gap between evaluation and real-world deployment. To adapt VLMs to robotic tasks, we decompose each task into localization and execution, and frame both as generative problems, in stark contrast to predominant discriminative evaluations (e.g., via visual-question answering) that rely on distractors and discard execution. This decomposition further enables a fine-grained analysis beyond passive spatial reasoning toward reasoning to act. We systematically design ESPIRE both at the instruction level and at the environment level, ensuring broad coverage of spatial reasoning scenarios. We use ESPIRE to diagnose a range of frontier VLMs and provide in-depth analysis of their spatial reasoning behaviors.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-03-13T14:43:00Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yanpeng Zhao</name>
+    </author>
+    <author>
+      <name>Wentao Ding</name>
+    </author>
+    <author>
+      <name>Hongtao Li</name>
+    </author>
+    <author>
+      <name>Baoxiong Jia</name>
+    </author>
+    <author>
+      <name>Zilong Zheng</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2503.19707v1</id>
+    <title>Mind the Gap: Benchmarking Spatial Reasoning in Vision-Language Models</title>
+    <updated>2025-03-25T14:34:06Z</updated>
+    <link href="https://arxiv.org/abs/2503.19707v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2503.19707v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Vision-Language Models (VLMs) have recently emerged as powerful tools, excelling in tasks that integrate visual and textual comprehension, such as image captioning, visual question answering, and image-text retrieval. However, existing benchmarks for VLMs include spatial components, which often fail to isolate spatial reasoning from related tasks such as object detection or semantic comprehension. In this paper, we address these deficiencies with a multi-faceted approach towards understanding spatial reasoning. Informed by the diverse and multi-dimensional nature of human spatial reasoning abilities, we present a detailed analysis that first delineates the core elements of spatial reasoning: spatial relations, orientation and navigation, mental rotation, and spatial visualization, and then assesses the performance of these models in both synthetic and real-world images, bridging controlled and naturalistic contexts. We analyze 13 state-of-the-art Vision-Language Models, uncovering pivotal insights into their spatial reasoning performance. Our results reveal profound shortcomings in current VLMs, with average accuracy across the 13 models approximating random chance, highlighting spatial reasoning as a persistent obstacle. This work not only exposes the pressing need to advance spatial reasoning within VLMs but also establishes a solid platform for future exploration. Code available on GitHub (https://github.com/stogiannidis/srbench) and dataset available on HuggingFace (https://huggingface.co/datasets/stogiannidis/srbench).</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-03-25T14:34:06Z</published>
+    <arxiv:comment>8 main pages, 4 pages Appendix, 5 figures</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Ilias Stogiannidis</name>
+    </author>
+    <author>
+      <name>Steven McDonagh</name>
+    </author>
+    <author>
+      <name>Sotirios A. Tsaftaris</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2603.26362v1</id>
+    <title>HandVQA: Diagnosing and Improving Fine-Grained Spatial Reasoning about Hands in Vision-Language Models</title>
+    <updated>2026-03-27T12:42:26Z</updated>
+    <link href="https://arxiv.org/abs/2603.26362v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2603.26362v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Understanding the fine-grained articulation of human hands is critical in high-stakes settings such as robot-assisted surgery, chip manufacturing, and AR/VR-based human-AI interaction. Despite achieving near-human performance on general vision-language benchmarks, current vision-language models (VLMs) struggle with fine-grained spatial reasoning, especially in interpreting complex and articulated hand poses. We introduce HandVQA, a large-scale diagnostic benchmark designed to evaluate VLMs' understanding of detailed hand anatomy through visual question answering. Built upon high-quality 3D hand datasets (FreiHAND, InterHand2.6M, FPHA), our benchmark includes over 1.6M controlled multiple-choice questions that probe spatial relationships between hand joints, such as angles, distances, and relative positions. We evaluate several state-of-the-art VLMs (LLaVA, DeepSeek and Qwen-VL) in both base and fine-tuned settings, using lightweight fine-tuning via LoRA. Our findings reveal systematic limitations in current models, including hallucinated finger parts, incorrect geometric interpretations, and poor generalization. HandVQA not only exposes these critical reasoning gaps but provides a validated path to improvement. We demonstrate that the 3D-grounded spatial knowledge learned from our benchmark transfers in a zero-shot setting, significantly improving accuracy of model on novel downstream tasks like hand gesture recognition (+10.33%) and hand-object interaction (+2.63%).</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-03-27T12:42:26Z</published>
+    <arxiv:comment>Accepted in CVPR 2026; Project page, code, and dataset: https://kcsayem.github.io/handvqa/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>MD Khalequzzaman Chowdhury Sayem</name>
+    </author>
+    <author>
+      <name>Mubarrat Tajoar Chowdhury</name>
+    </author>
+    <author>
+      <name>Yihalem Yimolal Tiruneh</name>
+    </author>
+    <author>
+      <name>Muneeb A. Khan</name>
+    </author>
+    <author>
+      <name>Muhammad Salman Ali</name>
+    </author>
+    <author>
+      <name>Binod Bhattarai</name>
+    </author>
+    <author>
+      <name>Seungryul Baek</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2406.01584v3</id>
+    <title>SpatialRGPT: Grounded Spatial Reasoning in Vision Language Models</title>
+    <updated>2024-10-15T01:16:20Z</updated>
+    <link href="https://arxiv.org/abs/2406.01584v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2406.01584v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Vision Language Models (VLMs) have demonstrated remarkable performance in 2D vision and language tasks. However, their ability to reason about spatial arrangements remains limited. In this work, we introduce Spatial Region GPT (SpatialRGPT) to enhance VLMs' spatial perception and reasoning capabilities. SpatialRGPT advances VLMs' spatial understanding through two key innovations: (1) a data curation pipeline that enables effective learning of regional representation from 3D scene graphs, and (2) a flexible plugin module for integrating depth information into the visual encoder of existing VLMs. During inference, when provided with user-specified region proposals, SpatialRGPT can accurately perceive their relative directions and distances. Additionally, we propose SpatialRGBT-Bench, a benchmark with ground-truth 3D annotations encompassing indoor, outdoor, and simulated environments, for evaluating 3D spatial cognition in VLMs. Our results demonstrate that SpatialRGPT significantly enhances performance in spatial reasoning tasks, both with and without local region prompts. The model also exhibits strong generalization capabilities, effectively reasoning about complex spatial relations and functioning as a region-aware dense reward annotator for robotic tasks. Code, dataset, and benchmark are released at https://www.anjiecheng.me/SpatialRGPT</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-06-03T17:59:06Z</published>
+    <arxiv:comment>NeurIPS 2024, Project Page: https://www.anjiecheng.me/SpatialRGPT</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>An-Chieh Cheng</name>
+    </author>
+    <author>
+      <name>Hongxu Yin</name>
+    </author>
+    <author>
+      <name>Yang Fu</name>
+    </author>
+    <author>
+      <name>Qiushan Guo</name>
+    </author>
+    <author>
+      <name>Ruihan Yang</name>
+    </author>
+    <author>
+      <name>Jan Kautz</name>
+    </author>
+    <author>
+      <name>Xiaolong Wang</name>
+    </author>
+    <author>
+      <name>Sifei Liu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2506.18385v1</id>
+    <title>InternSpatial: A Comprehensive Dataset for Spatial Reasoning in Vision-Language Models</title>
+    <updated>2025-06-23T08:17:22Z</updated>
+    <link href="https://arxiv.org/abs/2506.18385v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2506.18385v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Recent benchmarks and datasets have been proposed to improve spatial reasoning in vision-language models (VLMs), yet existing open resources remain limited in scale, visual diversity, and instruction expressiveness. In this work, we introduce InternSpatial, the largest open-source dataset for spatial reasoning in VLMs, along with InternSpatial-Bench, a corresponding evaluation benchmark designed to assess spatial understanding under diverse instruction formats. InternSpatial comprises 12 million QA pairs spanning both single-view and multi-view settings, drawn from diverse visual environments and supporting 19 instruction formats that reflect varied query styles. For evaluation, we propose InternSpatial-Bench for single-view tasks and expand multi-view reasoning by introducing a novel rotation angle prediction task that has not been explored in prior work. Experimental results show that models trained on InternSpatial achieve 12.1% improvement on InternSpatial-Bench and 10.7% on VSI-Bench, while maintaining strong performance on general-purpose benchmarks. We hope these resources will support the development of spatially capable VLMs in practical applications such as robotics and embodied AI.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-06-23T08:17:22Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Nianchen Deng</name>
+    </author>
+    <author>
+      <name>Lixin Gu</name>
+    </author>
+    <author>
+      <name>Shenglong Ye</name>
+    </author>
+    <author>
+      <name>Yinan He</name>
+    </author>
+    <author>
+      <name>Zhe Chen</name>
+    </author>
+    <author>
+      <name>Songze Li</name>
+    </author>
+    <author>
+      <name>Haomin Wang</name>
+    </author>
+    <author>
+      <name>Xingguang Wei</name>
+    </author>
+    <author>
+      <name>Tianshuo Yang</name>
+    </author>
+    <author>
+      <name>Min Dou</name>
+    </author>
+    <author>
+      <name>Tong He</name>
+    </author>
+    <author>
+      <name>Wenqi Shao</name>
+    </author>
+    <author>
+      <name>Kaipeng Zhang</name>
+    </author>
+    <author>
+      <name>Yi Wang</name>
+    </author>
+    <author>
+      <name>Botian Shi</name>
+    </author>
+    <author>
+      <name>Yanting Zhang</name>
+    </author>
+    <author>
+      <name>Jifeng Dai</name>
+    </author>
+    <author>
+      <name>Yu Qiao</name>
+    </author>
+    <author>
+      <name>Hongjie Zhang</name>
+    </author>
+    <author>
+      <name>Wenhai Wang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2509.06266v2</id>
+    <title>Spatial Reasoning with Vision-Language Models in Ego-Centric Multi-View Scenes</title>
+    <updated>2025-09-30T04:28:17Z</updated>
+    <link href="https://arxiv.org/abs/2509.06266v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2509.06266v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Understanding 3D spatial relationships remains a major limitation of current Vision-Language Models (VLMs). Prior work has addressed this issue by creating spatial question-answering (QA) datasets based on single images or indoor videos. However, real-world embodied AI agents such as robots and self-driving cars typically rely on ego-centric, multi-view observations. To this end, we introduce Ego3D-Bench, a new benchmark designed to evaluate the spatial reasoning abilities of VLMs using ego-centric, multi-view outdoor data. Ego3D-Bench comprises over 8,600 QA pairs, created with significant involvement from human annotators to ensure quality and diversity. We benchmark 16 SOTA VLMs, including GPT-4o, Gemini1.5-Pro, InternVL3, and Qwen2.5-VL. Our results reveal a notable performance gap between human level scores and VLM performance, highlighting that current VLMs still fall short of human level spatial understanding. To bridge this gap, we propose Ego3D-VLM, a post-training framework that enhances 3D spatial reasoning of VLMs. Ego3D-VLM generates cognitive map based on estimated global 3D coordinates, resulting in 12% average improvement on multi-choice QA and 56% average improvement on absolute distance estimation. Ego3D-VLM is modular and can be integrated with any existing VLM. Together, Ego3D-Bench and Ego3D-VLM offer valuable tools for advancing toward human level spatial understanding in real-world, multi-view environments.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-09-08T01:08:41Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Mohsen Gholami</name>
+    </author>
+    <author>
+      <name>Ahmad Rezaei</name>
+    </author>
+    <author>
+      <name>Zhou Weimin</name>
+    </author>
+    <author>
+      <name>Sitong Mao</name>
+    </author>
+    <author>
+      <name>Shunbo Zhou</name>
+    </author>
+    <author>
+      <name>Yong Zhang</name>
+    </author>
+    <author>
+      <name>Mohammad Akbari</name>
+    </author>
+  </entry>
+</feed>

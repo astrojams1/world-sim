@@ -1,0 +1,361 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/rLUyJjKRrXka2fp3cijfG5OAX/M</id>
+  <title>arXiv Query: search_query=ti:"world model" AND all:robot AND all:"object-centric"&amp;id_list=&amp;start=0&amp;max_results=20</title>
+  <updated>2026-09-05T21:40:57Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22world+model%22+AND+(all:robot+AND+all:%22object-centric%22)&amp;start=0&amp;max_results=20&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>20</opensearch:itemsPerPage>
+  <opensearch:totalResults>12</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2307.02427v2</id>
+    <title>FOCUS: Object-Centric World Models for Robotics Manipulation</title>
+    <updated>2023-07-07T13:36:35Z</updated>
+    <link href="https://arxiv.org/abs/2307.02427v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2307.02427v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Understanding the world in terms of objects and the possible interplays with them is an important cognition ability, especially in robotics manipulation, where many tasks require robot-object interactions. However, learning such a structured world model, which specifically captures entities and relationships, remains a challenging and underexplored problem. To address this, we propose FOCUS, a model-based agent that learns an object-centric world model. Thanks to a novel exploration bonus that stems from the object-centric representation, FOCUS can be deployed on robotics manipulation tasks to explore object interactions more easily. Evaluating our approach on manipulation tasks across different settings, we show that object-centric world models allow the agent to solve tasks more efficiently and enable consistent exploration of robot-object interactions. Using a Franka Emika robot arm, we also showcase how FOCUS could be adopted in real-world settings.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-07-05T16:49:06Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Stefano Ferraro</name>
+    </author>
+    <author>
+      <name>Pietro Mazzaglia</name>
+    </author>
+    <author>
+      <name>Tim Verbelen</name>
+    </author>
+    <author>
+      <name>Bart Dhoedt</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2511.02225v1</id>
+    <title>Learning Interactive World Model for Object-Centric Reinforcement Learning</title>
+    <updated>2025-11-04T03:35:58Z</updated>
+    <link href="https://arxiv.org/abs/2511.02225v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2511.02225v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Agents that understand objects and their interactions can learn policies that are more robust and transferable. However, most object-centric RL methods factor state by individual objects while leaving interactions implicit. We introduce the Factored Interactive Object-Centric World Model (FIOC-WM), a unified framework that learns structured representations of both objects and their interactions within a world model. FIOC-WM captures environment dynamics with disentangled and modular representations of object interactions, improving sample efficiency and generalization for policy learning. Concretely, FIOC-WM first learns object-centric latents and an interaction structure directly from pixels, leveraging pre-trained vision encoders. The learned world model then decomposes tasks into composable interaction primitives, and a hierarchical policy is trained on top: a high level selects the type and order of interactions, while a low level executes them. On simulated robotic and embodied-AI benchmarks, FIOC-WM improves policy-learning sample efficiency and generalization over world-model baselines, indicating that explicit, modular interaction learning is crucial for robust control.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-11-04T03:35:58Z</published>
+    <arxiv:comment>NeurIPS 2025</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Fan Feng</name>
+    </author>
+    <author>
+      <name>Phillip Lippe</name>
+    </author>
+    <author>
+      <name>Sara Magliacane</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2503.06170v2</id>
+    <title>Object-Centric World Model for Language-Guided Manipulation</title>
+    <updated>2025-03-12T13:52:50Z</updated>
+    <link href="https://arxiv.org/abs/2503.06170v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2503.06170v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>A world model is essential for an agent to predict the future and plan in domains such as autonomous driving and robotics. To achieve this, recent advancements have focused on video generation, which has gained significant attention due to the impressive success of diffusion models. However, these models require substantial computational resources. To address these challenges, we propose a world model leveraging object-centric representation space using slot attention, guided by language instructions. Our model perceives the current state as an object-centric representation and predicts future states in this representation space conditioned on natural language instructions. This approach results in a more compact and computationally efficient model compared to diffusion-based generative alternatives. Furthermore, it flexibly predicts future states based on language instructions, and offers a significant advantage in manipulation tasks where object recognition is crucial. In this paper, we demonstrate that our latent predictive world model surpasses generative world models in visuo-linguo-motor control tasks, achieving superior sample and computation efficiency. We also investigate the generalization performance of the proposed method and explore various strategies for predicting actions using object-centric representations.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-03-08T11:17:37Z</published>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Youngjoon Jeong</name>
+    </author>
+    <author>
+      <name>Junha Chun</name>
+    </author>
+    <author>
+      <name>Soonwoo Cha</name>
+    </author>
+    <author>
+      <name>Taesup Kim</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2606.08775v1</id>
+    <title>Unifying Object-Centric World Models and Diffusion Policy: A Hierarchical Framework for Multi-Stage Robotic Tasks</title>
+    <updated>2026-06-07T18:39:45Z</updated>
+    <link href="https://arxiv.org/abs/2606.08775v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.08775v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Visual world models have shown great potential in learning complex system dynamics. Recent advancements leverage these models as transition functions within Model Predictive Control (MPC) frameworks to solve various control tasks. When applied to robotics, however, they are limited to single-stage tasks such as reaching or grasping, and struggle with multi-stage ones that demand complex sequential planning. In this work, we introduce WorldDP, a world model framework designed for multi-stage robotic manipulation. Our hierarchical approach utilizes a high-level world model as a transition function to optimize for feasible subgoals during runtime, which are subsequently reached by a low-level Diffusion Policy. To further aid in learning dynamics and planning, we incorporate object-centric representations that decouple environmental entities and enable us to plan sequentially with respect to each. Evaluated across several robotics benchmarks, WorldDP consistently outperforms existing baselines, validating that coupling the world model's physically grounded planning with diffusion policy's efficient execution yields superior multi-stage performance.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-07T18:39:45Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Raktim Gautam Goswami</name>
+    </author>
+    <author>
+      <name>Prashanth Krishnamurthy</name>
+    </author>
+    <author>
+      <name>Yann LeCun</name>
+    </author>
+    <author>
+      <name>Farshad Khorrami</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2606.01950v1</id>
+    <title>Learning Action-Conditional and Object-Centric Gaussian Splatting World Models for Rigid Objects</title>
+    <updated>2026-06-01T09:12:07Z</updated>
+    <link href="https://arxiv.org/abs/2606.01950v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.01950v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>World models enable intelligent agents to predict the consequences of their actions on the environment. In this paper, we propose Multi Rigid Object Gaussian World Model (MRO-GWM), a novel model that learns action-conditional dynamics of rigid objects in 3D. By representing the scene by object-centric Gaussians, we can represent arbitrary object shapes and multi-object scenes. We develop a novel spatio-temporal transformer architecture that predicts future rigid body motion from a history of object Gaussians and future actions. Objects are represented by their Gaussians in a canonical frame, which allows for describing object motion as rigid body transformation. Our model is trained on reconstructions from multiple viewpoints, which requires the model to handle partial observations of objects due to occlusions. We analyze prediction performance of our approach on synthetic datasets composed of typical household objects with multi-object dynamics and interactions by a robot end effector. We also evaluate our model in model-predictive control for non-prehensile manipulation in simulation.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-01T09:12:07Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Jens U. Kreber</name>
+    </author>
+    <author>
+      <name>Lukas Mack</name>
+    </author>
+    <author>
+      <name>Joerg Stueckler</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2603.29090v1</id>
+    <title>HCLSM: Hierarchical Causal Latent State Machines for Object-Centric World Modeling</title>
+    <updated>2026-03-31T00:11:29Z</updated>
+    <link href="https://arxiv.org/abs/2603.29090v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2603.29090v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>World models that predict future states from video remain limited by flat latent representations that entangle objects, ignore causal structure, and collapse temporal dynamics into a single scale. We present HCLSM, a world model architecture that operates on three interconnected principles: object-centric decomposition via slot attention with spatial broadcast decoding, hierarchical temporal dynamics through a three-level engine combining selective state space models for continuous physics, sparse transformers for discrete events, and compressed transformers for abstract goals, and causal structure learning through graph neural network interaction patterns. HCLSM introduces a two-stage training protocol where spatial reconstruction forces slot specialization before dynamics prediction begins. We train a 68M-parameter model on the PushT robotic manipulation benchmark from the Open X-Embodiment dataset, achieving 0.008 MSE next-state prediction loss with emerging spatial decomposition (SBD loss: 0.0075) and learned event boundaries. A custom Triton kernel for the SSM scan delivers 38x speedup over sequential PyTorch. The full system spans 8,478 lines of Python across 51 modules with 171 unit tests. Code: https://github.com/rightnow-ai/hclsm</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-03-31T00:11:29Z</published>
+    <arxiv:comment>10 pages, 3 tables, 4 figures, 1 algorithm. Code: https://github.com/rightnow-ai/hclsm</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Jaber Jaber</name>
+    </author>
+    <author>
+      <name>Osama Jaber</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2511.07416v1</id>
+    <title>Robot Learning from a Physical World Model</title>
+    <updated>2025-11-10T18:59:07Z</updated>
+    <link href="https://arxiv.org/abs/2511.07416v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2511.07416v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We introduce PhysWorld, a framework that enables robot learning from video generation through physical world modeling. Recent video generation models can synthesize photorealistic visual demonstrations from language commands and images, offering a powerful yet underexplored source of training signals for robotics. However, directly retargeting pixel motions from generated videos to robots neglects physics, often resulting in inaccurate manipulations. PhysWorld addresses this limitation by coupling video generation with physical world reconstruction. Given a single image and a task command, our method generates task-conditioned videos and reconstructs the underlying physical world from the videos, and the generated video motions are grounded into physically accurate actions through object-centric residual reinforcement learning with the physical world model. This synergy transforms implicit visual guidance into physically executable robotic trajectories, eliminating the need for real robot data collection and enabling zero-shot generalizable robotic manipulation. Experiments on diverse real-world tasks demonstrate that PhysWorld substantially improves manipulation accuracy compared to previous approaches. Visit \href{https://pointscoder.github.io/PhysWorld_Web/}{the project webpage} for details.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-11-10T18:59:07Z</published>
+    <arxiv:comment>Project page: https://pointscoder.github.io/PhysWorld_Web/</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Jiageng Mao</name>
+    </author>
+    <author>
+      <name>Sicheng He</name>
+    </author>
+    <author>
+      <name>Hao-Ning Wu</name>
+    </author>
+    <author>
+      <name>Yang You</name>
+    </author>
+    <author>
+      <name>Shuyang Sun</name>
+    </author>
+    <author>
+      <name>Zhicheng Wang</name>
+    </author>
+    <author>
+      <name>Yanan Bao</name>
+    </author>
+    <author>
+      <name>Huizhong Chen</name>
+    </author>
+    <author>
+      <name>Leonidas Guibas</name>
+    </author>
+    <author>
+      <name>Vitor Guizilini</name>
+    </author>
+    <author>
+      <name>Howard Zhou</name>
+    </author>
+    <author>
+      <name>Yue Wang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2608.28491v1</id>
+    <title>AcrossVAM1.0: Particle World Modeling for Text-Assisted Robot Video Prediction</title>
+    <updated>2026-08-28T16:19:24Z</updated>
+    <link href="https://arxiv.org/abs/2608.28491v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2608.28491v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Predicting robot videos requires both precise motion reasoning and preservation of high-frequency appearance, yet monolithic pixel models entangle these objectives and often conceal their progress behind a strong last-frame baseline. We present AcrossVAM1.0, a lightweight, text-assisted video action model that factorizes future prediction into object-centric motion and dense appearance. A frozen SAM3-DLP codec decomposes four context frames into semantic particles for the robot, arm, and gripper, together with a background latent. A 0.28M-parameter spatio-temporal Transformer aligns particle identities, rolls their states forward, and is modulated by a frozen OpenCLIP instruction embedding through FiLM. A causal dual-stream decoder combines particle-rendered motion with appearance encoded exclusively from the last observed frame; a residual refiner and learned delivery mask produce five future frames without access to future appearance. On our VRS benchmark constructed from diverse real-robot trajectories, particle dynamics reduce trajectory error by 21.0\% over persistence. Across three delivery-mask seeds, AcrossVAM1.0 improves future-frame PSNR/SSIM from 19.97/0.796 to 20.573/0.8004, while raw particle generation improves motion-region PSNR from 11.89 to 13.23. The delivered model does not yet beat persistence in LPIPS, and correct-versus- shuffled language changes trajectory error by only 2.8--3.1%. We report these limitations alongside oracle, negative-control, multi-seed, and per-robot analyses. The results show that explicit particle dynamics are a promising low-dimensional interface for robot video prediction, while robust language grounding and appearance delivery remain the principal open challenges.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-08-28T16:19:24Z</published>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Yafei Zhang</name>
+    </author>
+    <author>
+      <name>Nan Wu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2506.23919v3</id>
+    <title>Goal-VLA: Image-Generative VLMs as Object-Centric World Models Empowering Zero-shot Robot Manipulation</title>
+    <updated>2026-03-30T01:48:47Z</updated>
+    <link href="https://arxiv.org/abs/2506.23919v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2506.23919v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Generalization remains a fundamental challenge in robotic manipulation. To tackle this challenge, recent Vision-Language-Action (VLA) models build policies on top of Vision-Language Models (VLMs), seeking to transfer their open-world semantic knowledge. However, their zero-shot capability lags significantly behind the base VLMs, as the instruction-vision-action data is too limited to cover diverse scenarios, tasks, and robot embodiments. In this work, we present Goal-VLA, a zero-shot framework that leverages Image-Generative VLMs as world models to generate desired goal states, from which the target object pose is derived to enable generalizable manipulation. The key insight is that object state representation is the golden interface, naturally separating a manipulation system into high-level and low-level policies. This representation abstracts away explicit action annotations, allowing the use of highly generalizable VLMs while simultaneously providing spatial cues for training-free low-level control. To further improve robustness, we introduce a Reflection-through-Synthesis process that iteratively validates and refines the generated goal image before execution. Both simulated and real-world experiments demonstrate that our \name achieves strong performance and inspiring generalizability in manipulation tasks. Supplementary materials are available at https://nus-lins-lab.github.io/goalvlaweb/.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-06-30T14:48:49Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Haonan Chen</name>
+    </author>
+    <author>
+      <name>Jingxiang Guo</name>
+    </author>
+    <author>
+      <name>Bangjun Wang</name>
+    </author>
+    <author>
+      <name>Tianrui Zhang</name>
+    </author>
+    <author>
+      <name>Xuchuan Huang</name>
+    </author>
+    <author>
+      <name>Boren Zheng</name>
+    </author>
+    <author>
+      <name>Yiwen Hou</name>
+    </author>
+    <author>
+      <name>Chenrui Tie</name>
+    </author>
+    <author>
+      <name>Jiajun Deng</name>
+    </author>
+    <author>
+      <name>Lin Shao</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2606.13817v1</id>
+    <title>FlowMo-WM: A World Model with Object Momentum and Hidden Ambient Drift</title>
+    <updated>2026-06-11T18:46:43Z</updated>
+    <link href="https://arxiv.org/abs/2606.13817v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.13817v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>World models in robot learning predict future states from visual observations and actions, enabling agents to reason about the consequences of their controls. However, many action-conditioned models are evaluated in settings where motion is dominated by immediate control, whereas aquatic surface vehicles and other real-world objects continue moving under inertia and are displaced by hidden ambient drift, such as water currents or wind. We propose FlowMo-WM, an end-to-end trainable visual world model that infers object-centric motion state and a predictive long-history context associated with hidden drift from image-action histories without direct supervision of flow fields. FlowMo-WM factorizes image-action history into a short-history latent state, trained to summarize object-centric motion, and a longer-history context, trained to summarize slowly varying exogenous influences. A zero-context residual transition separates action-conditioned base dynamics from context-dependent drift effects during latent rollout. In simulated aquatic surface-vehicle environments with diverse hidden flows, disturbances, and randomized vehicle dynamics, FlowMo-WM improves long-horizon rollout accuracy over representative action-conditioned latent world models. Prediction-time context ablations, in which the inferred context is zeroed or shuffled during rollout, show that the ambient context is important for stable prediction under hidden drift, while frozen linear probes characterize information encoded in the learned factors.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-11T18:46:43Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Yitao Jiang</name>
+    </author>
+    <author>
+      <name>Luyang Zhao</name>
+    </author>
+    <author>
+      <name>Muhao Chen</name>
+    </author>
+    <author>
+      <name>Devin Balkcom</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2607.05390v1</id>
+    <title>Deform360: A Massive Multi-view Visuotactile Dataset for Deformable World Models</title>
+    <updated>2026-07-06T17:59:18Z</updated>
+    <link href="https://arxiv.org/abs/2607.05390v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2607.05390v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Predicting object dynamics (i.e., world modeling) is a fundamental challenge for robotic manipulation, and modeling deformable objects presents a particularly difficult case due to their high-dimensional state spaces and complex material properties. While current world models approach this through two distinct paradigms: learning the dynamics over the 2D pixel space or more explicit 3D geometric space. A systematic understanding of their relative strengths and limitations remains elusive due to the lack of diverse, large-scale real-world data. To address this, we present Deform360, a large-scale visuotactile dataset featuring 198 daily-life objects, 1,980 interaction sequences, and over 215 hours of observations from 41 surround-view cameras and bimanual tactile grippers to capture both global motion and contact-induced local deformations. Leveraging a novel markerless visuotactile 3D tracking pipeline to extract dense geometry and motion, we systematically evaluate current state-of-the-art world models, comparing 2D video models against 3D particle models. Finally, we provide a preliminary demonstration indicating the real-world applicability of our dataset by performing robot planning tasks on deformable objects. Our analysis reveals key insights into the trade-offs between structural priors and scalability, providing a solid benchmark for future research in generalizable deformable object-centric world modeling. Project website: https://deform360.lhy.xyz</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-07-06T17:59:18Z</published>
+    <arxiv:comment>Accepted by ECCV 2026</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Hongyu Li</name>
+    </author>
+    <author>
+      <name>Wanjia Fu</name>
+    </author>
+    <author>
+      <name>Xiaoyan Cong</name>
+    </author>
+    <author>
+      <name>Zekun Li</name>
+    </author>
+    <author>
+      <name>Binghao Huang</name>
+    </author>
+    <author>
+      <name>Hanxiao Jiang</name>
+    </author>
+    <author>
+      <name>Xintong He</name>
+    </author>
+    <author>
+      <name>Yiqing Liang</name>
+    </author>
+    <author>
+      <name>Rao Fu</name>
+    </author>
+    <author>
+      <name>Tao Lu</name>
+    </author>
+    <author>
+      <name>Srinath Sridhar</name>
+    </author>
+    <author>
+      <name>Kevin A. Smith</name>
+    </author>
+    <author>
+      <name>George Konidaris</name>
+    </author>
+    <author>
+      <name>Yunzhu Li</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2409.12005v2</id>
+    <title>Representing Positional Information in Generative World Models for Object Manipulation</title>
+    <updated>2024-09-19T07:38:06Z</updated>
+    <link href="https://arxiv.org/abs/2409.12005v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2409.12005v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Object manipulation capabilities are essential skills that set apart embodied agents engaging with the world, especially in the realm of robotics. The ability to predict outcomes of interactions with objects is paramount in this setting. While model-based control methods have started to be employed for tackling manipulation tasks, they have faced challenges in accurately manipulating objects. As we analyze the causes of this limitation, we identify the cause of underperformance in the way current world models represent crucial positional information, especially about the target's goal specification for object positioning tasks. We introduce a general approach that empowers world model-based agents to effectively solve object-positioning tasks. We propose two declinations of this approach for generative world models: position-conditioned (PCP) and latent-conditioned (LCP) policy learning. In particular, LCP employs object-centric latent representations that explicitly capture object positional information for goal specification. This naturally leads to the emergence of multimodal capabilities, enabling the specification of goals through spatial coordinates or a visual goal. Our methods are rigorously evaluated across several manipulation environments, showing favorable performance compared to current model-based control approaches.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-09-18T14:19:50Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Stefano Ferraro</name>
+    </author>
+    <author>
+      <name>Pietro Mazzaglia</name>
+    </author>
+    <author>
+      <name>Tim Verbelen</name>
+    </author>
+    <author>
+      <name>Bart Dhoedt</name>
+    </author>
+    <author>
+      <name>Sai Rajeswar</name>
+    </author>
+  </entry>
+</feed>

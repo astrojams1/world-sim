@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/a59nMqdD08w+Usz3XQqWyw/usJg</id>
+  <title>arXiv Query: search_query=all:LLM OR all:orchestrating OR all:classical OR all:computer OR all:vision OR all:pipeline OR all:structure OR all:from OR all:motion&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T21:48:56Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=all:LLM+OR+(all:orchestrating+OR+(all:classical+OR+(all:computer+OR+(all:vision+OR+(all:pipeline+OR+(all:structure+OR+(all:from+OR+all:motion)))))))&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>2271362</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/1909.10225v1</id>
+    <title>WiCV 2019: The Sixth Women In Computer Vision Workshop</title>
+    <updated>2019-09-23T08:52:33Z</updated>
+    <link href="https://arxiv.org/abs/1909.10225v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1909.10225v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>In this paper we present the Women in Computer Vision Workshop - WiCV 2019, organized in conjunction with CVPR 2019. This event is meant for increasing the visibility and inclusion of women researchers in the computer vision field. Computer vision and machine learning have made incredible progress over the past years, but the number of female researchers is still low both in academia and in industry. WiCV is organized especially for the following reason: to raise visibility of female researchers, to increase collaborations between them, and to provide mentorship to female junior researchers in the field. In this paper, we present a report of trends over the past years, along with a summary of statistics regarding presenters, attendees, and sponsorship for the current workshop.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2019-09-23T08:52:33Z</published>
+    <arxiv:comment>Report of the Sixth Women In Computer Vision Workshop</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <arxiv:journal_ref>The IEEE Conference on Computer Vision and Pattern Recognition (CVPR) Workshops, 2019, pp. 0-0</arxiv:journal_ref>
+    <author>
+      <name>Irene Amerini</name>
+    </author>
+    <author>
+      <name>Elena Balashova</name>
+    </author>
+    <author>
+      <name>Sayna Ebrahimi</name>
+    </author>
+    <author>
+      <name>Kathryn Leonard</name>
+    </author>
+    <author>
+      <name>Arsha Nagrani</name>
+    </author>
+    <author>
+      <name>Amaia Salvador</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2205.04675v2</id>
+    <title>Spatial Monitoring and Insect Behavioural Analysis Using Computer Vision for Precision Pollination</title>
+    <updated>2022-11-11T13:17:11Z</updated>
+    <link href="https://arxiv.org/abs/2205.04675v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2205.04675v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Insects are the most important global pollinator of crops and play a key role in maintaining the sustainability of natural ecosystems. Insect pollination monitoring and management are therefore essential for improving crop production and food security. Computer vision facilitated pollinator monitoring can intensify data collection over what is feasible using manual approaches. The new data it generates may provide a detailed understanding of insect distributions and facilitate fine-grained analysis sufficient to predict their pollination efficacy and underpin precision pollination. Current computer vision facilitated insect tracking in complex outdoor environments is restricted in spatial coverage and often constrained to a single insect species. This limits its relevance to agriculture. Therefore, in this article we introduce a novel system to facilitate markerless data capture for insect counting, insect motion tracking, behaviour analysis and pollination prediction across large agricultural areas. Our system is comprised of edge computing multi-point video recording, offline automated multispecies insect counting, tracking and behavioural analysis. We implement and test our system on a commercial berry farm to demonstrate its capabilities. Our system successfully tracked four insect varieties, at nine monitoring stations within polytunnels, obtaining an F-score above 0.8 for each variety. The system enabled calculation of key metrics to assess the relative pollination impact of each insect variety. With this technological advancement, detailed, ongoing data collection for precision pollination becomes achievable. This is important to inform growers and apiarists managing crop pollination, as it allows data-driven decisions to be made to improve food production and food security.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="q-bio.QM" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2022-05-10T05:11:28Z</published>
+    <arxiv:comment>Accepted to be published in the International Journal of Computer Vision (Acceptance date: 7th November 2022) 21 pages, 8 figures</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <arxiv:journal_ref>International Journal of Computer Vision (2022)</arxiv:journal_ref>
+    <author>
+      <name>Malika Nisal Ratnayake</name>
+    </author>
+    <author>
+      <name>Don Chathurika Amarathunga</name>
+    </author>
+    <author>
+      <name>Asaduz Zaman</name>
+    </author>
+    <author>
+      <name>Adrian G. Dyer</name>
+    </author>
+    <author>
+      <name>Alan Dorin</name>
+    </author>
+    <arxiv:doi>10.1007/s11263-022-01715-4</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1007/s11263-022-01715-4" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2010.01177v4</id>
+    <title>Global Adaptive Filtering Layer for Computer Vision</title>
+    <updated>2021-08-04T15:52:46Z</updated>
+    <link href="https://arxiv.org/abs/2010.01177v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2010.01177v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We devise a universal adaptive neural layer to "learn" optimal frequency filter for each image together with the weights of the base neural network that performs some computer vision task. The proposed approach takes the source image in the spatial domain, automatically selects the best frequencies from the frequency domain, and transmits the inverse-transform image to the main neural network. Remarkably, such a simple add-on layer dramatically improves the performance of the main network regardless of its design. We observe that the light networks gain a noticeable boost in the performance metrics; whereas, the training of the heavy ones converges faster when our adaptive layer is allowed to "learn" alongside the main architecture. We validate the idea in four classical computer vision tasks: classification, segmentation, denoising, and erasing, considering popular natural and medical data benchmarks.</summary>
+    <category term="eess.IV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2020-10-02T19:43:49Z</published>
+    <arxiv:comment>The manuscript is under consideration at Computer Vision and Image Understanding. 28 pages, 25 figures (main article and supplementary material). V.S. and I.B contributed equally, D.V.D is Corresponding author</arxiv:comment>
+    <arxiv:primary_category term="eess.IV"/>
+    <arxiv:journal_ref>Computer Vision and Image Understanding, V. 223, 103519, 2022</arxiv:journal_ref>
+    <author>
+      <name>Viktor Shipitsin</name>
+    </author>
+    <author>
+      <name>Iaroslav Bespalov</name>
+    </author>
+    <author>
+      <name>Dmitry V. Dylov</name>
+    </author>
+    <arxiv:doi>10.1016/j.cviu.2022.103519</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1016/j.cviu.2022.103519" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1801.08388v3</id>
+    <title>A Benchmark and Evaluation of Non-Rigid Structure from Motion</title>
+    <updated>2020-11-11T15:03:42Z</updated>
+    <link href="https://arxiv.org/abs/1801.08388v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1801.08388v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Non-Rigid structure from motion (NRSfM), is a long standing and central problem in computer vision and its solution is necessary for obtaining 3D information from multiple images when the scene is dynamic. A main issue regarding the further development of this important computer vision topic, is the lack of high quality data sets. We here address this issue by presenting a data set created for this purpose, which is made publicly available, and considerably larger than the previous state of the art. To validate the applicability of this data set, and provide an investigation into the state of the art of NRSfM, including potential directions forward, we here present a benchmark and a scrupulous evaluation using this data set. This benchmark evaluates 18 different methods with available code that reasonably spans the state of the art in sparse NRSfM. This new public data set and evaluation protocol will provide benchmark tools for further development in this challenging field.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2018-01-25T12:59:09Z</published>
+    <arxiv:comment>Accepted, International Journal of Computer Vision (IJCV)</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <arxiv:journal_ref>International Journal of Computer Vision (IJCV), 2020</arxiv:journal_ref>
+    <author>
+      <name>Sebastian Hoppe Nesgaard Jensen</name>
+    </author>
+    <author>
+      <name>Mads Emil Brix Doest</name>
+    </author>
+    <author>
+      <name>Henrik Aanaes</name>
+    </author>
+    <author>
+      <name>Alessio Del Bue</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2604.00086v2</id>
+    <title>Hierarchical Pre-Training of Vision Encoders with Large Language Model</title>
+    <updated>2026-08-03T16:53:23Z</updated>
+    <link href="https://arxiv.org/abs/2604.00086v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2604.00086v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>The field of computer vision has experienced significant advancements through scalable vision encoders and multimodal pre-training frameworks. However, existing approaches often treat vision encoders and large language models (LLMs) as independent modules, limiting the integration of hierarchical visual features. In this work, we propose HIVE (Hierarchical Pre-Training of Vision Encoders), a novel framework that enhances vision-language alignment by introducing hierarchical cross-attention between the vision encoder and LLM. Unlike conventional methods that flatten image embeddings, HIVE enables structured feature fusion across multiple layers, improving gradient flow and representation learning. To optimize this interaction, we introduce a three-stage training strategy that progressively aligns the vision encoder with the LLM, ensuring stable optimization and effective multimodal fusion. Empirical evaluations demonstrate that HIVE achieves superior performance not only in image classification but also on various vision-language tasks, outperforming self-attention-based methods in benchmarks such as MME, GQA, OK-VQA, and ScienceQA. Our results highlight the benefits of hierarchical feature integration, paving the way for more efficient and expressive vision-language models.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-03-31T18:00:39Z</published>
+    <arxiv:comment>17 pages, 14 figures, accepted to Computer Vision and Pattern Recognition Conference (CVPR) Workshops 2026. 5th MMFM Workshop: What is Next in Multimodal Foundation Models?</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <arxiv:journal_ref>In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (pp. 7415-7424) 2026</arxiv:journal_ref>
+    <author>
+      <name>Eugene Lee</name>
+    </author>
+    <author>
+      <name>Ting-Yu Chang</name>
+    </author>
+    <author>
+      <name>Jui-Huang Tsai</name>
+    </author>
+    <author>
+      <name>Jiajie Diao</name>
+    </author>
+    <author>
+      <name>Chen-Yi Lee</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2107.14072v2</id>
+    <title>What Does TERRA-REF's High Resolution, Multi Sensor Plant Sensing Public Domain Data Offer the Computer Vision Community?</title>
+    <updated>2021-08-18T00:28:54Z</updated>
+    <link href="https://arxiv.org/abs/2107.14072v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2107.14072v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>A core objective of the TERRA-REF project was to generate an open-access reference dataset for the evaluation of sensing technologies to study plants under field conditions. The TERRA-REF program deployed a suite of high-resolution, cutting edge technology sensors on a gantry system with the aim of scanning 1 hectare (10$^4$) at around 1 mm$^2$ spatial resolution multiple times per week. The system contains co-located sensors including a stereo-pair RGB camera, a thermal imager, a laser scanner to capture 3D structure, and two hyperspectral cameras covering wavelengths of 300-2500nm. This sensor data is provided alongside over sixty types of traditional plant phenotype measurements that can be used to train new machine learning models. Associated weather and environmental measurements, information about agronomic management and experimental design, and the genomic sequences of hundreds of plant varieties have been collected and are available alongside the sensor and plant phenotype data.
+  Over the course of four years and ten growing seasons, the TERRA-REF system generated over 1 PB of sensor data and almost 45 million files. The subset that has been released to the public domain accounts for two seasons and about half of the total data volume. This provides an unprecedented opportunity for investigations far beyond the core biological scope of the project.
+  The focus of this paper is to provide the Computer Vision and Machine Learning communities an overview of the available data and some potential applications of this one of a kind data.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2021-07-29T15:01:29Z</published>
+    <arxiv:comment>7 pages, 4 figures, ICCV 2021 Workshop on Computer Vision Problems in Plant Phenotyping and Agriculture (CVPPA)</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <arxiv:journal_ref>Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) Workshops, 2021, pp. 1409-1415</arxiv:journal_ref>
+    <author>
+      <name>David LeBauer</name>
+    </author>
+    <author>
+      <name>Max Burnette</name>
+    </author>
+    <author>
+      <name>Noah Fahlgren</name>
+    </author>
+    <author>
+      <name>Rob Kooper</name>
+    </author>
+    <author>
+      <name>Kenton McHenry</name>
+    </author>
+    <author>
+      <name>Abby Stylianou</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1402.0859v3</id>
+    <title>The Informed Sampler: A Discriminative Approach to Bayesian Inference in Generative Computer Vision Models</title>
+    <updated>2015-03-07T19:50:59Z</updated>
+    <link href="https://arxiv.org/abs/1402.0859v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1402.0859v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Computer vision is hard because of a large variability in lighting, shape, and texture; in addition the image signal is non-additive due to occlusion. Generative models promised to account for this variability by accurately modelling the image formation process as a function of latent variables with prior beliefs. Bayesian posterior inference could then, in principle, explain the observation. While intuitively appealing, generative models for computer vision have largely failed to deliver on that promise due to the difficulty of posterior inference. As a result the community has favoured efficient discriminative approaches. We still believe in the usefulness of generative models in computer vision, but argue that we need to leverage existing discriminative or even heuristic computer vision methods. We implement this idea in a principled way with an "informed sampler" and in careful experiments demonstrate it on challenging generative models which contain renderer programs as their components. We concentrate on the problem of inverting an existing graphics rendering engine, an approach that can be understood as "Inverse Graphics". The informed sampler, using simple discriminative proposals based on existing computer vision technology, achieves significant improvements of inference.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.ML" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2014-02-04T20:52:26Z</published>
+    <arxiv:comment>Appearing in Computer Vision and Image Understanding Journal (Special Issue on Generative Models in Computer Vision)</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Varun Jampani</name>
+    </author>
+    <author>
+      <name>Sebastian Nowozin</name>
+    </author>
+    <author>
+      <name>Matthew Loper</name>
+    </author>
+    <author>
+      <name>Peter V. Gehler</name>
+    </author>
+    <arxiv:doi>10.1016/j.cviu.2015.03.002</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1016/j.cviu.2015.03.002" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1611.02145v1</id>
+    <title>Crowdsourcing in Computer Vision</title>
+    <updated>2016-11-07T16:11:19Z</updated>
+    <link href="https://arxiv.org/abs/1611.02145v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1611.02145v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Computer vision systems require large amounts of manually annotated data to properly learn challenging visual concepts. Crowdsourcing platforms offer an inexpensive method to capture human knowledge and understanding, for a vast number of visual perception tasks. In this survey, we describe the types of annotations computer vision researchers have collected using crowdsourcing, and how they have ensured that this data is of high quality while annotation effort is minimized. We begin by discussing data collection on both classic (e.g., object recognition) and recent (e.g., visual story-telling) vision tasks. We then summarize key design decisions for creating effective data collection interfaces and workflows, and present strategies for intelligently selecting the most important data instances to annotate. Finally, we conclude with some thoughts on the future of crowdsourcing in computer vision.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.HC" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2016-11-07T16:11:19Z</published>
+    <arxiv:comment>A 69-page meta review of the field, Foundations and Trends in Computer Graphics and Vision, 2016</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Adriana Kovashka</name>
+    </author>
+    <author>
+      <name>Olga Russakovsky</name>
+    </author>
+    <author>
+      <name>Li Fei-Fei</name>
+    </author>
+    <author>
+      <name>Kristen Grauman</name>
+    </author>
+    <arxiv:doi>10.1561/0600000073</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1561/0600000073" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1806.07996v1</id>
+    <title>Novel Convolution Kernels for Computer Vision and Shape Analysis based on Electromagnetism</title>
+    <updated>2018-06-20T21:31:00Z</updated>
+    <link href="https://arxiv.org/abs/1806.07996v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1806.07996v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Computer vision is a growing field with a lot of new applications in automation and robotics, since it allows the analysis of images and shapes for the generation of numerical or analytical information. One of the most used method of information extraction is image filtering through convolution kernels, with each kernel specialized for specific applications. The objective of this paper is to present a novel convolution kernels, based on principles of electromagnetic potentials and fields, for a general use in computer vision and to demonstrate its usage for shape and stroke analysis. Such filtering possesses unique geometrical properties that can be interpreted using well understood physics theorems. Therefore, this paper focuses on the development of the electromagnetic kernels and on their application on images for shape and stroke analysis. It also presents several interesting features of electromagnetic kernels, such as resolution, size and orientation independence, robustness to noise and deformation, long distance stroke interaction and ability to work with 3D images</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2018-06-20T21:31:00Z</published>
+    <arxiv:comment>Keywords: Shape analysis; Stroke analysis; Computer vision; Electromagnetic potential field; Feature extraction; Image filtering; Image convolution Published in PolyPublie: https://publications.polymtl.ca/3162/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <arxiv:journal_ref>Beaini, D., Achiche, S., Law-Kam Cio, Y.-S. &amp; Raison, M. (2018). Novel convolution kernels for computer vision and shape analysis based on electromagnetism (Report). https://publications.polymtl.ca/3162/</arxiv:journal_ref>
+    <author>
+      <name>Dominique Beaini</name>
+    </author>
+    <author>
+      <name>Sofiane Achiche</name>
+    </author>
+    <author>
+      <name>Yann-Seing Law-Kam Cio</name>
+    </author>
+    <author>
+      <name>Maxime Raison</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1002.2191v1</id>
+    <title>Vision Based Game Development Using Human Computer Interaction</title>
+    <updated>2010-02-10T19:46:07Z</updated>
+    <link href="https://arxiv.org/abs/1002.2191v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1002.2191v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>  A Human Computer Interface (HCI) System for playing games is designed here for more natural communication with the machines. The system presented here is a vision-based system for detection of long voluntary eye blinks and interpretation of blink patterns for communication between man and machine. This system replaces the mouse with the human face as a new way to interact with the computer. Facial features (nose tip and eyes) are detected and tracked in realtime to use their actions as mouse events. The coordinates and movement of the nose tip in the live video feed are translated to become the coordinates and movement of the mouse pointer on the application. The left or right eye blinks fire left or right mouse click events. The system works with inexpensive USB cameras and runs at a frame rate of 30 frames per second.</summary>
+    <category term="cs.HC" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.MM" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2010-02-10T19:46:07Z</published>
+    <arxiv:comment>IEEE format, International Journal of Computer Science and Information Security, IJCSIS January 2010, ISSN 1947 5500, http://sites.google.com/site/ijcsis/</arxiv:comment>
+    <arxiv:primary_category term="cs.HC"/>
+    <arxiv:journal_ref>International Journal of Computer Science and Information Security, IJCSIS, Vol. 7, No. 1, pp. 147-153, January 2010, USA</arxiv:journal_ref>
+    <author>
+      <name>S. Sumathi</name>
+    </author>
+    <author>
+      <name>S. K. Srivatsa</name>
+    </author>
+    <author>
+      <name>M. Uma Maheswari</name>
+    </author>
+  </entry>
+</feed>

@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/Nv9lRL56pqhzRu1UMnq1pkrMtvQ</id>
+  <title>arXiv Query: search_query=ti:"RoboGen" OR ti:"GenSim" OR (ti:"simulation" AND ti:"LLM" AND ti:"robot" AND ti:"generat")&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T21:42:13Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22RoboGen%22+OR+(ti:%22GenSim%22+OR+(ti:%22simulation%22+AND+(ti:%22LLM%22+AND+(ti:%22robot%22+AND+ti:%22generat%22))))&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>4</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2310.01361v2</id>
+    <title>GenSim: Generating Robotic Simulation Tasks via Large Language Models</title>
+    <updated>2024-01-21T21:01:12Z</updated>
+    <link href="https://arxiv.org/abs/2310.01361v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2310.01361v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Collecting large amounts of real-world interaction data to train general robotic policies is often prohibitively expensive, thus motivating the use of simulation data. However, existing methods for data generation have generally focused on scene-level diversity (e.g., object instances and poses) rather than task-level diversity, due to the human effort required to come up with and verify novel tasks. This has made it challenging for policies trained on simulation data to demonstrate significant task-level generalization. In this paper, we propose to automatically generate rich simulation environments and expert demonstrations by exploiting a large language models' (LLM) grounding and coding ability. Our approach, dubbed GenSim, has two modes: goal-directed generation, wherein a target task is given to the LLM and the LLM proposes a task curriculum to solve the target task, and exploratory generation, wherein the LLM bootstraps from previous tasks and iteratively proposes novel tasks that would be helpful in solving more complex tasks. We use GPT4 to expand the existing benchmark by ten times to over 100 tasks, on which we conduct supervised finetuning and evaluate several LLMs including finetuned GPTs and Code Llama on code generation for robotic simulation tasks. Furthermore, we observe that LLMs-generated simulation programs can enhance task-level generalization significantly when used for multitask policy training. We further find that with minimal sim-to-real adaptation, the multitask policies pretrained on GPT4-generated simulation tasks exhibit stronger transfer to unseen long-horizon tasks in the real world and outperform baselines by 25%. See the project website (https://liruiw.github.io/gensim) for code, demos, and videos.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-10-02T17:23:48Z</published>
+    <arxiv:comment>See our project website (https://liruiw.github.io/gensim), demo and datasets (https://huggingface.co/spaces/Gen-Sim/Gen-Sim), and code (https://github.com/liruiw/GenSim) for more details</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <arxiv:journal_ref>International Conference on Learning Representations (ICLR), 2024</arxiv:journal_ref>
+    <author>
+      <name>Lirui Wang</name>
+    </author>
+    <author>
+      <name>Yiyang Ling</name>
+    </author>
+    <author>
+      <name>Zhecheng Yuan</name>
+    </author>
+    <author>
+      <name>Mohit Shridhar</name>
+    </author>
+    <author>
+      <name>Chen Bao</name>
+    </author>
+    <author>
+      <name>Yuzhe Qin</name>
+    </author>
+    <author>
+      <name>Bailin Wang</name>
+    </author>
+    <author>
+      <name>Huazhe Xu</name>
+    </author>
+    <author>
+      <name>Xiaolong Wang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2311.01455v3</id>
+    <title>RoboGen: Towards Unleashing Infinite Data for Automated Robot Learning via Generative Simulation</title>
+    <updated>2024-06-14T21:09:49Z</updated>
+    <link href="https://arxiv.org/abs/2311.01455v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2311.01455v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We present RoboGen, a generative robotic agent that automatically learns diverse robotic skills at scale via generative simulation. RoboGen leverages the latest advancements in foundation and generative models. Instead of directly using or adapting these models to produce policies or low-level actions, we advocate for a generative scheme, which uses these models to automatically generate diversified tasks, scenes, and training supervisions, thereby scaling up robotic skill learning with minimal human supervision. Our approach equips a robotic agent with a self-guided propose-generate-learn cycle: the agent first proposes interesting tasks and skills to develop, and then generates corresponding simulation environments by populating pertinent objects and assets with proper spatial configurations. Afterwards, the agent decomposes the proposed high-level task into sub-tasks, selects the optimal learning approach (reinforcement learning, motion planning, or trajectory optimization), generates required training supervision, and then learns policies to acquire the proposed skill. Our work attempts to extract the extensive and versatile knowledge embedded in large-scale models and transfer them to the field of robotics. Our fully generative pipeline can be queried repeatedly, producing an endless stream of skill demonstrations associated with diverse tasks and environments.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-11-02T17:59:21Z</published>
+    <arxiv:comment>ICML 2024</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Yufei Wang</name>
+    </author>
+    <author>
+      <name>Zhou Xian</name>
+    </author>
+    <author>
+      <name>Feng Chen</name>
+    </author>
+    <author>
+      <name>Tsun-Hsuan Wang</name>
+    </author>
+    <author>
+      <name>Yian Wang</name>
+    </author>
+    <author>
+      <name>Katerina Fragkiadaki</name>
+    </author>
+    <author>
+      <name>Zackory Erickson</name>
+    </author>
+    <author>
+      <name>David Held</name>
+    </author>
+    <author>
+      <name>Chuang Gan</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2410.04360v3</id>
+    <title>GenSim: A General Social Simulation Platform with Large Language Model based Agents</title>
+    <updated>2025-07-04T03:07:07Z</updated>
+    <link href="https://arxiv.org/abs/2410.04360v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2410.04360v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>With the rapid advancement of large language models (LLMs), recent years have witnessed many promising studies on leveraging LLM-based agents to simulate human social behavior. While prior work has demonstrated significant potential across various domains, much of it has focused on specific scenarios involving a limited number of agents and has lacked the ability to adapt when errors occur during simulation. To overcome these limitations, we propose a novel LLM-agent-based simulation platform called \textit{GenSim}, which: (1) \textbf{Abstracts a set of general functions} to simplify the simulation of customized social scenarios; (2) \textbf{Supports one hundred thousand agents} to better simulate large-scale populations in real-world contexts; (3) \textbf{Incorporates error-correction mechanisms} to ensure more reliable and long-term simulations. To evaluate our platform, we assess both the efficiency of large-scale agent simulations and the effectiveness of the error-correction mechanisms. To our knowledge, GenSim represents an initial step toward a general, large-scale, and correctable social simulation platform based on LLM agents, promising to further advance the field of social science.</summary>
+    <category term="cs.MA" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-10-06T05:02:23Z</published>
+    <arxiv:comment>NAACL 2025 Demo Track</arxiv:comment>
+    <arxiv:primary_category term="cs.MA"/>
+    <author>
+      <name>Jiakai Tang</name>
+    </author>
+    <author>
+      <name>Heyang Gao</name>
+    </author>
+    <author>
+      <name>Xuchen Pan</name>
+    </author>
+    <author>
+      <name>Lei Wang</name>
+    </author>
+    <author>
+      <name>Haoran Tan</name>
+    </author>
+    <author>
+      <name>Dawei Gao</name>
+    </author>
+    <author>
+      <name>Yushuo Chen</name>
+    </author>
+    <author>
+      <name>Xu Chen</name>
+    </author>
+    <author>
+      <name>Yankai Lin</name>
+    </author>
+    <author>
+      <name>Yaliang Li</name>
+    </author>
+    <author>
+      <name>Bolin Ding</name>
+    </author>
+    <author>
+      <name>Jingren Zhou</name>
+    </author>
+    <author>
+      <name>Jun Wang</name>
+    </author>
+    <author>
+      <name>Ji-Rong Wen</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2602.16444v2</id>
+    <title>RoboGene: Boosting VLA Pre-training via Diversity-Driven Agentic Framework for Real-World Task Generation</title>
+    <updated>2026-02-19T04:26:20Z</updated>
+    <link href="https://arxiv.org/abs/2602.16444v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2602.16444v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>The pursuit of general-purpose robotic manipulation is hindered by the scarcity of diverse, real-world interaction data. Unlike data collection from web in vision or language, robotic data collection is an active process incurring prohibitive physical costs. Consequently, automated task curation to maximize data value remains a critical yet under-explored challenge. Existing manual methods are unscalable and biased toward common tasks, while off-the-shelf foundation models often hallucinate physically infeasible instructions. To address this, we introduce RoboGene, an agentic framework designed to automate the generation of diverse, physically plausible manipulation tasks across single-arm, dual-arm, and mobile robots. RoboGene integrates three core components: diversity-driven sampling for broad task coverage, self-reflection mechanisms to enforce physical constraints, and human-in-the-loop refinement for continuous improvement. We conduct extensive quantitative analysis and large-scale real-world experiments, collecting datasets of 18k trajectories and introducing novel metrics to assess task quality, feasibility, and diversity. Results demonstrate that RoboGene significantly outperforms state-of-the-art foundation models (e.g., GPT-4o, Gemini 2.5 Pro). Furthermore, real-world experiments show that VLA models pre-trained with RoboGene achieve higher success rates and superior generalization, underscoring the importance of high-quality task generation. Our project is available at https://robogene-boost-vla.github.io.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-02-18T13:29:43Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Yixue Zhang</name>
+    </author>
+    <author>
+      <name>Kun Wu</name>
+    </author>
+    <author>
+      <name>Zhi Gao</name>
+    </author>
+    <author>
+      <name>Zhen Zhao</name>
+    </author>
+    <author>
+      <name>Pei Ren</name>
+    </author>
+    <author>
+      <name>Zhiyuan Xu</name>
+    </author>
+    <author>
+      <name>Fei Liao</name>
+    </author>
+    <author>
+      <name>Xinhua Wang</name>
+    </author>
+    <author>
+      <name>Shichao Fan</name>
+    </author>
+    <author>
+      <name>Di Wu</name>
+    </author>
+    <author>
+      <name>Qiuxuan Feng</name>
+    </author>
+    <author>
+      <name>Meng Li</name>
+    </author>
+    <author>
+      <name>Zhengping Che</name>
+    </author>
+    <author>
+      <name>Chang Liu</name>
+    </author>
+    <author>
+      <name>Jian Tang</name>
+    </author>
+  </entry>
+</feed>

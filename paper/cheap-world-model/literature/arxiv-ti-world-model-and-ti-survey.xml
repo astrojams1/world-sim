@@ -1,0 +1,473 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/0MLsgtOUqskCSCLY9achHW8LiNQ</id>
+  <title>arXiv Query: search_query=ti:"world model" AND ti:survey&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T22:01:40Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22world+model%22+AND+ti:survey&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>19</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2501.11260v4</id>
+    <title>A Survey of World Models for Autonomous Driving</title>
+    <updated>2025-09-10T14:02:23Z</updated>
+    <link href="https://arxiv.org/abs/2501.11260v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2501.11260v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Recent breakthroughs in autonomous driving have been propelled by advances in robust world modeling, fundamentally transforming how vehicles interpret dynamic scenes and execute safe decision-making. World models have emerged as a linchpin technology, offering high-fidelity representations of the driving environment that integrate multi-sensor data, semantic cues, and temporal dynamics. This paper systematically reviews recent advances in world models for autonomous driving, proposing a three-tiered taxonomy: (i) Generation of Future Physical World, covering Image-, BEV-, OG-, and PC-based generation methods that enhance scene evolution modeling through diffusion models and 4D occupancy forecasting; (ii) Behavior Planning for Intelligent Agents, combining rule-driven and learning-based paradigms with cost map optimization and reinforcement learning for trajectory generation in complex traffic conditions; (ii) Interaction between Prediction and Planning, achieving multi-agent collaborative decision-making through latent space diffusion and memory-augmented architectures. The study further analyzes training paradigms, including self-supervised learning, multimodal pretraining, and generative data augmentation, while evaluating world models' performance in scene understanding and motion prediction tasks. Future research must address key challenges in self-supervised representation learning, multimodal fusion, and advanced simulation to advance the practical deployment of world models in complex urban environments. Overall, the comprehensive analysis provides a technical roadmap for harnessing the transformative potential of world models in advancing safe and reliable autonomous driving solutions.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-01-20T04:00:02Z</published>
+    <arxiv:comment>Ongoing project. Paper list: https://github.com/FengZicai/AwesomeWMAD Benchmark: https://github.com/FengZicai/WMAD-Benchmarks</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Tuo Feng</name>
+    </author>
+    <author>
+      <name>Wenguan Wang</name>
+    </author>
+    <author>
+      <name>Yi Yang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2606.00113v1</id>
+    <title>World Models for Robotic Manipulation: A Survey</title>
+    <updated>2026-05-27T05:32:17Z</updated>
+    <link href="https://arxiv.org/abs/2606.00113v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.00113v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Robotic manipulation depends on the ability to anticipate how actions reshape objects, contacts, and scene geometry before execution. Learned world models provide this capability by predicting task-relevant future evolution under robot intervention, yet the term now spans latent dynamics models, action-conditioned video generators, three- and four-dimensional scene predictors, physics-informed simulators, and predictive modules inside vision-language-action systems. This breadth has fragmented the literature and obscured the design choices that matter for manipulation. We survey world models for robotic manipulation through three questions: what future representation is predicted, how prediction is connected to action, and when prediction is used in the robot-learning pipeline. We operationally define a world model as an action-conditioned predictive system and distinguish it from perception modules, inverse models, policies, rewards, and value functions. We then organize existing work into five representation families, develop a functional taxonomy that separates integrated prediction-action models from explicit predictive planners, and characterize infrastructure roles including synthetic experience generation, candidate filtering, search-based evaluation, learned environments, and outcome verification. We further map these roles across pretraining, post-training, and inference adaptation, review 34 manipulation datasets, and synthesize evaluation protocols for predictive fidelity, task performance, and simulator reliability. This survey shows that world models are evolving from task-specific dynamics predictors into predictive infrastructure for robot learning, while exposing open challenges in contact modeling, hallucination control, action alignment, and benchmarking under closed-loop use.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-05-27T05:32:17Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Fangyuan Wang</name>
+    </author>
+    <author>
+      <name>Ziyuan Wang</name>
+    </author>
+    <author>
+      <name>Guorui Pei</name>
+    </author>
+    <author>
+      <name>Mengshi Zhang</name>
+    </author>
+    <author>
+      <name>Canxi Liang</name>
+    </author>
+    <author>
+      <name>Jun Hu</name>
+    </author>
+    <author>
+      <name>Zhongxuan Li</name>
+    </author>
+    <author>
+      <name>Jinsong Wu</name>
+    </author>
+    <author>
+      <name>Ning Han</name>
+    </author>
+    <author>
+      <name>Zeqing Zhang</name>
+    </author>
+    <author>
+      <name>Jiaming Qi</name>
+    </author>
+    <author>
+      <name>Hongmin Wu</name>
+    </author>
+    <author>
+      <name>Shiyao Zhang</name>
+    </author>
+    <author>
+      <name>Pai Zheng</name>
+    </author>
+    <author>
+      <name>Jia Pan</name>
+    </author>
+    <author>
+      <name>David Navarro-Alarcon</name>
+    </author>
+    <author>
+      <name>Sichao Liu</name>
+    </author>
+    <author>
+      <name>Peng Zhou</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2509.07996v4</id>
+    <title>3D and 4D World Modeling: A Survey</title>
+    <updated>2026-07-20T17:34:32Z</updated>
+    <link href="https://arxiv.org/abs/2509.07996v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2509.07996v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>World modeling has become a cornerstone in AI research, enabling agents to understand, represent, and predict the dynamic environments they inhabit. While prior work largely emphasizes generative methods for 2D image and video data, they overlook the rapidly growing body of work that leverages native 3D and 4D representations such as RGB-D imagery, occupancy grids, and LiDAR point clouds for large-scale scene modeling. At the same time, the absence of a standardized definition and taxonomy for "world models" has led to fragmented and sometimes inconsistent claims in the literature. This survey addresses these gaps by presenting the first comprehensive review explicitly dedicated to 3D and 4D world modeling and generation. We establish precise definitions, introduce a structured taxonomy spanning video-based (VideoGen), occupancy-based (OccGen), and LiDAR-based (LiDARGen) approaches, and systematically summarize datasets and evaluation metrics tailored to 3D/4D settings. We further discuss practical applications, identify open challenges, and highlight promising research directions, aiming to provide a coherent and foundational reference for advancing the field. A systematic summary of existing literature is available at https://github.com/worldbench/awesome-3d-4d-world-models</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-09-04T17:59:58Z</published>
+    <arxiv:comment>Survey; Project Page at https://worldbench.github.io/survey GitHub Repo at https://github.com/worldbench/awesome-3d-4d-world-models</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Lingdong Kong</name>
+    </author>
+    <author>
+      <name>Yu Yang</name>
+    </author>
+    <author>
+      <name>Jianbiao Mei</name>
+    </author>
+    <author>
+      <name>Youquan Liu</name>
+    </author>
+    <author>
+      <name>Ao Liang</name>
+    </author>
+    <author>
+      <name>Dekai Zhu</name>
+    </author>
+    <author>
+      <name>Dongyue Lu</name>
+    </author>
+    <author>
+      <name>Wei Yin</name>
+    </author>
+    <author>
+      <name>Xiaotao Hu</name>
+    </author>
+    <author>
+      <name>Mingkai Jia</name>
+    </author>
+    <author>
+      <name>Junyuan Deng</name>
+    </author>
+    <author>
+      <name>Kaiwen Zhang</name>
+    </author>
+    <author>
+      <name>Yang Wu</name>
+    </author>
+    <author>
+      <name>Tianyi Yan</name>
+    </author>
+    <author>
+      <name>Shenyuan Gao</name>
+    </author>
+    <author>
+      <name>Song Wang</name>
+    </author>
+    <author>
+      <name>Linfeng Li</name>
+    </author>
+    <author>
+      <name>Liang Pan</name>
+    </author>
+    <author>
+      <name>Yong Liu</name>
+    </author>
+    <author>
+      <name>Jianke Zhu</name>
+    </author>
+    <author>
+      <name>Wei Tsang Ooi</name>
+    </author>
+    <author>
+      <name>Steven C. H. Hoi</name>
+    </author>
+    <author>
+      <name>Ziwei Liu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2605.00080v1</id>
+    <title>World Model for Robot Learning: A Comprehensive Survey</title>
+    <updated>2026-04-30T14:35:31Z</updated>
+    <link href="https://arxiv.org/abs/2605.00080v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2605.00080v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>World models, which are predictive representations of how environments evolve under actions, have become a central component of robot learning. They support policy learning, planning, simulation, evaluation, data generation, and have advanced rapidly with the rise of foundation models and large-scale video generation. However, the literature remains fragmented across architectures, functional roles, and embodied application domains. To address this gap, we present a comprehensive review of world models from a robot-learning perspective. We examine how world models are coupled with robot policies, how they serve as learned simulators for reinforcement learning and evaluation, and how robotic video world models have progressed from imagination-based generation to controllable, structured, and foundation-scale formulations. We further connect these ideas to navigation and autonomous driving, and summarize representative datasets, benchmarks, and evaluation protocols. Overall, this survey systematically reviews the rapidly growing literature on world models for robot learning, clarifies key paradigms and applications, and highlights major challenges and future directions for predictive modeling in embodied agents. To facilitate continued access to newly emerging works, benchmarks, and resources, we will maintain and regularly update the accompanying GitHub repository alongside this survey.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-04-30T14:35:31Z</published>
+    <arxiv:comment>43 pages, 6 figures</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Bohan Hou</name>
+    </author>
+    <author>
+      <name>Gen Li</name>
+    </author>
+    <author>
+      <name>Jindou Jia</name>
+    </author>
+    <author>
+      <name>Tuo An</name>
+    </author>
+    <author>
+      <name>Xinying Guo</name>
+    </author>
+    <author>
+      <name>Sicong Leng</name>
+    </author>
+    <author>
+      <name>Haoran Geng</name>
+    </author>
+    <author>
+      <name>Yanjie Ze</name>
+    </author>
+    <author>
+      <name>Tatsuya Harada</name>
+    </author>
+    <author>
+      <name>Philip Torr</name>
+    </author>
+    <author>
+      <name>Oier Mees</name>
+    </author>
+    <author>
+      <name>Marc Pollefeys</name>
+    </author>
+    <author>
+      <name>Zhuang Liu</name>
+    </author>
+    <author>
+      <name>Jiajun Wu</name>
+    </author>
+    <author>
+      <name>Pieter Abbeel</name>
+    </author>
+    <author>
+      <name>Jitendra Malik</name>
+    </author>
+    <author>
+      <name>Yilun Du</name>
+    </author>
+    <author>
+      <name>Jianfei Yang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2403.02622v3</id>
+    <title>World Models for Autonomous Driving: An Initial Survey</title>
+    <updated>2024-05-07T13:28:48Z</updated>
+    <link href="https://arxiv.org/abs/2403.02622v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2403.02622v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>In the rapidly evolving landscape of autonomous driving, the capability to accurately predict future events and assess their implications is paramount for both safety and efficiency, critically aiding the decision-making process. World models have emerged as a transformative approach, enabling autonomous driving systems to synthesize and interpret vast amounts of sensor data, thereby predicting potential future scenarios and compensating for information gaps. This paper provides an initial review of the current state and prospective advancements of world models in autonomous driving, spanning their theoretical underpinnings, practical applications, and the ongoing research efforts aimed at overcoming existing limitations. Highlighting the significant role of world models in advancing autonomous driving technologies, this survey aspires to serve as a foundational reference for the research community, facilitating swift access to and comprehension of this burgeoning field, and inspiring continued innovation and exploration.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-03-05T03:23:55Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Yanchen Guan</name>
+    </author>
+    <author>
+      <name>Haicheng Liao</name>
+    </author>
+    <author>
+      <name>Zhenning Li</name>
+    </author>
+    <author>
+      <name>Jia Hu</name>
+    </author>
+    <author>
+      <name>Runze Yuan</name>
+    </author>
+    <author>
+      <name>Yunjian Li</name>
+    </author>
+    <author>
+      <name>Guohui Zhang</name>
+    </author>
+    <author>
+      <name>Chengzhong Xu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2510.16732v3</id>
+    <title>A Comprehensive Survey on World Models for Embodied AI</title>
+    <updated>2026-06-25T19:54:02Z</updated>
+    <link href="https://arxiv.org/abs/2510.16732v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2510.16732v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Embodied AI requires agents that perceive, act, and anticipate how actions reshape future world states. World models serve as internal simulators that capture environment dynamics, enabling forward and counterfactual rollouts to support perception, prediction, and decision making. This survey presents a unified framework for world models in embodied AI. Specifically, we formalize the problem setting and learning objectives, and propose a three-axis taxonomy encompassing: (1) Functionality, Decision-Coupled vs. General-Purpose; (2) Temporal Modeling, Sequential Simulation and Inference vs. Global Difference Prediction; (3) Spatial Representation, Global Latent Vector, Token Feature Sequence, Spatial Latent Grid, and Decomposed Rendering Representation. We systematize data resources and metrics across robotics, autonomous driving, and general video settings, covering pixel prediction quality, state-level understanding, and task performance. Furthermore, we offer a quantitative comparison of state-of-the-art models and distill key open challenges, including the scarcity of unified datasets and the need for evaluation metrics that assess physical consistency over pixel fidelity, the trade-off between model performance and the computational efficiency required for real-time control, and the core modeling difficulty of achieving long-horizon temporal consistency while mitigating error accumulation. Finally, we maintain a curated bibliography at https://github.com/Li-Zn-H/AwesomeWorldModels.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-10-19T07:12:32Z</published>
+    <arxiv:comment>https://github.com/Li-Zn-H/AwesomeWorldModels</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Xinqing Li</name>
+    </author>
+    <author>
+      <name>Xin He</name>
+    </author>
+    <author>
+      <name>Le Zhang</name>
+    </author>
+    <author>
+      <name>Min Wu</name>
+    </author>
+    <author>
+      <name>Xiaoli Li</name>
+    </author>
+    <author>
+      <name>Yun Liu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2407.00118v1</id>
+    <title>From Efficient Multimodal Models to World Models: A Survey</title>
+    <updated>2024-06-27T15:36:43Z</updated>
+    <link href="https://arxiv.org/abs/2407.00118v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2407.00118v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Multimodal Large Models (MLMs) are becoming a significant research focus, combining powerful large language models with multimodal learning to perform complex tasks across different data modalities. This review explores the latest developments and challenges in MLMs, emphasizing their potential in achieving artificial general intelligence and as a pathway to world models. We provide an overview of key techniques such as Multimodal Chain of Thought (M-COT), Multimodal Instruction Tuning (M-IT), and Multimodal In-Context Learning (M-ICL). Additionally, we discuss both the fundamental and specific technologies of multimodal models, highlighting their applications, input/output modalities, and design characteristics. Despite significant advancements, the development of a unified multimodal model remains elusive. We discuss the integration of 3D generation and embodied intelligence to enhance world simulation capabilities and propose incorporating external rule systems for improved reasoning and decision-making. Finally, we outline future research directions to address these challenges and advance the field.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-06-27T15:36:43Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Xinji Mai</name>
+    </author>
+    <author>
+      <name>Zeng Tao</name>
+    </author>
+    <author>
+      <name>Junxiong Lin</name>
+    </author>
+    <author>
+      <name>Haoran Wang</name>
+    </author>
+    <author>
+      <name>Yang Chang</name>
+    </author>
+    <author>
+      <name>Yanlan Kang</name>
+    </author>
+    <author>
+      <name>Yan Wang</name>
+    </author>
+    <author>
+      <name>Wenqiang Zhang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2506.13833v1</id>
+    <title>A Survey on World Models Grounded in Acoustic Physical Information</title>
+    <updated>2025-06-16T04:59:42Z</updated>
+    <link href="https://arxiv.org/abs/2506.13833v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2506.13833v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This survey provides a comprehensive overview of the emerging field of world models grounded in the foundation of acoustic physical information. It examines the theoretical underpinnings, essential methodological frameworks, and recent technological advancements in leveraging acoustic signals for high-fidelity environmental perception, causal physical reasoning, and predictive simulation of dynamic events. The survey explains how acoustic signals, as direct carriers of mechanical wave energy from physical events, encode rich, latent information about material properties, internal geometric structures, and complex interaction dynamics. Specifically, this survey establishes the theoretical foundation by explaining how fundamental physical laws govern the encoding of physical information within acoustic signals. It then reviews the core methodological pillars, including Physics-Informed Neural Networks (PINNs), generative models, and self-supervised multimodal learning frameworks. Furthermore, the survey details the significant applications of acoustic world models in robotics, autonomous driving, healthcare, and finance. Finally, it systematically outlines the important technical and ethical challenges while proposing a concrete roadmap for future research directions toward robust, causal, uncertainty-aware, and responsible acoustic intelligence. These elements collectively point to a research pathway towards embodied active acoustic intelligence, empowering AI systems to construct an internal "intuitive physics" engine through sound.</summary>
+    <category term="cs.SD" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="eess.AS" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="physics.app-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-06-16T04:59:42Z</published>
+    <arxiv:comment>28 pages,11 equations</arxiv:comment>
+    <arxiv:primary_category term="cs.SD"/>
+    <author>
+      <name>Xiaoliang Chen</name>
+    </author>
+    <author>
+      <name>Le Chang</name>
+    </author>
+    <author>
+      <name>Xin Yu</name>
+    </author>
+    <author>
+      <name>Yunhe Huang</name>
+    </author>
+    <author>
+      <name>Xianling Tu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2511.02097v2</id>
+    <title>A Step Toward World Models: A Survey on Robotic Manipulation</title>
+    <updated>2025-11-10T03:45:44Z</updated>
+    <link href="https://arxiv.org/abs/2511.02097v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2511.02097v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Autonomous agents are increasingly expected to operate in complex, dynamic, and uncertain environments, performing tasks such as manipulation, navigation, and decision-making. Achieving these capabilities requires agents to understand the underlying mechanisms and dynamics of the world, moving beyond reactive control or simple replication of observed states. This motivates the development of world models as internal representations that encode environmental states, capture dynamics, and support prediction, planning, and reasoning. Despite growing interest, the definition, scope, architectures, and essential capabilities of world models remain ambiguous. In this survey, we go beyond prescribing a fixed definition and limiting our scope to methods explicitly labeled as world models. Instead, we examine approaches that exhibit the core capabilities of world models through a review of methods in robotic manipulation. We analyze their roles across perception, prediction, and control, identify key challenges and solutions, and distill the core components, capabilities, and functions that a fully realized world model should possess. Building on this analysis, we aim to motivate further development toward generalizable and practical world models for robotics.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-10-31T00:57:24Z</published>
+    <arxiv:comment>24 pages, 5 figures</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Peng-Fei Zhang</name>
+    </author>
+    <author>
+      <name>Ying Cheng</name>
+    </author>
+    <author>
+      <name>Xiaofan Sun</name>
+    </author>
+    <author>
+      <name>Shijie Wang</name>
+    </author>
+    <author>
+      <name>Fengling Li</name>
+    </author>
+    <author>
+      <name>Lei Zhu</name>
+    </author>
+    <author>
+      <name>Heng Tao Shen</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2411.14499v4</id>
+    <title>Understanding World or Predicting Future? A Comprehensive Survey of World Models</title>
+    <updated>2025-12-10T02:53:14Z</updated>
+    <link href="https://arxiv.org/abs/2411.14499v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2411.14499v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>The concept of world models has garnered significant attention due to advancements in multimodal large language models such as GPT-4 and video generation models such as Sora, which are central to the pursuit of artificial general intelligence. This survey offers a comprehensive review of the literature on world models. Generally, world models are regarded as tools for either understanding the present state of the world or predicting its future dynamics. This review presents a systematic categorization of world models, emphasizing two primary functions: (1) constructing internal representations to understand the mechanisms of the world, and (2) predicting future states to simulate and guide decision-making. Initially, we examine the current progress in these two categories. We then explore the application of world models in key domains, including generative games, autonomous driving, robotics, and social simulacra, with a focus on how each domain utilizes these aspects. Finally, we outline key challenges and provide insights into potential future research directions. We summarize the representative papers along with their code repositories in https://github.com/tsinghua-fib-lab/World-Model.</summary>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-11-21T03:58:50Z</published>
+    <arxiv:comment>Extended version of the original ACM CSUR paper, 49 pages, 6 figures, 8 tables</arxiv:comment>
+    <arxiv:primary_category term="cs.CL"/>
+    <author>
+      <name>Jingtao Ding</name>
+    </author>
+    <author>
+      <name>Yunke Zhang</name>
+    </author>
+    <author>
+      <name>Yu Shang</name>
+    </author>
+    <author>
+      <name>Jie Feng</name>
+    </author>
+    <author>
+      <name>Yuheng Zhang</name>
+    </author>
+    <author>
+      <name>Zefang Zong</name>
+    </author>
+    <author>
+      <name>Yuan Yuan</name>
+    </author>
+    <author>
+      <name>Hongyuan Su</name>
+    </author>
+    <author>
+      <name>Nian Li</name>
+    </author>
+    <author>
+      <name>Jinghua Piao</name>
+    </author>
+    <author>
+      <name>Yucheng Deng</name>
+    </author>
+    <author>
+      <name>Nicholas Sukiennik</name>
+    </author>
+    <author>
+      <name>Chen Gao</name>
+    </author>
+    <author>
+      <name>Fengli Xu</name>
+    </author>
+    <author>
+      <name>Yong Li</name>
+    </author>
+  </entry>
+</feed>

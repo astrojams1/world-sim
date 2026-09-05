@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/0opIzkOT3NkEvCXu9Ks0QojhfeE</id>
+  <title>arXiv Query: search_query=all:VLM OR all:zero-shot OR all:3D OR all:object OR all:pose OR all:position OR all:estimation OR all:from OR all:two OR all:views OR all:code OR all:execution&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T21:49:26Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=all:VLM+OR+(all:zero-shot+OR+(all:3D+OR+(all:object+OR+(all:pose+OR+(all:position+OR+(all:estimation+OR+(all:from+OR+(all:two+OR+(all:views+OR+(all:code+OR+all:execution))))))))))&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>2179641</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2410.13860v1</id>
+    <title>VLM-Grounder: A VLM Agent for Zero-Shot 3D Visual Grounding</title>
+    <updated>2024-10-17T17:59:55Z</updated>
+    <link href="https://arxiv.org/abs/2410.13860v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2410.13860v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>3D visual grounding is crucial for robots, requiring integration of natural language and 3D scene understanding. Traditional methods depending on supervised learning with 3D point clouds are limited by scarce datasets. Recently zero-shot methods leveraging LLMs have been proposed to address the data issue. While effective, these methods only use object-centric information, limiting their ability to handle complex queries. In this work, we present VLM-Grounder, a novel framework using vision-language models (VLMs) for zero-shot 3D visual grounding based solely on 2D images. VLM-Grounder dynamically stitches image sequences, employs a grounding and feedback scheme to find the target object, and uses a multi-view ensemble projection to accurately estimate 3D bounding boxes. Experiments on ScanRefer and Nr3D datasets show VLM-Grounder outperforms previous zero-shot methods, achieving 51.6% Acc@0.25 on ScanRefer and 48.0% Acc on Nr3D, without relying on 3D geometry or object priors. Codes are available at https://github.com/OpenRobotLab/VLM-Grounder .</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-10-17T17:59:55Z</published>
+    <arxiv:comment>CoRL 2024 Camera Ready. 25 pages. A novel zero-shot 3D visual grounding framework based solely on 2D images</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Runsen Xu</name>
+    </author>
+    <author>
+      <name>Zhiwei Huang</name>
+    </author>
+    <author>
+      <name>Tai Wang</name>
+    </author>
+    <author>
+      <name>Yilun Chen</name>
+    </author>
+    <author>
+      <name>Jiangmiao Pang</name>
+    </author>
+    <author>
+      <name>Dahua Lin</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1909.13476v1</id>
+    <title>CullNet: Calibrated and Pose Aware Confidence Scores for Object Pose Estimation</title>
+    <updated>2019-09-30T06:39:05Z</updated>
+    <link href="https://arxiv.org/abs/1909.13476v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1909.13476v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We present a new approach for a single view, image-based object pose estimation. Specifically, the problem of culling false positives among several pose proposal estimates is addressed in this paper. Our proposed approach targets the problem of inaccurate confidence values predicted by CNNs which is used by many current methods to choose a final object pose prediction. We present a network called CullNet, solving this task. CullNet takes pairs of pose masks rendered from a 3D model and cropped regions in the original image as input. This is then used to calibrate the confidence scores of the pose proposals. This new set of confidence scores is found to be significantly more reliable for accurate object pose estimation as shown by our results. Our experimental results on multiple challenging datasets (LINEMOD and Occlusion LINEMOD) reflects the utility of our proposed method. Our overall pose estimation pipeline outperforms state-of-the-art object pose estimation methods on these standard object pose estimation datasets. Our code is publicly available on https://github.com/kartikgupta-at-anu/CullNet.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2019-09-30T06:39:05Z</published>
+    <arxiv:comment>ICCV Workshop on Recovering 6D Object Pose, 2019</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Kartik Gupta</name>
+    </author>
+    <author>
+      <name>Lars Petersson</name>
+    </author>
+    <author>
+      <name>Richard Hartley</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2406.16384v2</id>
+    <title>High-resolution open-vocabulary object 6D pose estimation</title>
+    <updated>2024-07-11T17:03:29Z</updated>
+    <link href="https://arxiv.org/abs/2406.16384v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2406.16384v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>The generalisation to unseen objects in the 6D pose estimation task is very challenging. While Vision-Language Models (VLMs) enable using natural language descriptions to support 6D pose estimation of unseen objects, these solutions underperform compared to model-based methods. In this work we present Horyon, an open-vocabulary VLM-based architecture that addresses relative pose estimation between two scenes of an unseen object, described by a textual prompt only. We use the textual prompt to identify the unseen object in the scenes and then obtain high-resolution multi-scale features. These features are used to extract cross-scene matches for registration. We evaluate our model on a benchmark with a large variety of unseen objects across four datasets, namely REAL275, Toyota-Light, Linemod, and YCB-Video. Our method achieves state-of-the-art performance on all datasets, outperforming by 12.6 in Average Recall the previous best-performing approach.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-06-24T07:53:46Z</published>
+    <arxiv:comment>Technical report. Extension of CVPR paper "Open-vocabulary object 6D pose estimation". Project page: https://jcorsetti.github.io/oryon</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Jaime Corsetti</name>
+    </author>
+    <author>
+      <name>Davide Boscaini</name>
+    </author>
+    <author>
+      <name>Francesco Giuliari</name>
+    </author>
+    <author>
+      <name>Changjae Oh</name>
+    </author>
+    <author>
+      <name>Andrea Cavallaro</name>
+    </author>
+    <author>
+      <name>Fabio Poiesi</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1711.07399v3</id>
+    <title>V2V-PoseNet: Voxel-to-Voxel Prediction Network for Accurate 3D Hand and Human Pose Estimation from a Single Depth Map</title>
+    <updated>2018-08-16T14:55:40Z</updated>
+    <link href="https://arxiv.org/abs/1711.07399v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1711.07399v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Most of the existing deep learning-based methods for 3D hand and human pose estimation from a single depth map are based on a common framework that takes a 2D depth map and directly regresses the 3D coordinates of keypoints, such as hand or human body joints, via 2D convolutional neural networks (CNNs). The first weakness of this approach is the presence of perspective distortion in the 2D depth map. While the depth map is intrinsically 3D data, many previous methods treat depth maps as 2D images that can distort the shape of the actual object through projection from 3D to 2D space. This compels the network to perform perspective distortion-invariant estimation. The second weakness of the conventional approach is that directly regressing 3D coordinates from a 2D image is a highly non-linear mapping, which causes difficulty in the learning procedure. To overcome these weaknesses, we firstly cast the 3D hand and human pose estimation problem from a single depth map into a voxel-to-voxel prediction that uses a 3D voxelized grid and estimates the per-voxel likelihood for each keypoint. We design our model as a 3D CNN that provides accurate estimates while running in real-time. Our system outperforms previous methods in almost all publicly available 3D hand and human pose estimation datasets and placed first in the HANDS 2017 frame-based 3D hand pose estimation challenge. The code is available in https://github.com/mks0601/V2V-PoseNet_RELEASE.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2017-11-20T16:41:13Z</published>
+    <arxiv:comment>HANDS 2017 Challenge Frame-based 3D Hand Pose Estimation Winner (ICCV 2017), Published at CVPR 2018</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Gyeongsik Moon</name>
+    </author>
+    <author>
+      <name>Ju Yong Chang</name>
+    </author>
+    <author>
+      <name>Kyoung Mu Lee</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1806.04314v3</id>
+    <title>3D Pose Estimation for Fine-Grained Object Categories</title>
+    <updated>2018-11-07T06:27:34Z</updated>
+    <link href="https://arxiv.org/abs/1806.04314v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1806.04314v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Existing object pose estimation datasets are related to generic object types and there is so far no dataset for fine-grained object categories. In this work, we introduce a new large dataset to benchmark pose estimation for fine-grained objects, thanks to the availability of both 2D and 3D fine-grained data recently. Specifically, we augment two popular fine-grained recognition datasets (StanfordCars and CompCars) by finding a fine-grained 3D CAD model for each sub-category and manually annotating each object in images with 3D pose. We show that, with enough training data, a full perspective model with continuous parameters can be estimated using 2D appearance information alone. We achieve this via a framework based on Faster/Mask R-CNN. This goes beyond previous works on category-level pose estimation, which only estimate discrete/continuous viewpoint angles or recover rotation matrices often with the help of key points. Furthermore, with fine-grained 3D models available, we incorporate a dense 3D representation named as location field into the CNN-based pose estimation framework to further improve the performance. The new dataset is available at www.umiacs.umd.edu/~wym/3dpose.html</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2018-06-12T03:44:54Z</published>
+    <arxiv:comment>4th International Workshop on Recovering 6D Object Pose (ECCVW 2018). arXiv admin note: text overlap with arXiv:1810.09263</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yaming Wang</name>
+    </author>
+    <author>
+      <name>Xiao Tan</name>
+    </author>
+    <author>
+      <name>Yi Yang</name>
+    </author>
+    <author>
+      <name>Xiao Liu</name>
+    </author>
+    <author>
+      <name>Errui Ding</name>
+    </author>
+    <author>
+      <name>Feng Zhou</name>
+    </author>
+    <author>
+      <name>Larry S. Davis</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1911.09245v3</id>
+    <title>Consensus-based Optimization for 3D Human Pose Estimation in Camera Coordinates</title>
+    <updated>2021-08-20T13:53:55Z</updated>
+    <link href="https://arxiv.org/abs/1911.09245v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1911.09245v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>3D human pose estimation is frequently seen as the task of estimating 3D poses relative to the root body joint. Alternatively, we propose a 3D human pose estimation method in camera coordinates, which allows effective combination of 2D annotated data and 3D poses and a straightforward multi-view generalization. To that end, we cast the problem as a view frustum space pose estimation, where absolute depth prediction and joint relative depth estimations are disentangled. Final 3D predictions are obtained in camera coordinates by the inverse camera projection. Based on this, we also present a consensus-based optimization algorithm for multi-view predictions from uncalibrated images, which requires a single monocular training procedure. Although our method is indirectly tied to the training camera intrinsics, it still converges for cameras with different intrinsic parameters, resulting in coherent estimations up to a scale factor. Our method improves the state of the art on well known 3D human pose datasets, reducing the prediction error by 32% in the most common benchmark. We also reported our results in absolute pose position error, achieving 80~mm for monocular estimations and 51~mm for multi-view, on average.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2019-11-21T02:19:08Z</published>
+    <arxiv:comment>Source code is available at https://github.com/dluvizon/3d-pose-consensus</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Diogo C Luvizon</name>
+    </author>
+    <author>
+      <name>Hedi Tabia</name>
+    </author>
+    <author>
+      <name>David Picard</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2401.16700v2</id>
+    <title>Towards Precise 3D Human Pose Estimation with Multi-Perspective Spatial-Temporal Relational Transformers</title>
+    <updated>2024-03-25T13:33:51Z</updated>
+    <link href="https://arxiv.org/abs/2401.16700v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2401.16700v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>3D human pose estimation captures the human joint points in three-dimensional space while keeping the depth information and physical structure. That is essential for applications that require precise pose information, such as human-computer interaction, scene understanding, and rehabilitation training. Due to the challenges in data collection, mainstream datasets of 3D human pose estimation are primarily composed of multi-view video data collected in laboratory environments, which contains rich spatial-temporal correlation information besides the image frame content. Given the remarkable self-attention mechanism of transformers, capable of capturing the spatial-temporal correlation from multi-view video datasets, we propose a multi-stage framework for 3D sequence-to-sequence (seq2seq) human pose detection. Firstly, the spatial module represents the human pose feature by intra-image content, while the frame-image relation module extracts temporal relationships and 3D spatial positional relationship features between the multi-perspective images. Secondly, the self-attention mechanism is adopted to eliminate the interference from non-human body parts and reduce computing resources. Our method is evaluated on Human3.6M, a popular 3D human pose detection dataset. Experimental results demonstrate that our approach achieves state-of-the-art performance on this dataset. The source code will be available at https://github.com/WUJINHUAN/3D-human-pose.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="eess.IV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-01-30T03:00:25Z</published>
+    <arxiv:comment>Accepted to IJCNN 2024. The source code will be available at https://github.com/WUJINHUAN/3D-human-pose</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Jianbin Jiao</name>
+    </author>
+    <author>
+      <name>Xina Cheng</name>
+    </author>
+    <author>
+      <name>Weijie Chen</name>
+    </author>
+    <author>
+      <name>Xiaoting Yin</name>
+    </author>
+    <author>
+      <name>Hao Shi</name>
+    </author>
+    <author>
+      <name>Kailun Yang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2508.14358v1</id>
+    <title>Learning Point Cloud Representations with Pose Continuity for Depth-Based Category-Level 6D Object Pose Estimation</title>
+    <updated>2025-08-20T02:09:02Z</updated>
+    <link href="https://arxiv.org/abs/2508.14358v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2508.14358v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Category-level object pose estimation aims to predict the 6D pose and 3D size of objects within given categories. Existing approaches for this task rely solely on 6D poses as supervisory signals without explicitly capturing the intrinsic continuity of poses, leading to inconsistencies in predictions and reduced generalization to unseen poses. To address this limitation, we propose HRC-Pose, a novel depth-only framework for category-level object pose estimation, which leverages contrastive learning to learn point cloud representations that preserve the continuity of 6D poses. HRC-Pose decouples object pose into rotation and translation components, which are separately encoded and leveraged throughout the network. Specifically, we introduce a contrastive learning strategy for multi-task, multi-category scenarios based on our 6D pose-aware hierarchical ranking scheme, which contrasts point clouds from multiple categories by considering rotational and translational differences as well as categorical information. We further design pose estimation modules that separately process the learned rotation-aware and translation-aware embeddings. Our experiments demonstrate that HRC-Pose successfully learns continuous feature spaces. Results on REAL275 and CAMERA25 benchmarks show that our method consistently outperforms existing depth-only state-of-the-art methods and runs in real-time, demonstrating its effectiveness and potential for real-world applications. Our code is at https://github.com/zhujunli1993/HRC-Pose.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-08-20T02:09:02Z</published>
+    <arxiv:comment>Accepted by ICCV 2025 Workshop on Recovering 6D Object Pose (R6D)</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Zhujun Li</name>
+    </author>
+    <author>
+      <name>Shuo Zhang</name>
+    </author>
+    <author>
+      <name>Ioannis Stamos</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2110.09554v3</id>
+    <title>TransFusion: Cross-view Fusion with Transformer for 3D Human Pose Estimation</title>
+    <updated>2021-12-09T05:01:53Z</updated>
+    <link href="https://arxiv.org/abs/2110.09554v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2110.09554v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Estimating the 2D human poses in each view is typically the first step in calibrated multi-view 3D pose estimation. But the performance of 2D pose detectors suffers from challenging situations such as occlusions and oblique viewing angles. To address these challenges, previous works derive point-to-point correspondences between different views from epipolar geometry and utilize the correspondences to merge prediction heatmaps or feature representations. Instead of post-prediction merge/calibration, here we introduce a transformer framework for multi-view 3D pose estimation, aiming at directly improving individual 2D predictors by integrating information from different views. Inspired by previous multi-modal transformers, we design a unified transformer architecture, named TransFusion, to fuse cues from both current views and neighboring views. Moreover, we propose the concept of epipolar field to encode 3D positional information into the transformer model. The 3D position encoding guided by the epipolar field provides an efficient way of encoding correspondences between pixels of different views. Experiments on Human 3.6M and Ski-Pose show that our method is more efficient and has consistent improvements compared to other fusion methods. Specifically, we achieve 25.8 mm MPJPE on Human 3.6M with only 5M parameters on 256 x 256 resolution.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2021-10-18T18:08:18Z</published>
+    <arxiv:comment>BMVC 2021. Code is available at: https://github.com/HowieMa/TransFusion-Pose</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Haoyu Ma</name>
+    </author>
+    <author>
+      <name>Liangjian Chen</name>
+    </author>
+    <author>
+      <name>Deying Kong</name>
+    </author>
+    <author>
+      <name>Zhe Wang</name>
+    </author>
+    <author>
+      <name>Xingwei Liu</name>
+    </author>
+    <author>
+      <name>Hao Tang</name>
+    </author>
+    <author>
+      <name>Xiangyi Yan</name>
+    </author>
+    <author>
+      <name>Yusheng Xie</name>
+    </author>
+    <author>
+      <name>Shih-Yao Lin</name>
+    </author>
+    <author>
+      <name>Xiaohui Xie</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2204.09232v1</id>
+    <title>Visual-based Positioning and Pose Estimation</title>
+    <updated>2022-04-20T05:30:34Z</updated>
+    <link href="https://arxiv.org/abs/2204.09232v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2204.09232v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Recent advances in deep learning and computer vision offer an excellent opportunity to investigate high-level visual analysis tasks such as human localization and human pose estimation. Although the performance of human localization and human pose estimation has significantly improved in recent reports, they are not perfect and erroneous localization and pose estimation can be expected among video frames. Studies on the integration of these techniques into a generic pipeline that is robust to noise introduced from those errors are still lacking. This paper fills the missing study. We explored and developed two working pipelines that suited the visual-based positioning and pose estimation tasks. Analyses of the proposed pipelines were conducted on a badminton game. We showed that the concept of tracking by detection could work well, and errors in position and pose could be effectively handled by a linear interpolation technique using information from nearby frames. The results showed that the Visual-based Positioning and Pose Estimation could deliver position and pose estimations with good spatial and temporal resolutions.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2022-04-20T05:30:34Z</published>
+    <arxiv:comment>This paper is the expanded version of our paper titled Visual-based Positioning and Pose Estimation, ICONIP (4) 2020: 410-417</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Somnuk Phon-Amnuaisuk</name>
+    </author>
+    <author>
+      <name>Ken T. Murata</name>
+    </author>
+    <author>
+      <name>La-Or Kovavisaruch</name>
+    </author>
+    <author>
+      <name>Tiong-Hoo Lim</name>
+    </author>
+    <author>
+      <name>Praphan Pavarangkoon</name>
+    </author>
+    <author>
+      <name>Takamichi Mizuhara</name>
+    </author>
+  </entry>
+</feed>

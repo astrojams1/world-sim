@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/d8cyVnWYOT58x3Qmom44BMrsEAM</id>
+  <title>arXiv Query: search_query=ti:"3DP3" OR ti:"Bayes3D" OR (ti:"probabilistic programming" AND all:"scene perception")&amp;id_list=&amp;start=0&amp;max_results=12</title>
+  <updated>2026-09-05T21:41:25Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%223DP3%22+OR+(ti:%22Bayes3D%22+OR+(ti:%22probabilistic+programming%22+AND+all:%22scene+perception%22))&amp;start=0&amp;max_results=12&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>12</opensearch:itemsPerPage>
+  <opensearch:totalResults>2</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2111.00312v1</id>
+    <title>3DP3: 3D Scene Perception via Probabilistic Programming</title>
+    <updated>2021-10-30T19:10:34Z</updated>
+    <link href="https://arxiv.org/abs/2111.00312v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2111.00312v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We present 3DP3, a framework for inverse graphics that uses inference in a structured generative model of objects, scenes, and images. 3DP3 uses (i) voxel models to represent the 3D shape of objects, (ii) hierarchical scene graphs to decompose scenes into objects and the contacts between them, and (iii) depth image likelihoods based on real-time graphics. Given an observed RGB-D image, 3DP3's inference algorithm infers the underlying latent 3D scene, including the object poses and a parsimonious joint parametrization of these poses, using fast bottom-up pose proposals, novel involutive MCMC updates of the scene graph structure, and, optionally, neural object detectors and pose estimators. We show that 3DP3 enables scene understanding that is aware of 3D shape, occlusion, and contact structure. Our results demonstrate that 3DP3 is more accurate at 6DoF object pose estimation from real images than deep learning baselines and shows better generalization to challenging scenes with novel viewpoints, contact, and partial observability.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2021-10-30T19:10:34Z</published>
+    <arxiv:comment>NeurIPS 2021</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Nishad Gothoskar</name>
+    </author>
+    <author>
+      <name>Marco Cusumano-Towner</name>
+    </author>
+    <author>
+      <name>Ben Zinberg</name>
+    </author>
+    <author>
+      <name>Matin Ghavamizadeh</name>
+    </author>
+    <author>
+      <name>Falk Pollok</name>
+    </author>
+    <author>
+      <name>Austin Garrett</name>
+    </author>
+    <author>
+      <name>Joshua B. Tenenbaum</name>
+    </author>
+    <author>
+      <name>Dan Gutfreund</name>
+    </author>
+    <author>
+      <name>Vikash K. Mansinghka</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2312.08715v1</id>
+    <title>Bayes3D: fast learning and inference in structured generative models of 3D objects and scenes</title>
+    <updated>2023-12-14T07:59:31Z</updated>
+    <link href="https://arxiv.org/abs/2312.08715v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2312.08715v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Robots cannot yet match humans' ability to rapidly learn the shapes of novel 3D objects and recognize them robustly despite clutter and occlusion. We present Bayes3D, an uncertainty-aware perception system for structured 3D scenes, that reports accurate posterior uncertainty over 3D object shape, pose, and scene composition in the presence of clutter and occlusion. Bayes3D delivers these capabilities via a novel hierarchical Bayesian model for 3D scenes and a GPU-accelerated coarse-to-fine sequential Monte Carlo algorithm. Quantitative experiments show that Bayes3D can learn 3D models of novel objects from just a handful of views, recognizing them more robustly and with orders of magnitude less training data than neural baselines, and tracking 3D objects faster than real time on a single GPU. We also demonstrate that Bayes3D learns complex 3D object models and accurately infers 3D scene composition when used on a Panda robot in a tabletop scenario.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-12-14T07:59:31Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Nishad Gothoskar</name>
+    </author>
+    <author>
+      <name>Matin Ghavami</name>
+    </author>
+    <author>
+      <name>Eric Li</name>
+    </author>
+    <author>
+      <name>Aidan Curtis</name>
+    </author>
+    <author>
+      <name>Michael Noseworthy</name>
+    </author>
+    <author>
+      <name>Karen Chung</name>
+    </author>
+    <author>
+      <name>Brian Patton</name>
+    </author>
+    <author>
+      <name>William T. Freeman</name>
+    </author>
+    <author>
+      <name>Joshua B. Tenenbaum</name>
+    </author>
+    <author>
+      <name>Mirko Klukas</name>
+    </author>
+    <author>
+      <name>Vikash K. Mansinghka</name>
+    </author>
+  </entry>
+</feed>

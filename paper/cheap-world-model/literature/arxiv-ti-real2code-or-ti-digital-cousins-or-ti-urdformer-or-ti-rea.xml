@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/4B8aQB/0gqYxmC1TCI8/dJe+/xk</id>
+  <title>arXiv Query: search_query=ti:"Real2Code" OR ti:"digital cousins" OR ti:"URDFormer" OR (ti:"real2sim" AND all:LLM)&amp;id_list=&amp;start=0&amp;max_results=12</title>
+  <updated>2026-09-05T21:41:39Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22Real2Code%22+OR+(ti:%22digital+cousins%22+OR+(ti:%22URDFormer%22+OR+(ti:%22real2sim%22+AND+all:LLM)))&amp;start=0&amp;max_results=12&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>12</opensearch:itemsPerPage>
+  <opensearch:totalResults>8</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2410.07408v3</id>
+    <title>Automated Creation of Digital Cousins for Robust Policy Learning</title>
+    <updated>2024-10-19T00:08:19Z</updated>
+    <link href="https://arxiv.org/abs/2410.07408v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2410.07408v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Training robot policies in the real world can be unsafe, costly, and difficult to scale. Simulation serves as an inexpensive and potentially limitless source of training data, but suffers from the semantics and physics disparity between simulated and real-world environments. These discrepancies can be minimized by training in digital twins, which serve as virtual replicas of a real scene but are expensive to generate and cannot produce cross-domain generalization. To address these limitations, we propose the concept of digital cousins, a virtual asset or scene that, unlike a digital twin, does not explicitly model a real-world counterpart but still exhibits similar geometric and semantic affordances. As a result, digital cousins simultaneously reduce the cost of generating an analogous virtual environment while also facilitating better robustness during sim-to-real domain transfer by providing a distribution of similar training scenes. Leveraging digital cousins, we introduce a novel method for their automated creation, and propose a fully automated real-to-sim-to-real pipeline for generating fully interactive scenes and training robot policies that can be deployed zero-shot in the original scene. We find that digital cousin scenes that preserve geometric and semantic affordances can be produced automatically, and can be used to train policies that outperform policies trained on digital twins, achieving 90% vs. 25% success rates under zero-shot sim-to-real transfer. Additional details are available at https://digital-cousins.github.io/.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-10-09T20:17:58Z</published>
+    <arxiv:comment>CoRL 2024</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Tianyuan Dai</name>
+    </author>
+    <author>
+      <name>Josiah Wong</name>
+    </author>
+    <author>
+      <name>Yunfan Jiang</name>
+    </author>
+    <author>
+      <name>Chen Wang</name>
+    </author>
+    <author>
+      <name>Cem Gokmen</name>
+    </author>
+    <author>
+      <name>Ruohan Zhang</name>
+    </author>
+    <author>
+      <name>Jiajun Wu</name>
+    </author>
+    <author>
+      <name>Li Fei-Fei</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2402.08022v1</id>
+    <title>Leveraging Digital Cousins for Ensemble Q-Learning in Large-Scale Wireless Networks</title>
+    <updated>2024-02-12T19:39:07Z</updated>
+    <link href="https://arxiv.org/abs/2402.08022v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2402.08022v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Optimizing large-scale wireless networks, including optimal resource management, power allocation, and throughput maximization, is inherently challenging due to their non-observable system dynamics and heterogeneous and complex nature. Herein, a novel ensemble Q-learning algorithm that addresses the performance and complexity challenges of the traditional Q-learning algorithm for optimizing wireless networks is presented. Ensemble learning with synthetic Markov Decision Processes is tailored to wireless networks via new models for approximating large state-space observable wireless networks. In particular, digital cousins are proposed as an extension of the traditional digital twin concept wherein multiple Q-learning algorithms on multiple synthetic Markovian environments are run in parallel and their outputs are fused into a single Q-function. Convergence analyses of key statistics and Q-functions and derivations of upper bounds on the estimation bias and variance are provided. Numerical results across a variety of real-world wireless networks show that the proposed algorithm can achieve up to 50% less average policy error with up to 40% less runtime complexity than the state-of-the-art reinforcement learning algorithms. It is also shown that theoretical results properly predict trends in the experimental results.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.NI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="eess.SP" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-02-12T19:39:07Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Talha Bozkus</name>
+    </author>
+    <author>
+      <name>Urbashi Mitra</name>
+    </author>
+    <arxiv:doi>10.1109/TSP.2024.3366434</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1109/TSP.2024.3366434" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2503.05970v3</id>
+    <title>Partially Decentralized Multi-Agent Q-Learning via Digital Cousins for Wireless Networks</title>
+    <updated>2025-08-21T20:54:02Z</updated>
+    <link href="https://arxiv.org/abs/2503.05970v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2503.05970v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Q-learning is a widely used reinforcement learning (RL) algorithm for optimizing wireless networks, but faces challenges with large state-spaces. Recently proposed multi-environment mixed Q-learning (MEMQ) algorithm addresses these challenges by employing multiple Q-learning algorithms across multiple synthetically generated, distinct but structurally related environments, so-called digital cousins. In this paper, we propose a novel multi-agent MEMQ (M-MEMQ) for cooperative decentralized wireless networks with multiple networked transmitters (TXs) and base stations (BSs). TXs do not have access to global information (joint state and actions). The new concept of coordinated and uncoordinated states is introduced. In uncoordinated states, TXs act independently to minimize their individual costs and update local Q-functions. In coordinated states, TXs use a Bayesian approach to estimate the joint state and update the joint Q-functions. The cost of information-sharing scales linearly with the number of TXs and is independent of the joint state-action space size. Several theoretical guarantees, including deterministic and probabilistic convergence, bounds on estimation error variance, and the probability of misdetecting the joint states, are given. Numerical simulations show that M-MEMQ outperforms several decentralized and centralized training with decentralized execution (CTDE) multi-agent RL algorithms by achieving 60% lower average policy error (APE), 40% faster convergence, 45% reduced runtime complexity, and 40% less sample complexity. Furthermore, M-MEMQ achieves comparable APE with significantly lower complexity than centralized methods. Simulations validate the theoretical analyses.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="eess.SP" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-03-07T22:48:35Z</published>
+    <arxiv:comment>This work has been submitted to the IEEE for possible publication</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Talha Bozkus</name>
+    </author>
+    <author>
+      <name>Urbashi Mitra</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2406.08474v2</id>
+    <title>Real2Code: Reconstruct Articulated Objects via Code Generation</title>
+    <updated>2024-06-13T17:38:12Z</updated>
+    <link href="https://arxiv.org/abs/2406.08474v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2406.08474v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We present Real2Code, a novel approach to reconstructing articulated objects via code generation. Given visual observations of an object, we first reconstruct its part geometry using an image segmentation model and a shape completion model. We then represent the object parts with oriented bounding boxes, which are input to a fine-tuned large language model (LLM) to predict joint articulation as code. By leveraging pre-trained vision and language models, our approach scales elegantly with the number of articulated parts, and generalizes from synthetic training data to real world objects in unstructured environments. Experimental results demonstrate that Real2Code significantly outperforms previous state-of-the-art in reconstruction accuracy, and is the first approach to extrapolate beyond objects' structural complexity in the training set, and reconstructs objects with up to 10 articulated parts. When incorporated with a stereo reconstruction model, Real2Code also generalizes to real world objects from a handful of multi-view RGB images, without the need for depth or camera information.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-06-12T17:57:06Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Zhao Mandi</name>
+    </author>
+    <author>
+      <name>Yijia Weng</name>
+    </author>
+    <author>
+      <name>Dominik Bauer</name>
+    </author>
+    <author>
+      <name>Shuran Song</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2411.08360v1</id>
+    <title>Coverage Analysis for Digital Cousin Selection -- Improving Multi-Environment Q-Learning</title>
+    <updated>2024-11-13T06:16:12Z</updated>
+    <link href="https://arxiv.org/abs/2411.08360v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2411.08360v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Q-learning is widely employed for optimizing various large-dimensional networks with unknown system dynamics. Recent advancements include multi-environment mixed Q-learning (MEMQ) algorithms, which utilize multiple independent Q-learning algorithms across multiple, structurally related but distinct environments and outperform several state-of-the-art Q-learning algorithms in terms of accuracy, complexity, and robustness. We herein conduct a comprehensive probabilistic coverage analysis to ensure optimal data coverage conditions for MEMQ algorithms. First, we derive upper and lower bounds on the expectation and variance of different coverage coefficients (CC) for MEMQ algorithms. Leveraging these bounds, we develop a simple way of comparing the utilities of multiple environments in MEMQ algorithms. This approach appears to be near optimal versus our previously proposed partial ordering approach. We also present a novel CC-based MEMQ algorithm to improve the accuracy and complexity of existing MEMQ algorithms. Numerical experiments are conducted using random network graphs with four different graph properties. Our algorithm can reduce the average policy error (APE) by 65% compared to partial ordering and is 95% faster than the exhaustive search. It also achieves 60% less APE than several state-of-the-art reinforcement learning and prior MEMQ algorithms. Additionally, we numerically verify the theoretical results and show their scalability with the action-space size.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="eess.SP" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-11-13T06:16:12Z</published>
+    <arxiv:comment>This work has been submitted to the IEEE for possible publication</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Talha Bozkus</name>
+    </author>
+    <author>
+      <name>Tara Javidi</name>
+    </author>
+    <author>
+      <name>Urbashi Mitra</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2604.15805v1</id>
+    <title>From Seeing to Simulating: Generative High-Fidelity Simulation with Digital Cousins for Generalizable Robot Learning and Evaluation</title>
+    <updated>2026-04-17T08:06:26Z</updated>
+    <link href="https://arxiv.org/abs/2604.15805v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2604.15805v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Learning robust robot policies in real-world environments requires diverse data augmentation, yet scaling real-world data collection is costly due to the need for acquiring physical assets and reconfiguring environments. Therefore, augmenting real-world scenes into simulation has become a practical augmentation for efficient learning and evaluation. We present a generative framework that establishes a generative real-to-sim mapping from real-world panoramas to high-fidelity simulation scenes, and further synthesize diverse cousin scenes via semantic and geometric editing. Combined with high-quality physics engines and realistic assets, the generated scenes support interactive manipulation tasks. Additionally, we incorporate multi-room stitching to construct consistent large-scale environments for long-horizon navigation across complex layouts. Experiments demonstrate a strong sim-to-real correlation validating our platform's fidelity, and show that extensively scaling up data generation leads to significantly better generalization to unseen scene and object variations, demonstrating the effectiveness of Digital Cousins for generalizable robot learning and evaluation.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-04-17T08:06:26Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Jasper Lu</name>
+    </author>
+    <author>
+      <name>Zhenhao Shen</name>
+    </author>
+    <author>
+      <name>Yuanfei Wang</name>
+    </author>
+    <author>
+      <name>Shugao Liu</name>
+    </author>
+    <author>
+      <name>Shengqiang Xu</name>
+    </author>
+    <author>
+      <name>Shawn Xie</name>
+    </author>
+    <author>
+      <name>Jingkai Xu</name>
+    </author>
+    <author>
+      <name>Feng Jiang</name>
+    </author>
+    <author>
+      <name>Jade Yang</name>
+    </author>
+    <author>
+      <name>Chen Xie</name>
+    </author>
+    <author>
+      <name>Ruihai Wu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2501.03637v1</id>
+    <title>Advancing the Understanding of Fine-Grained 3D Forest Structures using Digital Cousins and Simulation-to-Reality: Methods and Datasets</title>
+    <updated>2025-01-07T09:12:55Z</updated>
+    <link href="https://arxiv.org/abs/2501.03637v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2501.03637v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Understanding and analyzing the spatial semantics and structure of forests is essential for accurate forest resource monitoring and ecosystem research. However, the lack of large-scale and annotated datasets has limited the widespread use of advanced intelligent techniques in this field. To address this challenge, a fully automated synthetic data generation and processing framework based on the concepts of Digital Cousins and Simulation-to-Reality (Sim2Real) is proposed, offering versatility and scalability to any size and platform. Using this process, we created the Boreal3D, the world's largest forest point cloud dataset. It includes 1000 highly realistic and structurally diverse forest plots across four different platforms, totaling 48,403 trees and over 35.3 billion points. Each point is labeled with semantic, instance, and viewpoint information, while each tree is described with structural parameters such as diameter, crown width, leaf area, and total volume. We designed and conducted extensive experiments to evaluate the potential of Boreal3D in advancing fine-grained 3D forest structure analysis in real-world applications. The results demonstrate that with certain strategies, models pre-trained on synthetic data can significantly improve performance when applied to real forest datasets. Especially, the findings reveal that fine-tuning with only 20% of real-world data enables the model to achieve performance comparable to models trained exclusively on entire real-world data, highlighting the value and potential of our proposed framework. The Boreal3D dataset, and more broadly, the synthetic data augmentation framework, is poised to become a critical resource for advancing research in large-scale 3D forest scene understanding and structural parameter estimation.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-01-07T09:12:55Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Jing Liu</name>
+    </author>
+    <author>
+      <name>Duanchu Wang</name>
+    </author>
+    <author>
+      <name>Haoran Gong</name>
+    </author>
+    <author>
+      <name>Chongyu Wang</name>
+    </author>
+    <author>
+      <name>Jihua Zhu</name>
+    </author>
+    <author>
+      <name>Di Wang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2405.11656v3</id>
+    <title>URDFormer: A Pipeline for Constructing Articulated Simulation Environments from Real-World Images</title>
+    <updated>2024-05-31T16:44:06Z</updated>
+    <link href="https://arxiv.org/abs/2405.11656v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2405.11656v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Constructing simulation scenes that are both visually and physically realistic is a problem of practical interest in domains ranging from robotics to computer vision. This problem has become even more relevant as researchers wielding large data-hungry learning methods seek new sources of training data for physical decision-making systems. However, building simulation models is often still done by hand. A graphic designer and a simulation engineer work with predefined assets to construct rich scenes with realistic dynamic and kinematic properties. While this may scale to small numbers of scenes, to achieve the generalization properties that are required for data-driven robotic control, we require a pipeline that is able to synthesize large numbers of realistic scenes, complete with 'natural' kinematic and dynamic structures. To attack this problem, we develop models for inferring structure and generating simulation scenes from natural images, allowing for scalable scene generation from web-scale datasets. To train these image-to-simulation models, we show how controllable text-to-image generative models can be used in generating paired training data that allows for modeling of the inverse problem, mapping from realistic images back to complete scene models. We show how this paradigm allows us to build large datasets of scenes in simulation with semantic and physical realism. We present an integrated end-to-end pipeline that generates simulation scenes complete with articulated kinematic and dynamic structures from real-world images and use these for training robotic control policies. We then robustly deploy in the real world for tasks like articulated object manipulation. In doing so, our work provides both a pipeline for large-scale generation of simulation environments and an integrated system for training robust robotic control policies in the resulting environments.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-05-19T20:01:29Z</published>
+    <arxiv:comment>Accepted at RSS2024</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Zoey Chen</name>
+    </author>
+    <author>
+      <name>Aaron Walsman</name>
+    </author>
+    <author>
+      <name>Marius Memmel</name>
+    </author>
+    <author>
+      <name>Kaichun Mo</name>
+    </author>
+    <author>
+      <name>Alex Fang</name>
+    </author>
+    <author>
+      <name>Karthikeya Vemuri</name>
+    </author>
+    <author>
+      <name>Alan Wu</name>
+    </author>
+    <author>
+      <name>Dieter Fox</name>
+    </author>
+    <author>
+      <name>Abhishek Gupta</name>
+    </author>
+  </entry>
+</feed>

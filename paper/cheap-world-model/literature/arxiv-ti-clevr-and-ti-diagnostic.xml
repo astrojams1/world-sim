@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/nLC6V9R1lCPFba1xy1mCbeXf2ac</id>
+  <title>arXiv Query: search_query=ti:CLEVR AND ti:diagnostic&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T21:42:00Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:CLEVR+AND+ti:diagnostic&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>2</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/1903.03166v2</id>
+    <title>CLEVR-Dialog: A Diagnostic Dataset for Multi-Round Reasoning in Visual Dialog</title>
+    <updated>2019-09-18T18:04:43Z</updated>
+    <link href="https://arxiv.org/abs/1903.03166v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1903.03166v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Visual Dialog is a multimodal task of answering a sequence of questions grounded in an image, using the conversation history as context. It entails challenges in vision, language, reasoning, and grounding. However, studying these subtasks in isolation on large, real datasets is infeasible as it requires prohibitively-expensive complete annotation of the 'state' of all images and dialogs.
+  We develop CLEVR-Dialog, a large diagnostic dataset for studying multi-round reasoning in visual dialog. Specifically, we construct a dialog grammar that is grounded in the scene graphs of the images from the CLEVR dataset. This combination results in a dataset where all aspects of the visual dialog are fully annotated. In total, CLEVR-Dialog contains 5 instances of 10-round dialogs for about 85k CLEVR images, totaling to 4.25M question-answer pairs.
+  We use CLEVR-Dialog to benchmark performance of standard visual dialog models; in particular, on visual coreference resolution (as a function of the coreference distance). This is the first analysis of its kind for visual dialog models that was not possible without this dataset. We hope the findings from CLEVR-Dialog will help inform the development of future models for visual dialog. Our dataset and code are publicly available.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2019-03-07T20:18:39Z</published>
+    <arxiv:comment>13 pages, 11 figures, 3 tables, accepted as a short paper at NAACL 2019</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Satwik Kottur</name>
+    </author>
+    <author>
+      <name>José M. F. Moura</name>
+    </author>
+    <author>
+      <name>Devi Parikh</name>
+    </author>
+    <author>
+      <name>Dhruv Batra</name>
+    </author>
+    <author>
+      <name>Marcus Rohrbach</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1612.06890v1</id>
+    <title>CLEVR: A Diagnostic Dataset for Compositional Language and Elementary Visual Reasoning</title>
+    <updated>2016-12-20T21:40:40Z</updated>
+    <link href="https://arxiv.org/abs/1612.06890v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1612.06890v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>When building artificial intelligence systems that can reason and answer questions about visual data, we need diagnostic tests to analyze our progress and discover shortcomings. Existing benchmarks for visual question answering can help, but have strong biases that models can exploit to correctly answer questions without reasoning. They also conflate multiple sources of error, making it hard to pinpoint model weaknesses. We present a diagnostic dataset that tests a range of visual reasoning abilities. It contains minimal biases and has detailed annotations describing the kind of reasoning each question requires. We use this dataset to analyze a variety of modern visual reasoning systems, providing novel insights into their abilities and limitations.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2016-12-20T21:40:40Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Justin Johnson</name>
+    </author>
+    <author>
+      <name>Bharath Hariharan</name>
+    </author>
+    <author>
+      <name>Laurens van der Maaten</name>
+    </author>
+    <author>
+      <name>Li Fei-Fei</name>
+    </author>
+    <author>
+      <name>C. Lawrence Zitnick</name>
+    </author>
+    <author>
+      <name>Ross Girshick</name>
+    </author>
+  </entry>
+</feed>

@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/XryJMFcfmHHO18dwfLhVIgn7yo4</id>
+  <title>arXiv Query: search_query=ti:"Perception Tokens" OR (ti:"visual" AND ti:"chain-of-thought" AND ti:"3D")&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T21:42:34Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22Perception+Tokens%22+OR+(ti:%22visual%22+AND+(ti:%22chain-of-thought%22+AND+ti:%223D%22))&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>4</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2310.06214v4</id>
+    <title>CoT3DRef: Chain-of-Thoughts Data-Efficient 3D Visual Grounding</title>
+    <updated>2024-10-05T18:11:02Z</updated>
+    <link href="https://arxiv.org/abs/2310.06214v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2310.06214v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>3D visual grounding is the ability to localize objects in 3D scenes conditioned by utterances. Most existing methods devote the referring head to localize the referred object directly, causing failure in complex scenarios. In addition, it does not illustrate how and why the network reaches the final decision. In this paper, we address this question Can we design an interpretable 3D visual grounding framework that has the potential to mimic the human perception system?. To this end, we formulate the 3D visual grounding problem as a sequence-to-sequence Seq2Seq task by first predicting a chain of anchors and then the final target. Interpretability not only improves the overall performance but also helps us identify failure cases. Following the chain of thoughts approach enables us to decompose the referring task into interpretable intermediate steps, boosting the performance and making our framework extremely data-efficient. Moreover, our proposed framework can be easily integrated into any existing architecture. We validate our approach through comprehensive experiments on the Nr3D, Sr3D, and Scanrefer benchmarks and show consistent performance gains compared to existing methods without requiring manually annotated data. Furthermore, our proposed framework, dubbed CoT3DRef, is significantly data-efficient, whereas on the Sr3D dataset, when trained only on 10% of the data, we match the SOTA performance that trained on the entire data. The code is available at https:eslambakr.github.io/cot3dref.github.io/.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-10-10T00:07:25Z</published>
+    <arxiv:comment>ICLR 2024</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Eslam Abdelrahman</name>
+    </author>
+    <author>
+      <name>Mohamed Ayman</name>
+    </author>
+    <author>
+      <name>Mahmoud Ahmed</name>
+    </author>
+    <author>
+      <name>Habib Slim</name>
+    </author>
+    <author>
+      <name>Mohamed Elhoseiny</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2412.03548v2</id>
+    <title>Perception Tokens Enhance Visual Reasoning in Multimodal Language Models</title>
+    <updated>2024-12-08T05:18:30Z</updated>
+    <link href="https://arxiv.org/abs/2412.03548v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2412.03548v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Multimodal language models (MLMs) still face challenges in fundamental visual perception tasks where specialized models excel. Tasks requiring reasoning about 3D structures benefit from depth estimation, and reasoning about 2D object instances benefits from object detection. Yet, MLMs can not produce intermediate depth or boxes to reason over. Finetuning MLMs on relevant data doesn't generalize well and outsourcing computation to specialized vision tools is too compute-intensive and memory-inefficient. To address this, we introduce Perception Tokens, intrinsic image representations designed to assist reasoning tasks where language is insufficient. Perception tokens act as auxiliary reasoning tokens, akin to chain-of-thought prompts in language models. For example, in a depth-related task, an MLM augmented with perception tokens can reason by generating a depth map as tokens, enabling it to solve the problem effectively. We propose AURORA, a training method that augments MLMs with perception tokens for improved reasoning over visual inputs. AURORA leverages a VQVAE to transform intermediate image representations, such as depth maps into a tokenized format and bounding box tokens, which is then used in a multi-task training framework. AURORA achieves notable improvements across counting benchmarks: +10.8% on BLINK, +11.3% on CVBench, and +8.3% on SEED-Bench, outperforming finetuning approaches in generalization across datasets. It also improves on relative depth: over +6% on BLINK. With perception tokens, AURORA expands the scope of MLMs beyond language-based reasoning, paving the way for more effective visual reasoning capabilities.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-12-04T18:45:35Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Mahtab Bigverdi</name>
+    </author>
+    <author>
+      <name>Zelun Luo</name>
+    </author>
+    <author>
+      <name>Cheng-Yu Hsieh</name>
+    </author>
+    <author>
+      <name>Ethan Shen</name>
+    </author>
+    <author>
+      <name>Dongping Chen</name>
+    </author>
+    <author>
+      <name>Linda G. Shapiro</name>
+    </author>
+    <author>
+      <name>Ranjay Krishna</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2606.03988v3</id>
+    <title>Imaginative Perception Tokens Enhance Spatial Reasoning in Multimodal Language Models</title>
+    <updated>2026-08-17T06:42:13Z</updated>
+    <link href="https://arxiv.org/abs/2606.03988v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.03988v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Vision language models (VLMs) excel at many tasks but still struggle with spatial reasoning when critical information is not directly observable. Many such problems require imaginative perception: inferring what would be seen from an unseen viewpoint, tracing paths through occluded spaces, or integrating partial observations into a coherent spatial representation. We introduce Imaginative Perception Tokens (IPT), intermediate perceptual representations that externalize what a VLM would perceive under alternative spatial configurations while remaining consistent with the observed input.
+  To study this capability, we formulate three tasks, Perspective Taking (PET), Path Tracing (PT), and Multiview Counting (MVC), and construct datasets of approximately 20K examples with ground truth imaginations, answers, and evaluation benchmarks. Using the unified VLM BAGEL as the backbone, IPT supervision consistently improves spatial reasoning and often outperforms textual chain of thought training, even without generating images at inference time. On MVC, IPT improves accuracy by 3.4% and achieves competitive performance with strong closed-source models on PT. We further find that combining IPT and label-only supervision yields additional gains, whereas textual chain of thought can substantially degrade performance, suggesting a modality mismatch when spatial computation is forced through language. Overall, IPT provides a principled supervision signal for reasoning about unobserved spatial structure, improving generalization while producing interpretable intermediate representations.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-02T17:59:17Z</published>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Mahtab Bigverdi</name>
+    </author>
+    <author>
+      <name>Linjie Li</name>
+    </author>
+    <author>
+      <name>Weikai Huang</name>
+    </author>
+    <author>
+      <name>Yiming Liu</name>
+    </author>
+    <author>
+      <name>Jaemin Cho</name>
+    </author>
+    <author>
+      <name>Tuhin Kundu</name>
+    </author>
+    <author>
+      <name>Chris Dongjoo Kim</name>
+    </author>
+    <author>
+      <name>Zelun Luo</name>
+    </author>
+    <author>
+      <name>Jieyu Zhang</name>
+    </author>
+    <author>
+      <name>Linda Shapiro</name>
+    </author>
+    <author>
+      <name>Ranjay Krishna</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2502.17425v1</id>
+    <title>Introducing Visual Perception Token into Multimodal Large Language Model</title>
+    <updated>2025-02-24T18:56:12Z</updated>
+    <link href="https://arxiv.org/abs/2502.17425v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2502.17425v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>To utilize visual information, Multimodal Large Language Model (MLLM) relies on the perception process of its vision encoder. The completeness and accuracy of visual perception significantly influence the precision of spatial reasoning, fine-grained understanding, and other tasks. However, MLLM still lacks the autonomous capability to control its own visual perception processes, for example, selectively reviewing specific regions of an image or focusing on information related to specific object categories. In this work, we propose the concept of Visual Perception Token, aiming to empower MLLM with a mechanism to control its visual perception processes. We design two types of Visual Perception Tokens, termed the Region Selection Token and the Vision Re-Encoding Token. MLLMs autonomously generate these tokens, just as they generate text, and use them to trigger additional visual perception actions. The Region Selection Token explicitly identifies specific regions in an image that require further perception, while the Vision Re-Encoding Token uses its hidden states as control signals to guide additional visual perception processes. Extensive experiments demonstrate the advantages of these tokens in handling spatial reasoning, improving fine-grained understanding, and other tasks. On average, the introduction of Visual Perception Tokens improves the performance of a 2B model by 23.6\%, increasing its score from 0.572 to 0.708, and even outperforms a 7B parameter model by 13.4\% (from 0.624). Please check out our repo https://github.com/yu-rp/VisualPerceptionToken</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-02-24T18:56:12Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Runpeng Yu</name>
+    </author>
+    <author>
+      <name>Xinyin Ma</name>
+    </author>
+    <author>
+      <name>Xinchao Wang</name>
+    </author>
+  </entry>
+</feed>

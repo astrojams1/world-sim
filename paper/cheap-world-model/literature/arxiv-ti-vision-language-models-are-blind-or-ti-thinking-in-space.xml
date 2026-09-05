@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/OJQcCp8n8Bkg6QOezmfT7uBDkTw</id>
+  <title>arXiv Query: search_query=ti:"Vision language models are blind" OR ti:"Thinking in Space" OR (ti:"multi-frame" AND ti:"spatial" AND ti:VLM)&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T21:42:07Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22Vision+language+models+are+blind%22+OR+(ti:%22Thinking+in+Space%22+OR+(ti:%22multi-frame%22+AND+(ti:%22spatial%22+AND+ti:VLM)))&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>9</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2503.02199v1</id>
+    <title>Words or Vision: Do Vision-Language Models Have Blind Faith in Text?</title>
+    <updated>2025-03-04T02:21:07Z</updated>
+    <link href="https://arxiv.org/abs/2503.02199v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2503.02199v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Vision-Language Models (VLMs) excel in integrating visual and textual information for vision-centric tasks, but their handling of inconsistencies between modalities is underexplored. We investigate VLMs' modality preferences when faced with visual data and varied textual inputs in vision-centered settings. By introducing textual variations to four vision-centric tasks and evaluating ten Vision-Language Models (VLMs), we discover a \emph{``blind faith in text''} phenomenon: VLMs disproportionately trust textual data over visual data when inconsistencies arise, leading to significant performance drops under corrupted text and raising safety concerns. We analyze factors influencing this text bias, including instruction prompts, language model size, text relevance, token order, and the interplay between visual and textual certainty. While certain factors, such as scaling up the language model size, slightly mitigate text bias, others like token order can exacerbate it due to positional biases inherited from language models. To address this issue, we explore supervised fine-tuning with text augmentation and demonstrate its effectiveness in reducing text bias. Additionally, we provide a theoretical analysis suggesting that the blind faith in text phenomenon may stem from an imbalance of pure text and multi-modal data during training. Our findings highlight the need for balanced training and careful consideration of modality interactions in VLMs to enhance their robustness and reliability in handling multi-modal data inconsistencies.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.MM" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-03-04T02:21:07Z</published>
+    <arxiv:comment>Accepted to CVPR 2025</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Ailin Deng</name>
+    </author>
+    <author>
+      <name>Tri Cao</name>
+    </author>
+    <author>
+      <name>Zhirui Chen</name>
+    </author>
+    <author>
+      <name>Bryan Hooi</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2512.09555v1</id>
+    <title>Building Reasonable Inference for Vision-Language Models in Blind Image Quality Assessment</title>
+    <updated>2025-12-10T11:50:42Z</updated>
+    <link href="https://arxiv.org/abs/2512.09555v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2512.09555v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Recent progress in BIQA has been driven by VLMs, whose semantic reasoning abilities suggest that they might extract visual features, generate descriptive text, and infer quality in a human-like manner. However, these models often produce textual descriptions that contradict their final quality predictions, and the predicted scores can change unstably during inference - behaviors not aligned with human reasoning. To understand these issues, we analyze the factors that cause contradictory assessments and instability. We first estimate the relationship between the final quality predictions and the generated visual features, finding that the predictions are not fully grounded in the features and that the logical connection between them is weak. Moreover, decoding intermediate VLM layers shows that the model frequently relies on a limited set of candidate tokens, which contributes to prediction instability. To encourage more human-like reasoning, we introduce a two-stage tuning method that explicitly separates visual perception from quality inference. In the first stage, the model learns visual features; in the second, it infers quality solely from these features. Experiments on SPAQ and KONIQ demonstrate that our approach reduces prediction instability from 22.00% to 12.39% and achieves average gains of 0.3124/0.3507 in SRCC/PLCC across LIVE, CSIQ, SPAQ, and KONIQ compared to the baseline. Further analyses show that our method improves both stability and the reliability of the inference process.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-12-10T11:50:42Z</published>
+    <arxiv:comment>Accepted to the ICONIP (International Conference on Neural Information Processing), 2025</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <arxiv:journal_ref>Building Reasonable Inference for Vision-Language Models in Blind Image Quality Assessment. In: Taniguchi, T., et al. Neural Information Processing. ICONIP 2025. Lecture Notes in Computer Science, vol 16310. Springer, Singapore</arxiv:journal_ref>
+    <author>
+      <name>Yuan Li</name>
+    </author>
+    <author>
+      <name>Zitang Sun</name>
+    </author>
+    <author>
+      <name>Yen-ju Chen</name>
+    </author>
+    <author>
+      <name>Shin'ya Nishida</name>
+    </author>
+    <arxiv:doi>10.1007/978-981-95-4378-6_20</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1007/978-981-95-4378-6_20" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2407.06581v6</id>
+    <title>Vision language models are blind: Failing to translate detailed visual features into words</title>
+    <updated>2025-03-27T16:16:09Z</updated>
+    <link href="https://arxiv.org/abs/2407.06581v6" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2407.06581v6" rel="related" type="application/pdf" title="pdf"/>
+    <summary>While large language models with vision capabilities (VLMs), e.g., GPT-4o and Gemini 1.5 Pro, score high on many vision-understanding benchmarks, they are still struggling with low-level vision tasks that are easy to humans. Specifically, on BlindTest, our suite of 7 very simple tasks, including identifying (a) whether two circles overlap; (b) how many times two lines intersect; (c) which letter is being circled in a word; and (d) the number of circles in an Olympic-like logo, four state-of-the-art VLMs are only 58.07% accurate on average. Claude 3.5 Sonnet performs the best at 77.84% accuracy, far from the human expected accuracy of 100%. Across different image resolutions and line widths, VLMs including slow-thinking models consistently struggle with those tasks that require precise spatial information when geometric primitives overlap or are close. Yet, VLMs perform at near-100% accuracy when much more space is added to separate shapes and letters. Linear probing experiments show that vision encoders contain sufficient visual information to solve BlindTest and that language models fail to decode this information into correct answers. Code and data are at: https://vlmsareblind.github.io</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-07-09T06:20:17Z</published>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Pooyan Rahmanzadehgervi</name>
+    </author>
+    <author>
+      <name>Logan Bolton</name>
+    </author>
+    <author>
+      <name>Mohammad Reza Taesiri</name>
+    </author>
+    <author>
+      <name>Anh Totti Nguyen</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2205.04416v1</id>
+    <title>Teaching computational thinking to space science students</title>
+    <updated>2022-05-09T16:43:34Z</updated>
+    <link href="https://arxiv.org/abs/2205.04416v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2205.04416v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Computational thinking is a key skill for space science graduates, who must apply advanced problem-solving skills to model complex systems, analyse big data sets, and develop control software for mission-critical space systems. We describe our work using Design Thinking to understand the challenges that students face in learning these skills. In the MSc Space Science &amp; Technology at University College Dublin, we have used insights from this process to develop new teaching strategies, including improved assessment rubrics, supported by workshops promoting collaborative programming techniques. We argue that postgraduate level space science courses play a valuable role in developing more advanced computational skills in early-career space scientists.</summary>
+    <category term="physics.ed-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2022-05-09T16:43:34Z</published>
+    <arxiv:comment>6 pages, 3 figures, presented at 4th Symposium on Space Educational Activities, Barcelona, 27-29 April 2022</arxiv:comment>
+    <arxiv:primary_category term="physics.ed-ph"/>
+    <author>
+      <name>Robert M. Jeffrey</name>
+    </author>
+    <author>
+      <name>Megan Lundy</name>
+    </author>
+    <author>
+      <name>Deirdre Coffey</name>
+    </author>
+    <author>
+      <name>Sheila McBreen</name>
+    </author>
+    <author>
+      <name>Antonio Martin-Carrillo</name>
+    </author>
+    <author>
+      <name>Lorraine Hanlon</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2601.13029v4</id>
+    <title>Think3D: Thinking with Space for Spatial Reasoning</title>
+    <updated>2026-08-27T13:47:50Z</updated>
+    <link href="https://arxiv.org/abs/2601.13029v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2601.13029v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>While Vision-Language Models (VLMs) excel at 2D visual understanding, they remain constrained by 2D-centric paradigm that severely limits genuine 3D spatial reasoning. To bridge this gap, we introduce Think3D, a novel framework that equips VLM agents with interactive, 3D chain-of-thought reasoning capabilities. By integrating a suite of 3D manipulation tools, Think3D transforms perception into active spatial exploration, mirroring human geometric reasoning. Think3D consistently improves proprietary models, including GPT-4.1 and Gemini 2.5 Pro, across BLINK Multi-view, MindCube-1K, and VSI-Bench-Tiny. We further propose Think3D-RL to teach smaller open-weight models how to manipulate 3D space effectively. Using only final-answer rewards, without process supervision or handcrafted exploration trajectories, Think3D-RL enables Qwen3-VL-4B to autonomously learn effective 3D exploration strategies. After training, the model exhibits tool-use patterns similar to those of stronger proprietary models, while shifting the effect of 3D tool use on MindCube-1K from a performance drop to a substantial improvement. These results show that active exploration in 3D space provides an effective and general paradigm for improving spatial reasoning in multimodal agents. Code, models, and data are available at https://github.com/zhangzaibin/spagent.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-01-19T13:13:54Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Zaibin Zhang</name>
+    </author>
+    <author>
+      <name>Yuhan Wu</name>
+    </author>
+    <author>
+      <name>Lianjie Jia</name>
+    </author>
+    <author>
+      <name>Yifan Wang</name>
+    </author>
+    <author>
+      <name>Zhongbo Zhang</name>
+    </author>
+    <author>
+      <name>Yijiang Li</name>
+    </author>
+    <author>
+      <name>Binghao Ran</name>
+    </author>
+    <author>
+      <name>Fuxi Zhang</name>
+    </author>
+    <author>
+      <name>Zhuohan Sun</name>
+    </author>
+    <author>
+      <name>Yizhuang Peng</name>
+    </author>
+    <author>
+      <name>Zhenfei Yin</name>
+    </author>
+    <author>
+      <name>Lijun Wang</name>
+    </author>
+    <author>
+      <name>Huchuan Lu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2603.17498v2</id>
+    <title>Cyberlanguage: Native Communication for the Cyber-Physical-Social-Thinking Fusion Space</title>
+    <updated>2026-04-04T15:51:31Z</updated>
+    <link href="https://arxiv.org/abs/2603.17498v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2603.17498v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Human communication is undergoing a fundamental paradigm shift. Physical space, social relations, mental states, and digital information are converging into a unified cyber-physical-social-thinking (CPST) fusion space, rendering them no longer separable domains. However, all existing communication systems, including natural and programming languages, as well as interaction protocols, were designed for a world in which these four dimensions remained distinct. We introduce Cyberlanguage, a theoretically grounded communicative framework that is native to the CPST fusion space. Grounded in the philosophical orientation of cyberism and employing CPST theory as an analytical framework, Cyberlanguage possesses four core characteristics: native four-dimensional fusion, multi-agent universality, dynamic compilability, and contextual adaptability. We have constructed a semiotic model based on the Cybersign unit, a four-dimensional synchronous grammar, a five-layer architectural stack, and a context-driven pragmatic mechanism. We also present testable empirical predictions and a staged implementation roadmap. Cyberlanguage is not intended to replace natural or programming languages, but rather to serve as a meta-communication infrastructure capable of coordinating heterogeneous agents, humans, artificial intelligences, robots, and digital entities, within an increasingly fused cyber-physical-social-cognitive reality.</summary>
+    <category term="cs.ET" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-03-18T08:58:43Z</published>
+    <arxiv:comment>14 pages, 5 figures, 3 tables</arxiv:comment>
+    <arxiv:primary_category term="cs.ET"/>
+    <author>
+      <name>Huansheng Ning</name>
+    </author>
+    <author>
+      <name>Jianguo Ding</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2412.14171v2</id>
+    <title>Thinking in Space: How Multimodal Large Language Models See, Remember, and Recall Spaces</title>
+    <updated>2025-07-02T21:00:36Z</updated>
+    <link href="https://arxiv.org/abs/2412.14171v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2412.14171v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Humans possess the visual-spatial intelligence to remember spaces from sequential visual observations. However, can Multimodal Large Language Models (MLLMs) trained on million-scale video datasets also ``think in space'' from videos? We present a novel video-based visual-spatial intelligence benchmark (VSI-Bench) of over 5,000 question-answer pairs, and find that MLLMs exhibit competitive - though subhuman - visual-spatial intelligence. We probe models to express how they think in space both linguistically and visually and find that while spatial reasoning capabilities remain the primary bottleneck for MLLMs to reach higher benchmark performance, local world models and spatial awareness do emerge within these models. Notably, prevailing linguistic reasoning techniques (e.g., chain-of-thought, self-consistency, tree-of-thoughts) fail to improve performance, whereas explicitly generating cognitive maps during question-answering enhances MLLMs' spatial distance ability.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-12-18T18:59:54Z</published>
+    <arxiv:comment>Project page: https://vision-x-nyu.github.io/thinking-in-space.github.io/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Jihan Yang</name>
+    </author>
+    <author>
+      <name>Shusheng Yang</name>
+    </author>
+    <author>
+      <name>Anjali W. Gupta</name>
+    </author>
+    <author>
+      <name>Rilyn Han</name>
+    </author>
+    <author>
+      <name>Li Fei-Fei</name>
+    </author>
+    <author>
+      <name>Saining Xie</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2511.19261v1</id>
+    <title>LAST: LeArning to Think in Space and Time for Generalist Vision-Language Models</title>
+    <updated>2025-11-24T16:13:26Z</updated>
+    <link href="https://arxiv.org/abs/2511.19261v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2511.19261v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Humans can perceive and understand 3D space and long videos from sequential visual observations. But do vision-language models (VLMs) can? Recent work demonstrates that even state-of-the-art VLMs still struggle to understand 3D space and long videos, although they are powerful in typical vision-language tasks. Current methods often rely on specialized architectural designs to improve performance for 3D tasks and video understanding tasks separately. In contrast, we propose LAST, short for LeArn to Think in Space and Time, to jointly improve 3D spatial and long video understanding for general VLMs with only a set of 2D images as inputs. LAST makes VLMs think in space and time rather than only with text before giving the final answer, building visual thinking trajectories in 3D space and temporal dimension. We demonstrate the effectiveness of LAST in two scenarios: 1) zero-shot, where we directly prompt proprietary models; and 2) fine-tuning general VLMs with data that include thinking trajectories in 3D space and time. We show that LAST brings substantial gains in various benchmarks, including 3 spatial understanding, 4 video understanding, and 3 image understanding tasks. Notably, 15.8% gains on EgoSchema with GPT-4o in a zero-shot manner and 8.3 gains on VSI-Bench compared with Qwen2.5-VL-7B.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-11-24T16:13:26Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Shuai Wang</name>
+    </author>
+    <author>
+      <name>Daoan Zhang</name>
+    </author>
+    <author>
+      <name>Tianyi Bai</name>
+    </author>
+    <author>
+      <name>Shitong Shao</name>
+    </author>
+    <author>
+      <name>Jiebo Luo</name>
+    </author>
+    <author>
+      <name>Jiaheng Wei</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2603.13800v2</id>
+    <title>Beyond Medical Diagnostics: How Medical Multimodal Large Language Models Think in Space</title>
+    <updated>2026-07-16T07:01:10Z</updated>
+    <link href="https://arxiv.org/abs/2603.13800v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2603.13800v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Visual spatial intelligence is critical for medical image interpretation, yet remains largely unexplored in Multimodal Large Language Models (MLLMs) for 3D imaging. This gap persists due to a systemic lack of datasets featuring structured 3D spatial annotations beyond basic labels. In this study, we introduce an agentic pipeline that autonomously synthesizes spatial visual question-answering (VQA) data by orchestrating computational tools such as volume estimation and bounding boxes extraction with multi-agent collaboration and expert radiologist validation. We present SpatialMed, the first comprehensive benchmark for evaluating 3D spatial intelligence in medical MLLMs, comprising 31,253 question-answer pairs across multiple organs and tumor types. Our evaluations on 24 state-of-the-art MLLMs and extensive analyses reveal that current models lack robust spatial reasoning capabilities for medical imaging.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-03-14T07:17:45Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Quoc-Huy Trinh</name>
+    </author>
+    <author>
+      <name>Xi Ding</name>
+    </author>
+    <author>
+      <name>Yang Liu</name>
+    </author>
+    <author>
+      <name>Zhenyue Qin</name>
+    </author>
+    <author>
+      <name>Xingjian Li</name>
+    </author>
+    <author>
+      <name>Gorkem Durak</name>
+    </author>
+    <author>
+      <name>Halil Ertugrul Aktas</name>
+    </author>
+    <author>
+      <name>Andrea M. Bejar</name>
+    </author>
+    <author>
+      <name>Ulas Bagci</name>
+    </author>
+    <author>
+      <name>Min Xu</name>
+    </author>
+  </entry>
+</feed>
