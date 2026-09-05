@@ -813,36 +813,53 @@ def triangulate(pose_a, uv_a, pose_b, uv_b):
 
 
 def _match_cost(pose_a, pose_b, blobs_a, blobs_b, size_weight=0.0):
-    """Best pairing of same-colour blobs across the views by triangulation residual (unpaired blobs cost 0.3)."""
+    """Best pairing of same-colour blobs across the views by triangulation residual (unpaired blobs cost 0.3).
+    The pair costs are computed once and the assignment is solved exactly (Hungarian algorithm with a 0.3 dummy
+    per blob), so any number of objects is tractable."""
+    from scipy.optimize import linear_sum_assignment
+
+    UNPAIRED = 0.3
     best_total, best_pairs = 0.0, []
     for color in ("red", "blue"):
         ia = [i for i, b in enumerate(blobs_a) if b["color"] == color]
         ib = [i for i, b in enumerate(blobs_b) if b["color"] == color]
-        # at most 5 objects exist: keep the exhaustive assignment tractable by considering the 6 largest blobs
-        ia = sorted(ia, key=lambda i: -blobs_a[i]["area"])[:6]
-        ib = sorted(ib, key=lambda i: -blobs_b[i]["area"])[:6]
         if not ia and not ib:
             continue
-        best = None
-        k = min(len(ia), len(ib))
-        for sub_a in itertools.combinations(ia, k):
-            for perm_b in itertools.permutations(ib, k):
-                cost = 0.3 * (len(ia) + len(ib) - 2 * k)
-                pairs = []
-                for i, j in zip(sub_a, perm_b):
-                    p, r = triangulate(pose_a, blobs_a[i]["centroid"], pose_b, blobs_b[j]["centroid"])
-                    inside = all(-0.1 <= v <= 1.1 for v in p)
-                    # appearance consistency: the physical size implied by the blob width in each view must agree
-                    sa = apparent_size(pose_a, blobs_a[i], p, "sphere")
-                    sb = apparent_size(pose_b, blobs_b[j], p, "sphere")
-                    size_mismatch = abs(sa - sb) / max(sa + sb, 1e-6)  # 0 = identical, ~0.33 = one is twice the other
-                    cost += r + (0 if inside else 0.5) + size_weight * size_mismatch
-                    pairs.append((i, j, p, r))
-                if best is None or cost < best[0]:
-                    best = (cost, pairs)
-        if best is not None:
-            best_total += best[0]
-            best_pairs += best[1]
+        if not ia or not ib:
+            best_total += UNPAIRED * (len(ia) + len(ib))
+            continue
+        na, nb = len(ia), len(ib)
+        cost = np.full((na, nb), 0.0)
+        info = {}
+        for r_i, i in enumerate(ia):
+            for c_j, j in enumerate(ib):
+                p, r = triangulate(pose_a, blobs_a[i]["centroid"], pose_b, blobs_b[j]["centroid"])
+                inside = all(-0.1 <= v <= 1.1 for v in p)
+                # appearance consistency: the physical size implied by the blob width in each view must agree
+                sa = apparent_size(pose_a, blobs_a[i], p, "sphere")
+                sb = apparent_size(pose_b, blobs_b[j], p, "sphere")
+                size_mismatch = abs(sa - sb) / max(sa + sb, 1e-6)  # 0 = identical, ~0.33 = one is twice the other
+                cost[r_i, c_j] = r + (0 if inside else 0.5) + size_weight * size_mismatch
+                info[(r_i, c_j)] = (p, r)
+        # square matrix with dummies: pairing blob i with a dummy costs UNPAIRED (and likewise for j)
+        n = na + nb
+        M = np.full((n, n), 0.0)
+        M[:na, :nb] = cost
+        M[:na, nb:] = UNPAIRED
+        M[na:, :nb] = UNPAIRED
+        rows, cols = linear_sum_assignment(M)
+        total = 0.0
+        pairs = []
+        for r_i, c_j in zip(rows, cols):
+            if r_i < na and c_j < nb:
+                # a real pair is only kept when it beats leaving both unpaired (the solver already ensures this)
+                total += cost[r_i, c_j]
+                p, r = info[(r_i, c_j)]
+                pairs.append((ia[r_i], ib[c_j], p, r))
+            elif r_i < na or c_j < nb:
+                total += UNPAIRED
+        best_total += total
+        best_pairs += pairs
     return best_total, best_pairs
 
 

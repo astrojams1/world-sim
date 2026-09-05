@@ -3,6 +3,9 @@ import type { CameraSpec, Room, RoomObject, Shape, ObjColor, Vec3 } from "./type
 
 export const ROOM_SIZE = 1;
 export const SIZES = [0.1, 0.15, 0.2] as const;
+/** Object count range: a room draws 2-5 objects by default; an explicit count may go up to MAX_OBJECTS. */
+export const MIN_OBJECTS = 2;
+export const MAX_OBJECTS = 12;
 export const GRID = 0.05; // positions are quantized to this step
 export const FEED_WIDTH = 640;
 export const FEED_HEIGHT = 480;
@@ -42,8 +45,11 @@ function hsl(h: number, s: number, l: number) {
  *   y: 0 (floor)     -> 1 (ceiling)
  *   z: 0 (north wall)-> 1 (south wall)
  * Objects float anywhere inside the room; cubes are randomly rotated.
+ *
+ * `objectCount` (optional, 2..MAX_OBJECTS) fixes the number of objects instead of drawing 2-5; the same seed with
+ * no count reproduces the historical rooms exactly (the count is drawn from the stream either way).
  */
-export function generateRoom(seed = Math.floor(Math.random() * 2 ** 31)): Room {
+export function generateRoom(seed = Math.floor(Math.random() * 2 ** 31), objectCount?: number): Room {
   const rng = makeRng(seed);
 
   // Surfaces: muted, distinguishable from the saturated red/blue objects.
@@ -83,10 +89,12 @@ export function generateRoom(seed = Math.floor(Math.random() * 2 ** 31)): Room {
   };
 
   // Objects: floating anywhere inside the room, on a 0.05 grid, never touching each other or the walls.
-  const count = rng.int(2, 5);
+  const drawn = rng.int(2, 5);
+  const count = objectCount === undefined ? drawn : Math.max(MIN_OBJECTS, Math.min(MAX_OBJECTS, Math.round(objectCount)));
   const objects: RoomObject[] = [];
   let attempts = 0;
-  while (objects.length < count && attempts < 1000) {
+  const maxAttempts = objectCount === undefined ? 1000 : 20000;
+  while (objects.length < count && attempts < maxAttempts) {
     attempts++;
     const size = rng.pick(SIZES);
     const half = size / 2;
@@ -148,6 +156,7 @@ export function generateRoom(seed = Math.floor(Math.random() * 2 ** 31)): Room {
     cameras: [makeCamera("A", azA), makeCamera("B", azB)],
     objects,
     seed,
+    objectCount,
   };
 }
 

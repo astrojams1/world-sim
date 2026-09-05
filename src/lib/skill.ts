@@ -33,7 +33,7 @@ export function buildSystemPrompt(): string {
 
 ## What you know (and nothing more)
 - The room is a cube, 1.0 x 1.0 x 1.0 units. Coordinates are in [0, 1] along x, y (up) and z. The two photographs are two views of the same room from two different, unknown camera positions outside the room. Nothing else about the cameras is known.
-- It contains between 2 and 5 objects. Every object is either a "sphere" or a "cube", and is either pure "red" or pure "blue". No other object colours exist; the room's own surfaces are never red or blue.
+- It contains between 2 and 12 objects. Every object is either a "sphere" or a "cube", and is either pure "red" or pure "blue". No other object colours exist; the room's own surfaces are never red or blue.
 - Objects float anywhere inside the room (they do not rest on the floor). "size" is the sphere diameter or the cube edge length, always exactly one of: ${sizes}. Cubes have arbitrary orientation.
 - "position" is the object's centre [x, y, z]; each coordinate is a multiple of ${GRID}. Objects never overlap or touch each other or the walls. Objects cast soft shadows; shadows are not objects.
 - A cube's "rotation" is its orientation as Euler angles [rx, ry, rz] in radians, XYZ order (rotation matrix = Rx * Ry * Rz applied to the axis-aligned cube). Any of the 24 orientations that map the cube onto itself is equally correct. Spheres have no rotation (null).

@@ -51,6 +51,8 @@ export interface Room {
   cameras: [CameraSpec, CameraSpec];
   objects: RoomObject[];
   seed: number;
+  /** Requested object count (undefined = the default draw of 2-5). Together with the seed it reproduces the room. */
+  objectCount?: number;
 }
 
 /** The subset of the room the model is asked to reconstruct. */

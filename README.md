@@ -2,7 +2,7 @@
 
 A small experiment: can a cheap vision LLM reconstruct a 3D room from two photographs, given nothing but the photographs?
 
-- A random 1×1×1 room is generated (JSON): 2–5 red/blue spheres and cubes floating anywhere inside it (cubes randomly rotated), random wall/floor/ceiling colours and lighting, and two cameras on a virtual sphere outside the room looking in. Seen from outside, the renderer culls the near faces, so each feed shows the room as an open box against black.
+- A random 1×1×1 room is generated (JSON): 2–5 red/blue spheres and cubes floating anywhere inside it (cubes randomly rotated), random wall/floor/ceiling colours and lighting, and two cameras on a virtual sphere outside the room looking in. Seen from outside, the renderer culls the near faces, so each feed shows the room as an open box against black. The **Objects** select fixes the object count (2–12) for the same seed instead of the default draw of 2–5; the count is never sent to the model.
 - The page shows a rotatable 3D view of the room plus the two camera feeds (rendered with three.js in the browser).
 - **Refresh** generates a new room. **Analyze** sends the two feeds plus a *skill* to a cheap OpenAI vision model, which must return the room's object JSON. The result is scored against the ground truth (100% = exact match within tolerance).
 
@@ -59,6 +59,9 @@ npm run dev
 npm run dev                        # with OPENAI_API_KEY in .env.local
 npx playwright install chromium    # once
 npm run bench -- --n 10 --model gpt-5-mini
+npm run bench -- --label capacity-8 --objects 8   # the capacity axis: every room gets exactly 8 objects
 ```
+
+Two optimisation axes are tracked in `bench/BENCH.md`: the default benchmark (seeds 101–110, 2–5 objects: score, time, tokens, cost) and **capacity**, the largest object count at which the same seeds still score at least 95. The tuning loop (`/tune-skill`) works both.
 
 `worldsim.py` is embedded into the build by `scripts/embed-sandbox.mjs` (runs automatically before `dev` and `build`). Edit the `.py` file, not the generated `worldsim_py.ts`.

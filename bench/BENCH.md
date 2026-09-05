@@ -13,6 +13,17 @@ record is the mean of the two runs, and both runs must pass the anti-cheat check
 
 **iter23-low-effort-compact-printout** (confirmed) — mean **99.5** (runs: 99.5 and 99.5), 6 and 6 exact, 22.3 s/room, 6,274 tokens/room, $0.032/room, reasoning effort **low**, one code cell per room. Previous records: iter22-low-effort-short-notes 99.5 / 23.3 s / 6,773 tokens / $0.032; iter18-low-effort-occlusion 99.4 / 36.0 s / 8,388 tokens / $0.033; iter17-low-effort-final-banner 98.3 / 39.0 s / 8,542 tokens / $0.033; iter16-low-effort-size-rot-chroma 98.3 / 62.4 s / 10,732 tokens / $0.035; iter15-low-effort-fast-pose 96.4 / 50.8 s / 10,988 tokens / $0.035; iter7-shading-tiebreak 94.25 / 89 s / 15,566 tokens / $0.039 (medium effort); iter4-verbatim-output 91.85 / 93 s / $0.0395; iter2-solve-all 91.0 / 262 s / $0.039; iter0-baseline 90.0 / 232 s / $0.045.
 
+## Capacity (number of objects)
+
+Second optimisation axis: the largest object count `N` (rooms generated with `generateRoom(seed, N)`, bench flag
+`--objects N`) at which seeds 101-110 still reach a two-run mean of at least 95.0. Ladder: 6, 8, 10, 12 (12 is the
+generator's maximum). The default benchmark above (2-5 objects per seed) is unchanged by this axis.
+
+**Capacity record:** none yet (ladder not run).
+
+| Objects | Label | Mean | Exact | Mean s | Mean tokens | Cost/room | Verdict |
+|---|---|---|---|---|---|---|---|
+
 ## History
 
 | Iter | Label | Hypothesis / change | Mean | Exact | Mean s | Mean tokens | Cost/room | Verdict |
