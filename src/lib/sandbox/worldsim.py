@@ -96,8 +96,11 @@ def image_size(cam_id):
 def color_masks(img):
     """Masks of the pure-red and pure-blue object colours."""
     r, g, b = img[..., 0], img[..., 1], img[..., 2]
-    red = (r > 90) & (r > 1.7 * g) & (r > 1.7 * b)
-    blue = (b > 90) & (b > 1.35 * r) & (b > 1.15 * g)
+    # A pure-red or pure-blue material keeps its other two channels near zero under any lighting, so the
+    # dominant channel must also exceed the others by a margin: a bluish-grey wall (say 85,132,158) passes the
+    # ratio tests but not the margin, and an object standing in front of such a wall stays a separate blob.
+    red = (r > 90) & (r > 1.7 * g) & (r > 1.7 * b) & (r - np.maximum(g, b) > 45)
+    blue = (b > 90) & (b > 1.35 * r) & (b > 1.15 * g) & (b - np.maximum(r, g) > 45)
     return {"red": red, "blue": blue}
 
 
@@ -1474,37 +1477,52 @@ def local_search(objects, pose_a, pose_b, passes=6, try_sizes=True, verbose=True
     return objs
 
 
-def refine_rotation(objects, pose_a, pose_b, i, n=300, verbose=True):
+def refine_rotation(objects, pose_a, pose_b, i, n=300, try_sizes=True, verbose=True):
     """Polish cube i's orientation against its own silhouette in both cameras (sub-pixel coverage): random search
-    over `n` orientations, shrinking coordinate steps, then a Powell polish. Orientation is scored to about
-    10 degrees modulo the cube's own symmetries. Returns the updated list."""
+    over `n` orientations, shrinking coordinate steps, then a Powell polish. With `try_sizes` every legal size is
+    searched the same way and the (size, rotation) pair with the best overlap wins: a cube seen at the wrong
+    size settles into a wrong orientation (the silhouette of a bigger cube can mimic a rotated smaller one), so
+    the two must be decided together. Orientation is scored to about 10 degrees modulo the cube's own
+    symmetries. Returns the updated list."""
     from scipy.optimize import minimize
     from scipy.spatial.transform import Rotation
 
     if objects[i]["shape"] != "cube":
         return objects
-    o = objects[i]
+    o = dict(objects[i])
     targets = _rotation_targets(o, pose_a, pose_b)
     if not targets:
         if verbose:
-            _out(f"refine_rotation #{i}: no matching blob, rotation unchanged")
+            _out(f"refine_rotation #{i}: no matching blob, rotation and size unchanged")
         return objects
-    score = lambda rot: _rotation_score(o, rot, targets)  # noqa: E731
     rng = np.random.default_rng(7)
-    cands = [o.get("rotation") or [0.0, 0.0, 0.0]] + [list(Rotation.random(random_state=int(rng.integers(1 << 30))).as_euler("xyz")) for _ in range(n)]
-    best_rot = max(cands, key=score)
-    best = score(best_rot)
-    for step in (0.3, 0.15, 0.07, 0.035, 0.017):
-        improved = True
-        while improved:
-            improved = False
-            for axis in range(3):
-                for d in (-step, step):
-                    rot = list(best_rot)
-                    rot[axis] += d
-                    sc = score(rot)
-                    if sc > best + 1e-5:
-                        best, best_rot, improved = sc, rot, True
+    rand = [list(Rotation.random(random_state=int(rng.integers(1 << 30))).as_euler("xyz")) for _ in range(n)]
+    sizes = list(SIZES) if try_sizes else [o["size"]]
+    # the current size is searched last so that ties keep it
+    sizes.sort(key=lambda s: s == o["size"])
+    best, best_rot, best_size = -1.0, None, o["size"]
+    for size in sizes:
+        cand = dict(o)
+        cand["size"] = size
+        score = lambda rot, cand=cand: _rotation_score(cand, rot, targets)  # noqa: E731
+        cands = [o.get("rotation") or [0.0, 0.0, 0.0]] + rand
+        rot = max(cands, key=score)
+        sc = score(rot)
+        for step in (0.3, 0.15, 0.07, 0.035, 0.017):
+            improved = True
+            while improved:
+                improved = False
+                for axis in range(3):
+                    for d in (-step, step):
+                        r2 = list(rot)
+                        r2[axis] += d
+                        s2 = score(r2)
+                        if s2 > sc + 1e-5:
+                            sc, rot, improved = s2, r2, True
+        if sc >= best:
+            best, best_rot, best_size = sc, rot, size
+    o["size"] = best_size
+    score = lambda rot: _rotation_score(o, rot, targets)  # noqa: E731
     try:
         res = minimize(lambda r: -score(r), best_rot, method="Powell", options={"xtol": 1e-3, "ftol": 1e-5, "maxfev": 400})
         if -res.fun > best:
@@ -1513,13 +1531,15 @@ def refine_rotation(objects, pose_a, pose_b, i, n=300, verbose=True):
         pass
     out = [dict(x) for x in objects]
     out[i]["rotation"] = [float(r) for r in best_rot]
+    out[i]["size"] = float(best_size)
     if verbose:
-        _out(f"refine_rotation #{i}: rotation={[round(r, 3) for r in best_rot]} silhouette IoU={best:.3f}")
+        changed = "" if best_size == objects[i]["size"] else f" size {objects[i]['size']} -> {best_size}"
+        _out(f"refine_rotation #{i}: rotation={[round(r, 3) for r in best_rot]}{changed} silhouette IoU={best:.3f}")
     return out
 
 
 def refine_all_rotations(objects, pose_a, pose_b, verbose=True):
-    """refine_rotation for every cube."""
+    """refine_rotation (orientation and size together) for every cube."""
     for i, o in enumerate(objects):
         if o["shape"] == "cube":
             objects = refine_rotation(objects, pose_a, pose_b, i, verbose=verbose)
@@ -1607,7 +1627,8 @@ def explain_unpaired(objects, pose_a, pose_b, matches, blobs_a, blobs_b, min_sco
                 _out(f"unpaired {blob['color']} blob {j} in {cam} at {blob['centroid']}: no consistent object found (best {0 if best is None else round(best[0], 2)}); it may be a reflection of an object you already have, or you may need object_from_pixels")
             continue
         cand = snap([best[1]])[0]
-        if _overlaps(objs + [cand]):
+        # only the new object is tested (existing objects may already sit closer together than the rule allows)
+        if any(_overlaps([cand, o]) for o in objs):
             if verbose:
                 _out(f"unpaired {blob['color']} blob {j} in {cam}: best explanation {cand} overlaps an existing object; skipped")
             continue
@@ -1651,7 +1672,11 @@ def solve_all(shapes=None, verbose=True):
     rec = shape_check(objs, pa, pb, verbose=verbose)
     objs = apply_shapes(objs, rec)
     objs = local_search(objs, pa, pb, verbose=False)
+    before = objs
     objs = refine_all_rotations(objs, pa, pb, verbose=False)
+    if any(a["size"] != b["size"] for a, b in zip(objs, before)):
+        # a size changed: let the positions settle again (sizes now fixed)
+        objs = local_search(objs, pa, pb, passes=2, try_sizes=False, verbose=False)
     if verbose:
         _out("compare:")
     report = compare(objs, pa, pb, verbose=verbose)
