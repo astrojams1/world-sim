@@ -19,10 +19,12 @@ Second optimisation axis: the largest object count `N` (rooms generated with `ge
 `--objects N`) at which seeds 101-110 still reach a two-run mean of at least 95.0. Ladder: 6, 8, 10, 12 (12 is the
 generator's maximum). The default benchmark above (2-5 objects per seed) is unchanged by this axis.
 
-**Capacity record:** none yet (ladder not run).
+**Capacity record:** none yet: 6 objects scored 94.2 (rule needs 95.0) because room 103 collapsed to 63 (a near-tie between two room frames); the other nine rooms averaged 97.7.
 
 | Objects | Label | Mean | Exact | Mean s | Mean tokens | Cost/room | Verdict |
 |---|---|---|---|---|---|---|---|
+| 6 | capacity-6 | 94.2 | 3 | 32.6 | 7,837 | $0.033 | below 95: room 103 at 63.0 (wrong room frame, the two best frames were 0.02 apart on triangulation), rest 94-100 |
+| 8 | capacity-8 | 93.2 | 2 | 31.1 | 8,276 | $0.033 | below 95: identical to the offline pipeline (the model copies it); rooms 104, 106, 107 miss one object merged in both views |
 
 ## History
 

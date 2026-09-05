@@ -781,6 +781,29 @@ def align(pose_a, pose_b, blobs_a=None, blobs_b=None, verbose=True):
         # also require that both cameras see a consistent room: the far corners should differ (cameras on different sides)
         scored.append((colour_cost * 3 + tri_cost, colour_cost, tri_cost, M, pb))
     scored.sort(key=lambda s: s[0])
+    if len(scored) > 1 and scored[1][0] - scored[0][0] < 0.08:
+        # near tie (several same-colour blobs can triangulate almost as well in a wrong frame): let the images
+        # decide. Each close frame gets a quick hypothesis (pairing, initial objects, one local-search pass) and
+        # the frame whose rendered objects overlap the real pixels best wins.
+        close = [c for c in scored if c[0] - scored[0][0] < 0.08][:3]
+        rescored = []
+        for c in close:
+            try:
+                m = auto_match(pose_a, c[4], blobs_a, blobs_b, verbose=False)
+                if not m:
+                    rescored.append((0.0, c))
+                    continue
+                shapes = ["sphere" if 0.5 * (blobs_a[x["a"]]["circularity"] + blobs_b[x["b"]]["circularity"]) > 0.95 else "cube" for x in m]
+                objs = initial_hypothesis(pose_a, c[4], m, shapes, blobs_a, blobs_b, verbose=False)
+                objs = local_search(objs, pose_a, c[4], passes=1, verbose=False)
+                rescored.append((compare(objs, pose_a, c[4], verbose=False)["score"], c))
+            except Exception:
+                rescored.append((0.0, c))
+        rescored.sort(key=lambda r: -r[0])
+        if verbose:
+            _out("align: " + "; ".join(f"frame with B at ({r[1][4].position[0]:.2f}, {r[1][4].position[1]:.2f}, {r[1][4].position[2]:.2f}) fits the images at IoU {r[0]:.3f}" for r in rescored))
+        best_c = rescored[0][1]
+        scored = [best_c] + [c for c in scored if c is not best_c]
     total, ccost, tcost, M, pb = scored[0]
     if verbose:
         runner = scored[1]
@@ -813,12 +836,12 @@ def triangulate(pose_a, uv_a, pose_b, uv_b):
 
 
 def _match_cost(pose_a, pose_b, blobs_a, blobs_b, size_weight=0.0):
-    """Best pairing of same-colour blobs across the views by triangulation residual (unpaired blobs cost 0.15).
+    """Best pairing of same-colour blobs across the views by triangulation residual (unpaired blobs cost 0.08).
     The pair costs are computed once and the assignment is solved exactly (Hungarian algorithm with a 0.3 dummy
     per blob), so any number of objects is tractable."""
     from scipy.optimize import linear_sum_assignment
 
-    UNPAIRED = 0.15  # a pair must cost under 0.3 (real pairs cost about 0.05) or both blobs stay unpaired
+    UNPAIRED = 0.08  # a pair must cost under 0.16: correct pairs have ray gaps up to 0.075 (99th percentile 0.058) plus a small size term; wrong ones are often above
     best_total, best_pairs = 0.0, []
     for color in ("red", "blue"):
         ia = [i for i, b in enumerate(blobs_a) if b["color"] == color]
