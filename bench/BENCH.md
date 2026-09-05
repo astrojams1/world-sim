@@ -11,7 +11,7 @@ record is the mean of the two runs, and both runs must pass the anti-cheat check
 
 ## Record
 
-**iter4-verbatim-output** (confirmed) — mean 91.85 (runs: 92.7 and 91.0), 5 and 4 exact, **93 s/room** (was 262), 16,234 tokens/room, $0.0395/room. Record by the time rule (score within 1.0, time -64%). Previous records: iter2-solve-all 91.0 / 262 s / $0.039; iter0-baseline 90.0 / 232 s / $0.045.
+**iter7-shading-tiebreak** (confirmed) — mean **94.25** (runs: 95.8 and 92.7), 4 and 3 exact, 89 s/room, 15,566 tokens/room, $0.039/room. Previous records: iter4-verbatim-output 91.85 / 93 s / $0.0395; iter2-solve-all 91.0 / 262 s / $0.039; iter0-baseline 90.0 / 232 s / $0.045.
 
 ## History
 
@@ -25,3 +25,8 @@ record is the mean of the two runs, and both runs must pass the anti-cheat check
 | 3b | iter3-fast-helper-confirm | Confirmation run of iteration 3. | 87.5 | 4 | 89.2 | 16,373 | $0.040 | no record (mean of both runs 89.2 vs 91.0; time -66%). Kept in tree unmerged as the base for iteration 4. |
 | 4 | iter4-verbatim-output | Prompt only (on top of iteration 3's helper): shape verdicts are final (never cube->sphere; sphere->cube only with straight edges visible in both images), never type or edit numbers, output the last finish() JSON verbatim, 6-cell cap. | 92.7 | 5 | 97.1 | 17,128 | $0.040 | candidate (score +1.7, time -63%) |
 | 4b | iter4-verbatim-output-confirm | Confirmation run. Room 108's first attempt was rejected by OpenAI as an "Invalid prompt" (moderation false positive on the unchanged prompt); it was re-run alone (`iter4-confirm-108-rerun`, 81.6) and substituted. The bench now retries API-side errors once. | 91.0 | 4 | 89.1 | 15,339 | $0.039 | **record** (two-run mean 91.85, time -64%) |
+| 5 | iter5-small-cube-margin | Helper only: wall-margin clamp rounds inward to the grid (no more 0.223/0.875); the margin a cube must win by in the shape check scales with object size (half for 0.10 objects). Offline: bench 89.9 -> 90.9, held-out 91.0 -> 91.5. | 93.0 | 3 | 90.7 | 16,886 | $0.040 | candidate (score +1.15) |
+| 5b | iter5-small-cube-margin-confirm | Confirmation run. | 91.7 | 2 | 81.9 | 16,814 | $0.040 | no record (two-run mean 92.35 vs 91.85, +0.5; time -7%). Kept in tree unmerged as the base for iteration 6. |
+| 6 | iter6-hard-stop | Prompt + banner: finish() prints "FINAL ANSWER (do not run any further cell)"; prompt treats a further cell as an error. | 90.9 | 2 | 87.4 | 16,173 | $0.040 | no record (cells unchanged at 4-17; tokens -4%). Kept (harmless). |
+| 7 | iter7-shading-tiebreak | Helper: when the two silhouettes cannot separate sphere from cube, the fraction of flat-gradient pixels inside the blob decides (size-aware thresholds measured on 130 blobs). Offline automatic pipeline: bench 90.9 -> 94.6, held-out 91.5 -> 93.0. Prompt describes verdicts as silhouette + shading. | 95.8 | 4 | 85.2 | 14,680 | $0.038 | candidate (score +3.95, tokens -10%) |
+| 7b | iter7-shading-tiebreak-confirm | Confirmation run. | 92.7 | 3 | 92.4 | 16,453 | $0.040 | **record** (two-run mean 94.25 vs 91.85; time -5%, tokens -4%) |
