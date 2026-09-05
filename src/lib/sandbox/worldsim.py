@@ -1025,14 +1025,14 @@ def _matched_blob_mask(o, pose, others=None):
     return masks[best], real[best]
 
 
-def _object_fit(o, pose_a, pose_b, shape, n_rot=40, seed=3, others=None):
+def _object_fit(o, pose_a, pose_b, shape, n_rot=40, seed=3, others=None, skip=()):
     """Best per-object silhouette IoU (mean over the two cameras) for `shape`, over legal sizes and, for cubes,
     random rotations. Returns (score, size, rotation)."""
     from scipy.spatial.transform import Rotation
 
     targets = []
     for pose in (pose_a, pose_b):
-        m, b = _matched_blob_mask(o, pose, others)
+        m, b = (None, None) if pose.cam_id in skip else _matched_blob_mask(o, pose, others)
         targets.append((pose, m))
     if all(m is None for _, m in targets):
         return None
@@ -1079,10 +1079,12 @@ def shading_flatness(cam_id, blob_index):
 _FLAT_THRESHOLD = {0.10: 0.20, 0.15: 0.32, 0.20: 0.48}
 
 
-def _shading_vote(o, pose_a, pose_b, size, others=None):
+def _shading_vote(o, pose_a, pose_b, size, others=None, skip=()):
     """Mean flatness over the blobs the object matches, minus the size-aware threshold: > 0 says cube, < 0 sphere."""
     vals = []
     for pose in (pose_a, pose_b):
+        if pose.cam_id in skip:
+            continue
         pr = pose.project(o["position"])
         if pr is None:
             continue
@@ -1123,14 +1125,24 @@ def shape_check(objects, pose_a, pose_b, margin=0.03, cube_margin=0.06, verbose=
                 _out(f"object #{i} ({o['color']} {o['shape']}): no matching blob, keeping shape")
             continue
         # a blob much wider than the object's own render means two objects share it: unreliable
-        shared = False
+        shared_in = set()
         for pose in (pose_a, pose_b):
             m, b = _matched_blob_mask(o, pose, others)
             if b is not None:
                 r = render_masks([o], pose)[o["color"]]
                 xs = np.nonzero(r.any(axis=0))[0]
                 if len(xs) and b["width"] > 1.6 * (xs.max() - xs.min() + 1):
-                    shared = True
+                    shared_in.add(pose.cam_id)
+        shared = len(shared_in) >= 2
+        one_view = ""
+        if len(shared_in) == 1:
+            # the other view alone decides (its silhouette is the object's own)
+            alt = {shape: _object_fit(o, pose_a, pose_b, shape, others=others, skip=shared_in) for shape in ("sphere", "cube")}
+            if alt["sphere"] is not None and alt["cube"] is not None:
+                fits = alt
+                one_view = f" (blob shared in camera {next(iter(shared_in))}: judged from the other view)"
+            else:
+                shared = True
         s_sc, s_size, _ = fits["sphere"]
         c_sc, c_size, c_rot = fits["cube"]
         current = o["shape"]
@@ -1142,7 +1154,7 @@ def shape_check(objects, pose_a, pose_b, margin=0.03, cube_margin=0.06, verbose=
         scale = min(1.0, max(0.5, (fits["cube"][1] if other == "cube" else fits["sphere"][1]) / 0.15))
         need = (cube_margin if other == "cube" else margin) * scale
         # shading (flat faces vs smooth gradient) arbitrates when the silhouettes are inconclusive
-        vote = None if shared else _shading_vote(o, pose_a, pose_b, c_size if other == "cube" else s_size, others)
+        vote = None if shared else _shading_vote(o, pose_a, pose_b, c_size if other == "cube" else s_size, others, skip=shared_in)
         if not shared and oth_sc - cur_sc > need:
             rec = other
         elif not shared and vote is not None and abs(oth_sc - cur_sc) <= need and abs(vote) > 0.05:
@@ -1153,7 +1165,7 @@ def shape_check(objects, pose_a, pose_b, margin=0.03, cube_margin=0.06, verbose=
         if verbose:
             flag = " (blob shared with another object: unreliable)" if shared else ("" if rec == current else f"  <-- CHANGE to {rec} (size {c_size if rec == 'cube' else s_size})")
             shade = "" if vote is None else f", shading {'flat faces (cube-like)' if vote > 0 else 'smooth (sphere-like)'} {vote:+.2f}"
-            _out(f"object #{i} ({o['color']}, currently {current}): as sphere IoU {s_sc:.3f} (size {s_size}), as cube IoU {c_sc:.3f} (size {c_size}){shade}{flag}")
+            _out(f"object #{i} ({o['color']}, currently {current}): as sphere IoU {s_sc:.3f} (size {s_size}), as cube IoU {c_sc:.3f} (size {c_size}){shade}{one_view}{flag}")
     return recommended
 
 
