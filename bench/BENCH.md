@@ -19,12 +19,16 @@ Second optimisation axis: the largest object count `N` (rooms generated with `ge
 `--objects N`) at which seeds 101-110 still reach a two-run mean of at least 95.0. Ladder: 6, 8, 10, 12 (12 is the
 generator's maximum). The default benchmark above (2-5 objects per seed) is unchanged by this axis.
 
-**Capacity record:** none yet: 6 objects scored 94.2 (rule needs 95.0) because room 103 collapsed to 63 (a near-tie between two room frames); the other nine rooms averaged 97.7.
+**Capacity record: 8 objects** (confirmed) — capacity-8-b and capacity-8-confirm both 95.9 (3 exact each), 29.2 s/room, 8,567 tokens/room, $0.033/room. 10 objects scores 89.5 (rooms 102, 103, 104 miss one or two objects merged in both views; 110 took 4 cells). 6 objects: 97.7.
 
 | Objects | Label | Mean | Exact | Mean s | Mean tokens | Cost/room | Verdict |
 |---|---|---|---|---|---|---|---|
 | 6 | capacity-6 | 94.2 | 3 | 32.6 | 7,837 | $0.033 | below 95: room 103 at 63.0 (wrong room frame, the two best frames were 0.02 apart on triangulation), rest 94-100 |
 | 8 | capacity-8 | 93.2 | 2 | 31.1 | 8,276 | $0.033 | below 95: identical to the offline pipeline (the model copies it); rooms 104, 106, 107 miss one object merged in both views |
+| 6 | capacity-6-b | 97.7 | 3 | 28.3 | 7,917 | $0.033 | after the frame tie-breaker and tighter pairing (PR #22): room 103 97.9; passes 95 |
+| 8 | capacity-8-b | 95.9 | 3 | 29.3 | 8,821 | $0.033 | passes 95 on the first run (room 107 misses one object merged in both views) |
+| 8 | capacity-8-confirm | 95.9 | 3 | 29.1 | 8,313 | $0.033 | **capacity record: 8 objects** (two-run mean 95.9; identical per-room scores, the model copies the pipeline). Anti-cheat gate and runtime checks clean. |
+| 10 | capacity-10 | 89.5 | 1 | 35.4 | 9,391 | $0.033 | below 95: rooms 102 (74), 104 (78), 103 (78) miss objects merged in both views (offline 90.4); the open problem is splitting a blob shared in both views into its objects |
 
 ## History
 

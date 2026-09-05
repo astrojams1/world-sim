@@ -1,0 +1,2633 @@
+{
+  "summary": {
+    "label": "capacity-10",
+    "model": "gpt-5-mini",
+    "effort": "low",
+    "seeds": [
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110
+    ],
+    "objects": 10,
+    "rooms": 10,
+    "errors": 0,
+    "meanScore": 89.5,
+    "exactMatches": 1,
+    "meanSeconds": 35.4,
+    "wallClockSeconds": 219.6,
+    "meanTokens": 9391,
+    "totalCostUsd": 0.332,
+    "meanCostUsd": 0.033,
+    "violations": [],
+    "ranAt": "2026-09-05T12:31:08.627Z"
+  },
+  "rows": [
+    {
+      "seed": 101,
+      "objects": 10,
+      "score": 99.9,
+      "exact": false,
+      "seconds": 30.7,
+      "tokens": {
+        "input": 8047,
+        "cached": 2688,
+        "output": 722,
+        "reasoning": 128,
+        "total": 8769
+      },
+      "costUsd": 0.03285095,
+      "codeRuns": 1,
+      "usedSandbox": true,
+      "violations": [],
+      "error": null,
+      "guess": {
+        "objects": [
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.3,
+              0.3,
+              0.4
+            ],
+            "rotation": [
+              -1.442,
+              0.281,
+              -2.504
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.35,
+              0.65,
+              0.3
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.5,
+              0.25,
+              0.6
+            ],
+            "rotation": [
+              -0.18,
+              -0.043,
+              -1.503
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.6,
+              0.35,
+              0.25
+            ],
+            "rotation": [
+              -0.91,
+              -0.038,
+              0.359
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.75,
+              0.85,
+              0.5
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.8,
+              0.2,
+              0.8
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.5,
+              0.75,
+              0.25
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.65,
+              0.6,
+              0.45
+            ],
+            "rotation": [
+              0.651,
+              0.36,
+              1.755
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.85,
+              0.85,
+              0.25
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.45,
+              0.85,
+              0.4
+            ]
+          }
+        ]
+      },
+      "truth": [
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.25,
+            0.25,
+            0.5
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.25,
+            0.15,
+            0.85
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.4,
+            0.7,
+            0.3
+          ],
+          "rotation": [
+            5.841,
+            0.906,
+            1.75
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.45,
+            0.4,
+            0.65
+          ],
+          "rotation": [
+            5.228,
+            3.941,
+            3.608
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.25,
+            0.65,
+            0.6
+          ],
+          "rotation": [
+            1.566,
+            3.828,
+            4.346
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.8,
+            0.8,
+            0.8
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.3,
+            0.35,
+            0.35
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.6,
+            0.75,
+            0.5
+          ],
+          "rotation": [
+            1.805,
+            4.497,
+            0.166
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.5,
+            0.15,
+            0.75
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.4,
+            0.15,
+            0.45
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 102,
+      "objects": 10,
+      "score": 74,
+      "exact": false,
+      "seconds": 44.9,
+      "tokens": {
+        "input": 7333,
+        "cached": 2688,
+        "output": 550,
+        "reasoning": 128,
+        "total": 7883
+      },
+      "costUsd": 0.03232845,
+      "codeRuns": 1,
+      "usedSandbox": true,
+      "violations": [],
+      "error": null,
+      "guess": {
+        "objects": [
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.45,
+              0.75,
+              0.7
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.2,
+            "position": [
+              0.5,
+              0.45,
+              0.55
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.6,
+              0.15,
+              0.25
+            ],
+            "rotation": [
+              0.745,
+              -0.046,
+              -1.214
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.2,
+              0.2,
+              0.1
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.2,
+            "position": [
+              0.8,
+              0.75,
+              0.6
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.85,
+              0.3,
+              0.25
+            ],
+            "rotation": [
+              2.237,
+              -0.115,
+              2.267
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.7,
+              0.4,
+              0.75
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.15,
+            "position": [
+              0.75,
+              0.35,
+              0.5
+            ]
+          }
+        ]
+      },
+      "truth": [
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.2,
+            0.9,
+            0.2
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.2,
+          "position": [
+            0.5,
+            0.45,
+            0.45
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "blue",
+          "size": 0.15,
+          "position": [
+            0.8,
+            0.4,
+            0.75
+          ],
+          "rotation": [
+            1.724,
+            4.47,
+            2.005
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.15,
+          "position": [
+            0.75,
+            0.5,
+            0.35
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.8,
+            0.7,
+            0.55
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.4,
+            0.15,
+            0.3
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.85,
+            0.75,
+            0.3
+          ],
+          "rotation": [
+            2.266,
+            5.669,
+            4.56
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.6,
+            0.8,
+            0.2
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.7,
+            0.25,
+            0.4
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.45,
+            0.3,
+            0.75
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 103,
+      "objects": 10,
+      "score": 78,
+      "exact": false,
+      "seconds": 34.3,
+      "tokens": {
+        "input": 10093,
+        "cached": 2688,
+        "output": 853,
+        "reasoning": 256,
+        "total": 10946
+      },
+      "costUsd": 0.03362445,
+      "codeRuns": 2,
+      "usedSandbox": true,
+      "violations": [],
+      "error": null,
+      "guess": {
+        "objects": [
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.85,
+              0.5,
+              0.55
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.6,
+              0.85,
+              0.85
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.4,
+              0.8,
+              0.4
+            ],
+            "rotation": [
+              -2.575,
+              0.226,
+              -2.713
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "blue",
+            "size": 0.15,
+            "position": [
+              0.35,
+              0.55,
+              0.55
+            ],
+            "rotation": [
+              -1.407,
+              0.263,
+              -2.539
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.2,
+            "position": [
+              0.3,
+              0.2,
+              0.3
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.35,
+              0.6,
+              0.2
+            ],
+            "rotation": [
+              2.358,
+              -1.53,
+              1.296
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.85,
+              0.25,
+              0.65
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.55,
+              0.55,
+              0.75
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.65,
+              0.45,
+              0.25
+            ]
+          }
+        ]
+      },
+      "truth": [
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.7,
+            0.55,
+            0.2
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.6,
+            0.8,
+            0.6
+          ],
+          "rotation": [
+            1.099,
+            2.176,
+            1.476
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.5,
+            0.45,
+            0.15
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "blue",
+          "size": 0.15,
+          "position": [
+            0.5,
+            0.5,
+            0.7
+          ],
+          "rotation": [
+            2.98,
+            4.549,
+            0.779
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.2,
+            0.6,
+            0.45
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.85,
+            0.2,
+            0.45
+          ],
+          "rotation": [
+            4.51,
+            2.968,
+            5.715
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.2,
+          "position": [
+            0.2,
+            0.7,
+            0.7
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.8,
+            0.6,
+            0.65
+          ],
+          "rotation": [
+            4.847,
+            0.079,
+            4.395
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.35,
+            0.25,
+            0.15
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.75,
+            0.45,
+            0.35
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 104,
+      "objects": 10,
+      "score": 77.9,
+      "exact": false,
+      "seconds": 28.6,
+      "tokens": {
+        "input": 8169,
+        "cached": 2688,
+        "output": 713,
+        "reasoning": 256,
+        "total": 8882
+      },
+      "costUsd": 0.03286345,
+      "codeRuns": 1,
+      "usedSandbox": true,
+      "violations": [],
+      "error": null,
+      "guess": {
+        "objects": [
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.55,
+              0.35,
+              0.35
+            ],
+            "rotation": [
+              1.833,
+              -0.783,
+              2.443
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.85,
+              0.9,
+              0.25
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.2,
+              0.2,
+              0.75
+            ],
+            "rotation": [
+              0.028,
+              -1.515,
+              -1.928
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.25,
+              0.75,
+              0.35
+            ],
+            "rotation": [
+              2.199,
+              1.233,
+              2.035
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.55,
+              0.2,
+              0.9
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.2,
+            "position": [
+              0.7,
+              0.6,
+              0.55
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.4,
+              0.3,
+              0.35
+            ],
+            "rotation": [
+              -0.069,
+              -0.806,
+              1.957
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "blue",
+            "size": 0.15,
+            "position": [
+              0.45,
+              0.75,
+              0.65
+            ],
+            "rotation": [
+              -2.127,
+              0.232,
+              -1.732
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.2,
+            "position": [
+              0.75,
+              0.25,
+              0.5
+            ],
+            "rotation": [
+              -0.195,
+              0.489,
+              -2.553
+            ]
+          }
+        ]
+      },
+      "truth": [
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.75,
+            0.65,
+            0.25
+          ],
+          "rotation": [
+            2.689,
+            1.214,
+            0.899
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "blue",
+          "size": 0.15,
+          "position": [
+            0.55,
+            0.35,
+            0.25
+          ],
+          "rotation": [
+            3.671,
+            6.068,
+            4.628
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.15,
+            0.75,
+            0.1
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.45,
+            0.1,
+            0.8
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.45,
+            0.65,
+            0.65
+          ],
+          "rotation": [
+            2.026,
+            3.676,
+            5.562
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.8,
+            0.25,
+            0.85
+          ],
+          "rotation": [
+            3.128,
+            1.321,
+            0.276
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.55,
+            0.35,
+            0.6
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.75,
+            0.8,
+            0.5
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "blue",
+          "size": 0.15,
+          "position": [
+            0.3,
+            0.4,
+            0.45
+          ],
+          "rotation": [
+            5.708,
+            1.369,
+            5.651
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.2,
+          "position": [
+            0.2,
+            0.5,
+            0.75
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 105,
+      "objects": 10,
+      "score": 97.3,
+      "exact": false,
+      "seconds": 34.8,
+      "tokens": {
+        "input": 7786,
+        "cached": 2688,
+        "output": 818,
+        "reasoning": 320,
+        "total": 8604
+      },
+      "costUsd": 0.0329777,
+      "codeRuns": 1,
+      "usedSandbox": true,
+      "violations": [],
+      "error": null,
+      "guess": {
+        "objects": [
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.2,
+            "position": [
+              0.8,
+              0.4,
+              0.8
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.2,
+            "position": [
+              0.35,
+              0.25,
+              0.6
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.45,
+              0.4,
+              0.4
+            ],
+            "rotation": [
+              2.147,
+              0.705,
+              -1.624
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.65,
+              0.7,
+              0.5
+            ],
+            "rotation": [
+              -1.065,
+              -0.87,
+              2.127
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.15,
+              0.7,
+              0.7
+            ],
+            "rotation": [
+              -2.778,
+              -1.432,
+              0.782
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.15,
+            "position": [
+              0.7,
+              0.15,
+              0.4
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.6,
+              0.7,
+              0.85
+            ],
+            "rotation": [
+              -2.778,
+              -1.432,
+              0.782
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.3,
+              0.3,
+              0.85
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.4,
+              0.7,
+              0.7
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.5,
+              0.4,
+              0.75
+            ]
+          }
+        ]
+      },
+      "truth": [
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.15,
+          "position": [
+            0.15,
+            0.6,
+            0.3
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.7,
+            0.3,
+            0.85
+          ],
+          "rotation": [
+            5.2,
+            4.286,
+            4.078
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.4,
+            0.6,
+            0.55
+          ],
+          "rotation": [
+            2.763,
+            0.61,
+            5.36
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.6,
+            0.45,
+            0.7
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.7,
+            0.5,
+            0.35
+          ],
+          "rotation": [
+            1.894,
+            6.237,
+            4.124
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.7,
+            0.15,
+            0.4
+          ],
+          "rotation": [
+            0.125,
+            0.014,
+            0.394
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.4,
+            0.25,
+            0.5
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.2,
+          "position": [
+            0.4,
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.2,
+          "position": [
+            0.25,
+            0.4,
+            0.65
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.3,
+            0.15,
+            0.7
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 106,
+      "objects": 10,
+      "score": 89.4,
+      "exact": false,
+      "seconds": 27.3,
+      "tokens": {
+        "input": 7450,
+        "cached": 2688,
+        "output": 700,
+        "reasoning": 128,
+        "total": 8150
+      },
+      "costUsd": 0.0326577,
+      "codeRuns": 1,
+      "usedSandbox": true,
+      "violations": [],
+      "error": null,
+      "guess": {
+        "objects": [
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.2,
+            "position": [
+              0.6,
+              0.3,
+              0.15
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.45,
+              0.2,
+              0.7
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.2,
+              0.25,
+              0.7
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.3,
+              0.75,
+              0.75
+            ],
+            "rotation": [
+              0.633,
+              0.447,
+              1.42
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.15,
+              0.85,
+              0.2
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.2,
+            "position": [
+              0.85,
+              0.4,
+              0.85
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "blue",
+            "size": 0.15,
+            "position": [
+              0.65,
+              0.5,
+              0.55
+            ],
+            "rotation": [
+              -1.605,
+              -0.207,
+              -1.558
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.35,
+              0.6,
+              0.45
+            ],
+            "rotation": [
+              0.524,
+              -0.286,
+              -2.551
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.2,
+            "position": [
+              0.85,
+              0.55,
+              0.3
+            ]
+          }
+        ]
+      },
+      "truth": [
+        {
+          "shape": "cube",
+          "color": "blue",
+          "size": 0.15,
+          "position": [
+            0.5,
+            0.45,
+            0.35
+          ],
+          "rotation": [
+            1.56,
+            0.086,
+            1.832
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.8,
+            0.2,
+            0.65
+          ],
+          "rotation": [
+            4.51,
+            2.116,
+            2.205
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.6,
+            0.55,
+            0.65
+          ],
+          "rotation": [
+            2.584,
+            3.396,
+            2.591
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.2,
+          "position": [
+            0.4,
+            0.15,
+            0.15
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.2,
+            0.3,
+            0.55
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.85,
+            0.8,
+            0.85
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.25,
+            0.3,
+            0.8
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.8,
+            0.35,
+            0.15
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.2,
+          "position": [
+            0.55,
+            0.7,
+            0.15
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.2,
+          "position": [
+            0.3,
+            0.85,
+            0.4
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 107,
+      "objects": 10,
+      "score": 92.3,
+      "exact": false,
+      "seconds": 35.4,
+      "tokens": {
+        "input": 8466,
+        "cached": 2688,
+        "output": 764,
+        "reasoning": 128,
+        "total": 9230
+      },
+      "costUsd": 0.0330397,
+      "codeRuns": 1,
+      "usedSandbox": true,
+      "violations": [],
+      "error": null,
+      "guess": {
+        "objects": [
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.8,
+              0.25,
+              0.3
+            ],
+            "rotation": [
+              0.58,
+              -1.221,
+              0.449
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.65,
+              0.7,
+              0.4
+            ],
+            "rotation": [
+              0.071,
+              0.649,
+              -1.906
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.15,
+              0.3,
+              0.55
+            ],
+            "rotation": [
+              -2.778,
+              -1.432,
+              0.782
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.2,
+              0.65,
+              0.5
+            ],
+            "rotation": [
+              1.864,
+              0.561,
+              -2.848
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "blue",
+            "size": 0.15,
+            "position": [
+              0.45,
+              0.3,
+              0.45
+            ],
+            "rotation": [
+              1.846,
+              -0.289,
+              0.571
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.3,
+              0.45,
+              0.7
+            ],
+            "rotation": [
+              1.745,
+              0.199,
+              -3.234
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.7,
+              0.2,
+              0.7
+            ],
+            "rotation": [
+              -1.046,
+              1.045,
+              2.779
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.5,
+              0.75,
+              0.75
+            ],
+            "rotation": [
+              -1.89,
+              1.063,
+              -2.058
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.15,
+              0.35,
+              0.2
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.4,
+              0.4,
+              0.1
+            ]
+          }
+        ]
+      },
+      "truth": [
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.2,
+            0.7,
+            0.75
+          ],
+          "rotation": [
+            4.525,
+            0.444,
+            3.123
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.85,
+            0.55,
+            0.4
+          ],
+          "rotation": [
+            5.417,
+            5.762,
+            1.725
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.7,
+            0.3,
+            0.55
+          ],
+          "rotation": [
+            6.015,
+            4.288,
+            1.217
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.55,
+            0.85,
+            0.6
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.5,
+            0.25,
+            0.25
+          ],
+          "rotation": [
+            5.583,
+            2.946,
+            5.129
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.85,
+            0.45,
+            0.7
+          ],
+          "rotation": [
+            3.026,
+            3.077,
+            0.145
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.2,
+          "position": [
+            0.55,
+            0.55,
+            0.7
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.3,
+            0.55,
+            0.3
+          ],
+          "rotation": [
+            5.653,
+            0.65,
+            1.323
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.3,
+            0.3,
+            0.8
+          ],
+          "rotation": [
+            5.758,
+            5.858,
+            4.908
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.85,
+            0.8,
+            0.65
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 108,
+      "objects": 10,
+      "score": 99.5,
+      "exact": false,
+      "seconds": 43.7,
+      "tokens": {
+        "input": 9229,
+        "cached": 2688,
+        "output": 962,
+        "reasoning": 256,
+        "total": 10191
+      },
+      "costUsd": 0.03362645,
+      "codeRuns": 2,
+      "usedSandbox": true,
+      "violations": [],
+      "error": null,
+      "guess": {
+        "objects": [
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.7,
+              0.75,
+              0.25
+            ],
+            "rotation": [
+              0.691,
+              -0.719,
+              0.383
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.7,
+              0.6,
+              0.7
+            ],
+            "rotation": [
+              1.831,
+              -0.204,
+              -2.788
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.6,
+              0.2,
+              0.3
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.8,
+              0.2,
+              0.1
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.65,
+              0.2,
+              0.65
+            ],
+            "rotation": [
+              0.745,
+              0.169,
+              1.551
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.15,
+            "position": [
+              0.2,
+              0.6,
+              0.2
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.3,
+              0.15,
+              0.15
+            ],
+            "rotation": [
+              2.172,
+              1.17,
+              1.93
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.4,
+              0.75,
+              0.45
+            ],
+            "rotation": [
+              0.878,
+              -1.319,
+              -3.108
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.15,
+            "position": [
+              0.3,
+              0.4,
+              0.45
+            ],
+            "rotation": [
+              -0.669,
+              -0.952,
+              1.816
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.2,
+            "position": [
+              0.3,
+              0.55,
+              0.7
+            ]
+          }
+        ]
+      },
+      "truth": [
+        {
+          "shape": "cube",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.3,
+            0.85,
+            0.15
+          ],
+          "rotation": [
+            4.117,
+            2.729,
+            1.497
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.7,
+            0.3,
+            0.6
+          ],
+          "rotation": [
+            2.299,
+            1.166,
+            1.062
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.65,
+            0.35,
+            0.2
+          ],
+          "rotation": [
+            5.299,
+            1.4,
+            3.276
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.15,
+          "position": [
+            0.2,
+            0.8,
+            0.6
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.7,
+            0.75,
+            0.75
+          ],
+          "rotation": [
+            0.367,
+            6,
+            3.935
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.8,
+            0.9,
+            0.2
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.3,
+            0.55,
+            0.4
+          ],
+          "rotation": [
+            5.459,
+            6.112,
+            3.654
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.4,
+            0.55,
+            0.75
+          ],
+          "rotation": [
+            2.188,
+            4.978,
+            2.895
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.2,
+          "position": [
+            0.25,
+            0.25,
+            0.55
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.6,
+            0.7,
+            0.2
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 109,
+      "objects": 10,
+      "score": 100,
+      "exact": true,
+      "seconds": 29.3,
+      "tokens": {
+        "input": 7680,
+        "cached": 2688,
+        "output": 684,
+        "reasoning": 128,
+        "total": 8364
+      },
+      "costUsd": 0.032683199999999996,
+      "codeRuns": 1,
+      "usedSandbox": true,
+      "violations": [],
+      "error": null,
+      "guess": {
+        "objects": [
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.75,
+              0.4,
+              0.15
+            ],
+            "rotation": [
+              0.106,
+              -0.839,
+              1.862
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.7,
+              0.4,
+              0.75
+            ],
+            "rotation": [
+              2.899,
+              -0.39,
+              2.338
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.2,
+            "position": [
+              0.55,
+              0.7,
+              0.75
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.3,
+              0.55,
+              0.55
+            ],
+            "rotation": [
+              -1.735,
+              0.165,
+              2.372
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.3,
+              0.8,
+              0.2
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.65,
+              0.25,
+              0.4
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.15,
+            "position": [
+              0.4,
+              0.25,
+              0.35
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.2,
+              0.55,
+              0.2
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.85,
+              0.6,
+              0.25
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.2,
+            "position": [
+              0.5,
+              0.75,
+              0.4
+            ]
+          }
+        ]
+      },
+      "truth": [
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.4,
+            0.25,
+            0.3
+          ],
+          "rotation": [
+            1.959,
+            0.285,
+            2.238
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.15,
+          "position": [
+            0.25,
+            0.65,
+            0.6
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.55,
+            0.45,
+            0.7
+          ],
+          "rotation": [
+            3.802,
+            1.366,
+            1.697
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.2,
+          "position": [
+            0.7,
+            0.25,
+            0.45
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.8,
+            0.8,
+            0.7
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.2,
+          "position": [
+            0.75,
+            0.6,
+            0.5
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.6,
+            0.75,
+            0.15
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.55,
+            0.8,
+            0.8
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.4,
+            0.85,
+            0.25
+          ],
+          "rotation": [
+            2.618,
+            1.798,
+            2.85
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.25,
+            0.6,
+            0.35
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 110,
+      "objects": 10,
+      "score": 86.2,
+      "exact": false,
+      "seconds": 44.9,
+      "tokens": {
+        "input": 11530,
+        "cached": 2688,
+        "output": 1361,
+        "reasoning": 576,
+        "total": 12891
+      },
+      "costUsd": 0.0349997,
+      "codeRuns": 4,
+      "usedSandbox": true,
+      "violations": [],
+      "error": null,
+      "guess": {
+        "objects": [
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.1,
+              0.7,
+              0.5
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.2,
+            "position": [
+              0.45,
+              0.55,
+              0.55
+            ],
+            "rotation": [
+              -1.88,
+              -0.47,
+              -0.289
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "red",
+            "size": 0.2,
+            "position": [
+              0.6,
+              0.25,
+              0.8
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.2,
+            "position": [
+              0.8,
+              0.75,
+              0.2
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.1,
+            "position": [
+              0.1,
+              0.9,
+              0.6
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "blue",
+            "size": 0.15,
+            "position": [
+              0.35,
+              0.4,
+              0.2
+            ],
+            "rotation": [
+              2.23,
+              -0.837,
+              2.164
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.15,
+            "position": [
+              0.85,
+              0.4,
+              0.2
+            ]
+          },
+          {
+            "shape": "sphere",
+            "color": "blue",
+            "size": 0.2,
+            "position": [
+              0.75,
+              0.5,
+              0.75
+            ]
+          },
+          {
+            "shape": "cube",
+            "color": "red",
+            "size": 0.1,
+            "position": [
+              0.75,
+              0.8,
+              0.75
+            ],
+            "rotation": [
+              0.143,
+              -1.515,
+              -1.628
+            ]
+          }
+        ]
+      },
+      "truth": [
+        {
+          "shape": "cube",
+          "color": "blue",
+          "size": 0.15,
+          "position": [
+            0.4,
+            0.35,
+            0.8
+          ],
+          "rotation": [
+            1.488,
+            0.724,
+            0.968
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.7,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.2,
+          "position": [
+            0.25,
+            0.6,
+            0.2
+          ]
+        },
+        {
+          "shape": "cube",
+          "color": "red",
+          "size": 0.2,
+          "position": [
+            0.55,
+            0.45,
+            0.45
+          ],
+          "rotation": [
+            3.676,
+            0.493,
+            1.855
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.2,
+          "position": [
+            0.5,
+            0.75,
+            0.25
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.2,
+          "position": [
+            0.75,
+            0.8,
+            0.8
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.15,
+          "position": [
+            0.8,
+            0.75,
+            0.25
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "red",
+          "size": 0.1,
+          "position": [
+            0.7,
+            0.1,
+            0.5
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.15,
+          "position": [
+            0.4,
+            0.85,
+            0.8
+          ]
+        },
+        {
+          "shape": "sphere",
+          "color": "blue",
+          "size": 0.1,
+          "position": [
+            0.9,
+            0.1,
+            0.4
+          ]
+        }
+      ]
+    }
+  ]
+}
