@@ -683,6 +683,9 @@ def _match_cost(pose_a, pose_b, blobs_a, blobs_b):
     for color in ("red", "blue"):
         ia = [i for i, b in enumerate(blobs_a) if b["color"] == color]
         ib = [i for i, b in enumerate(blobs_b) if b["color"] == color]
+        # at most 5 objects exist: keep the exhaustive assignment tractable by considering the 6 largest blobs
+        ia = sorted(ia, key=lambda i: -blobs_a[i]["area"])[:6]
+        ib = sorted(ib, key=lambda i: -blobs_b[i]["area"])[:6]
         if not ia and not ib:
             continue
         best = None
@@ -727,10 +730,11 @@ def auto_match(pose_a, pose_b, blobs_a=None, blobs_b=None, verbose=True):
 
 
 # ----------------------------------------------------------------------------- blobs
-def blobs(cam_id, min_area=40, verbose=True):
+def blobs(cam_id, min_area=150, verbose=True):
     """Connected red/blue regions in a camera image: color, area, bbox (u0, v0, u1, v1), width, height,
     centroid (u, v), circularity (weak shape hint: ~1 sphere, lower cube), touches_edge. Ordered left to right.
-    Two touching same-colour objects can merge into one blob; an occluded object may be split or hidden."""
+    Regions under min_area pixels are ignored (the smallest possible object covers about 250 px). Two touching
+    same-colour objects can merge into one blob; an occluded object may be split or hidden."""
     img = load_image(cam_id)
     W, H = image_size(cam_id)
     masks = color_masks(img)
@@ -1214,26 +1218,43 @@ def _fit_rotation(objects, i, pose_a, pose_b, n=40, seed=0):
     return out
 
 
+def _object_targets(objects, i, pose):
+    """Pixels of object i's colour not explained by the OTHER objects (so objects sharing a blob split it)."""
+    others = [o for k, o in enumerate(objects) if k != i]
+    real = color_masks(load_image(pose.cam_id))[objects[i]["color"]]
+    if others:
+        real = real & ~render_masks(others, pose)[objects[i]["color"]]
+    return real
+
+
+def _object_score(o, targets):
+    vals = []
+    for pose, tmask in targets:
+        cov, win = render_soft(o, pose)
+        if cov is None:
+            continue
+        vals.append(_soft_iou(cov, tmask, win))
+    return float(np.mean(vals)) if vals else 0.0
+
+
 def local_search(objects, pose_a, pose_b, passes=6, try_sizes=True, verbose=True):
-    """Coordinate descent maximising the mean IoU: each object's position is moved by up to +-0.15 along x, y and z,
-    its size is tried at all legal values, and cube rotations are fitted. Shapes, colours and the object count are
-    never changed - decide those yourself (see shape_test). Returns the improved (snapped) list."""
+    """Coordinate descent, one object at a time: its position is moved by up to +-0.15 along x, y and z, its size
+    is tried at all legal values, and cube rotations are fitted, each candidate scored by the object's own
+    sub-pixel silhouette overlap with the pixels of its colour that the other objects do not explain (in both
+    cameras). Shapes, colours and the object count are never changed - decide those yourself (see shape_check).
+    Returns the improved (snapped) list."""
     objs = snap(objects)
-
-    def score(os_):
-        return compare(os_, pose_a, pose_b, verbose=False)["score"]
-
-    best = score(objs)
     if verbose:
-        print(f"local_search start score={best}")
+        print(f"local_search start score={compare(objs, pose_a, pose_b, verbose=False)['score']}")
     for p in range(passes):
         improved = False
         for i in range(len(objs)):
+            targets = [(pose, _object_targets(objs, i, pose)) for pose in (pose_a, pose_b)]
             if objs[i]["shape"] == "cube":
                 fitted = _fit_rotation(objs, i, pose_a, pose_b, n=25 if p == 0 else 10, seed=p)
-                sc = score(fitted)
-                if sc > best + 1e-4:
-                    best, objs, improved = sc, fitted, True
+                if fitted[i]["rotation"] != objs[i].get("rotation"):
+                    objs = fitted
+            best = _object_score(objs[i], targets)
             steps = (-0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15)
             for axis in range(3):
                 for d in steps:
@@ -1245,16 +1266,16 @@ def local_search(objects, pose_a, pose_b, passes=6, try_sizes=True, verbose=True
                         pos = list(objs[i]["position"])
                         pos[axis] += d
                         o["position"] = pos
+                        o = snap([o])[0]
                         trial = list(objs)
                         trial[i] = o
-                        trial = snap(trial)
                         if _overlaps(trial):
                             continue
-                        sc = score(trial)
+                        sc = _object_score(o, targets)
                         if sc > best + 1e-4:
                             best, objs, improved = sc, trial, True
         if verbose:
-            print(f"pass {p + 1}: score={best}")
+            print(f"pass {p + 1}: score={compare(objs, pose_a, pose_b, verbose=False)['score']}")
         if not improved:
             break
     return objs
