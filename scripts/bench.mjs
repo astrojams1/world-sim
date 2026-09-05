@@ -4,7 +4,7 @@
  *
  *   npm run dev                                  # in another terminal, with OPENAI_API_KEY in .env.local
  *   npx playwright install chromium              # once
- *   node scripts/bench.mjs --label baseline [--seeds 101,102,...] [--model gpt-5-mini] [--effort medium]
+ *   node scripts/bench.mjs --label baseline [--seeds 101,102,...] [--model gpt-5-mini] [--effort medium] [--objects 8]
  *                          [--parallel 3] [--url http://localhost:3000] [--out bench/results]
  *
  * Every request the page makes to /api/analyze is intercepted and checked: the body may contain only
@@ -26,6 +26,9 @@ const args = Object.fromEntries(
 export const BENCH_SEEDS = [101, 102, 103, 104, 105, 106, 107, 108, 109, 110];
 
 const seeds = args.seeds ? args.seeds.split(",").map(Number) : BENCH_SEEDS;
+// Object count per room: unset = the default draw of 2-5 (the historical benchmark); a number is the capacity
+// dimension (every room gets exactly that many objects).
+const objects = args.objects ? Number(args.objects) : null;
 const model = args.model ?? "gpt-5-mini";
 const effort = args.effort ?? "medium";
 const parallel = Number(args.parallel ?? 3);
@@ -87,9 +90,14 @@ async function runSeed(browser, seed) {
   const seedInput = page.locator("input").first();
   await seedInput.fill(String(seed));
   await seedInput.press("Enter");
-  await page.waitForTimeout(1200);
-  await page.selectOption("select >> nth=0", model);
-  if (model.startsWith("gpt-5")) await page.selectOption("select >> nth=1", effort);
+  await page.waitForTimeout(600);
+  if (objects !== null) {
+    await page.selectOption('select[aria-label="Objects"]', String(objects));
+    await page.waitForTimeout(600);
+  }
+  await page.waitForTimeout(600);
+  await page.selectOption('select[aria-label="Model"]', model);
+  if (model.startsWith("gpt-5")) await page.selectOption('select[aria-label="Reasoning"]', effort);
   const t0 = Date.now();
   await page.click('button:has-text("Analyze")');
   let result = null;
@@ -110,6 +118,7 @@ async function runSeed(browser, seed) {
   const usage = result.usage ?? null;
   return {
     seed,
+    objects: result.objects ?? null,
     score: result.score,
     exact: Boolean(result.exact),
     seconds: +(result.durationMs / 1000).toFixed(1),
@@ -158,6 +167,7 @@ const summary = {
   model,
   effort,
   seeds,
+  objects,
   rooms: rows.length,
   errors: rows.length - ok.length,
   meanScore: +mean(rows.map((r) => r.score)).toFixed(1),

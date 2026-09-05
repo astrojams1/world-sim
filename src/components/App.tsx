@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import RoomViewer from "@/components/RoomViewer";
 import { renderFeeds, type Feeds } from "@/lib/feeds";
 import { ALLOWED_MODELS, DEFAULT_MODEL, type ModelId } from "@/lib/models";
-import { generateRoom, stripIds } from "@/lib/room";
+import { generateRoom, stripIds, MIN_OBJECTS, MAX_OBJECTS } from "@/lib/room";
 import { guessToSceneObjects } from "@/lib/scene";
 import { scoreGuess } from "@/lib/score";
 import type { Guess, Room, Score } from "@/lib/types";
@@ -35,6 +35,8 @@ declare global {
     /** Last analysis result, exposed for the benchmark script. */
     __worldsim?: {
       seed: number;
+      objects?: number;
+      objectCount?: number | null;
       model: string;
       effort: string;
       score: number;
@@ -66,10 +68,12 @@ export default function App() {
   const [showGuess, setShowGuess] = useState(true);
   const [showTruth, setShowTruth] = useState(true);
   const [seedInput, setSeedInput] = useState(() => String(room.seed));
+  // "auto" draws 2-5 objects (the historical rooms); a number fixes the count (the capacity dimension).
+  const [objectCount, setObjectCount] = useState<"auto" | number>("auto");
   const abortRef = useRef(false);
 
-  const refresh = useCallback((seed?: number) => {
-    const r = generateRoom(seed);
+  const refresh = useCallback((seed?: number, count: "auto" | number = objectCount) => {
+    const r = generateRoom(seed, count === "auto" ? undefined : count);
     setRoom(r);
     setFeeds(null);
     setResult(null);
@@ -78,7 +82,7 @@ export default function App() {
     setStatus("");
     setSeedInput(String(r.seed));
     window.__worldsim = undefined;
-  }, []);
+  }, [objectCount]);
 
   // Render feeds whenever the room changes.
   useEffect(() => {
@@ -149,6 +153,8 @@ export default function App() {
         setStatus(score.exact ? "Exact match." : `Score ${score.total}%`);
         window.__worldsim = {
           seed: room.seed,
+          objects: room.objects.length,
+          objectCount: room.objectCount ?? null,
           model,
           effort,
           score: score.total,
@@ -171,6 +177,8 @@ export default function App() {
       setStatus("");
       window.__worldsim = {
         seed: room.seed,
+        objects: room.objects.length,
+        objectCount: room.objectCount ?? null,
         model,
         effort,
         score: 0,
@@ -214,6 +222,28 @@ export default function App() {
                 }
               }}
             />
+          </label>
+          <label className="flex items-center gap-1">
+            <span className="opacity-70">Objects</span>
+            <select
+              aria-label="Objects"
+              className="rounded border border-neutral-400/40 bg-transparent px-2 py-1 text-xs"
+              value={String(objectCount)}
+              onChange={(e) => {
+                const v = e.target.value === "auto" ? "auto" : Number(e.target.value);
+                setObjectCount(v);
+                const n = Number(seedInput);
+                refresh(Number.isFinite(n) ? n : undefined, v);
+              }}
+              disabled={running}
+            >
+              <option value="auto" className="text-black">auto (2-5)</option>
+              {Array.from({ length: MAX_OBJECTS - MIN_OBJECTS + 1 }, (_, i) => MIN_OBJECTS + i).map((n) => (
+                <option key={n} value={String(n)} className="text-black">
+                  {n}
+                </option>
+              ))}
+            </select>
           </label>
           <button
             className="rounded bg-neutral-700 px-3 py-1.5 text-white hover:bg-neutral-600 disabled:opacity-50"
@@ -280,6 +310,7 @@ export default function App() {
         <label className="flex items-center gap-2">
           <span className="opacity-70">Model</span>
           <select
+            aria-label="Model"
             className="rounded border border-neutral-400/40 bg-transparent px-2 py-1"
             value={model}
             onChange={(e) => setModel(e.target.value as ModelId)}
@@ -295,6 +326,7 @@ export default function App() {
         <label className="flex items-center gap-2">
           <span className="opacity-70">Reasoning</span>
           <select
+            aria-label="Reasoning"
             className="rounded border border-neutral-400/40 bg-transparent px-2 py-1"
             value={effort}
             onChange={(e) => setEffort(e.target.value as Effort)}

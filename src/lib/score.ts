@@ -224,32 +224,9 @@ function scoreInFrame(room: Room, guessed: GuessObj[], symmetry: string): Score 
   // Precompute pair points
   const P = truth.map((t) => guessed.map((g) => pairPoints(t, g)));
 
-  // Exhaustive assignment: for each truth object pick a distinct guess (or none).
-  let best = -1;
-  let bestAssign: number[] = [];
-  const assign: number[] = new Array(n).fill(-1);
-  const used: boolean[] = new Array(m).fill(false);
-  const rec = (i: number, acc: number) => {
-    if (i === n) {
-      if (acc > best) {
-        best = acc;
-        bestAssign = [...assign];
-      }
-      return;
-    }
-    // option: unmatched
-    assign[i] = -1;
-    rec(i + 1, acc);
-    for (let j = 0; j < m; j++) {
-      if (used[j]) continue;
-      used[j] = true;
-      assign[i] = j;
-      rec(i + 1, acc + P[i][j].points);
-      used[j] = false;
-    }
-    assign[i] = -1;
-  };
-  rec(0, 0);
+  // Optimal assignment (each truth object gets a distinct guess or none), by the Hungarian algorithm so that
+  // rooms with many objects score in milliseconds.
+  const bestAssign = assignMax(P.map((row) => row.map((p) => p.points)));
 
   const details: ScoreObjectDetail[] = truth.map((t, i) => {
     const j = bestAssign[i];
@@ -275,4 +252,61 @@ function scoreInFrame(room: Room, guessed: GuessObj[], symmetry: string): Score 
         (d.orientationError === undefined ? truth[details.indexOf(d)].shape !== "cube" : d.orientationError <= ORI_TOL),
     );
   return { total: exact ? 100 : Math.min(total, 99.9), exact, symmetry, countTruth: n, countGuess: m, details, extraGuesses };
+}
+
+/**
+ * Maximum-weight assignment of n rows to distinct columns of `w` (n x m, weights >= 0); a row may stay unassigned
+ * (weight 0). Returns the column per row, or -1. Hungarian algorithm on a square cost matrix with n dummy columns.
+ */
+export function assignMax(w: number[][]): number[] {
+  const n = w.length;
+  if (n === 0) return [];
+  const m = w[0]?.length ?? 0;
+  const size = m + n; // real columns plus one dummy column per row (weight 0 = unassigned)
+  const cost = (i: number, j: number) => (j < m ? -w[i][j] : 0);
+  // Rows 1..n, columns 1..size (n <= size). Standard O(n^2 * size) potentials implementation.
+  const INF = Number.POSITIVE_INFINITY;
+  const u = new Array(n + 1).fill(0);
+  const v = new Array(size + 1).fill(0);
+  const p = new Array(size + 1).fill(0);
+  const way = new Array(size + 1).fill(0);
+  for (let i = 1; i <= n; i++) {
+    p[0] = i;
+    let j0 = 0;
+    const minv = new Array(size + 1).fill(INF);
+    const used = new Array(size + 1).fill(false);
+    do {
+      used[j0] = true;
+      const i0 = p[j0];
+      let delta = INF;
+      let j1 = 0;
+      for (let j = 1; j <= size; j++) {
+        if (used[j]) continue;
+        const cur = cost(i0 - 1, j - 1) - u[i0] - v[j];
+        if (cur < minv[j]) {
+          minv[j] = cur;
+          way[j] = j0;
+        }
+        if (minv[j] < delta) {
+          delta = minv[j];
+          j1 = j;
+        }
+      }
+      for (let j = 0; j <= size; j++) {
+        if (used[j]) {
+          u[p[j]] += delta;
+          v[j] -= delta;
+        } else minv[j] -= delta;
+      }
+      j0 = j1;
+    } while (p[j0] !== 0);
+    do {
+      const j1 = way[j0];
+      p[j0] = p[j1];
+      j0 = j1;
+    } while (j0 !== 0);
+  }
+  const assign = new Array(n).fill(-1);
+  for (let j = 1; j <= size; j++) if (p[j] !== 0 && j - 1 < m) assign[p[j] - 1] = j - 1;
+  return assign;
 }

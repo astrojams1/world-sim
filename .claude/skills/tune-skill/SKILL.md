@@ -33,10 +33,29 @@ benchmark stops improving or the user stops you.
 - Single runs are noisy (several points). A candidate record must be **confirmed by a second run** of the same
   configuration; the record is the mean of both runs. Do not spend the confirmation run on non-candidates.
 
+### The capacity dimension (number of objects)
+
+- Besides the default rooms (2-5 objects drawn per seed), every seed can be generated with an exact object count
+  `N` (2..12, `generateRoom(seed, N)`; the app's "Objects" select; `node scripts/bench.mjs --objects N`). The
+  goal on this axis is to **maximise the number of objects the skill still reconstructs**.
+- **Capacity** is the largest `N` for which the seeds `101..110` at `--objects N` reach a two-run mean score of at
+  least **95.0** with zero API errors. Measure it on the ladder `6, 8, 10, 12`: a capacity record is a higher `N`
+  that passes, OR the same `N` with a mean score at least 1.0 higher (confirmed by a second run). Report the mean
+  score, time and tokens at every rung tried; the time budget per room at `N` objects is not part of the rule but
+  is reported.
+- Capacity work must never lower the default benchmark record: every capacity iteration re-runs the offline
+  pipeline on the default rooms (bench 101-110 and held-out 201-210) and any change that costs more than noise
+  there is reverted. The prompt keeps stating the generator rule "between 2 and 12 objects"; the actual count is
+  never passed to the model.
+- Rooms with an explicit count are rendered offline the same way as the default ones (`scratchpad` rooms named
+  `<seed>-o<N>`), so the automatic pipeline can be tested on them before spending API money.
+
 ## Procedure
 
-1. Read `bench/BENCH.md` (record + history + hypotheses already tried). Read the last results JSON in
-   `bench/results/` and look at the per-seed failures (guess vs truth) to pick the biggest recoverable loss.
+1. Read `bench/BENCH.md` (record + history + hypotheses already tried, and the capacity ladder). Read the last
+   results JSON in `bench/results/` and look at the per-seed failures (guess vs truth) to pick the biggest
+   recoverable loss. Decide which axis this iteration works on: the default benchmark (score/time) or capacity
+   (objects).
 2. State ONE hypothesis for this iteration and the single change that tests it. Prefer changes that also cut time or
    tokens (fewer code runs, tighter iteration caps, lower reasoning effort) when accuracy is unaffected.
 3. Apply the change. Run `node scripts/embed-sandbox.mjs`, `npx eslint .`, `npx tsc --noEmit -p .`,
