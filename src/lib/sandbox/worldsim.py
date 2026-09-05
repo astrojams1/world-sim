@@ -39,6 +39,7 @@ Typical workflow (long form):
     print(ws.to_json(guess))
 """
 import itertools
+import time
 import json
 import math
 import os
@@ -518,6 +519,8 @@ def _fit_pose(X, uv, W, H, n_starts=None, top_k=6, seed=0, good_enough=1.0):
         best = refine(*init)
         if best is not None and best[0] < good_enough:
             return best
+        if best is not None and best[0] > 3.0:
+            return best  # a wrong labelling: random starts never rescue it (checked on 40 cameras)
     for _, R0, t0, f0 in _random_starts(X, uv, W, H, n_starts, top_k, seed):
         fit = refine(R0, t0, f0)
         if fit is None:
@@ -1265,11 +1268,36 @@ def render_soft(o, pose, scale=3, window=None):
     if window is None:
         return None, None
     x0, y0, x1, y1 = window
-    big = Pose(pose.cam_id, pose.R, pose.t, pose.f * scale)
-    big.W, big.H = (x1 - x0) * scale, (y1 - y0) * scale
-    big.cx, big.cy = (pose.cx - x0) * scale, (pose.cy - y0) * scale
-    m = render_masks([o], big)[o["color"]].astype(np.float32)
-    return m.reshape(y1 - y0, scale, x1 - x0, scale).mean(axis=(1, 3)), window
+    w, h = x1 - x0, y1 - y0
+    f = pose.f * scale
+    cx, cy = (pose.cx - x0) * scale, (pose.cy - y0) * scale
+    c = pose.R @ np.asarray(o["position"], dtype=float) + pose.t
+    img = Image.new("L", (w * scale, h * scale), 0)
+    if c[2] > 1e-6:
+        d = ImageDraw.Draw(img)
+        s = float(o["size"])
+        if o["shape"] == "sphere":
+            depth = c[2]
+            u, v = f * c[0] / depth + cx, f * c[1] / depth + cy
+            r_px = f * (s / 2) / depth
+            r_px *= 1.0 / math.sqrt(max(1e-6, 1 - (s / 2 / depth) ** 2))
+            d.ellipse([u - r_px, v - r_px, u + r_px, v + r_px], fill=255)
+        else:
+            hh = s / 2
+            rot = o.get("rotation")
+            Rc = pose.R @ (_euler_matrix(*rot) if rot is not None else np.eye(3))
+            pts = []
+            for dx in (-1, 1):
+                for dy in (-1, 1):
+                    for dz in (-1, 1):
+                        p = c + Rc @ np.array([dx * hh, dy * hh, dz * hh])
+                        if p[2] > 1e-6:
+                            pts.append((round(f * p[0] / p[2] + cx, 2), round(f * p[1] / p[2] + cy, 2)))
+            hull = _convex_hull(pts)
+            if len(hull) >= 3:
+                d.polygon(hull, fill=255)
+    m = np.asarray(img, dtype=np.float32) * (1.0 / 255.0)
+    return m.reshape(h, scale, w, scale).mean(axis=(1, 3)), window
 
 
 def _soft_iou(cov, mask, window):
@@ -1533,7 +1561,7 @@ def local_search(objects, pose_a, pose_b, passes=6, try_sizes=True, verbose=True
     return objs
 
 
-def refine_rotation(objects, pose_a, pose_b, i, n=300, try_sizes=True, verbose=True):
+def refine_rotation(objects, pose_a, pose_b, i, n=150, try_sizes=True, verbose=True):
     """Polish cube i's orientation against its own silhouette in both cameras (sub-pixel coverage): random search
     over `n` orientations, shrinking coordinate steps, then a Powell polish. With `try_sizes` every legal size is
     searched the same way and the (size, rotation) pair with the best overlap wins: a cube seen at the wrong
@@ -1562,10 +1590,22 @@ def refine_rotation(objects, pose_a, pose_b, i, n=300, try_sizes=True, verbose=T
         cand = dict(o)
         cand["size"] = size
         score = lambda rot, cand=cand: _rotation_score(cand, rot, targets)  # noqa: E731
-        cands = [o.get("rotation") or [0.0, 0.0, 0.0]] + rand
+        cands = [o.get("rotation") or [0.0, 0.0, 0.0]] + (rand if len(sizes) == 1 else rand[: max(1, n // 3)])
         rot = max(cands, key=score)
         coarse.append((score(rot), size, rot, score))
     top = max(c[0] for c in coarse)
+    if len(sizes) > 1:
+        # the competitive sizes get the rest of the random starts before the descent
+        full = []
+        for sc, size, rot, score in coarse:
+            if sc >= top - 0.1:
+                for r in rand[max(1, n // 3):]:
+                    s2 = score(r)
+                    if s2 > sc:
+                        sc, rot = s2, r
+            full.append((sc, size, rot, score))
+        coarse = full
+        top = max(c[0] for c in coarse)
     best, best_rot, best_size = -1.0, None, o["size"]
     for sc, size, rot, score in coarse:
         if sc < top - 0.1:
@@ -1585,12 +1625,6 @@ def refine_rotation(objects, pose_a, pose_b, i, n=300, try_sizes=True, verbose=T
             best, best_rot, best_size = sc, rot, size
     o["size"] = best_size
     score = lambda rot: _rotation_score(o, rot, targets)  # noqa: E731
-    try:
-        res = minimize(lambda r: -score(r), best_rot, method="Powell", options={"xtol": 1e-3, "ftol": 1e-5, "maxfev": 400})
-        if -res.fun > best:
-            best, best_rot = float(-res.fun), list(res.x)
-    except Exception:
-        pass
     out = [dict(x) for x in objects]
     out[i]["rotation"] = [float(r) for r in best_rot]
     out[i]["size"] = float(best_size)
@@ -1647,7 +1681,7 @@ def explain_unpaired(objects, pose_a, pose_b, matches, blobs_a, blobs_b, min_sco
     poses = {"A": pose_a, "B": pose_b}
     masks = {"A": _blob_masks("A"), "B": _blob_masks("B")}
     rng = np.random.default_rng(5)
-    rots = [[0.0, 0.0, 0.0]] + [list(Rotation.random(random_state=int(rng.integers(1 << 30))).as_euler("xyz")) for _ in range(20)]
+    rots = [[0.0, 0.0, 0.0]] + [list(Rotation.random(random_state=int(rng.integers(1 << 30))).as_euler("xyz")) for _ in range(10)]
     for cam, j in todo:
         blob = (blobs_a if cam == "A" else blobs_b)[j]
         pose = poses[cam]
@@ -1664,7 +1698,9 @@ def explain_unpaired(objects, pose_a, pose_b, matches, blobs_a, blobs_b, min_sco
         if span is None:
             continue
         best = None
-        for t in np.linspace(span[0], span[1], 30):
+        step = (span[1] - span[0]) / 14
+        depths = list(np.linspace(span[0], span[1], 15))
+        for t in depths:
             p = o + t * d
             for size in SIZES:
                 for shape in ("sphere", "cube"):
@@ -1694,6 +1730,34 @@ def explain_unpaired(objects, pose_a, pose_b, matches, blobs_a, blobs_b, min_sco
                             score = s_own
                         if best is None or score > best[0]:
                             best = (score, cand, s_own, s_other if cov2 is not None else None)
+        if best is not None:
+            # fine pass: neighbouring depths around the best, same shape and size, a few rotations
+            base = dict(best[1])
+            t_best = float(np.dot(np.array(base["position"]) - o, d))
+            for t in np.linspace(t_best - step, t_best + step, 7):
+                if abs(t - t_best) < 1e-9:
+                    continue
+                p = o + t * d
+                for rot in (rots[:6] if base["shape"] == "cube" else [None]):
+                    cand = dict(base)
+                    cand["position"] = [float(v) for v in p]
+                    if rot is not None:
+                        cand["rotation"] = rot
+                    cov, win = render_soft(cand, pose)
+                    s_own = _soft_iou(cov, own_mask, win)
+                    cov2, win2 = render_soft(cand, opose)
+                    if cov2 is not None and cov2.sum() > 1e-6:
+                        x0, y0, x1, y1 = win2
+                        pr2 = opose.project(p)
+                        hidden = (depth_other[y0:y1, x0:x1] < pr2[2]) if pr2 is not None else np.zeros_like(cov2, dtype=bool)
+                        visible = cov2 * ~hidden
+                        vis_area = visible.sum()
+                        s_other = 0.5 if vis_area < 0.2 * cov2.sum() else float(np.minimum(visible, resid_other[y0:y1, x0:x1]).sum() / vis_area)
+                        sc = 0.6 * s_own + 0.4 * s_other
+                    else:
+                        s_other, sc = None, s_own
+                    if sc > best[0]:
+                        best = (sc, cand, s_own, s_other)
         if best is None or best[0] < min_score:
             if verbose:
                 _out(f"unpaired {blob['color']} blob {j} in {cam} at {blob['centroid']}: no consistent object found (best {0 if best is None else round(best[0], 2)}); it may be a reflection of an object you already have, or you may need object_from_pixels")
@@ -1717,6 +1781,7 @@ def solve_all(shapes=None, verbose=True):
     explained automatically (explain_unpaired) and printed as AUTO-ADDED. Prints everything you need to review
     (cameras, blobs, matches, auto-added objects, shape verdicts, compare report) and returns a dict with
     pose_a, pose_b, blobs_a, blobs_b, matches, objects, report."""
+    t_start = time.time()
     room_outline("A", verbose=verbose)
     room_outline("B", verbose=verbose)
     pa = solve_camera("A", verbose=verbose)
@@ -1754,8 +1819,8 @@ def solve_all(shapes=None, verbose=True):
         _out("compare:")
     report = compare(objs, pa, pb, verbose=verbose)
     if verbose:
-        _out("current answer:")
-        _out(to_json(objs))
+        _print_answer(objs, report, first=True)
+        _out(f"(solve_all took {time.time() - t_start:.1f} s)")
     return {"pose_a": pa, "pose_b": pb, "blobs_a": ba, "blobs_b": bb, "matches": matches, "objects": objs, "report": report}
 
 
@@ -1773,21 +1838,34 @@ def finish(objects, pose_a, pose_b, verbose=True):
         _REFINED.add(to_json(objs))
     report = compare(objs, pose_a, pose_b, verbose=verbose)
     if verbose:
-        issues = []
-        for cam_id, c in report["cameras"].items():
-            issues += [("unexplained", cam_id, b["color"], b["centroid"]) for b in c["unexplained_real_blobs"]]
-            issues += [("phantom", cam_id, objs[e["index"]]["color"], e["pred_centroid"]) for e in c["objects"] if e.get("visible") and e.get("real_centroid") is None]
-        global _LAST_ISSUES
-        if not issues:
-            _out("=== FINAL ANSWER (copy verbatim; do not run any further cell) ===")
-        elif _LAST_ISSUES is not None and issues == _LAST_ISSUES:
-            _out("(the same open issue as after the previous finish(): it cannot be resolved from these two views, so it is accepted)")
-            _out("=== FINAL ANSWER (copy verbatim; do not run any further cell) ===")
-        else:
-            _out("=== ANSWER (one open issue remains: fix it in ONE cell, call finish once more, then stop) ===")
-        _LAST_ISSUES = issues
-        _out(to_json(objs))
+        _print_answer(objs, report, first=False)
     return objs
+
+
+def _open_issues(objs, report):
+    issues = []
+    for cam_id, c in report["cameras"].items():
+        issues += [("unexplained", cam_id, b["color"], b["centroid"]) for b in c["unexplained_real_blobs"]]
+        issues += [("phantom", cam_id, objs[e["index"]]["color"], e["pred_centroid"]) for e in c["objects"] if e.get("visible") and e.get("real_centroid") is None]
+    return issues
+
+
+def _print_answer(objs, report, first):
+    """Print the answer JSON under a banner: FINAL when the compare report has no open issue (or the same open
+    issue as the previous answer, which two views cannot resolve), otherwise a request to fix that one thing."""
+    global _LAST_ISSUES
+    issues = _open_issues(objs, report)
+    if not issues:
+        _out("=== FINAL ANSWER (copy verbatim; do not run any further cell) ===")
+    elif _LAST_ISSUES is not None and issues == _LAST_ISSUES:
+        _out("(the same open issue as after the previous answer: it cannot be resolved from these two views, so it is accepted)")
+        _out("=== FINAL ANSWER (copy verbatim; do not run any further cell) ===")
+    elif first:
+        _out("=== ANSWER (one open issue remains: if you can see what is wrong, fix exactly that in ONE cell and call ws.finish; otherwise call ws.finish as is) ===")
+    else:
+        _out("=== ANSWER (one open issue remains: fix it in ONE cell, call finish once more, then stop) ===")
+    _LAST_ISSUES = issues
+    _out(to_json(objs))
 
 
 def to_json(objects):

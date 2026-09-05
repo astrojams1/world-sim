@@ -28,7 +28,7 @@ interface AnalysisResult {
 }
 
 type Effort = "low" | "medium" | "high";
-const POLL_MS = 3000;
+const POLL_MS = 1000;
 
 declare global {
   interface Window {

@@ -43,7 +43,7 @@ export function buildSystemPrompt(): string {
 The cameras are outside the room, so each image shows the room as an open box against a black background: the interior faces facing the camera are drawn, the near faces are not. The outline of the room is a hexagon whose vertices are corners of the cube; the room's own corners are what the sandbox uses to calibrate each camera.
 
 ## The sandbox
-It contains camera_A.jpg, camera_B.jpg and the helper module worldsim.py. Start EVERY session with exactly this bootstrap cell:
+It contains camera_A.jpg, camera_B.jpg and the helper module worldsim.py. Start EVERY session with exactly this bootstrap, as the first lines of your first cell:
 
 \`\`\`python
 ${BOOTSTRAP_SNIPPET}
@@ -67,22 +67,22 @@ Lower-level tools, for reconciling:
 - ws.local_search(objects, poseA, poseB) -> coordinate descent over positions, sizes and cube rotations to maximise IoU. It never changes shapes, colours or the object count; those are yours. ws.refine_all_rotations(objects, poseA, poseB) polishes every cube's orientation against its own silhouette (orientation is scored to about 10 degrees); run it once at the end.
 - ws.snap(objects), ws.to_json(objects) -> final formatting (grid positions, legal sizes, cube rotations as fitted, null for spheres).
 
-## Method (follow it in order; at most 6 code cells in total)
+## Method (follow it in order; one code cell is the normal case, at most 6 in total)
 1. LOOK at both images (attached to this message and in the sandbox). Count the objects; note the colour of each and whether two same-colour objects touch or overlap in either view. Objects may hide one another in one view: reconcile the count across both views. Colour and count are what your eyes are for; shape is decided by silhouettes (step 3).
-2. SOLVE: run the bootstrap, then in ONE cell: r = ws.solve_all(); objects = r["objects"]; poseA, poseB = r["pose_a"], r["pose_b"]. It calibrates both cameras from the room outline, aligns their frames, detects and pairs the blobs, builds a hypothesis, explains any unpaired blob by searching along its ray (printed as AUTO-ADDED), decides sphere vs cube from the silhouettes, refines positions/sizes/rotations and prints a compare report and the current answer. Read the whole printout.
+2. SOLVE in ONE cell: the bootstrap, then r = ws.solve_all(); objects = r["objects"]; poseA, poseB = r["pose_a"], r["pose_b"]. It calibrates both cameras from the room outline, aligns their frames, detects and pairs the blobs, builds a hypothesis, explains any unpaired blob by searching along its ray (printed as AUTO-ADDED), decides sphere vs cube from the silhouettes, refines positions/sizes/rotations, prints a compare report and the answer JSON under a banner. Read the whole printout. If the banner says FINAL ANSWER and the object count and colours match your inventory from step 1, you are done: go straight to step 5 without running another cell.
 3. RECONCILE the printout with your inventory, touching only what your eyes can judge better than the silhouettes:
    - An object missing from the list (merged into a shared blob, or hidden in one view): add it with ws.object_from_pixels using centres you read off the images. A blob much wider than its object, or an UNEXPLAINED blob, is the tell-tale.
    - An AUTO-ADDED object you cannot see in either image, or a duplicate: remove it. But never let the object count drop below the number you counted in step 1: an object that exists but is mispositioned (even one flagged as a phantom in one view) scores far better than a missing one, so keep it.
    - A wrong colour: fix it.
    - Shapes: the shape verdicts are final. They combine the silhouettes in both views with the shading inside each blob (flat faces with sharp edges vs one smooth gradient), which beats the eye on small objects. Never change a cube verdict to sphere. You may change a sphere verdict to cube only if you clearly see straight edges and flat faces in BOTH images.
    - Never type or edit a position, size or rotation yourself; the tools fit those far better than eyes can.
-4. FINISH: objects = ws.finish(objects, poseA, poseB). It refines, re-verifies and prints the answer JSON under a banner. If the banner says FINAL ANSWER, you are done: running any further cell is an error. If it says one open issue remains, fix exactly that one thing in ONE cell, call finish once more, and stop whatever it says. Do not iterate for IoU: a correct answer scores 0.8-0.95 and higher IoU is not the goal. Never write brute-force searches.
+4. FINISH (only if you changed something in step 3, or the banner was not FINAL): objects = ws.finish(objects, poseA, poseB) in the same cell as your changes. It refines, re-verifies and prints the answer JSON under a banner. If the banner says FINAL ANSWER, you are done: running any further cell is an error. If it says one open issue remains, fix exactly that one thing in ONE cell, call finish once more, and stop whatever it says. Do not iterate for IoU: a correct answer scores 0.8-0.95 and higher IoU is not the goal. Never write brute-force searches.
 5. OUTPUT the JSON printed under the last banner, verbatim: same objects, same numbers. Do not round, snap, reorder or "correct" anything by hand.
 
 ## Output
 Return JSON with exactly these keys:
 {
-  "notes": "<inventory, calibration results, blob-to-object mapping, what each check revealed and what you changed, final compare score>",
+  "notes": "<at most two short sentences: the objects you counted (colours), anything you changed after solve_all, the final compare score>",
   "objects": [
     { "shape": "sphere" | "cube", "color": "red" | "blue", "size": 0.10 | 0.15 | 0.20, "position": [x, y, z], "rotation": [rx, ry, rz] | null }
   ]
