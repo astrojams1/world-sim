@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { addObjects, buildRoomScene, makeCamera, makePlatformMesh, roomContent, type SceneContent } from "@/lib/scene";
@@ -9,9 +9,10 @@ import type { Platform, Room } from "@/lib/types";
 
 interface Props {
   room: Room;
-  /** The model's answer, already re-expressed in the truth's room frame (alignGuessToTruth). */
+  /** The model's answer, already re-expressed in the truth's room frame (alignGuessToTruth). When given, the
+   * canvas is split by a movable divider: the truth is drawn left of it and the guess right of it, through the
+   * same camera, so anything that jumps at the divider is an error. */
   guess?: SceneContent | null;
-  showTruth?: boolean;
 }
 
 /** In platform mode the objects glide from the first snapshot to the second (SNAPSHOT_INTERVAL later), hold
@@ -49,8 +50,15 @@ function velocityArrow(platform: Platform, color: number): THREE.ArrowHelper {
   return new THREE.ArrowHelper(v.normalize(), origin, Math.max(len, 0.02), color, 0.03, 0.02);
 }
 
-export default function RoomViewer({ room, guess, showTruth = true }: Props) {
+export default function RoomViewer({ room, guess }: Props) {
   const mountRef = useRef<HTMLDivElement>(null);
+  // where the truth|guess divider sits, as a fraction of the canvas width (0 = all guess, 1 = all truth)
+  const [split, setSplit] = useState(0.5);
+  const splitRef = useRef(split);
+  useEffect(() => {
+    splitRef.current = split;
+  }, [split]);
+  const hasGuess = Boolean(guess && (guess.objects.length || guess.platform));
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -63,44 +71,49 @@ export default function RoomViewer({ room, guess, showTruth = true }: Props) {
     renderer.localClippingEnabled = true; // the platform plane is clipped to the room
     mount.appendChild(renderer.domElement);
 
-    const scene = buildRoomScene(room);
-    // Walls face inward, so the near walls are culled while orbiting and you can see inside.
-    // Objects riding a platform are animated along its velocity (truth and guess each with their own).
+    // Two scenes with the same room: the truth's content and the guess's content, drawn solid in both, rendered
+    // side by side through one camera with a scissor split. Objects riding a platform are animated along its
+    // velocity (truth and guess each with their own).
     const moving: Array<{ mesh: THREE.Object3D; base: THREE.Vector3; velocity: THREE.Vector3 }> = [];
-    const place = (content: SceneContent, ghost: boolean, arrowColor: number) => {
-      if (content.platform) scene.add(makePlatformMesh(content.platform, { ghost }));
-      const group = addObjects(scene, content.objects, { ghost });
+    const build = (content: SceneContent, arrowColor: number) => {
+      const scene = buildRoomScene(room);
+      if (content.platform) scene.add(makePlatformMesh(content.platform));
+      const group = addObjects(scene, content.objects);
       if (content.platform) {
         const velocity = new THREE.Vector3(...content.platform.velocity);
         for (const mesh of group.children) moving.push({ mesh, base: mesh.position.clone(), velocity });
         scene.add(velocityArrow(content.platform, arrowColor));
       }
+      return scene;
     };
-    if (showTruth) place(roomContent(room), false, 0xffffff);
-    if (guess && (guess.objects.length || guess.platform)) place(guess, true, 0xffd166);
+    const scene = build(roomContent(room), 0xffffff);
+    const guessScene = hasGuess && guess ? build(guess, 0xffd166) : null;
+    const scenes = guessScene ? [scene, guessScene] : [scene];
 
     // Camera frusta + labels
-    for (const spec of room.cameras) {
+    for (const s of scenes) for (const spec of room.cameras) {
       const cam = makeCamera(spec);
       cam.far = 0.35;
       cam.updateProjectionMatrix();
       const helper = new THREE.CameraHelper(cam);
-      scene.add(helper);
+      s.add(helper);
       const label = makeLabel(spec.id, spec.id === "A" ? "#ffd166" : "#8ecae6");
       label.position.set(...spec.position);
       label.position.y += 0.06;
-      scene.add(label);
+      s.add(label);
       const marker = new THREE.Mesh(
         new THREE.SphereGeometry(0.015, 16, 12),
         new THREE.MeshBasicMaterial({ color: spec.id === "A" ? 0xffd166 : 0x8ecae6 }),
       );
       marker.position.set(...spec.position);
-      scene.add(marker);
+      s.add(marker);
     }
 
-    const axes = new THREE.AxesHelper(0.25);
-    axes.position.set(0, 0.002, 0);
-    scene.add(axes);
+    for (const s of scenes) {
+      const axes = new THREE.AxesHelper(0.25);
+      axes.position.set(0, 0.002, 0);
+      s.add(axes);
+    }
 
     const viewCam = new THREE.PerspectiveCamera(45, 1, 0.01, 50);
     viewCam.position.set(-1.2, 1.6, 2.3);
@@ -147,7 +160,21 @@ export default function RoomViewer({ room, guess, showTruth = true }: Props) {
         for (const m of moving) m.mesh.position.copy(m.base).addScaledVector(m.velocity, t);
       }
       controls.update();
-      renderer.render(scene, viewCam);
+      if (guessScene) {
+        // same camera and viewport for both; only the scissor differs, so the two halves line up exactly
+        const w = mount.clientWidth;
+        const h = mount.clientHeight;
+        const x = Math.round(w * splitRef.current);
+        renderer.setScissorTest(true);
+        renderer.setViewport(0, 0, w, h);
+        renderer.setScissor(0, 0, x, h);
+        renderer.render(scene, viewCam);
+        renderer.setScissor(x, 0, w - x, h);
+        renderer.render(guessScene, viewCam);
+        renderer.setScissorTest(false);
+      } else {
+        renderer.render(scene, viewCam);
+      }
       raf = requestAnimationFrame(tick);
     };
     tick();
@@ -156,18 +183,70 @@ export default function RoomViewer({ room, guess, showTruth = true }: Props) {
       cancelAnimationFrame(raf);
       ro.disconnect();
       controls.dispose();
-      scene.traverse((o) => {
-        if (o instanceof THREE.Mesh) {
-          o.geometry.dispose();
-          const m = o.material as THREE.Material | THREE.Material[];
-          if (Array.isArray(m)) m.forEach((x) => x.dispose());
-          else m.dispose();
-        }
-      });
+      for (const s of scenes)
+        s.traverse((o) => {
+          if (o instanceof THREE.Mesh) {
+            o.geometry.dispose();
+            const m = o.material as THREE.Material | THREE.Material[];
+            if (Array.isArray(m)) m.forEach((x) => x.dispose());
+            else m.dispose();
+          }
+        });
       renderer.dispose();
       mount.removeChild(renderer.domElement);
     };
-  }, [room, guess, showTruth]);
+  }, [room, guess, hasGuess]);
 
-  return <div ref={mountRef} className="h-full w-full" />;
+  // Dragging the divider (mouse or touch) moves the split; the range input below does the same and is the
+  // keyboard-accessible control.
+  const dragging = useRef(false);
+  const setFromClientX = (clientX: number) => {
+    const rect = mountRef.current?.getBoundingClientRect();
+    if (!rect || rect.width === 0) return;
+    setSplit(Math.min(1, Math.max(0, (clientX - rect.left) / rect.width)));
+  };
+
+  return (
+    <div className="relative h-full w-full">
+      <div ref={mountRef} className="h-full w-full" />
+      {hasGuess && (
+        <>
+          <div
+            className="absolute inset-y-0 z-10 w-0 cursor-col-resize touch-none"
+            style={{ left: `${split * 100}%` }}
+            onPointerDown={(e) => {
+              dragging.current = true;
+              e.currentTarget.setPointerCapture(e.pointerId);
+              setFromClientX(e.clientX);
+            }}
+            onPointerMove={(e) => dragging.current && setFromClientX(e.clientX)}
+            onPointerUp={(e) => {
+              dragging.current = false;
+              e.currentTarget.releasePointerCapture(e.pointerId);
+            }}
+            onPointerCancel={() => {
+              dragging.current = false;
+            }}
+            aria-hidden
+          >
+            <div className="absolute inset-y-0 -left-px w-0.5 bg-white/90" />
+            <div className="absolute -left-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/60 text-lg leading-none text-white shadow">
+              ◂▸
+            </div>
+            <div className="absolute -left-14 top-10 rounded bg-black/60 px-1.5 py-0.5 text-xs text-white/90">truth</div>
+            <div className="absolute left-2 top-10 rounded bg-black/60 px-1.5 py-0.5 text-xs text-amber-200">guess</div>
+          </div>
+          <input
+            type="range"
+            aria-label="Truth versus guess divider"
+            min={0}
+            max={1000}
+            value={Math.round(split * 1000)}
+            onChange={(e) => setSplit(Number(e.target.value) / 1000)}
+            className="absolute inset-x-3 bottom-1 z-10 h-10 w-auto accent-white opacity-80 text-base"
+          />
+        </>
+      )}
+    </div>
+  );
 }

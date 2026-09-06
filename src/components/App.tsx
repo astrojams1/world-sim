@@ -71,8 +71,6 @@ export default function App() {
   const [liveRuns, setLiveRuns] = useState<CodeRun[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
-  const [showGuess, setShowGuess] = useState(true);
-  const [showTruth, setShowTruth] = useState(true);
   const [seedInput, setSeedInput] = useState(() => String(room.seed));
   // "auto" draws 2-5 objects (the historical rooms); a number fixes the count (the capacity dimension).
   const [objectCount, setObjectCount] = useState<"auto" | number>("auto");
@@ -206,7 +204,7 @@ export default function App() {
     }
   }, [feeds, running, room, model, effort]);
 
-  const guessContent = useMemo(() => (result && showGuess ? guessToContent(result.aligned) : null), [result, showGuess]);
+  const guessContent = useMemo(() => (result ? guessToContent(result.aligned) : null), [result]);
   const ids = feedIds(room);
   const runsToShow = result?.codeRuns ?? liveRuns;
 
@@ -311,20 +309,15 @@ export default function App() {
 
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div className="relative h-[85vw] max-h-[420px] min-h-[240px] overflow-hidden rounded-lg border border-neutral-400/30 bg-neutral-900 lg:col-span-2 lg:h-auto lg:max-h-none lg:self-stretch">
-          <RoomViewer room={room} guess={guessContent} showTruth={showTruth} />
+          <RoomViewer room={room} guess={guessContent} />
           {room.platform && (
-            <div className="pointer-events-none absolute left-2 top-2 rounded bg-black/50 px-2 py-1 text-xs text-white/80">
+            <div className="pointer-events-none absolute left-2 top-2 z-10 rounded bg-black/50 px-2 py-1 text-xs text-white/80">
               motion loop: snapshot 1 → snapshot 2 ({SNAPSHOT_INTERVAL} s)
             </div>
           )}
           {result && (
-            <div className="absolute right-2 top-2 flex gap-3 rounded bg-black/50 px-3 py-2 text-sm text-white">
-              <label className="flex min-h-6 items-center gap-1">
-                <input type="checkbox" className="h-5 w-5" checked={showTruth} onChange={(e) => setShowTruth(e.target.checked)} /> truth
-              </label>
-              <label className="flex min-h-6 items-center gap-1">
-                <input type="checkbox" className="h-5 w-5" checked={showGuess} onChange={(e) => setShowGuess(e.target.checked)} /> guess
-              </label>
+            <div className="pointer-events-none absolute right-2 top-2 z-10 rounded bg-black/50 px-2 py-1 text-xs text-white/80">
+              drag the divider: truth on its left, the model&apos;s guess on its right
             </div>
           )}
         </div>
