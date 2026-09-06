@@ -61,6 +61,8 @@ export default function RoomViewer({ room, guess }: Props) {
   const hasGuess = Boolean(guess && (guess.objects.length || guess.platform));
   // the two cameras' frusta and labels are optional and off by default
   const [showCameras, setShowCameras] = useState(false);
+  // the orbit pose survives scene rebuilds (a new result, the cameras toggle)
+  const poseRef = useRef<{ position: THREE.Vector3; target: THREE.Vector3 } | null>(null);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -126,16 +128,26 @@ export default function RoomViewer({ room, guess }: Props) {
     controls.maxDistance = 6;
     // On touch screens a one-finger vertical swipe scrolls the page; horizontal drags orbit and two fingers zoom.
     renderer.domElement.style.touchAction = "pan-y";
+    // Keep a pose the user set; showing the cameras always re-frames, since they sit well outside the room.
     let interacted = false;
+    if (poseRef.current && !showCameras) {
+      viewCam.position.copy(poseRef.current.position);
+      controls.target.copy(poseRef.current.target);
+      interacted = true;
+    }
     controls.addEventListener("start", () => {
       interacted = true;
     });
+    controls.addEventListener("change", () => {
+      poseRef.current = { position: viewCam.position.clone(), target: controls.target.clone() };
+    });
 
-    /** Move the view camera back (along its current direction) until the whole room fits the canvas. */
+    /** Move the view camera back (along its current direction) until the room (or the room and both cameras)
+     * fits the canvas. */
     const fit = () => {
       const vfov = (viewCam.fov * Math.PI) / 180;
       const hfov = 2 * Math.atan(Math.tan(vfov / 2) * viewCam.aspect);
-      const radius = 1.0; // the room plus a little margin, around the orbit target
+      const radius = showCameras ? 2.9 : 1.0; // around the orbit target, with a little margin
       const distance = radius / Math.sin(Math.min(vfov, hfov) / 2);
       const dir = viewCam.position.clone().sub(controls.target).normalize();
       viewCam.position.copy(controls.target).addScaledVector(dir, distance);
