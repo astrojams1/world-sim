@@ -53,6 +53,11 @@ plane's silhouette fit. A 0.1 cube lying flat was twice fitted as a slightly bet
 said cube; in platform mode a cube can only yaw, so a clear shading vote (|vote| > 0.06) overrides a silhouette
 advantage of up to 0.1 (rooms 107, 210).
 
+### Mode 2 history
+
+API runs (`node scripts/bench.mjs --mode platform`) go here with the same columns as the mode-1 history; the offline
+floor rows are the helper alone.
+
 | Objects | Label | Mean | Exact | Mean s | Notes |
 |---|---|---|---|---|---|
 | 2-4 | platform-offline-1 (offline, 101-110) | 100.0 | 10 | 17.1 | helper alone |
