@@ -40,6 +40,8 @@ both snapshots, so the velocity can only be read from the objects' motion. The r
 rule are the same as for mode 1; the held-out set is the platform rooms of seeds 201-210. Mode-2 work must leave
 the mode-1 helper output bit-identical on the paper's rendered static rooms (checked with `scripts/run-offline.py`).
 
+**Mode-2 record: platform-1** (confirmed) — mean **100.0** (runs: 100 and 100), 10 and 10 exact, 37.4 s/room, 8016 tokens/room, $0.000/room, `gpt-5-mini`, reasoning effort **low**, one code cell per room, the answer printed under the FINAL banner copied verbatim in every room (room 108 of run 1 retyped it with more decimals, still exact). The model's measured contribution is zero from the first run, as at the end of mode 1's tuning: the helper alone gives the same answers (offline floor below). Runs were made with `--api https://world-sim-delta.vercel.app` (page rendered locally, analysis answered by the production deployment of commit c281b37); a transient network error on room 108 in run 1 was retried once per the bench rule.
+
 **Offline floor (helper alone, no LLM, `ws.solve_platform()`):** seeds 101-110 mean **100.0**, 10 exact;
 held-out 201-210 mean **100.0**, 10 exact. Plane errors over the 20 rooms: offset 0.001-0.012,
 normal 0.0-1.0 degrees, velocity 0.002-0.018 units/s; 17.1 s per room on the offline CPU (two rooms in
@@ -62,6 +64,8 @@ floor rows are the helper alone.
 |---|---|---|---|---|---|
 | 2-4 | platform-offline-1 (offline, 101-110) | 100.0 | 10 | 17.1 | helper alone |
 | 2-4 | platform-offline-1 (offline, 201-210) | 100.0 | 10 | 17.7 | helper alone |
+| 2-4 | platform-1 | 100 | 10 | 38.1 | first API run (gpt-5-mini, low): 8062 tokens, $0.032/room; every room one cell, answer copied verbatim |
+| 2-4 | platform-1-confirm | 100 | 10 | 36.6 | **mode-2 record** (two-run mean 100.0): 7971 tokens, $0.032/room |
 
 ## History
 

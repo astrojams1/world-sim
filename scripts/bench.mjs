@@ -6,6 +6,12 @@
  *   npx playwright install chromium              # once
  *   node scripts/bench.mjs --label baseline [--seeds 101,102,...] [--model gpt-5-mini] [--effort medium] [--objects 8]
  *                          [--mode platform] [--parallel 3] [--url http://localhost:3000] [--out bench/results]
+ *                          [--api https://world-sim-delta.vercel.app]
+ *
+ * --api sends the page's /api/analyze requests to another deployment of the same code (one that holds the API
+ * key, e.g. production) from this process instead of from the browser: the page still renders locally and the
+ * request body is checked exactly as before; only where it is answered changes. Set NODE_USE_ENV_PROXY=1 when
+ * this process must go through an HTTPS proxy.
  *
  * Every request the page makes to /api/analyze is intercepted and checked: the body may contain only
  * { model, reasoningEffort, mode, images:{A,B[,A2,B2]} }, the mode must be the one selected, and the images must be
@@ -37,6 +43,7 @@ const model = args.model ?? "gpt-5-mini";
 const effort = args.effort ?? "medium";
 const parallel = Number(args.parallel ?? 3);
 const url = args.url ?? "http://localhost:3000/";
+const apiOrigin = args.api ? args.api.replace(/\/$/, "") : null;
 const label = args.label ?? new Date().toISOString().replace(/[:.]/g, "-");
 const outDir = args.out ?? "bench/results";
 const timeoutMs = Number(args.timeout ?? 1500000);
@@ -69,7 +76,8 @@ async function runSeed(browser, seed) {
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
   const violations = [];
   let shownFeeds = null;
-  await page.route("**/api/analyze", async (route) => {
+  // (a regex: the poll requests carry a query string, which a "**/api/analyze" glob would not match)
+  await page.route(/\/api\/analyze(\?|$)/, async (route) => {
     const req = route.request();
     if (req.method() === "POST") {
       let body = {};
@@ -89,6 +97,21 @@ async function runSeed(browser, seed) {
       const sent = Object.keys(body.images ?? {}).sort().join(",");
       if (sent !== [...feedIds].sort().join(",")) violations.push(`images sent are [${sent}], expected [${feedIds}]`);
       for (const id of feedIds) if (body.images?.[id] !== shownFeeds[id]) violations.push(`image ${id} sent differs from the image shown`);
+    }
+    if (apiOrigin) {
+      // answer the request from the remote deployment; the body goes through unchanged
+      const path = new URL(req.url()).pathname + new URL(req.url()).search;
+      try {
+        const r = await fetch(apiOrigin + path, {
+          method: req.method(),
+          headers: req.method() === "POST" ? { "content-type": "application/json" } : {},
+          body: req.method() === "POST" ? req.postData() : undefined,
+        });
+        await route.fulfill({ status: r.status, contentType: r.headers.get("content-type") ?? "application/json", body: Buffer.from(await r.arrayBuffer()) });
+      } catch (e) {
+        await route.fulfill({ status: 502, contentType: "application/json", body: JSON.stringify({ error: `remote API: ${e}` }) });
+      }
+      return;
     }
     await route.continue();
   });
@@ -180,6 +203,7 @@ const summary = {
   model,
   effort,
   mode,
+  api: apiOrigin,
   seeds,
   objects,
   rooms: rows.length,

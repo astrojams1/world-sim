@@ -128,10 +128,16 @@ npx tsx scripts/score-rows.ts /tmp/plane.json                # per-room table + 
    `npm run check:no-cheating`. If the helper changed, run the offline floor on the axis's rooms (bench and
    held-out) and, unless the axis is mode 1, the mode-1 identity check; revert anything that loses more than noise
    on the held-out rooms or breaks identity.
-4. Start the dev server with `OPENAI_API_KEY` set and run
+4. Start the dev server and run
    `CHROMIUM_PATH=... node scripts/bench.mjs --label <axis-iterN-short-name> [--mode platform | --objects N] --parallel 3`
    (in the background; it takes 10-25 minutes). Never run more than 3 rooms in parallel. Mode-2 labels start with
-   `platform-`, capacity labels with `capacity-N-`.
+   `platform-`, capacity labels with `capacity-N-`. The API key lives on Vercel (production), not in this
+   environment: when there is no local `OPENAI_API_KEY`, merge the iteration's helper/prompt into `main` first
+   (production must run the code under test, or the bench measures the wrong helper), then add
+   `--api https://world-sim-delta.vercel.app` (with `NODE_USE_ENV_PROXY=1` behind the sandbox proxy): the page
+   renders locally and only the `/api/analyze` requests are answered by production; the runtime request check is
+   unchanged. Previews have no key. Wait for the production deployment of the merge commit to be READY (Vercel
+   `get_deployment` on `world-sim-delta.vercel.app`) before starting the run.
 5. When it finishes, compare with the axis's record. Write the verbose report (below). Append a row to the axis's
    history table in `bench/BENCH.md` regardless of outcome, with the hypothesis and the result, so it is never
    retried.
