@@ -93,13 +93,32 @@ export default function RoomViewer({ room, guess, showTruth = true }: Props) {
     controls.enableDamping = true;
     controls.minDistance = 0.3;
     controls.maxDistance = 6;
+    // On touch screens a one-finger vertical swipe scrolls the page; horizontal drags orbit and two fingers zoom.
+    renderer.domElement.style.touchAction = "pan-y";
+    let interacted = false;
+    controls.addEventListener("start", () => {
+      interacted = true;
+    });
+
+    /** Move the view camera back (along its current direction) until the whole room fits the canvas. */
+    const fit = () => {
+      const vfov = (viewCam.fov * Math.PI) / 180;
+      const hfov = 2 * Math.atan(Math.tan(vfov / 2) * viewCam.aspect);
+      const radius = 1.0; // the room plus a little margin, around the orbit target
+      const distance = radius / Math.sin(Math.min(vfov, hfov) / 2);
+      const dir = viewCam.position.clone().sub(controls.target).normalize();
+      viewCam.position.copy(controls.target).addScaledVector(dir, distance);
+    };
 
     const resize = () => {
       const w = mount.clientWidth;
       const h = mount.clientHeight;
-      renderer.setSize(w, h, false);
+      // updateStyle stays on: on a 2x/3x phone screen the drawing buffer is larger than the CSS box, and the
+      // canvas must still be laid out at the box's size or it overflows and looks zoomed in
+      renderer.setSize(w, h);
       viewCam.aspect = w / h;
       viewCam.updateProjectionMatrix();
+      if (!interacted) fit();
     };
     resize();
     const ro = new ResizeObserver(resize);

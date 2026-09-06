@@ -84,6 +84,8 @@ The helper can be tested without the API: `node scripts/render-rooms.mjs --seeds
 
 Two optimisation axes are tracked in `bench/BENCH.md`: the default benchmark (seeds 101–110, 2–5 objects: score, time, tokens, cost) and **capacity**, the largest object count at which the same seeds still score at least 95. The tuning loop (`/tune-skill`) works both.
 
+`npm run check:mobile` (with `npm run dev` running) drives the page with Playwright on phone, tablet and desktop viewports in both modes, before and after a mocked analysis, and fails on horizontal overflow, controls under 40 px or under 16 px text on phones, a 3D canvas that overflows its box, or a viewer that swallows vertical swipes. `bench/mobile/` (ignored) receives screenshots with `--shots`.
+
 `scripts/check-no-cheating.mjs` (`npm run check:no-cheating`) is the static anti-cheat gate for both modes: the request may carry only the model, the reasoning effort, the mode and the images; the prompt is a function of the mode alone; the helper opens only the camera images.
 
 `worldsim.py` is embedded into the build by `scripts/embed-sandbox.mjs` (runs automatically before `dev` and `build`). Edit the `.py` file, not the generated `worldsim_py.ts`.

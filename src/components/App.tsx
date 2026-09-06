@@ -215,11 +215,12 @@ export default function App() {
               : "Mode 1, static room: can a cheap vision LLM rebuild a 3D room from two camera feeds? Red and blue spheres and cubes float in a 1×1×1 room; the model gets only the two images and must return the exact JSON."}
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-2 text-sm">
-          <label className="flex items-center gap-1">
-            <span className="opacity-70">Seed</span>
+        <div className="grid w-full grid-cols-2 items-end gap-2 text-sm sm:flex sm:w-auto sm:flex-wrap sm:items-center">
+          <label className="flex min-w-0 flex-col items-stretch gap-0.5 sm:flex-row sm:items-center sm:gap-1">
+            <span className="text-xs opacity-70 sm:text-sm">Seed</span>
             <input
-              className="w-28 rounded border border-neutral-400/40 bg-transparent px-2 py-1 font-mono text-xs"
+              inputMode="numeric"
+              className="ctl w-full min-w-0 font-mono sm:w-28"
               value={seedInput}
               onChange={(e) => setSeedInput(e.target.value)}
               onKeyDown={(e) => {
@@ -230,11 +231,11 @@ export default function App() {
               }}
             />
           </label>
-          <label className="flex items-center gap-1">
-            <span className="opacity-70">Mode</span>
+          <label className="flex min-w-0 flex-col items-stretch gap-0.5 sm:flex-row sm:items-center sm:gap-1">
+            <span className="text-xs opacity-70 sm:text-sm">Mode</span>
             <select
               aria-label="Mode"
-              className="rounded border border-neutral-400/40 bg-transparent px-2 py-1 text-xs"
+              className="ctl w-full min-w-0 sm:w-auto"
               value={mode}
               onChange={(e) => {
                 const m = e.target.value as Mode;
@@ -248,16 +249,16 @@ export default function App() {
             >
               {MODES.map((m) => (
                 <option key={m} value={m} className="text-black">
-                  {m === "static" ? "1 · static room" : "2 · moving platform"}
+                  {m === "static" ? "1 · static room" : "2 · platform"}
                 </option>
               ))}
             </select>
           </label>
-          <label className="flex items-center gap-1">
-            <span className="opacity-70">Objects</span>
+          <label className="flex min-w-0 flex-col items-stretch gap-0.5 sm:flex-row sm:items-center sm:gap-1">
+            <span className="text-xs opacity-70 sm:text-sm">Objects</span>
             <select
               aria-label="Objects"
-              className="rounded border border-neutral-400/40 bg-transparent px-2 py-1 text-xs"
+              className="ctl w-full min-w-0 sm:w-auto"
               value={String(objectCount)}
               onChange={(e) => {
                 const v = e.target.value === "auto" ? "auto" : Number(e.target.value);
@@ -276,14 +277,14 @@ export default function App() {
             </select>
           </label>
           <button
-            className="rounded bg-neutral-700 px-3 py-1.5 text-white hover:bg-neutral-600 disabled:opacity-50"
+            className="btn bg-neutral-700 text-white hover:bg-neutral-600"
             onClick={() => refresh()}
             disabled={running}
           >
             Refresh room
           </button>
           <button
-            className="rounded bg-emerald-600 px-3 py-1.5 font-medium text-white hover:bg-emerald-500 disabled:opacity-50"
+            className="btn col-span-2 bg-emerald-600 text-white hover:bg-emerald-500 sm:col-span-1"
             onClick={analyze}
             disabled={running || !feeds}
           >
@@ -291,7 +292,7 @@ export default function App() {
           </button>
           {running && (
             <button
-              className="rounded border border-neutral-400/40 px-3 py-1.5 hover:bg-neutral-500/10"
+              className="btn col-span-2 border border-neutral-400/40 hover:bg-neutral-500/10 sm:col-span-1"
               onClick={() => {
                 abortRef.current = true;
               }}
@@ -303,20 +304,20 @@ export default function App() {
       </header>
 
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div className="relative h-[360px] overflow-hidden rounded-lg border border-neutral-400/30 bg-neutral-900 lg:col-span-2 lg:h-auto lg:self-stretch">
+        <div className="relative h-[85vw] max-h-[420px] min-h-[240px] overflow-hidden rounded-lg border border-neutral-400/30 bg-neutral-900 lg:col-span-2 lg:h-auto lg:max-h-none lg:self-stretch">
           <RoomViewer room={room} guess={guessContent} showTruth={showTruth} />
           {result && (
-            <div className="absolute right-2 top-2 flex gap-2 rounded bg-black/50 px-2 py-1 text-xs text-white">
-              <label className="flex items-center gap-1">
-                <input type="checkbox" checked={showTruth} onChange={(e) => setShowTruth(e.target.checked)} /> truth
+            <div className="absolute right-2 top-2 flex gap-3 rounded bg-black/50 px-3 py-2 text-sm text-white">
+              <label className="flex min-h-6 items-center gap-1">
+                <input type="checkbox" className="h-5 w-5" checked={showTruth} onChange={(e) => setShowTruth(e.target.checked)} /> truth
               </label>
-              <label className="flex items-center gap-1">
-                <input type="checkbox" checked={showGuess} onChange={(e) => setShowGuess(e.target.checked)} /> guess
+              <label className="flex min-h-6 items-center gap-1">
+                <input type="checkbox" className="h-5 w-5" checked={showGuess} onChange={(e) => setShowGuess(e.target.checked)} /> guess
               </label>
             </div>
           )}
         </div>
-        <div className={`grid gap-3 ${ids.length > 2 ? "grid-cols-2" : "grid-cols-1"}`}>
+        <div className={`grid gap-3 ${ids.length > 2 ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1"}`}>
           {ids.map((id) => {
             const { camera, t } = feedInfo(id);
             const spec = room.cameras[camera === "A" ? 0 : 1];
@@ -343,12 +344,12 @@ export default function App() {
         </div>
       </section>
 
-      <section className="flex flex-wrap items-center gap-4 rounded-lg border border-neutral-400/30 p-3 text-sm">
-        <label className="flex items-center gap-2">
-          <span className="opacity-70">Model</span>
+      <section className="grid grid-cols-2 items-end gap-2 rounded-lg border border-neutral-400/30 p-3 text-sm sm:flex sm:flex-wrap sm:items-center sm:gap-4">
+        <label className="flex min-w-0 flex-col items-stretch gap-0.5 sm:flex-row sm:items-center sm:gap-2">
+          <span className="text-xs opacity-70 sm:text-sm">Model</span>
           <select
             aria-label="Model"
-            className="rounded border border-neutral-400/40 bg-transparent px-2 py-1"
+            className="ctl w-full min-w-0 sm:w-auto"
             value={model}
             onChange={(e) => setModel(e.target.value as ModelId)}
             disabled={running}
@@ -360,11 +361,11 @@ export default function App() {
             ))}
           </select>
         </label>
-        <label className="flex items-center gap-2">
-          <span className="opacity-70">Reasoning</span>
+        <label className="flex min-w-0 flex-col items-stretch gap-0.5 sm:flex-row sm:items-center sm:gap-2">
+          <span className="text-xs opacity-70 sm:text-sm">Reasoning</span>
           <select
             aria-label="Reasoning"
-            className="rounded border border-neutral-400/40 bg-transparent px-2 py-1"
+            className="ctl w-full min-w-0 sm:w-auto"
             value={effort}
             onChange={(e) => setEffort(e.target.value as Effort)}
             disabled={running || !model.startsWith("gpt-5")}
@@ -374,7 +375,7 @@ export default function App() {
             <option value="high" className="text-black">high</option>
           </select>
         </label>
-        {status && <span className="ml-auto font-medium">{status}</span>}
+        {status && <span className="col-span-2 font-medium sm:ml-auto" role="status">{status}</span>}
       </section>
 
       {error && <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-3 text-sm text-red-300">{error}</div>}
@@ -406,25 +407,25 @@ export default function App() {
           <Comparison room={room} result={result} />
           {room.platform && <PlatformComparison room={room} result={result} />}
 
-          <details className="rounded-lg border border-neutral-400/30 p-3 text-sm">
-            <summary className="cursor-pointer font-medium">Model notes</summary>
-            <pre className="mt-2 whitespace-pre-wrap font-mono text-xs opacity-80">{result.notes}</pre>
+          <details className="panel">
+            <summary className="panel-summary">Model notes</summary>
+            <pre className="panel-body whitespace-pre-wrap font-mono text-xs opacity-80">{result.notes}</pre>
           </details>
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            <details className="rounded-lg border border-neutral-400/30 p-3 text-sm">
-              <summary className="cursor-pointer font-medium">Ground-truth JSON</summary>
-              <pre className="mt-2 overflow-x-auto font-mono text-xs opacity-80">{JSON.stringify(groundTruth(room), null, 2)}</pre>
+            <details className="panel">
+              <summary className="panel-summary">Ground-truth JSON</summary>
+              <pre className="panel-body max-h-96 overflow-auto font-mono text-xs opacity-80">{JSON.stringify(groundTruth(room), null, 2)}</pre>
             </details>
-            <details className="rounded-lg border border-neutral-400/30 p-3 text-sm">
-              <summary className="cursor-pointer font-medium">Model JSON</summary>
-              <pre className="mt-2 overflow-x-auto font-mono text-xs opacity-80">{JSON.stringify(result.guess, null, 2)}</pre>
+            <details className="panel">
+              <summary className="panel-summary">Model JSON</summary>
+              <pre className="panel-body max-h-96 overflow-auto font-mono text-xs opacity-80">{JSON.stringify(result.guess, null, 2)}</pre>
             </details>
           </div>
 
-          <details className="rounded-lg border border-neutral-400/30 p-3 text-sm">
-            <summary className="cursor-pointer font-medium">Render of the model&apos;s guess from the cameras (for you, not the model)</summary>
-            <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <details className="panel">
+            <summary className="panel-summary">Render of the model&apos;s guess from the cameras (for you, not the model)</summary>
+            <div className="panel-body grid grid-cols-1 gap-2 sm:grid-cols-2">
               {ids.map((id: FeedId) => (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img key={id} src={result.guessFeeds[id]} alt={`Guess from camera ${id}`} className="w-full rounded" />
@@ -437,9 +438,9 @@ export default function App() {
       {runsToShow.length > 0 && <CodeRuns runs={runsToShow} live={!result} sessionLog={result?.sessionLog ?? ""} />}
 
       {!result && (
-        <details className="rounded-lg border border-neutral-400/30 p-3 text-sm">
-          <summary className="cursor-pointer font-medium">Ground-truth JSON</summary>
-          <pre className="mt-2 overflow-x-auto font-mono text-xs opacity-80">{JSON.stringify(groundTruth(room), null, 2)}</pre>
+        <details className="panel">
+          <summary className="panel-summary">Ground-truth JSON</summary>
+          <pre className="panel-body max-h-96 overflow-auto font-mono text-xs opacity-80">{JSON.stringify(groundTruth(room), null, 2)}</pre>
         </details>
       )}
     </main>
@@ -448,11 +449,11 @@ export default function App() {
 
 function CodeRuns({ runs, live, sessionLog }: { runs: CodeRun[]; live: boolean; sessionLog: string }) {
   return (
-    <details className="rounded-lg border border-neutral-400/30 p-3 text-sm" open={live}>
-      <summary className="cursor-pointer font-medium">
+    <details className="panel" open={live}>
+      <summary className="panel-summary">
         Model&apos;s Python session ({runs.length} run{runs.length === 1 ? "" : "s"}){live ? " · live" : ""}
       </summary>
-      <div className="mt-2 flex flex-col gap-3">
+      <div className="panel-body flex flex-col gap-3">
         <p className="text-xs opacity-60">
           The code of every run, in order. The API does not return per-run output for background responses, so the full
           printed transcript of the session is shown below the code.
@@ -486,7 +487,7 @@ function Comparison({ room, result }: { room: Room; result: AnalysisResult }) {
   const { score, guess } = result;
   return (
     <div className="overflow-x-auto rounded-lg border border-neutral-400/30">
-      <table className="w-full text-left text-xs">
+      <table className="w-full min-w-[640px] text-left text-xs">
         <thead className="bg-neutral-500/10">
           <tr>
             <th className="px-2 py-1">Actual object</th>
@@ -506,10 +507,10 @@ function Comparison({ room, result }: { room: Room; result: AnalysisResult }) {
             const ok = (b?: boolean) => (b ? "text-emerald-400" : "text-red-400");
             return (
               <tr key={t.id} className="border-t border-neutral-400/20 font-mono">
-                <td className="px-2 py-1">
+                <td className="whitespace-nowrap px-2 py-1">
                   {t.color} {t.shape} {t.size} @ [{t.position.join(", ")}]
                 </td>
-                <td className="px-2 py-1">
+                <td className="whitespace-nowrap px-2 py-1">
                   {g ? `${g.color} ${g.shape} ${g.size} @ [${g.position.map((v) => +v.toFixed(3)).join(", ")}]` : <span className="text-red-400">missing</span>}
                 </td>
                 <td className={`px-2 py-1 ${ok(d.shapeOk)}`}>{d.matched ? (d.shapeOk ? "✓" : "✗") : "–"}</td>
@@ -543,7 +544,7 @@ function PlatformComparison({ room, result }: { room: Room; result: AnalysisResu
   const fmt = (v: readonly number[]) => `[${v.map((x) => +x.toFixed(3)).join(", ")}]`;
   return (
     <div className="overflow-x-auto rounded-lg border border-neutral-400/30">
-      <table className="w-full text-left text-xs">
+      <table className="w-full min-w-[560px] text-left text-xs">
         <thead className="bg-neutral-500/10">
           <tr>
             <th className="px-2 py-1">Platform</th>
@@ -552,7 +553,7 @@ function PlatformComparison({ room, result }: { room: Room; result: AnalysisResu
             <th className="px-2 py-1">Error</th>
           </tr>
         </thead>
-        <tbody className="font-mono">
+        <tbody className="whitespace-nowrap font-mono">
           <tr className="border-t border-neutral-400/20">
             <td className="px-2 py-1">position</td>
             <td className="px-2 py-1">{fmt(t.position)}</td>

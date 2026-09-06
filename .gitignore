@@ -48,3 +48,4 @@ src/lib/sandbox/session_log.txt
 
 # rooms rendered for offline helper tests (scripts/render-rooms.mjs)
 bench/rooms/
+bench/mobile/
