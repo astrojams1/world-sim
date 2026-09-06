@@ -137,33 +137,22 @@ export default function JsonDiff({ room, guess, score }: { room: Room; guess: Gu
   });
   push([[{ text: "  ]" }], [{ text: "}" }]], [[{ text: "  ]" }], [{ text: "}" }]]);
 
-  const column = (lines: Line[], title: string) => (
-    <div className="min-w-0">
-      <div className="mb-1 text-xs font-medium opacity-70">{title}</div>
-      <pre className="max-h-[32rem] overflow-auto rounded border border-neutral-400/20 px-2 py-1 font-mono text-xs leading-5">
-        {lines.map((line, i) => (
-          <div key={i} className={line.length === 1 && line[0].text === "" ? "h-5" : ""}>
-            {line.map((tok, k) => (
-              <span key={k} className={tok.tone ? TONE[tok.tone] : ""}>
-                {tok.text}
-              </span>
-            ))}
-          </div>
-        ))}
-      </pre>
+  // one scrolling container, one grid row per line pair: the two columns cannot scroll apart
+  const cell = (line: Line, key: string) => (
+    <div key={key} className={`whitespace-pre ${line.length === 1 && line[0].text === "" ? "h-5" : ""}`}>
+      {line.map((tok, k) => (
+        <span key={k} className={tok.tone ? TONE[tok.tone] : ""}>
+          {tok.text}
+        </span>
+      ))}
     </div>
   );
-
   return (
-    <div>
-      <div className="mb-2 flex flex-wrap gap-3 text-xs opacity-70">
-        <span>Objects are listed in the truth&apos;s order with the model&apos;s matched object beside each; the model&apos;s answer is shown in the truth&apos;s room frame.</span>
-        <span className={TONE.ok}>green: within tolerance</span>
-        <span className={TONE.bad}>red: differs</span>
-      </div>
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-        {column(left, "Ground truth")}
-        {column(right, `Model (frame ${score.symmetry})`)}
+    <div className="max-h-[32rem] overflow-auto rounded border border-neutral-400/20">
+      <div className="grid min-w-[640px] grid-cols-2 gap-x-4 px-2 py-1 font-mono text-xs leading-5">
+        <div className="mb-1 font-sans font-medium opacity-70">Ground truth</div>
+        <div className="mb-1 font-sans font-medium opacity-70">Model</div>
+        {left.map((line, i) => [cell(line, `l${i}`), cell(right[i], `r${i}`)])}
       </div>
     </div>
   );

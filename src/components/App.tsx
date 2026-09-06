@@ -310,16 +310,6 @@ export default function App() {
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div className="relative h-[85vw] max-h-[420px] min-h-[240px] overflow-hidden rounded-lg border border-neutral-400/30 bg-neutral-900 lg:col-span-2 lg:h-auto lg:max-h-none lg:self-stretch">
           <RoomViewer room={room} guess={guessContent} />
-          {room.platform && (
-            <div className="pointer-events-none absolute left-2 top-2 z-10 rounded bg-black/50 px-2 py-1 text-xs text-white/80">
-              motion loop: snapshot 1 → snapshot 2 ({SNAPSHOT_INTERVAL} s)
-            </div>
-          )}
-          {result && (
-            <div className="pointer-events-none absolute right-2 top-2 z-10 rounded bg-black/50 px-2 py-1 text-xs text-white/80">
-              drag the divider: truth on its left, the model&apos;s guess on its right
-            </div>
-          )}
         </div>
         <div className={`grid gap-3 ${ids.length > 2 ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1"}`}>
           {ids.map((id) => {

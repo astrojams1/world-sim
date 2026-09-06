@@ -210,42 +210,38 @@ export default function RoomViewer({ room, guess }: Props) {
     <div className="relative h-full w-full">
       <div ref={mountRef} className="h-full w-full" />
       {hasGuess && (
-        <>
-          <div
-            className="absolute inset-y-0 z-10 w-0 cursor-col-resize touch-none"
-            style={{ left: `${split * 100}%` }}
-            onPointerDown={(e) => {
-              dragging.current = true;
-              e.currentTarget.setPointerCapture(e.pointerId);
-              setFromClientX(e.clientX);
-            }}
-            onPointerMove={(e) => dragging.current && setFromClientX(e.clientX)}
-            onPointerUp={(e) => {
-              dragging.current = false;
-              e.currentTarget.releasePointerCapture(e.pointerId);
-            }}
-            onPointerCancel={() => {
-              dragging.current = false;
-            }}
-            aria-hidden
-          >
-            <div className="absolute inset-y-0 -left-px w-0.5 bg-white/90" />
-            <div className="absolute -left-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/60 text-lg leading-none text-white shadow">
-              ◂▸
-            </div>
-            <div className="absolute -left-14 top-10 rounded bg-black/60 px-1.5 py-0.5 text-xs text-white/90">truth</div>
-            <div className="absolute left-2 top-10 rounded bg-black/60 px-1.5 py-0.5 text-xs text-amber-200">guess</div>
-          </div>
-          <input
-            type="range"
-            aria-label="Truth versus guess divider"
-            min={0}
-            max={1000}
-            value={Math.round(split * 1000)}
-            onChange={(e) => setSplit(Number(e.target.value) / 1000)}
-            className="absolute inset-x-3 bottom-1 z-10 h-10 w-auto accent-white opacity-80 text-base"
-          />
-        </>
+        // the divider: a hairline with a wide invisible grip; drag it, or focus it and use the arrow keys
+        <div
+          role="slider"
+          aria-label="Truth versus guess divider"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(split * 100)}
+          tabIndex={0}
+          className="absolute inset-y-0 z-10 w-6 -translate-x-1/2 cursor-col-resize touch-none outline-none focus-visible:bg-white/10"
+          style={{ left: `${split * 100}%` }}
+          onPointerDown={(e) => {
+            dragging.current = true;
+            e.currentTarget.setPointerCapture(e.pointerId);
+            setFromClientX(e.clientX);
+          }}
+          onPointerMove={(e) => dragging.current && setFromClientX(e.clientX)}
+          onPointerUp={(e) => {
+            dragging.current = false;
+            e.currentTarget.releasePointerCapture(e.pointerId);
+          }}
+          onPointerCancel={() => {
+            dragging.current = false;
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowLeft") setSplit((s) => Math.max(0, s - 0.02));
+            if (e.key === "ArrowRight") setSplit((s) => Math.min(1, s + 0.02));
+          }}
+        >
+          <div className="absolute inset-y-0 left-1/2 w-px bg-white/80" />
+          <div className="absolute right-full top-2 mr-2 text-xs text-white/80">truth</div>
+          <div className="absolute left-full top-2 ml-2 text-xs text-amber-200">guess</div>
+        </div>
       )}
     </div>
   );
