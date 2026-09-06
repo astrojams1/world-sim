@@ -1,4 +1,4 @@
-import { GRID, PLATFORM_MAX_OBJECTS, PLATFORM_MAX_TILT, PLATFORM_SIZE, PLATFORM_SPEED, SIZES, SNAPSHOT_INTERVAL } from "./room";
+import { GRID, PLATFORM_MAX_OBJECTS, PLATFORM_MAX_TILT, PLATFORM_OFFSET, PLATFORM_SPEED, SIZES, SNAPSHOT_INTERVAL } from "./room";
 import type { Mode } from "./types";
 
 /**
@@ -11,7 +11,7 @@ import type { Mode } from "./types";
  * the images: it finds the room's outline, solves each camera's pose and focal length from the known unit cube,
  * triangulates objects, and renders/compares hypotheses so the model can run its guess -> check -> re-guess loop
  * inside one response. In platform mode the same tools run under a "resting on the platform" constraint, the
- * platform itself is fitted to its green silhouette, and the second snapshots give the velocity.
+ * plane is fitted to its green silhouette, and the objects' motion between the snapshots gives the velocity.
  */
 
 export const SANDBOX_FILES = {
@@ -126,18 +126,18 @@ Return JSON with exactly these keys:
 }
 
 function platformPrompt(): string {
-  const [L, T, W] = PLATFORM_SIZE;
   return `You are a precise 3D scene-reconstruction system. You receive four photographs of a room: two cameras at unknown viewpoints each took two snapshots, ${SNAPSHOT_INTERVAL} s apart, of a moving platform carrying objects. You must reconstruct the exact scene description at the FIRST snapshot as JSON: the platform's position, orientation and velocity, and every object. You are scored on exact agreement with the ground truth, so precision matters more than speed. You have a Python sandbox; use it to measure, to calibrate the cameras, to render your hypothesis, and to compare it against the photographs. Never guess a number you could measure.
 
 ## What you know (and nothing more)
 ${commonRules()}
 - The two cameras do not move between their snapshots. Both cameras shot their first snapshot at the same instant (images 1 and 2: camera A, camera B) and their second snapshot exactly ${SNAPSHOT_INTERVAL} s later (images 3 and 4: camera A, camera B).
-- The platform is a rigid rectangular slab, pure green, of fixed size: ${L} long, ${W} wide and ${T} thick. Its long axis is its direction of motion. It moves at a constant velocity of ${PLATFORM_SPEED[0]}-${PLATFORM_SPEED[1]} units per second along that axis (either way), so between the snapshots the platform and everything on it move by the same displacement (velocity x ${SNAPSHOT_INTERVAL} s). It can have any orientation: its top face is tilted up to ${PLATFORM_MAX_TILT} degrees from horizontal and its long axis points anywhere in its plane. The room's surfaces are never green.
-- It carries between 2 and ${PLATFORM_MAX_OBJECTS} objects, all resting on its top face: gravity acts perpendicular to the platform, so a sphere touches the face and a cube sits flat on one of its own faces (its only freedom is a yaw about the platform's normal). Objects never overlap or touch each other and never overhang the platform's edge. Nothing else is in the room.
-- "position" is an object's centre [x, y, z] at the first snapshot, in room coordinates (not on any grid). The platform's "position" is the centre of the slab at the first snapshot, "normal" the unit normal of its top face (pointing from the slab toward the objects), "velocity" its velocity vector in room units per second.
+- The platform is an infinite, flat, featureless, pure-green plane: inside the room it fills the whole cross-section where it crosses the room, meeting the walls. Its orientation and position are unknown: it is tilted at most ${PLATFORM_MAX_TILT} degrees from horizontal and passes within ${PLATFORM_OFFSET} of the room's centre. The room's surfaces are never green.
+- The platform moves at a constant velocity of ${PLATFORM_SPEED[0]}-${PLATFORM_SPEED[1]} units per second in some direction within its own plane (perpendicular to its normal). Being featureless, the plane itself looks identical in both snapshots: its motion is visible ONLY through the objects, which ride on it and all move by the same displacement (velocity x ${SNAPSHOT_INTERVAL} s) between the snapshots.
+- It carries between 2 and ${PLATFORM_MAX_OBJECTS} objects, all resting on its top side: gravity acts perpendicular to the platform, so a sphere touches the plane and a cube sits flat on one of its own faces (its only freedom is a yaw about the platform's normal). Objects never overlap or touch each other. Nothing else is in the room.
+- "position" is an object's centre [x, y, z] at the first snapshot, in room coordinates (not on any grid). The platform's "position" is the point of the plane closest to the room's centre (an infinite plane has no other location), "normal" the unit normal of its top side (pointing from the plane toward the objects), "velocity" its velocity vector in room units per second.
 
 ## What the photographs look like
-The cameras are outside the room, so each image shows the room as an open box against a black background: the interior faces facing the camera are drawn, the near faces are not. The outline of the room is a hexagon whose vertices are corners of the cube; the room's own corners are what the sandbox uses to calibrate each camera. The green platform and the red/blue objects on it are the only things inside.
+The cameras are outside the room, so each image shows the room as an open box against a black background: the interior faces facing the camera are drawn, the near faces are not. The outline of the room is a hexagon whose vertices are corners of the cube; the room's own corners are what the sandbox uses to calibrate each camera. The green plane cuts across the room; the red/blue objects on it are the only other things inside.
 
 ## The sandbox
 It contains camera_A.jpg, camera_B.jpg (first snapshot), camera_A2.jpg, camera_B2.jpg (second snapshot) and the helper module worldsim.py. Start EVERY session with exactly this bootstrap, as the first lines of your first cell:
@@ -146,19 +146,19 @@ It contains camera_A.jpg, camera_B.jpg (first snapshot), camera_A2.jpg, camera_B
 ${BOOTSTRAP_SNIPPET}
 \`\`\`
 ${commonSandbox()}
-- ws.solve_platform(shapes=None) -> runs the whole pipeline in one call and prints everything; returns {pose_a, pose_b, platform, objects, report}. It calibrates both cameras from the room outline, aligns their frames, fits the platform to its green silhouette in both first-snapshot images, detects and pairs the object blobs, builds a hypothesis in which every object rests on the platform, explains unpaired blobs (AUTO-ADDED), decides sphere vs cube from the silhouettes, refines positions/sizes/yaws, measures the displacement between the snapshots (hence the velocity), prints a compare report and the answer JSON under a banner.
-- ws.finish_platform(objects, platform, poseA, poseB) -> refine, verify, print the answer JSON (objects stay on the platform; the platform and velocity are kept).
-- ws.platform_info(platform) -> prints the platform's centre, normal, long axis, velocity and its four top corners projected into each camera, to check against the images.
+- ws.solve_platform(shapes=None) -> runs the whole pipeline in one call and prints everything; returns {pose_a, pose_b, platform, objects, report}. It calibrates both cameras from the room outline, aligns their frames, fits the plane to its green silhouette in both first-snapshot images, detects and pairs the object blobs, builds a hypothesis in which every object rests on the plane, explains unpaired blobs (AUTO-ADDED), decides sphere vs cube from the silhouettes, refines positions/sizes/yaws, measures the objects' common displacement between the snapshots (hence the velocity), prints a compare report and the answer JSON under a banner.
+- ws.finish_platform(objects, platform, poseA, poseB) -> refine, verify, re-measure the velocity, print the answer JSON (objects stay on the plane).
+- ws.platform_info(platform) -> prints the plane's position, normal and velocity and the outline of its cross-section with the room in each camera, to check against the images.
 Lower-level tools, for reconciling (they all respect the platform constraint once solve_platform has run):
 ${commonLowLevelApi()}
-- ws.to_json(objects, platform) -> final formatting (legal sizes, objects snapped onto the platform, cube rotations as fitted, null for spheres).
+- ws.to_json(objects, platform) -> final formatting (legal sizes, objects snapped onto the plane, cube rotations as fitted, null for spheres).
 
 ## Method (follow it in order; one code cell is the normal case, at most 6 in total)
 1. LOOK at all four images (attached to this message and in the sandbox). Count the objects on the platform; note the colour of each and whether two same-colour objects touch or overlap in any view. Objects may hide one another in one view: reconcile the count across the views (the second snapshots show the same objects, moved). Colour and count are what your eyes are for; shape is decided by silhouettes (step 3).
 2. SOLVE in ONE cell: the bootstrap, then r = ws.solve_platform(); objects, platform = r["objects"], r["platform"]; poseA, poseB = r["pose_a"], r["pose_b"]. Read the whole printout. If the banner says FINAL ANSWER and the object count and colours match your inventory from step 1, you are done: go straight to step 5 without running another cell.
 3. RECONCILE the printout with your inventory, touching only what your eyes can judge better than the silhouettes:
 ${reconcileRules()}
-   - Never edit the platform or the velocity by hand; they are measured from the green silhouette and the second snapshots.
+   - Never edit the platform or the velocity by hand; they are measured from the green silhouette and from the objects' motion between the snapshots.
 4. FINISH (only if you changed something in step 3, or the banner was not FINAL): objects = ws.finish_platform(objects, platform, poseA, poseB) in the same cell as your changes. It refines, re-verifies and prints the answer JSON under a banner. If the banner says FINAL ANSWER, you are done: running any further cell is an error. If it says one open issue remains, fix exactly that one thing in ONE cell, call finish_platform once more, and stop whatever it says. Do not iterate for IoU. Never write brute-force searches.
 5. OUTPUT the JSON printed under the last banner, verbatim: same platform, same objects, same numbers. Do not round, reorder or "correct" anything by hand.
 

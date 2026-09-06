@@ -52,9 +52,10 @@ benchmark stops improving or the user stops you.
 
 ### Mode 2 (moving platform)
 
-- The app's second mode (`--mode platform` on the bench, the "Mode" select on the page) puts the objects on a green
-  moving platform and sends four images; the model must also return the platform's position, normal and velocity.
-  Its rules are fixed constants of the generator (`PLATFORM_SIZE`, tilt range, speed range, `SNAPSHOT_INTERVAL`)
+- The app's second mode (`--mode platform` on the bench, the "Mode" select on the page) puts the objects on an
+  infinite featureless green plane that moves within itself and sends four images; the model must also return the
+  plane's position, normal and velocity (readable only from the objects' motion). Its rules are fixed constants of
+  the generator (tilt range, `PLATFORM_OFFSET`, speed range, `SNAPSHOT_INTERVAL`)
   and may be stated in the prompt; nothing per room may be. The same seeds `101..110` are the benchmark and
   `201..210` the held-out set (rooms differ from the static ones because the platform draw comes first).
 - Helper work for mode 2 must leave mode 1 bit-identical: the static pipeline's output on the paper's rendered

@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { addContent, buildRoomScene, makeCamera, roomContent, type SceneContent } from "@/lib/scene";
-import { PLATFORM_SIZE, SNAPSHOT_INTERVAL } from "@/lib/room";
+import { SNAPSHOT_INTERVAL } from "@/lib/room";
 import type { Platform, Room } from "@/lib/types";
 
 interface Props {
@@ -31,11 +31,11 @@ function makeLabel(text: string, color: string): THREE.Sprite {
   return sprite;
 }
 
-/** An arrow from the platform's centre showing where it will be at the second snapshot. */
+/** An arrow on the platform showing how far everything on it moves by the second snapshot. */
 function velocityArrow(platform: Platform, color: number): THREE.ArrowHelper {
   const v = new THREE.Vector3(...platform.velocity);
   const len = v.length() * SNAPSHOT_INTERVAL;
-  const origin = new THREE.Vector3(...platform.position).addScaledVector(new THREE.Vector3(...platform.normal), PLATFORM_SIZE[1]);
+  const origin = new THREE.Vector3(...platform.position).addScaledVector(new THREE.Vector3(...platform.normal), 0.01);
   return new THREE.ArrowHelper(v.normalize(), origin, Math.max(len, 0.02), color, 0.03, 0.02);
 }
 
@@ -50,6 +50,7 @@ export default function RoomViewer({ room, guess, showTruth = true }: Props) {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.localClippingEnabled = true; // the platform plane is clipped to the room
     mount.appendChild(renderer.domElement);
 
     const scene = buildRoomScene(room);

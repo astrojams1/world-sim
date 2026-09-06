@@ -15,12 +15,12 @@ export const ASPECT = FEED_WIDTH / FEED_HEIGHT;
 export const OBJECT_HEX: Record<ObjColor, string> = { red: "#d62828", blue: "#1f5fd6" };
 
 // ----------------------------------------------------------------------------- platform mode constants
-/** Slab dimensions [along its long axis (the direction of motion), along its normal (thickness), across]. */
-export const PLATFORM_SIZE: Vec3 = [0.6, 0.02, 0.4];
 /** The platform is pure green (room surfaces are never red, blue or green in platform mode). */
 export const PLATFORM_HEX = "#12b812";
-/** Largest tilt of the platform's top face from horizontal, degrees. */
+/** Largest tilt of the platform from horizontal, degrees. */
 export const PLATFORM_MAX_TILT = 40;
+/** The plane passes within this distance of the room's centre (along its normal). */
+export const PLATFORM_OFFSET = 0.25;
 /** Speed range, room units per second. */
 export const PLATFORM_SPEED: [number, number] = [0.1, 0.3];
 /** Seconds between the two snapshots each camera takes. */
@@ -141,8 +141,9 @@ function drawStaticObjects(rng: Rng, count: number, maxAttempts: number): RoomOb
 }
 
 /**
- * The platform's orthonormal frame: d = direction of motion (long axis), n = top-face normal, e = d x n (across).
- * As a rotation matrix (columns d, n, e) it maps the slab's local axes (x long, y up, z across) to the room.
+ * An orthonormal frame on the platform: n = the normal (objects rest on the +n side), d = the direction of motion
+ * (unit velocity), e = d x n. As a rotation matrix (columns d, n, e) it maps a local frame (x along the motion,
+ * y up, z across) to the room; a cube resting on the platform has this rotation times a yaw about y.
  */
 export function platformFrame(p: Platform) {
   const n = normalize(p.normal);
@@ -158,16 +159,13 @@ export function boxCorners(c: Vec3, R: ReturnType<typeof fromColumns>, size: Vec
   return out;
 }
 
-/** Room-axis extents ([min, max] per axis) of the platform assembly (slab + objects) at the first snapshot. */
-function assemblyExtents(platform: Platform, objects: RoomObject[]): [Vec3, Vec3] {
-  const { matrix } = platformFrame(platform);
-  const pts: Vec3[] = boxCorners(platform.position, matrix, PLATFORM_SIZE);
-  for (const o of objects) {
-    if (o.shape === "sphere") {
-      const h = o.size / 2;
-      pts.push(add(o.position, [h, h, h]), add(o.position, [-h, -h, -h]));
-    } else pts.push(...boxCorners(o.position, eulerToMatrix(o.rotation!), [o.size, o.size, o.size]));
-  }
+/** Room-axis extents ([min, max] per axis) of an object's bounding volume. */
+function objectExtents(o: RoomObject): [Vec3, Vec3] {
+  const pts: Vec3[] = [];
+  if (o.shape === "sphere") {
+    const h = o.size / 2;
+    pts.push(add(o.position, [h, h, h]), add(o.position, [-h, -h, -h]));
+  } else pts.push(...boxCorners(o.position, eulerToMatrix(o.rotation!), [o.size, o.size, o.size]));
   const lo: Vec3 = [Infinity, Infinity, Infinity];
   const hi: Vec3 = [-Infinity, -Infinity, -Infinity];
   for (const p of pts) for (let k = 0; k < 3; k++) {
@@ -178,17 +176,17 @@ function assemblyExtents(platform: Platform, objects: RoomObject[]): [Vec3, Vec3
 }
 
 /**
- * Platform mode: a rigid slab of PLATFORM_SIZE at a random orientation (top face tilted at most PLATFORM_MAX_TILT
- * from horizontal, long axis pointing anywhere in that plane), moving at a constant speed along its long axis.
- * Objects rest on the top face (spheres touch it; cubes sit on a face with a random yaw about the normal) on a
- * 0.05 grid of the slab's own coordinates, never touching each other or overhanging the edge. The whole assembly
- * stays at least 0.05 from every wall at both snapshots. Positions and rotations are reported in room coordinates
- * at the first snapshot.
+ * Platform mode: an infinite plane at a random orientation (tilted at most PLATFORM_MAX_TILT from horizontal),
+ * passing within PLATFORM_OFFSET of the room's centre, moving at a constant speed in a random direction within
+ * itself. Objects rest on its top side (spheres touch it; cubes sit on a face with a random yaw about the normal)
+ * on a 0.05 grid of the plane's own coordinates, never touching each other, and stay at least 0.05 from every
+ * wall at both snapshots. Positions and rotations are reported in room coordinates at the first snapshot; the
+ * plane's position is its point closest to the room's centre.
  */
 function drawPlatformAssembly(rng: Rng, count: number): { platform: Platform; objects: RoomObject[] } {
-  const [L, T, W] = PLATFORM_SIZE;
+  const centre: Vec3 = [0.5, 0.5, 0.5];
   for (let attempt = 0; attempt < 2000; attempt++) {
-    // orientation: normal from tilt + azimuth, long axis at a random angle in the plane
+    // orientation: normal from tilt + azimuth; the motion at a random angle in the plane
     const tilt = (rng.range(0, PLATFORM_MAX_TILT) * Math.PI) / 180;
     const az = rng.range(0, Math.PI * 2);
     const n: Vec3 = normalize([Math.sin(tilt) * Math.cos(az), Math.cos(tilt), Math.sin(tilt) * Math.sin(az)]);
@@ -198,33 +196,26 @@ function drawPlatformAssembly(rng: Rng, count: number): { platform: Platform; ob
     const d = normalize(add(scale(u1, Math.cos(phi)), scale(u2, Math.sin(phi))));
     const speed = rng.range(PLATFORM_SPEED[0], PLATFORM_SPEED[1]);
     const velocity = round3(scale(d, speed));
-    // objects in slab coordinates (a along d, b along e), centre at the origin for now
-    const base: Platform = { position: [0, 0, 0], normal: round3(n), velocity };
-    const { d: dd, n: nn, e, matrix } = platformFrame(base);
+    const offset = rng.range(-PLATFORM_OFFSET, PLATFORM_OFFSET);
+    const platform: Platform = { position: round3(add(centre, scale(n, offset))), normal: round3(n), velocity };
+    const { d: dd, n: nn, e, matrix } = platformFrame(platform);
+    const disp = scale(velocity, SNAPSHOT_INTERVAL);
     const local: Array<{ a: number; b: number; r: number }> = [];
     const objects: RoomObject[] = [];
     let tries = 0;
-    while (objects.length < count && tries < 300) {
+    while (objects.length < count && tries < 400) {
       tries++;
       const size = rng.pick(SIZES);
       const shape = rng.pick(["sphere", "cube"] as const) as Shape;
       const color = rng.pick(["red", "blue"] as const) as ObjColor;
       const yaw = shape === "cube" ? rng.range(0, Math.PI * 2) : 0;
       const h = size / 2;
-      // in-plane half extents of the footprint along d and e (a yawed cube reaches h(|cos|+|sin|))
-      const ea = shape === "cube" ? h * (Math.abs(Math.cos(yaw)) + Math.abs(Math.sin(yaw))) : h;
-      const eb = ea;
       const r = shape === "cube" ? h * Math.SQRT2 : h; // circumradius of the footprint
-      const aMax = L / 2 - ea - 0.02;
-      const bMax = W / 2 - eb - 0.02;
-      if (aMax < 0 || bMax < 0) continue;
-      const a = round(rng.range(-aMax, aMax));
-      const b = round(rng.range(-bMax, bMax));
-      if (Math.abs(a) > aMax + 1e-9 || Math.abs(b) > bMax + 1e-9) continue;
+      const a = round(rng.range(-0.6, 0.6));
+      const b = round(rng.range(-0.6, 0.6));
       if (local.some((o) => Math.hypot(o.a - a, o.b - b) < o.r + r + 0.04)) continue;
-      local.push({ a, b, r });
-      const centre = add(add(scale(dd, a), scale(e, b)), scale(nn, T / 2 + h));
-      const obj: RoomObject = { id: objects.length + 1, shape, color, size, position: centre };
+      const position = round3(add(add(add(platform.position, scale(dd, a)), scale(e, b)), scale(nn, h)));
+      const obj: RoomObject = { id: objects.length + 1, shape, color, size, position };
       if (shape === "cube") {
         const cy = Math.cos(yaw), sy = Math.sin(yaw);
         const Ry: ReturnType<typeof fromColumns> = [
@@ -232,27 +223,17 @@ function drawPlatformAssembly(rng: Rng, count: number): { platform: Platform; ob
           [0, 1, 0],
           [-sy, 0, cy],
         ];
-        obj.rotation = matrixToEuler(matMul(matrix, Ry));
+        obj.rotation = round3(matrixToEuler(matMul(matrix, Ry)));
       }
+      // inside the room with a 0.05 margin at both snapshots
+      const [lo, hi] = objectExtents(obj);
+      const inside = [0, 1, 2].every((k) => Math.min(lo[k], lo[k] + disp[k]) >= 0.05 && Math.max(hi[k], hi[k] + disp[k]) <= 0.95);
+      if (!inside) continue;
+      local.push({ a, b, r });
       objects.push(obj);
     }
     if (objects.length < count) continue;
-    // fit the assembly (at both snapshots) inside the room with a 0.05 margin; choose the centre uniformly
-    const [lo, hi] = assemblyExtents(base, objects);
-    const disp = scale(velocity, SNAPSHOT_INTERVAL);
-    const range: Array<[number, number]> = [0, 1, 2].map((k) => [
-      0.05 - Math.min(lo[k], lo[k] + disp[k]) + 0.001,
-      0.95 - Math.max(hi[k], hi[k] + disp[k]) - 0.001,
-    ]);
-    if (range.some(([a, b]) => a > b)) continue;
-    const centre = round3([rng.range(...range[0]), rng.range(...range[1]), rng.range(...range[2])]);
-    const platform: Platform = { position: centre, normal: base.normal, velocity };
-    const placed = objects.map((o) => ({
-      ...o,
-      position: round3(add(o.position, centre)),
-      ...(o.rotation ? { rotation: round3(o.rotation) } : {}),
-    }));
-    return { platform, objects: placed };
+    return { platform, objects };
   }
   throw new Error("could not place the platform assembly inside the room");
 }
@@ -339,8 +320,18 @@ export function positionAt(position: Vec3, platform: Platform | undefined, t: nu
   return platform && t ? add(position, scale(platform.velocity, t)) : position;
 }
 
-/** Signed distance of a point above the platform's top face (used by the viewer and tests). */
+/** Signed distance of a point above the platform's plane (positive on the objects' side). */
 export function heightAbove(p: Vec3, platform: Platform) {
   const { n } = platformFrame(platform);
-  return dot(n, [p[0] - platform.position[0], p[1] - platform.position[1], p[2] - platform.position[2]]) - PLATFORM_SIZE[1] / 2;
+  return dot(n, [p[0] - platform.position[0], p[1] - platform.position[1], p[2] - platform.position[2]]);
 }
+
+/** The room's six clipping planes (for drawing the infinite platform only inside the room). */
+export const ROOM_BOUNDS: Array<{ normal: Vec3; constant: number }> = [
+  { normal: [1, 0, 0], constant: 0 },
+  { normal: [-1, 0, 0], constant: ROOM_SIZE },
+  { normal: [0, 1, 0], constant: 0 },
+  { normal: [0, -1, 0], constant: ROOM_SIZE },
+  { normal: [0, 0, 1], constant: 0 },
+  { normal: [0, 0, -1], constant: ROOM_SIZE },
+];

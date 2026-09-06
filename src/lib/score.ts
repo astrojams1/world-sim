@@ -1,6 +1,6 @@
 import type { Guess, Room, Score, ScoreObjectDetail, ScorePlatformDetail, Vec3 } from "./types";
 import { SNAPSHOT_INTERVAL } from "./room";
-import { angleDeg, det, eulerToMatrix, length, matMul, matVec, sub, transpose, type Mat3 } from "./vec";
+import { angleDeg, det, dot, eulerToMatrix, length, matMul, matVec, normalize, sub, transpose, type Mat3 } from "./vec";
 
 export { eulerToMatrix };
 
@@ -11,7 +11,7 @@ export const ORI_TOL = 10; // degrees
 const POS_ZERO = 0.35; // position error at which position credit reaches 0
 const ORI_ZERO = 45; // orientation error (degrees) at which orientation credit reaches 0
 
-// Platform mode: the platform's own credit (position, top-face normal, velocity), and its share of the total.
+// Platform mode: the platform's own credit (plane offset, normal, velocity), and its share of the total.
 export const PLATFORM_SHARE = 0.3;
 export const NORMAL_TOL = 5; // degrees
 const NORMAL_ZERO = 30;
@@ -197,7 +197,9 @@ function isVec3(v: unknown): v is Vec3 {
 /** Platform credit (0..1) and its errors; a missing guess gets no credit. */
 function scorePlatform(truth: NonNullable<Room["platform"]>, guess: Guess["platform"] | undefined, interval: number): ScorePlatformDetail {
   if (!guess) return { present: false, points: 0 };
-  const positionError = dist(truth.position, guess.position);
+  // an infinite plane's only observable location is its offset along its normal
+  const nt = normalize(truth.normal);
+  const positionError = Math.abs(dot(nt, sub(guess.position, truth.position)));
   const normalError = angleDeg(truth.normal, guess.normal);
   const velocityError = length(sub(truth.velocity, guess.velocity));
   const posPts = positionError <= POS_TOL ? 1 : Math.max(0, 1 - (positionError - POS_TOL) / POS_ZERO);

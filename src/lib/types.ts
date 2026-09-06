@@ -25,10 +25,11 @@ export interface RoomObject {
 }
 
 /**
- * The moving platform of platform mode: a rigid slab of fixed dimensions (PLATFORM_SIZE) whose long axis is its
- * direction of motion. `position` is the slab's centre at the first snapshot, `normal` the unit normal of its top
- * face (the objects rest on that face; gravity acts along -normal), `velocity` the constant velocity in room
- * units per second (in the slab's plane, along its long axis).
+ * The moving platform of platform mode: an infinite, featureless, pure-green plane that fills the room where it
+ * crosses it. `normal` is the unit normal of the side the objects rest on (gravity acts along -normal),
+ * `position` the point of the plane closest to the room's centre (the plane's only observable location), and
+ * `velocity` the plane's constant velocity in room units per second, in some direction within the plane. The
+ * plane itself looks the same at both snapshots: its motion shows only through the objects riding on it.
  */
 export interface Platform {
   position: Vec3;
@@ -103,6 +104,7 @@ export interface ScoreObjectDetail {
 export interface ScorePlatformDetail {
   /** False when the guess carried no platform (all platform credit lost). */
   present: boolean;
+  /** Offset of the guessed plane from the true plane along the true normal (in-plane position is unobservable). */
   positionError?: number;
   /** Degrees between the guessed and true top-face normals. */
   normalError?: number;

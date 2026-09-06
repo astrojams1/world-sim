@@ -211,7 +211,7 @@ export default function App() {
           <h1 className="text-2xl font-semibold">World Sim</h1>
           <p className="text-sm opacity-70">
             {room.mode === "platform"
-              ? `Mode 2, moving platform: red and blue spheres and cubes ride a green conveyor platform of any orientation through a 1×1×1 room; each camera takes two snapshots ${SNAPSHOT_INTERVAL} s apart and the model gets only the four images. It must return the platform's position, normal and velocity and every object at the first snapshot.`
+              ? `Mode 2, moving platform: red and blue spheres and cubes ride a featureless green plane of any orientation through a 1×1×1 room; each camera takes two snapshots ${SNAPSHOT_INTERVAL} s apart and the model gets only the four images. It must return the plane's position, normal and velocity (visible only through the objects' motion) and every object at the first snapshot.`
               : "Mode 1, static room: can a cheap vision LLM rebuild a 3D room from two camera feeds? Red and blue spheres and cubes float in a 1×1×1 room; the model gets only the two images and must return the exact JSON."}
           </p>
         </div>
@@ -555,7 +555,7 @@ function PlatformComparison({ room, result }: { room: Room; result: AnalysisResu
         </thead>
         <tbody className="whitespace-nowrap font-mono">
           <tr className="border-t border-neutral-400/20">
-            <td className="px-2 py-1">position</td>
+            <td className="px-2 py-1">position (plane offset err)</td>
             <td className="px-2 py-1">{fmt(t.position)}</td>
             <td className="px-2 py-1">{g ? fmt(g.position) : <span className="text-red-400">missing</span>}</td>
             <td className="px-2 py-1">{p?.positionError !== undefined ? p.positionError.toFixed(3) : "–"}</td>

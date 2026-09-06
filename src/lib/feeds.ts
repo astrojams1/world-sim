@@ -13,6 +13,7 @@ function getRenderer(): THREE.WebGLRenderer {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.localClippingEnabled = true; // the platform plane is clipped to the room
   }
   return renderer;
 }

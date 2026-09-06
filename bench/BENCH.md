@@ -32,24 +32,31 @@ generator's maximum). The default benchmark above (2-5 objects per seed) is unch
 
 ## Mode 2 (moving platform)
 
-Same seeds, `--mode platform` (rooms differ from the static ones: a green 0.6 x 0.4 x 0.02 platform of any orientation
-carrying 2-4 objects, moving at 0.1-0.3 units/s along its long axis; four images per room; the answer includes the
-platform's position, normal and velocity, scored as 30% of the total, see README). The record rule and the
-confirmation rule are the same as for mode 1; the held-out set is the platform rooms of seeds 201-210. Mode-2 work
-must leave the mode-1 helper output bit-identical on the paper's rendered static rooms (checked with
-`scripts/run-offline.py`).
+Same seeds, `--mode platform` (rooms differ from the static ones: an infinite, featureless green plane of any
+orientation (tilt <= 40 degrees, passing within 0.25 of the room centre) carrying 2-4 objects, moving at 0.1-0.3
+units/s in some direction within itself; four images per room; the answer includes the plane's position (its point
+nearest the room centre), normal and velocity, scored as 30% of the total, see README). The plane looks the same in
+both snapshots, so the velocity can only be read from the objects' motion. The record rule and the confirmation
+rule are the same as for mode 1; the held-out set is the platform rooms of seeds 201-210. Mode-2 work must leave
+the mode-1 helper output bit-identical on the paper's rendered static rooms (checked with `scripts/run-offline.py`).
 
-**Offline floor (helper alone, no LLM, `ws.solve_platform()`):** seeds 101-110 mean **97.4**, 9 exact (room 101: 73.6,
-one red cube merged with a red sphere in both views, the same open problem as mode 1's capacity limit; every other
-object and every platform within tolerance); held-out 201-210 mean **100.0**, 10 exact. Platform errors over the
-20 rooms: position 0.002-0.019, normal 0.1-1.2 degrees, velocity 0.001-0.021 units/s; 13-33 s per room on the offline CPU.
-Result file: `bench/results/platform-offline-1.json`. No API run yet: the first bench run
+**Offline floor (helper alone, no LLM, `ws.solve_platform()`):** seeds 101-110 mean **100.0**, 10 exact;
+held-out 201-210 mean **100.0**, 10 exact. Plane errors over the 20 rooms: offset 0.001-0.012,
+normal 0.0-1.0 degrees, velocity 0.002-0.018 units/s; 17.1 s per room on the offline CPU (two rooms in
+parallel). Result file: `bench/results/platform-offline-1.json`. No API run yet: the first bench run
 (`npm run bench -- --label platform-1 --mode platform`) sets the mode-2 record.
+
+Notes from getting there: with the plane hiding much of every wall, face colours became a weak frame-alignment
+cue (room 106 chose a wrong frame with a 0.26 triangulation residual over the right one at 0.015), so in platform
+mode the colour term weighs 1 instead of 3 and up to six close frames go to the image test, which includes the
+plane's silhouette fit. A 0.1 cube lying flat was twice fitted as a slightly better 0.15 sphere while its shading
+said cube; in platform mode a cube can only yaw, so a clear shading vote (|vote| > 0.06) overrides a silhouette
+advantage of up to 0.1 (rooms 107, 210).
 
 | Objects | Label | Mean | Exact | Mean s | Notes |
 |---|---|---|---|---|---|
-| 2-4 | platform-offline-1 (offline, 101-110) | 97.4 | 9 | 16.5 | helper alone; 101 misses a cube merged in both views |
-| 2-4 | platform-offline-1 (offline, 201-210) | 100.0 | 10 | 18.0 | helper alone |
+| 2-4 | platform-offline-1 (offline, 101-110) | 100.0 | 10 | 17.1 | helper alone |
+| 2-4 | platform-offline-1 (offline, 201-210) | 100.0 | 10 | 17.7 | helper alone |
 
 ## History
 

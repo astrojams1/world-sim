@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { OBJECT_HEX, PLATFORM_HEX, PLATFORM_SIZE, platformFrame } from "./room";
+import { OBJECT_HEX, PLATFORM_HEX, platformFrame, ROOM_BOUNDS } from "./room";
 import type { CameraSpec, Platform, Room, RoomObject, Guess, Vec3 } from "./types";
 
 export type SceneObject = Pick<RoomObject, "shape" | "color" | "size" | "position" | "rotation">;
@@ -118,18 +118,20 @@ export function addObjects(scene: THREE.Scene, objects: SceneObject[], opts: Dra
   return group;
 }
 
-/** The platform slab (local x = long axis / direction of motion, y = normal, z = across). */
+/**
+ * The platform: an infinite plane drawn as a large double-sided sheet clipped to the room (renderers must enable
+ * localClippingEnabled). Local x = across, y = direction of motion, z = normal. It never moves visibly.
+ */
 export function makePlatformMesh(platform: Platform, opts: DrawOptions = {}): THREE.Mesh {
-  const [L, T, W] = PLATFORM_SIZE;
   const material = opts.ghost
-    ? new THREE.MeshBasicMaterial({ color: PLATFORM_HEX, wireframe: true, transparent: true, opacity: 0.85 })
-    : new THREE.MeshStandardMaterial({ color: PLATFORM_HEX, roughness: 0.9, metalness: 0 });
-  const mesh = new THREE.Mesh(new THREE.BoxGeometry(L, T, W), material);
+    ? new THREE.MeshBasicMaterial({ color: PLATFORM_HEX, wireframe: true, transparent: true, opacity: 0.7, side: THREE.DoubleSide })
+    : new THREE.MeshStandardMaterial({ color: PLATFORM_HEX, roughness: 0.9, metalness: 0, side: THREE.DoubleSide });
+  material.clippingPlanes = ROOM_BOUNDS.map((b) => new THREE.Plane(new THREE.Vector3(...b.normal), b.constant));
+  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(4, 4, opts.ghost ? 24 : 1, opts.ghost ? 24 : 1), material);
   const { d, n, e } = platformFrame(platform);
-  const m = new THREE.Matrix4().makeBasis(new THREE.Vector3(...d), new THREE.Vector3(...n), new THREE.Vector3(...e));
+  const m = new THREE.Matrix4().makeBasis(new THREE.Vector3(...e), new THREE.Vector3(...d), new THREE.Vector3(...n));
   mesh.quaternion.setFromRotationMatrix(m);
-  const dp = displacement({ ...opts, platform });
-  mesh.position.set(platform.position[0] + dp[0], platform.position[1] + dp[1], platform.position[2] + dp[2]);
+  mesh.position.set(...platform.position);
   mesh.castShadow = !opts.ghost;
   mesh.receiveShadow = !opts.ghost;
   mesh.name = opts.ghost ? "guess-platform" : "platform";
