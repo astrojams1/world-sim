@@ -59,6 +59,8 @@ export default function RoomViewer({ room, guess }: Props) {
     splitRef.current = split;
   }, [split]);
   const hasGuess = Boolean(guess && (guess.objects.length || guess.platform));
+  // the two cameras' frusta and labels are optional and off by default
+  const [showCameras, setShowCameras] = useState(false);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -90,8 +92,8 @@ export default function RoomViewer({ room, guess }: Props) {
     const guessScene = hasGuess && guess ? build(guess, 0xffd166) : null;
     const scenes = guessScene ? [scene, guessScene] : [scene];
 
-    // Camera frusta + labels
-    for (const s of scenes) for (const spec of room.cameras) {
+    // Camera frusta + labels (optional)
+    if (showCameras) for (const s of scenes) for (const spec of room.cameras) {
       const cam = makeCamera(spec);
       cam.far = 0.35;
       cam.updateProjectionMatrix();
@@ -195,7 +197,7 @@ export default function RoomViewer({ room, guess }: Props) {
       renderer.dispose();
       mount.removeChild(renderer.domElement);
     };
-  }, [room, guess, hasGuess]);
+  }, [room, guess, hasGuess, showCameras]);
 
   // Dragging the divider (mouse or touch) moves the split; the range input below does the same and is the
   // keyboard-accessible control.
@@ -209,6 +211,10 @@ export default function RoomViewer({ room, guess }: Props) {
   return (
     <div className="relative h-full w-full">
       <div ref={mountRef} className="h-full w-full" />
+      <label className="absolute bottom-2 right-2 z-10 flex min-h-6 items-center gap-1 text-xs text-white/70">
+        <input type="checkbox" className="h-4 w-4" checked={showCameras} onChange={(e) => setShowCameras(e.target.checked)} />
+        cameras
+      </label>
       {hasGuess && (
         // the divider: a hairline with a wide invisible grip; drag it, or focus it and use the arrow keys
         <div
