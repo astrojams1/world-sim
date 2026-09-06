@@ -25,6 +25,8 @@ const mode = args.mode ?? "static";
 const objects = args.objects ? Number(args.objects) : null;
 const out = args.out ?? "bench/rooms";
 const url = args.url ?? "http://localhost:3000/";
+// an exact object count is a benchmark-only setting the page reads from its query string, not a control
+const pageUrl = objects === null ? url : `${url}${url.includes("?") ? "&" : "?"}objects=${objects}`;
 const feedIds = mode === "platform" ? ["A", "B", "A2", "B2"] : ["A", "B"];
 
 const browser = await chromium.launch({
@@ -33,7 +35,7 @@ const browser = await chromium.launch({
 });
 const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
 const open = async () => {
-  await page.goto(url, { waitUntil: "networkidle" });
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
   await page.waitForSelector('img[alt="Camera A"]', { timeout: 60000 });
   if (mode !== "static") {
     await page.selectOption('select[aria-label="Mode"]', mode);
@@ -53,10 +55,6 @@ for (const seed of seeds) {
   await seedInput.fill(String(seed));
   await seedInput.press("Enter");
   await page.waitForTimeout(700);
-  if (objects !== null) {
-    await page.selectOption('select[aria-label="Objects"]', String(objects));
-    await page.waitForTimeout(700);
-  }
   await page.waitForFunction((ids) => ids.every((id) => document.querySelector(`img[alt="Camera ${id}"]`)?.getAttribute("src")), feedIds, { timeout: 30000 });
   const feeds = await page.evaluate((ids) => {
     const o = {};

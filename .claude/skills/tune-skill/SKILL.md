@@ -58,7 +58,8 @@ benchmarks stop improving or the user stops you. Every iteration works on exactl
 ### The capacity dimension (number of objects)
 
 - Besides the default rooms (2-5 objects drawn per seed), every seed can be generated with an exact object count
-  `N` (2..12, `generateRoom(seed, N)`; the app's "Objects" select; `node scripts/bench.mjs --objects N`). The
+  `N` (2..12, `generateRoom(seed, N)`; the page's `?objects=N` query parameter, which is not a user-facing
+  control; `node scripts/bench.mjs --objects N`). The
   goal on this axis is to **maximise the number of objects the skill still reconstructs**.
 - **Capacity** is the largest `N` for which the seeds `101..110` at `--objects N` reach a two-run mean score of at
   least **95.0** with zero API errors. Measure it on the ladder `6, 8, 10, 12`: a capacity record is a higher `N`

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import RoomViewer from "@/components/RoomViewer";
 import { feedIds, feedInfo, renderFeeds, type FeedId, type Feeds } from "@/lib/feeds";
 import { ALLOWED_MODELS, DEFAULT_MODEL, type ModelId } from "@/lib/models";
-import { generateRoom, groundTruth, maxObjects, MIN_OBJECTS, SNAPSHOT_INTERVAL } from "@/lib/room";
+import { generateRoom, groundTruth, SNAPSHOT_INTERVAL } from "@/lib/room";
 import { guessToContent } from "@/lib/scene";
 import { alignGuessToTruth, scoreGuess } from "@/lib/score";
 import JsonDiff from "@/components/JsonDiff";
@@ -62,7 +62,14 @@ declare global {
 
 export default function App() {
   const [mode, setMode] = useState<Mode>("static");
-  const [room, setRoom] = useState<Room>(() => generateRoom());
+  // The object count is not a setting: each mode's own draw (2-5 static, 2-4 platform) is the task. The
+  // benchmark's capacity axis fixes an exact count through the `?objects=N` query parameter (scripts/bench.mjs).
+  const [objectCount] = useState<number | undefined>(() => {
+    if (typeof window === "undefined") return undefined;
+    const n = Number(new URLSearchParams(window.location.search).get("objects"));
+    return Number.isInteger(n) && n > 0 ? n : undefined;
+  });
+  const [room, setRoom] = useState<Room>(() => generateRoom(undefined, objectCount));
   const [feeds, setFeeds] = useState<Feeds | null>(null);
   const [model, setModel] = useState<ModelId>(DEFAULT_MODEL);
   const [effort, setEffort] = useState<Effort>("low");
@@ -72,12 +79,10 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [seedInput, setSeedInput] = useState(() => String(room.seed));
-  // "auto" draws 2-5 objects (the historical rooms); a number fixes the count (the capacity dimension).
-  const [objectCount, setObjectCount] = useState<"auto" | number>("auto");
   const abortRef = useRef(false);
 
-  const refresh = useCallback((seed?: number, count: "auto" | number = objectCount, m: Mode = mode) => {
-    const r = generateRoom(seed, count === "auto" ? undefined : count, m);
+  const refresh = useCallback((seed?: number, m: Mode = mode) => {
+    const r = generateRoom(seed, objectCount, m);
     setRoom(r);
     setFeeds(null);
     setResult(null);
@@ -210,16 +215,34 @@ export default function App() {
 
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4 p-4">
-      <header className="flex flex-wrap items-end justify-between gap-3">
-        <div>
+      <header className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <h1 className="text-2xl font-semibold">World Sim</h1>
-          <p className="text-sm opacity-70">
-            {room.mode === "platform"
-              ? `Mode 2, moving platform: red and blue spheres and cubes ride a featureless green plane of any orientation through a 1×1×1 room; each camera takes two snapshots ${SNAPSHOT_INTERVAL} s apart and the model gets only the four images. It must return the plane's position, normal and velocity (visible only through the objects' motion) and every object at the first snapshot.`
-              : "Mode 1, static room: can a cheap vision LLM rebuild a 3D room from two camera feeds? Red and blue spheres and cubes float in a 1×1×1 room; the model gets only the two images and must return the exact JSON."}
-          </p>
+          <select
+            aria-label="Mode"
+            className="ctl"
+            value={mode}
+            onChange={(e) => {
+              const m = e.target.value as Mode;
+              setMode(m);
+              const n = Number(seedInput);
+              refresh(Number.isFinite(n) ? n : undefined, m);
+            }}
+            disabled={running}
+          >
+            {MODES.map((m) => (
+              <option key={m} value={m} className="text-black">
+                {m === "static" ? "Mode 1 · static room" : "Mode 2 · moving platform"}
+              </option>
+            ))}
+          </select>
         </div>
-        <div className="grid w-full grid-cols-2 items-end gap-2 text-sm sm:flex sm:w-auto sm:flex-wrap sm:items-center">
+        <p className="text-sm opacity-70">
+          {room.mode === "platform"
+            ? `Red and blue spheres and cubes ride a featureless green plane of any orientation through a 1×1×1 room; each camera takes two snapshots ${SNAPSHOT_INTERVAL} s apart and the model gets only the four images. It must return the plane's position, normal and velocity (visible only through the objects' motion) and every object at the first snapshot.`
+            : "Can a cheap vision LLM rebuild a 3D room from two camera feeds? Red and blue spheres and cubes float in a 1×1×1 room; the model gets only the two images and must return the exact JSON."}
+        </p>
+        <div className="grid grid-cols-2 items-end gap-2 text-sm sm:flex sm:flex-wrap sm:items-center">
           <label className="flex min-w-0 flex-col items-stretch gap-0.5 sm:flex-row sm:items-center sm:gap-1">
             <span className="text-xs opacity-70 sm:text-sm">Seed</span>
             <input
@@ -234,51 +257,6 @@ export default function App() {
                 }
               }}
             />
-          </label>
-          <label className="flex min-w-0 flex-col items-stretch gap-0.5 sm:flex-row sm:items-center sm:gap-1">
-            <span className="text-xs opacity-70 sm:text-sm">Mode</span>
-            <select
-              aria-label="Mode"
-              className="ctl w-full min-w-0 sm:w-auto"
-              value={mode}
-              onChange={(e) => {
-                const m = e.target.value as Mode;
-                setMode(m);
-                const count = objectCount === "auto" || objectCount <= maxObjects(m) ? objectCount : "auto";
-                setObjectCount(count);
-                const n = Number(seedInput);
-                refresh(Number.isFinite(n) ? n : undefined, count, m);
-              }}
-              disabled={running}
-            >
-              {MODES.map((m) => (
-                <option key={m} value={m} className="text-black">
-                  {m === "static" ? "1 · static room" : "2 · platform"}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex min-w-0 flex-col items-stretch gap-0.5 sm:flex-row sm:items-center sm:gap-1">
-            <span className="text-xs opacity-70 sm:text-sm">Objects</span>
-            <select
-              aria-label="Objects"
-              className="ctl w-full min-w-0 sm:w-auto"
-              value={String(objectCount)}
-              onChange={(e) => {
-                const v = e.target.value === "auto" ? "auto" : Number(e.target.value);
-                setObjectCount(v);
-                const n = Number(seedInput);
-                refresh(Number.isFinite(n) ? n : undefined, v);
-              }}
-              disabled={running}
-            >
-              <option value="auto" className="text-black">{mode === "platform" ? "auto (2-4)" : "auto (2-5)"}</option>
-              {Array.from({ length: maxObjects(mode) - MIN_OBJECTS + 1 }, (_, i) => MIN_OBJECTS + i).map((n) => (
-                <option key={n} value={String(n)} className="text-black">
-                  {n}
-                </option>
-              ))}
-            </select>
           </label>
           <button
             className="btn bg-neutral-700 text-white hover:bg-neutral-600"
@@ -309,9 +287,14 @@ export default function App() {
 
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div className="relative h-[85vw] max-h-[420px] min-h-[240px] overflow-hidden rounded-lg border border-neutral-400/30 bg-neutral-900 lg:col-span-2 lg:h-auto lg:max-h-none lg:self-stretch">
-          <RoomViewer room={room} guess={guessContent} />
+          {/* On wide screens the viewer is at least 5:4 whatever the feeds beside it need: mode 1's two stacked feeds
+              are about that tall, mode 2's 2x2 grid is half of it, and the viewer keeps its size in both. */}
+          <div className="hidden w-full lg:block lg:aspect-[5/4]" aria-hidden />
+          <div className="absolute inset-0">
+            <RoomViewer room={room} guess={guessContent} />
+          </div>
         </div>
-        <div className={`grid gap-3 ${ids.length > 2 ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1"}`}>
+        <div className={`grid content-start gap-3 ${ids.length > 2 ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1"}`}>
           {ids.map((id) => {
             const { camera, t } = feedInfo(id);
             const spec = room.cameras[camera === "A" ? 0 : 1];
