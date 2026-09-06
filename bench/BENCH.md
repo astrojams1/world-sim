@@ -30,6 +30,27 @@ generator's maximum). The default benchmark above (2-5 objects per seed) is unch
 | 8 | capacity-8-confirm | 95.9 | 3 | 29.1 | 8,313 | $0.033 | **capacity record: 8 objects** (two-run mean 95.9; identical per-room scores, the model copies the pipeline). Anti-cheat gate and runtime checks clean. |
 | 10 | capacity-10 | 89.5 | 1 | 35.4 | 9,391 | $0.033 | below 95: rooms 102 (74), 104 (78), 103 (78) miss objects merged in both views (offline 90.4); the open problem is splitting a blob shared in both views into its objects |
 
+## Mode 2 (moving platform)
+
+Same seeds, `--mode platform` (rooms differ from the static ones: a green 0.6 x 0.4 x 0.02 platform of any orientation
+carrying 2-4 objects, moving at 0.1-0.3 units/s along its long axis; four images per room; the answer includes the
+platform's position, normal and velocity, scored as 30% of the total, see README). The record rule and the
+confirmation rule are the same as for mode 1; the held-out set is the platform rooms of seeds 201-210. Mode-2 work
+must leave the mode-1 helper output bit-identical on the paper's rendered static rooms (checked with
+`scripts/run-offline.py`).
+
+**Offline floor (helper alone, no LLM, `ws.solve_platform()`):** seeds 101-110 mean **97.4**, 9 exact (room 101: 73.6,
+one red cube merged with a red sphere in both views, the same open problem as mode 1's capacity limit; every other
+object and every platform within tolerance); held-out 201-210 mean **100.0**, 10 exact. Platform errors over the
+20 rooms: position 0.002-0.019, normal 0.1-1.2 degrees, velocity 0.001-0.021 units/s; 13-33 s per room on the offline CPU.
+Result file: `bench/results/platform-offline-1.json`. No API run yet: the first bench run
+(`npm run bench -- --label platform-1 --mode platform`) sets the mode-2 record.
+
+| Objects | Label | Mean | Exact | Mean s | Notes |
+|---|---|---|---|---|---|
+| 2-4 | platform-offline-1 (offline, 101-110) | 97.4 | 9 | 16.5 | helper alone; 101 misses a cube merged in both views |
+| 2-4 | platform-offline-1 (offline, 201-210) | 100.0 | 10 | 18.0 | helper alone |
+
 ## History
 
 | Iter | Label | Hypothesis / change | Mean | Exact | Mean s | Mean tokens | Cost/room | Verdict |

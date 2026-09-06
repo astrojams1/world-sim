@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { FEED_HEIGHT, FEED_WIDTH } from "./room";
-import { addObjects, buildRoomScene, makeCamera, type SceneObject } from "./scene";
+import { FEED_HEIGHT, FEED_WIDTH, SNAPSHOT_INTERVAL } from "./room";
+import { addContent, buildRoomScene, makeCamera, roomContent, type SceneContent } from "./scene";
 import type { Room } from "./types";
 
 let renderer: THREE.WebGLRenderer | null = null;
@@ -17,22 +17,28 @@ function getRenderer(): THREE.WebGLRenderer {
   return renderer;
 }
 
+/**
+ * Camera feeds: A and B are the two cameras' first snapshots; in platform mode A2 and B2 are the same cameras'
+ * second snapshots, SNAPSHOT_INTERVAL later (the cameras do not move; the platform and its objects do).
+ */
+export type FeedId = "A" | "B" | "A2" | "B2";
 export interface Feeds {
   A: string;
   B: string;
+  A2?: string;
+  B2?: string;
 }
 
-/** Render the two camera feeds for a room, optionally substituting the objects (e.g. a guess). */
-export function renderFeeds(room: Room, objects: SceneObject[] = room.objects): Feeds {
-  const r = getRenderer();
-  const scene = buildRoomScene(room);
-  addObjects(scene, objects);
-  const out: Partial<Feeds> = {};
-  for (const spec of room.cameras) {
-    const cam = makeCamera(spec);
-    r.render(scene, cam);
-    out[spec.id] = r.domElement.toDataURL("image/jpeg", 0.92);
-  }
+export function feedIds(room: Pick<Room, "mode">): FeedId[] {
+  return room.mode === "platform" ? ["A", "B", "A2", "B2"] : ["A", "B"];
+}
+
+/** The camera and the snapshot time of a feed. */
+export function feedInfo(id: FeedId): { camera: "A" | "B"; t: number } {
+  return { camera: id[0] as "A" | "B", t: id.endsWith("2") ? SNAPSHOT_INTERVAL : 0 };
+}
+
+function disposeScene(scene: THREE.Scene) {
   scene.traverse((obj) => {
     if (obj instanceof THREE.Mesh) {
       obj.geometry.dispose();
@@ -41,5 +47,22 @@ export function renderFeeds(room: Room, objects: SceneObject[] = room.objects): 
       else m.dispose();
     }
   });
+}
+
+/** Render the camera feeds for a room, optionally substituting the content (e.g. a guess) for the room's own. */
+export function renderFeeds(room: Room, content: SceneContent = roomContent(room)): Feeds {
+  const r = getRenderer();
+  const out: Partial<Feeds> = {};
+  const times = room.mode === "platform" ? [0, SNAPSHOT_INTERVAL] : [0];
+  for (const t of times) {
+    const scene = buildRoomScene(room);
+    addContent(scene, content, { t });
+    for (const spec of room.cameras) {
+      const cam = makeCamera(spec);
+      r.render(scene, cam);
+      out[t ? (`${spec.id}2` as FeedId) : spec.id] = r.domElement.toDataURL("image/jpeg", 0.92);
+    }
+    disposeScene(scene);
+  }
   return out as Feeds;
 }

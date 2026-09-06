@@ -45,3 +45,6 @@ bench/logs/
 __pycache__/
 # helper transcript written when the sandbox module runs outside the sandbox
 src/lib/sandbox/session_log.txt
+
+# rooms rendered for offline helper tests (scripts/render-rooms.mjs)
+bench/rooms/

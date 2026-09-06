@@ -50,6 +50,19 @@ benchmark stops improving or the user stops you.
 - Rooms with an explicit count are rendered offline the same way as the default ones (`scratchpad` rooms named
   `<seed>-o<N>`), so the automatic pipeline can be tested on them before spending API money.
 
+### Mode 2 (moving platform)
+
+- The app's second mode (`--mode platform` on the bench, the "Mode" select on the page) puts the objects on a green
+  moving platform and sends four images; the model must also return the platform's position, normal and velocity.
+  Its rules are fixed constants of the generator (`PLATFORM_SIZE`, tilt range, speed range, `SNAPSHOT_INTERVAL`)
+  and may be stated in the prompt; nothing per room may be. The same seeds `101..110` are the benchmark and
+  `201..210` the held-out set (rooms differ from the static ones because the platform draw comes first).
+- Helper work for mode 2 must leave mode 1 bit-identical: the static pipeline's output on the paper's rendered
+  rooms (`paper/cheap-world-model/experiments/rooms`, `scripts/run-offline.py`) must not change unless the
+  iteration is about mode 1 and goes through the record rule above.
+- Offline tools: `scripts/render-rooms.mjs --mode platform`, `scripts/run-offline.py`, `scripts/score-rows.ts`.
+  The offline (no LLM) platform result is logged in `bench/BENCH.md` under "Mode 2".
+
 ## Procedure
 
 1. Read `bench/BENCH.md` (record + history + hypotheses already tried, and the capacity ladder). Read the last

@@ -3,16 +3,37 @@ export type Vec3 = [number, number, number];
 export type Shape = "sphere" | "cube";
 export type ObjColor = "red" | "blue";
 
+/**
+ * Task modes. Every mode shares the room, the cameras, the object vocabulary, the scorer and the sandbox helper.
+ *   static:   objects float anywhere in the room; two snapshots (one per camera).
+ *   platform: objects rest on a rigid platform (a conveyor belt) that moves at constant velocity within its own
+ *             plane; each camera takes two snapshots SNAPSHOT_INTERVAL apart (four images).
+ */
+export type Mode = "static" | "platform";
+export const MODES: readonly Mode[] = ["static", "platform"] as const;
+
 export interface RoomObject {
   id: number;
   shape: Shape;
   color: ObjColor;
   /** Edge length for cubes, diameter for spheres. */
   size: number;
-  /** Center of the object, in room coordinates. Objects may float anywhere inside the room. */
+  /** Center of the object, in room coordinates (at the first snapshot in platform mode). */
   position: Vec3;
   /** Euler rotation (radians, XYZ order, matrix = Rx * Ry * Rz) for cubes. Part of the task; scored modulo the cube's symmetries. */
   rotation?: Vec3;
+}
+
+/**
+ * The moving platform of platform mode: a rigid slab of fixed dimensions (PLATFORM_SIZE) whose long axis is its
+ * direction of motion. `position` is the slab's centre at the first snapshot, `normal` the unit normal of its top
+ * face (the objects rest on that face; gravity acts along -normal), `velocity` the constant velocity in room
+ * units per second (in the slab's plane, along its long axis).
+ */
+export interface Platform {
+  position: Vec3;
+  normal: Vec3;
+  velocity: Vec3;
 }
 
 export interface CameraSpec {
@@ -46,18 +67,23 @@ export interface RoomColors {
 export interface Room {
   /** Room edge length (always 1). */
   size: number;
+  mode: Mode;
   colors: RoomColors;
   lighting: Lighting;
   cameras: [CameraSpec, CameraSpec];
   objects: RoomObject[];
+  /** Platform mode only. */
+  platform?: Platform;
   seed: number;
-  /** Requested object count (undefined = the default draw of 2-5). Together with the seed it reproduces the room. */
+  /** Requested object count (undefined = the mode's default draw). Together with the seed and mode it reproduces the room. */
   objectCount?: number;
 }
 
 /** The subset of the room the model is asked to reconstruct. */
 export interface Guess {
   objects: Array<{ shape: Shape; color: ObjColor; size: number; position: Vec3; rotation?: Vec3 }>;
+  /** Platform mode only. */
+  platform?: Platform;
 }
 
 export interface ScoreObjectDetail {
@@ -74,8 +100,20 @@ export interface ScoreObjectDetail {
   points: number;
 }
 
+export interface ScorePlatformDetail {
+  /** False when the guess carried no platform (all platform credit lost). */
+  present: boolean;
+  positionError?: number;
+  /** Degrees between the guessed and true top-face normals. */
+  normalError?: number;
+  /** Room units per second, |v_guess - v_true|. */
+  velocityError?: number;
+  /** 0..1 share of the platform credit. */
+  points: number;
+}
+
 export interface Score {
-  /** 0-100. 100 iff every object is matched exactly (within tolerance) with no extras. */
+  /** 0-100. 100 iff every object (and the platform, in platform mode) is matched exactly (within tolerance) with no extras. */
   total: number;
   /** Name of the room symmetry under which the guess scored best (scoring is frame-invariant). */
   symmetry: string;
@@ -84,4 +122,6 @@ export interface Score {
   countGuess: number;
   details: ScoreObjectDetail[];
   extraGuesses: number;
+  /** Platform mode only. */
+  platform?: ScorePlatformDetail;
 }

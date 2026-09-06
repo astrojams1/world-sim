@@ -1,8 +1,14 @@
 import * as THREE from "three";
-import { OBJECT_HEX } from "./room";
-import type { CameraSpec, Room, RoomObject, Guess } from "./types";
+import { OBJECT_HEX, PLATFORM_HEX, PLATFORM_SIZE, platformFrame } from "./room";
+import type { CameraSpec, Platform, Room, RoomObject, Guess, Vec3 } from "./types";
 
 export type SceneObject = Pick<RoomObject, "shape" | "color" | "size" | "position" | "rotation">;
+
+/** What is drawn inside the room: the objects and, in platform mode, the platform. Either may be a guess. */
+export interface SceneContent {
+  objects: SceneObject[];
+  platform?: Platform;
+}
 
 /** Build the room geometry + lighting. Objects are added separately so we can render guesses. */
 export function buildRoomScene(room: Room): THREE.Scene {
@@ -76,26 +82,65 @@ export function buildRoomScene(room: Room): THREE.Scene {
   return scene;
 }
 
-export function makeObjectMesh(o: SceneObject, opts: { ghost?: boolean } = {}): THREE.Mesh {
+export interface DrawOptions {
+  ghost?: boolean;
+  /** Time after the first snapshot: everything on the platform is displaced by velocity * t. */
+  t?: number;
+  platform?: Platform;
+}
+
+function displacement(opts: DrawOptions): Vec3 {
+  const t = opts.t ?? 0;
+  const v = opts.platform?.velocity;
+  return v && t ? [v[0] * t, v[1] * t, v[2] * t] : [0, 0, 0];
+}
+
+export function makeObjectMesh(o: SceneObject, opts: DrawOptions = {}): THREE.Mesh {
   const geom =
     o.shape === "sphere" ? new THREE.SphereGeometry(o.size / 2, 48, 32) : new THREE.BoxGeometry(o.size, o.size, o.size);
   const material = opts.ghost
     ? new THREE.MeshBasicMaterial({ color: OBJECT_HEX[o.color], wireframe: true, transparent: true, opacity: 0.85 })
     : new THREE.MeshStandardMaterial({ color: OBJECT_HEX[o.color], roughness: 0.45, metalness: 0.05 });
   const mesh = new THREE.Mesh(geom, material);
-  mesh.position.set(...o.position);
+  const dp = displacement(opts);
+  mesh.position.set(o.position[0] + dp[0], o.position[1] + dp[1], o.position[2] + dp[2]);
   if (o.rotation) mesh.rotation.set(...o.rotation);
   mesh.castShadow = !opts.ghost;
   mesh.receiveShadow = !opts.ghost;
   return mesh;
 }
 
-export function addObjects(scene: THREE.Scene, objects: SceneObject[], opts: { ghost?: boolean } = {}): THREE.Group {
+export function addObjects(scene: THREE.Scene, objects: SceneObject[], opts: DrawOptions = {}): THREE.Group {
   const group = new THREE.Group();
   group.name = opts.ghost ? "guess" : "objects";
   for (const o of objects) group.add(makeObjectMesh(o, opts));
   scene.add(group);
   return group;
+}
+
+/** The platform slab (local x = long axis / direction of motion, y = normal, z = across). */
+export function makePlatformMesh(platform: Platform, opts: DrawOptions = {}): THREE.Mesh {
+  const [L, T, W] = PLATFORM_SIZE;
+  const material = opts.ghost
+    ? new THREE.MeshBasicMaterial({ color: PLATFORM_HEX, wireframe: true, transparent: true, opacity: 0.85 })
+    : new THREE.MeshStandardMaterial({ color: PLATFORM_HEX, roughness: 0.9, metalness: 0 });
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(L, T, W), material);
+  const { d, n, e } = platformFrame(platform);
+  const m = new THREE.Matrix4().makeBasis(new THREE.Vector3(...d), new THREE.Vector3(...n), new THREE.Vector3(...e));
+  mesh.quaternion.setFromRotationMatrix(m);
+  const dp = displacement({ ...opts, platform });
+  mesh.position.set(platform.position[0] + dp[0], platform.position[1] + dp[1], platform.position[2] + dp[2]);
+  mesh.castShadow = !opts.ghost;
+  mesh.receiveShadow = !opts.ghost;
+  mesh.name = opts.ghost ? "guess-platform" : "platform";
+  return mesh;
+}
+
+/** Add the objects and (if any) the platform, at time t after the first snapshot. */
+export function addContent(scene: THREE.Scene, content: SceneContent, opts: Omit<DrawOptions, "platform"> = {}) {
+  const o: DrawOptions = { ...opts, platform: content.platform };
+  if (content.platform) scene.add(makePlatformMesh(content.platform, o));
+  addObjects(scene, content.objects, o);
 }
 
 export function makeCamera(spec: CameraSpec): THREE.PerspectiveCamera {
@@ -109,5 +154,13 @@ export function makeCamera(spec: CameraSpec): THREE.PerspectiveCamera {
 }
 
 export function guessToSceneObjects(g: Guess): SceneObject[] {
-  return g.objects.map((o) => ({ shape: o.shape, color: o.color, size: o.size, position: o.position }));
+  return g.objects.map((o) => ({ shape: o.shape, color: o.color, size: o.size, position: o.position, ...(o.rotation ? { rotation: o.rotation } : {}) }));
+}
+
+export function guessToContent(g: Guess): SceneContent {
+  return { objects: guessToSceneObjects(g), ...(g.platform ? { platform: g.platform } : {}) };
+}
+
+export function roomContent(room: Room): SceneContent {
+  return { objects: room.objects, ...(room.platform ? { platform: room.platform } : {}) };
 }

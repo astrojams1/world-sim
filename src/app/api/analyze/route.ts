@@ -1,9 +1,9 @@
 import OpenAI, { toFile } from "openai";
 import { NextRequest } from "next/server";
-import { buildSystemPrompt, buildUserText, GUESS_SCHEMA, SANDBOX_FILES, SESSION_LOG } from "@/lib/skill";
+import { buildSystemPrompt, buildUserText, guessSchema, imageIdsForMode, SANDBOX_FILES, SESSION_LOG } from "@/lib/skill";
 import { WORLDSIM_PY } from "@/lib/sandbox/worldsim_py";
 import { ALLOWED_MODELS, type ModelId } from "@/lib/models";
-import type { Guess } from "@/lib/types";
+import { MODES, type Guess, type Mode, type Vec3 } from "@/lib/types";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -11,8 +11,10 @@ export const maxDuration = 60;
 interface AnalyzeBody {
   model: ModelId;
   reasoningEffort?: "low" | "medium" | "high";
-  /** Data URLs of the two unaltered feeds. This is the only room data the model ever receives. */
-  images: { A: string; B: string };
+  /** Which task the images come from (static: two images; platform: four). The mode only selects the prompt and schema. */
+  mode?: Mode;
+  /** Data URLs of the unaltered feeds. This is the only room data the model ever receives. */
+  images: { A: string; B: string; A2?: string; B2?: string };
 }
 
 export interface CodeRun {
@@ -27,10 +29,10 @@ function dataUrlToBuffer(dataUrl: string): Buffer {
 }
 
 /**
- * POST: upload the two feeds + the helper module to the model's sandbox and start a background
+ * POST: upload the feeds + the helper module to the model's sandbox and start a background
  * response. Returns { responseId }. The client then polls GET ?id=... (Vercel functions have
  * short timeouts; the model's sandbox loop can take minutes). Nothing about the room other than
- * the two images is sent: no calibration, no colours.
+ * the images is sent: no calibration, no colours, no platform pose.
  */
 export async function POST(req: NextRequest) {
   const apiKey = process.env.OPENAI_API_KEY;
@@ -45,8 +47,11 @@ export async function POST(req: NextRequest) {
   if (!ALLOWED_MODELS.includes(body.model)) {
     return Response.json({ error: `Model must be one of ${ALLOWED_MODELS.join(", ")}` }, { status: 400 });
   }
-  if (!body.images?.A?.startsWith("data:image/jpeg") || !body.images?.B?.startsWith("data:image/jpeg")) {
-    return Response.json({ error: "Two JPEG camera images are required." }, { status: 400 });
+  const mode: Mode = body.mode ?? "static";
+  if (!MODES.includes(mode)) return Response.json({ error: `Mode must be one of ${MODES.join(", ")}` }, { status: 400 });
+  const ids = imageIdsForMode(mode);
+  if (!ids.every((id) => body.images?.[id]?.startsWith("data:image/jpeg"))) {
+    return Response.json({ error: `${ids.length} JPEG camera images are required (${ids.join(", ")}).` }, { status: 400 });
   }
 
   const client = new OpenAI({ apiKey });
@@ -58,31 +63,26 @@ export async function POST(req: NextRequest) {
       uploaded.push(f.id);
       return f.id;
     };
-    await Promise.all([
-      upload(SANDBOX_FILES.helper, WORLDSIM_PY),
-      upload(SANDBOX_FILES.A, dataUrlToBuffer(body.images.A)),
-      upload(SANDBOX_FILES.B, dataUrlToBuffer(body.images.B)),
-    ]);
+    await Promise.all([upload(SANDBOX_FILES.helper, WORLDSIM_PY), ...ids.map((id) => upload(SANDBOX_FILES[id], dataUrlToBuffer(body.images[id]!)))]);
 
     const response = await client.responses.create({
       model: body.model,
       background: true,
       store: true,
-      instructions: buildSystemPrompt(),
+      instructions: buildSystemPrompt(mode),
       input: [
         {
           role: "user",
           content: [
-            { type: "input_text", text: buildUserText() },
-            { type: "input_image", image_url: body.images.A, detail: "high" },
-            { type: "input_image", image_url: body.images.B, detail: "high" },
+            { type: "input_text", text: buildUserText(mode) },
+            ...ids.map((id) => ({ type: "input_image" as const, image_url: body.images[id]!, detail: "high" as const })),
           ],
         },
       ],
       tools: [{ type: "code_interpreter", container: { type: "auto", file_ids: uploaded } }],
       include: ["code_interpreter_call.outputs"],
       ...(isReasoningModel ? { reasoning: { effort: body.reasoningEffort ?? "medium" } } : { temperature: 0.2 }),
-      text: { format: { type: "json_schema", name: "room_reconstruction", schema: GUESS_SCHEMA, strict: true } },
+      text: { format: { type: "json_schema", name: "room_reconstruction", schema: guessSchema(mode), strict: true } },
       max_output_tokens: 60000,
       metadata: { files: uploaded.join(",") },
     });
@@ -93,6 +93,9 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: message }, { status: 502 });
   }
 }
+
+const num3 = (v: unknown): Vec3 | null =>
+  Array.isArray(v) && v.length === 3 ? ([Number(v[0]), Number(v[1]), Number(v[2])] as Vec3) : null;
 
 /** GET ?id=resp_...: poll a background response. */
 export async function GET(req: NextRequest) {
@@ -135,7 +138,11 @@ export async function GET(req: NextRequest) {
       );
     }
     const text = response.output_text ?? "";
-    let parsed: { notes?: string; objects?: Array<Guess["objects"][number] & { rotation?: number[] | null }> } | null = null;
+    let parsed: {
+      notes?: string;
+      platform?: { position?: unknown; normal?: unknown; velocity?: unknown };
+      objects?: Array<Guess["objects"][number] & { rotation?: number[] | null }>;
+    } | null = null;
     try {
       parsed = JSON.parse(text);
     } catch {
@@ -155,6 +162,9 @@ export async function GET(req: NextRequest) {
           : {}),
       })),
     };
+    const p = parsed.platform;
+    const position = num3(p?.position), normal = num3(p?.normal), velocity = num3(p?.velocity);
+    if (position && normal && velocity) guess.platform = { position, normal, velocity };
     return Response.json({
       status: "completed",
       guess,

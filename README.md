@@ -2,6 +2,11 @@
 
 A small experiment: can a cheap vision LLM reconstruct a 3D room from two photographs, given nothing but the photographs?
 
+The app has two **modes**, selected on the page; every mode shares the room, the cameras, the object vocabulary, the scorer and the sandbox helper:
+
+- **Mode 1, static room** (the original task and the benchmark record): objects float anywhere in the room; two images.
+- **Mode 2, moving platform**: the objects rest on a green conveyor platform of any orientation that moves at a constant velocity; each camera takes two snapshots and the model must also return the platform's position, normal and velocity. See [Mode 2](#mode-2-moving-platform) below.
+
 - A random 1×1×1 room is generated (JSON): 2–5 red/blue spheres and cubes floating anywhere inside it (cubes randomly rotated), random wall/floor/ceiling colours and lighting, and two cameras on a virtual sphere outside the room looking in. Seen from outside, the renderer culls the near faces, so each feed shows the room as an open box against black. The **Objects** select fixes the object count (2–12) for the same seed instead of the default draw of 2–5; the count is never sent to the model.
 - The page shows a rotatable 3D view of the room plus the two camera feeds (rendered with three.js in the browser).
 - **Refresh** generates a new room. **Analyze** sends the two feeds plus a *skill* to a cheap OpenAI vision model, which must return the room's object JSON. The result is scored against the ground truth (100% = exact match within tolerance).
@@ -35,6 +40,18 @@ The client uploads the feeds, starts a background response and polls for the res
 
 `src/lib/score.ts` matches guessed objects to true objects (exhaustive assignment) under the best of the room's 48 symmetries and awards per object: shape 20%, colour 20%, size 20%, and for spheres position 40%; for cubes position 30% and orientation 10%. Position/size within tolerance (0.03 units / 0.012) get full credit and decay linearly beyond. Orientation error is the angle between the guessed and true rotation minimised over the cube's 24 rotational symmetries (and transformed by the room frame in use); within 10° is full credit, decaying to zero at 45°. Extra objects cost as much as a missing one. A score of 100 is only given when every object is matched exactly with no extras.
 
+## Mode 2: moving platform
+
+- The generator (`generateRoom(seed, count, "platform")`) draws a rigid green slab of fixed size (0.6 long × 0.4 wide × 0.02 thick, `PLATFORM_SIZE`), tilted up to 40° from horizontal with its long axis pointing anywhere in its plane, and gives it a constant speed of 0.1–0.3 units/s along that axis (either way). 2–4 objects (or an exact count of 2–6) rest on its top face: gravity acts along the slab's normal, so spheres touch the face and cubes sit flat on a face with a random yaw. The whole assembly stays inside the room at both snapshots. Platform-mode walls are never green.
+- Each camera takes two snapshots `SNAPSHOT_INTERVAL` = 0.5 s apart (the cameras do not move; the platform and its objects do), so the page shows four feeds and the model receives four images: A, B (first snapshot) and A2, B2 (second snapshot).
+- The ground truth is `{ platform: { position, normal, velocity }, objects }`, all at the first snapshot: the slab's centre, the unit normal of its top face (pointing toward the objects) and its velocity in room units per second; object positions are continuous room coordinates (not on a grid) and cube rotations are Euler XYZ as in mode 1.
+
+**What the model receives in mode 2** (and nothing more): the four unaltered images; the rules above as fixed constants (slab size, tilt range, speed range, snapshot interval, "long axis = direction of motion", objects rest on the top face); the output JSON format. As in mode 1, no camera calibration, no colours, no object count and no per-room data. The snapshot interval is a fixed rule of the world, not per-room information: without it a velocity would not be measurable at all.
+
+**Scoring**: the objects are scored exactly as in mode 1 and carry 70% of the total; the platform carries 30% (position within 0.03, normal within 5°, velocity within 0.015 units of displacement per snapshot interval, i.e. 0.03 units/s; each decays linearly beyond its tolerance). Everything is scored under the best of the room's 48 symmetries, applied to the platform's vectors as well. 100 requires every object and the platform exact.
+
+**The helper in mode 2** (`ws.solve_platform()`): the same camera calibration and frame alignment (the platform's four corners add a strong triangulation cue), then the platform is fitted to its green silhouette in both first-snapshot images (multi-start coordinate descent over centre and orientation; object pixels are neutral because objects stand on the platform), the object pipeline runs under a *resting on the platform* constraint (positions move in the slab's plane, heights follow from the size, cube rotations reduce to a yaw about the normal, unpaired blobs are explained on the resting plane), and the displacement between the snapshots is searched along the platform's long axis by rendering the whole assembly against the second snapshots. The velocity is the displacement over the interval. Offline (no LLM) the pipeline scores 97.4 on the seeds 101–110 in platform mode (9 exact; room 101 has two same-colour objects merged into one blob in both views, the same limit as mode 1) and 100.0 on the held-out 201–210 (all exact), about 17 s per room (`bench/BENCH.md`).
+
 ## Models
 
 Default is `gpt-5-mini` (cheap, accepts images, has built-in reasoning, uses the sandbox reliably). `gpt-5.4-mini`, `gpt-5-nano`, `gpt-4.1-mini` and `gpt-4o-mini` are selectable. Reasoning effort applies to the gpt-5 family and defaults to `low`: on the benchmark, low effort scores the same as medium at roughly half the time and 30% fewer tokens. A run takes roughly 15-40 s and about 3 cents (model tokens plus one code-interpreter session); the benchmark record is in `bench/BENCH.md`.
@@ -60,8 +77,13 @@ npm run dev                        # with OPENAI_API_KEY in .env.local
 npx playwright install chromium    # once
 npm run bench -- --n 10 --model gpt-5-mini
 npm run bench -- --label capacity-8 --objects 8   # the capacity axis: every room gets exactly 8 objects
+npm run bench -- --label platform-1 --mode platform  # mode 2 on the same seeds (four images per room)
 ```
 
+The helper can be tested without the API: `node scripts/render-rooms.mjs --seeds 101-110 --mode platform --out bench/rooms` saves the feeds and truth of each room (with `npm run dev` running), `python3 scripts/run-offline.py --rooms bench/rooms --out out.json` runs `solve_all`/`solve_platform` on them, and `npx tsx scripts/score-rows.ts out.json` scores the answers with the app's scorer.
+
 Two optimisation axes are tracked in `bench/BENCH.md`: the default benchmark (seeds 101–110, 2–5 objects: score, time, tokens, cost) and **capacity**, the largest object count at which the same seeds still score at least 95. The tuning loop (`/tune-skill`) works both.
+
+`scripts/check-no-cheating.mjs` (`npm run check:no-cheating`) is the static anti-cheat gate for both modes: the request may carry only the model, the reasoning effort, the mode and the images; the prompt is a function of the mode alone; the helper opens only the camera images.
 
 `worldsim.py` is embedded into the build by `scripts/embed-sandbox.mjs` (runs automatically before `dev` and `build`). Edit the `.py` file, not the generated `worldsim_py.ts`.

@@ -3,12 +3,13 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { addObjects, buildRoomScene, makeCamera, type SceneObject } from "@/lib/scene";
-import type { Room } from "@/lib/types";
+import { addContent, buildRoomScene, makeCamera, roomContent, type SceneContent } from "@/lib/scene";
+import { PLATFORM_SIZE, SNAPSHOT_INTERVAL } from "@/lib/room";
+import type { Platform, Room } from "@/lib/types";
 
 interface Props {
   room: Room;
-  guess?: SceneObject[] | null;
+  guess?: SceneContent | null;
   showTruth?: boolean;
 }
 
@@ -30,6 +31,14 @@ function makeLabel(text: string, color: string): THREE.Sprite {
   return sprite;
 }
 
+/** An arrow from the platform's centre showing where it will be at the second snapshot. */
+function velocityArrow(platform: Platform, color: number): THREE.ArrowHelper {
+  const v = new THREE.Vector3(...platform.velocity);
+  const len = v.length() * SNAPSHOT_INTERVAL;
+  const origin = new THREE.Vector3(...platform.position).addScaledVector(new THREE.Vector3(...platform.normal), PLATFORM_SIZE[1]);
+  return new THREE.ArrowHelper(v.normalize(), origin, Math.max(len, 0.02), color, 0.03, 0.02);
+}
+
 export default function RoomViewer({ room, guess, showTruth = true }: Props) {
   const mountRef = useRef<HTMLDivElement>(null);
 
@@ -45,8 +54,14 @@ export default function RoomViewer({ room, guess, showTruth = true }: Props) {
 
     const scene = buildRoomScene(room);
     // Walls face inward, so the near walls are culled while orbiting and you can see inside.
-    if (showTruth) addObjects(scene, room.objects);
-    if (guess && guess.length) addObjects(scene, guess, { ghost: true });
+    if (showTruth) {
+      addContent(scene, roomContent(room));
+      if (room.platform) scene.add(velocityArrow(room.platform, 0xffffff));
+    }
+    if (guess && (guess.objects.length || guess.platform)) {
+      addContent(scene, guess, { ghost: true });
+      if (guess.platform) scene.add(velocityArrow(guess.platform, 0xffd166));
+    }
 
     // Camera frusta + labels
     for (const spec of room.cameras) {
