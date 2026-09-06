@@ -43,6 +43,8 @@ const model = args.model ?? "gpt-5-mini";
 const effort = args.effort ?? "medium";
 const parallel = Number(args.parallel ?? 3);
 const url = args.url ?? "http://localhost:3000/";
+// an exact object count is a benchmark-only setting the page reads from its query string, not a control
+const pageUrl = objects === null ? url : `${url}${url.includes("?") ? "&" : "?"}objects=${objects}`;
 const apiOrigin = args.api ? args.api.replace(/\/$/, "") : null;
 const label = args.label ?? new Date().toISOString().replace(/[:.]/g, "-");
 const outDir = args.out ?? "bench/results";
@@ -115,7 +117,7 @@ async function runSeed(browser, seed) {
     }
     await route.continue();
   });
-  await page.goto(url, { waitUntil: "networkidle" });
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
   await page.waitForSelector('img[alt="Camera A"]', { timeout: 30000 });
   if (mode !== "static") {
     await page.selectOption('select[aria-label="Mode"]', mode);
@@ -125,10 +127,6 @@ async function runSeed(browser, seed) {
   await seedInput.fill(String(seed));
   await seedInput.press("Enter");
   await page.waitForTimeout(600);
-  if (objects !== null) {
-    await page.selectOption('select[aria-label="Objects"]', String(objects));
-    await page.waitForTimeout(600);
-  }
   await page.waitForTimeout(600);
   await page.waitForFunction((ids) => ids.every((id) => document.querySelector(`img[alt="Camera ${id}"]`)?.getAttribute("src")), feedIds, { timeout: 30000 });
   await page.selectOption('select[aria-label="Model"]', model);
