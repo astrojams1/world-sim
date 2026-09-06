@@ -1,6 +1,6 @@
 import type { Guess, Room, Score, ScoreObjectDetail, ScorePlatformDetail, Vec3 } from "./types";
 import { SNAPSHOT_INTERVAL } from "./room";
-import { angleDeg, det, dot, eulerToMatrix, length, matMul, matVec, normalize, sub, transpose, type Mat3 } from "./vec";
+import { angleDeg, det, dot, eulerToMatrix, length, matMul, matVec, matrixToEuler, normalize, sub, transpose, type Mat3 } from "./vec";
 
 export { eulerToMatrix };
 
@@ -318,4 +318,35 @@ export function assignMax(w: number[][]): number[] {
   const assign = new Array(n).fill(-1);
   for (let j = 1; j <= size; j++) if (p[j] !== 0 && j - 1 < m) assign[p[j] - 1] = j - 1;
   return assign;
+}
+
+/**
+ * Re-express a guess in the room frame named by Score.symmetry (the frame in which it scored best against the
+ * truth). The model answers in whichever of the room's 48 symmetric frames its calibration picked, so a correct
+ * answer can look rotated or mirrored next to the truth; after this transform it can be drawn, rendered and
+ * diffed against the truth directly. A reflection turns a cube's rotation into its mirror image, which is the
+ * same cube.
+ */
+export function alignGuessToTruth(guess: Guess, symmetry: string): Guess {
+  const sym = SYMMETRIES.find((s) => s.name === symmetry);
+  if (!sym) return guess;
+  const Mt = transpose(sym.matrix);
+  return {
+    objects: guess.objects.map((o) => ({
+      ...o,
+      position: sym.apply(o.position),
+      ...(o.rotation && o.rotation.length === 3 && o.rotation.every((v) => Number.isFinite(v))
+        ? { rotation: matrixToEuler(matMul(sym.matrix, matMul(eulerToMatrix(o.rotation), Mt))) }
+        : {}),
+    })),
+    ...(guess.platform
+      ? {
+          platform: {
+            position: sym.apply(guess.platform.position),
+            normal: matVec(sym.matrix, guess.platform.normal),
+            velocity: matVec(sym.matrix, guess.platform.velocity),
+          },
+        }
+      : {}),
+  };
 }
