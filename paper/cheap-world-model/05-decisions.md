@@ -2,12 +2,18 @@
 
 ## Thesis (revised 2026-09-06, after the stage 14 thesis re-check)
 
-**A deterministic, training-free analysis-by-synthesis pipeline that calibrates two unknown cameras from the
-room's own silhouette recovers the complete explicit state of a synthetic multi-object scene (shape, color,
-size, position, orientation) from two uncalibrated images at 99.5/100 on the ten benchmark rooms and 95.3 on
-100 fresh rooms, in seconds of CPU with no model in the loop; the cheap vision LLM that was placed around it to
-orchestrate it was worth +13.9 points before tuning and exactly zero after, because every intervention it made
-was turned into deterministic code.**
+**A deterministic analysis-by-synthesis pipeline with no learned component that calibrates two unknown cameras
+from the room's own silhouette recovers the complete explicit state of a synthetic multi-object scene (shape,
+color, size, position, orientation) from two uncalibrated images at 99.5/100 on the ten benchmark rooms and 95.3
+on 100 fresh rooms, in seconds of CPU with no model in the loop; the cheap vision LLM that was placed around it
+to orchestrate it was worth +13.9 points before tuning and exactly zero on the benchmark rooms after (and of both
+signs on the seven capacity room-runs where it still intervened), because the kinds of intervention it made on
+those rooms — adding objects hidden in shared blobs, removing phantoms, shape verdicts — were moved into the
+helper at iterations 7 and 16–18.**
+
+Amended 2026-09-06 after the framing review (08b-review-framing.md, points 12–14): "training-free" → "no learned
+component" (the helper has fitted constants, disclosed in Limitations); "every intervention" → "the kinds of
+intervention on those rooms" (Table `interventions` shows interventions at capacity that were not coded).
 
 Subject test: the component the ablation credits with the result is the helper (`worldsim.py`, `solve_all`);
 it is the grammatical subject. The VLM is the subject of the second clause, a finding about the VLM.
@@ -22,7 +28,9 @@ order (VLM + helper first, helper alone second) all followed the stale subject. 
 stage 14 gate (v0.3.0) now checks for.
 
 **Title (revised).** *Explicit Scene State from Two Uncalibrated Views Without Training or a Model: How a Cheap
-Vision LLM Tuned Itself Out of the Loop* (128 characters).
+Vision LLM Was Tuned Out of the Loop* (127 characters; "Tuned Itself" was dropped after the framing review — the
+tuning agent was a coding agent, not the benchmarked VLM). "Without Training" is kept in the title with the fitted
+constants disclosed in Limitations, as run 1's reviewer accepted.
 
 **Paper type (revised).** Primary: systems (the deterministic pipeline and its measured accuracy on tuned and
 fresh rooms). Secondary: negative result / empirical study (the VLM's contribution over 26 tuning iterations,
@@ -31,8 +39,8 @@ unchanged; the paper directory keeps its slug `cheap-world-model` for continuity
 
 **Consequences for the draft.** Abstract and introduction lead with the helper and its numbers, then the
 VLM finding. Section 4 describes the helper first and the VLM harness last. Section 5 reports helper-alone
-results (benchmark, development, test, capacity) before the VLM-in-the-loop results (record run, cost,
-latency, interventions). "World model" leaves the title; the state-estimation definition stays in the
+results (benchmark, development, test, capacity); Section 6 the VLM-in-the-loop results (record run, cost,
+latency, capacity with the model, interventions, contribution per iteration). "World model" leaves the title; the state-estimation definition stays in the
 introduction because the related-work section discusses it. Terminology (helper / pipeline / VLM / helper
 alone / VLM + helper) is unchanged.
 

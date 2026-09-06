@@ -1,4 +1,22 @@
-# Submission checks (arXiv) — 2026-09-05
+# Submission checks (arXiv) — 2026-09-06 (revision) and 2026-09-05 (run 1)
+
+## Revision, 2026-09-06 (thesis re-chosen around the helper; skill v0.3.0)
+
+| Item | Result |
+|---|---|
+| `build.sh --strict` | pass: 0 errors, 0 undefined refs/citations, 0 overfull > 10 pt, 19 pages, all fonts embedded (`pdffonts`: 0 non-embedded) |
+| `check_refs.py` | pass: 50 bib entries, 50 cited keys, 0 orphans (bibliography unchanged since run 1, where every id/DOI resolved) |
+| Title ≤ 150 chars | 126 chars: "Explicit Scene State from Two Uncalibrated Views Without Training or a Model: How a Cheap Vision LLM Was Tuned Out of the Loop" |
+| Abstract ≤ 1920 chars | 1,334 chars, 214 words (contract 200; the excess is the 89.6/95.9 qualification and the intervention-scope clause the framing review required) |
+| Clean-directory build + bundle | pass (`bundle.sh`: 19 pages, `build/arxiv-bundle.tar.gz` 112 KB); `main.bbl` shipped |
+| Tables/figures | only `tables/llm_vs_pipeline.tex` regenerated (column order; `scripts/analyze_bench.py`); figures byte-identical in content and restored from git; no number changed |
+| Reviews | framing review by a fresh-context subagent (`08b-review-framing.md`): minor revision, all points fixed except five pre-existing body numbers (deferred, sources named in text) |
+| Categories, license, authors, disclosure, limitations | unchanged from run 1 (below) |
+
+Open before upload (user actions): unchanged from run 1 — confirm author line and license; add a LICENSE file;
+optionally run the recommended API experiments (06-experiments.md).
+
+## Run 1, 2026-09-05
 
 | Item | Result |
 |---|---|

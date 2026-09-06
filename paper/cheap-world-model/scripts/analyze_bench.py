@@ -339,10 +339,11 @@ if os.path.exists(lp):
                            "bench_identical_to_api": sum(abs(l23[str(p["seed"])]["score"] - p["s2"]) < 0.05 for p in per),
                            "identical_to_final_helper": sum(abs(l23[n]["score"] - off[n]["score"]) < 0.05 for n in l23 if n in off)}
     with open(os.path.join(TAB, "llm_vs_pipeline.tex"), "w") as f:
-        f.write("\\begin{tabular}{@{}rrrrr@{}}\n\\toprule\nRoom & Objects & VLM + helper (run 1 / run 2) & Helper alone, same helper & Helper alone, released helper \\\\\n\\midrule\n")
+        # helper-alone columns first: the table is the helper's primary result, the VLM + helper runs are the comparison
+        f.write("\\begin{tabular}{@{}rrrrr@{}}\n\\toprule\nRoom & Objects & Helper alone, same helper & Helper alone, released helper & VLM + helper (run 1 / run 2) \\\\\n\\midrule\n")
         for p in per:
-            f.write(f"{p['seed']} & {p['n']} & {p['s1']:.1f} / {p['s2']:.1f} & {l23[str(p['seed'])]['score']:.1f} & {off[str(p['seed'])]['score']:.1f} \\\\\n")
-        f.write(f"\\midrule\nmean & {A['record']['objects_total']} & {summ(REC[0])['meanScore']:.1f} / {summ(REC[1])['meanScore']:.1f} & {A['offline_iter23']['bench_mean']:.1f} & {A['offline_summary']['bench_mean']:.1f} \\\\\n")
+            f.write(f"{p['seed']} & {p['n']} & {l23[str(p['seed'])]['score']:.1f} & {off[str(p['seed'])]['score']:.1f} & {p['s1']:.1f} / {p['s2']:.1f} \\\\\n")
+        f.write(f"\\midrule\nmean & {A['record']['objects_total']} & {A['offline_iter23']['bench_mean']:.1f} & {A['offline_summary']['bench_mean']:.1f} & {summ(REC[0])['meanScore']:.1f} / {summ(REC[1])['meanScore']:.1f} \\\\\n")
         f.write("\\bottomrule\n\\end{tabular}\n")
 
 # ---------------------------------------------------------------- where the model intervened (final helper, capacity runs)
