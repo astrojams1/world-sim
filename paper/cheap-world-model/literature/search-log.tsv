@@ -1,0 +1,93 @@
+2026-09-05	arxiv	all:"analysis by synthesis" AND all:"3D" AND all:objects	20
+2026-09-05	arxiv	all:"vision language model" AND all:"3D scene" AND all:reconstruction AND all:"training-free"	5
+2026-09-05	arxiv	all:"large language model" AND all:"code interpreter" AND all:vision	2
+2026-09-05	arxiv	all:"LLM" AND all:"scene graph" AND all:"3D" AND all:robot	20
+2026-09-05	arxiv	ti:"world model" AND all:robot AND all:"object-centric"	12
+2026-09-05	arxiv	all:"two-view" AND all:"unknown focal" AND all:pose AND all:cube	0
+2026-09-05	arxiv	ti:"inverse graphics" AND all:probabilistic	4
+2026-09-05	arxiv	ti:"3DP3" OR ti:"Bayes3D" OR (ti:"probabilistic programming" AND all:"scene perception")	2
+2026-09-05	arxiv	ti:"ViperGPT" OR ti:"Visual Programming" OR ti:"Visual Sketchpad"	12
+2026-09-05	arxiv	all:"neural scene de-rendering" OR ti:"scene de-rendering"	0
+2026-09-05	arxiv	ti:CLEVR AND all:"object-centric" AND all:unsupervised	0
+2026-09-05	arxiv	ti:"Real2Code" OR ti:"digital cousins" OR ti:"URDFormer" OR (ti:"real2sim" AND all:LLM)	8
+2026-09-05	arxiv	ti:"world models" AND au:Schmidhuber AND au:Ha	2
+2026-09-05	arxiv	all:"symmetry-aware" AND all:"pose" AND all:benchmark AND all:BOP	1
+2026-09-05	arxiv	all:"unknown focal length" AND all:"P4Pf"	0
+2026-09-05	arxiv	ti:"spatial reasoning" AND ti:"vision language models" AND all:benchmark	12
+2026-09-05	arxiv	ti:CLEVR AND ti:diagnostic	2
+2026-09-05	arxiv	ti:"Slot Attention" OR ti:"MONet" OR ti:"IODINE" OR ti:"Neural Scene De-rendering"	10
+2026-09-05	arxiv	ti:"Vision language models are blind" OR ti:"Thinking in Space" OR (ti:"multi-frame" AND ti:"spatial" AND ti:VLM)	9
+2026-09-05	arxiv	ti:"Dreamer" AND au:Hafner	0
+2026-09-05	arxiv	ti:"RoboGen" OR ti:"GenSim" OR (ti:"simulation" AND ti:"LLM" AND ti:"robot" AND ti:"generat")	4
+2026-09-05	arxiv	all:"perspective-n-point" AND all:"unknown focal" AND all:minimal	0
+2026-09-05	arxiv	ti:"structure from motion" AND ti:"two views" AND ti:"unknown focal"	0
+2026-09-05	arxiv	ti:"Scene as code" OR ti:"scene description" AND ti:"LLM" AND ti:"program" AND ti:"3D"	1
+2026-09-05	arxiv	ti:"VLM" AND ti:"tool" AND ti:"geometry" AND all:"3D"	0
+2026-09-05	arxiv	ti:"SpatialVLM" OR ti:"Chain-of-Spot" OR (ti:"VLM" AND ti:"zoom" AND ti:tool)	2
+2026-09-05	arxiv	ti:"Perception Tokens" OR (ti:"visual" AND ti:"chain-of-thought" AND ti:"3D")	4
+2026-09-05	arxiv	ti:"Dream to Control" OR ti:"Mastering Diverse Domains through World Models"	3
+2026-09-05	arxiv	ti:"Multi-Object Representation Learning with Iterative Variational Inference" OR ti:"MONet: Unsupervised Scene Decomposition"	2
+2026-09-05	arxiv	ti:"Deep Convolutional Inverse Graphics Network"	1
+2026-09-05	arxiv	ti:"Cosmos World Foundation Model" OR ti:"Genie 2" OR ti:"V-JEPA"	7
+2026-09-05	arxiv	ti:"program synthesis" AND ti:"3D" AND ti:"scene"	0
+2026-09-05	arxiv	ti:"agent" AND ti:"3D" AND ti:"spatial" AND ti:"tool" AND all:"vision language"	0
+2026-09-05	arxiv	ti:VADAR OR (ti:"visual agentic" AND ti:"spatial")	4
+2026-09-05	arxiv	ti:"room layout" AND ti:calibration AND all:"single image" AND all:cuboid	0
+2026-09-05	arxiv	ti:"GPT-4V" AND ti:"3D" AND ti:"robot" AND ti:"perception"	0
+2026-09-05	arxiv	ti:"object pose" AND ti:"zero-shot" AND ti:"training-free" AND all:"6D"	0
+2026-09-05	arxiv	vision language model code interpreter 3D reconstruction metric scene state	10
+2026-09-05	arxiv	training-free 3D scene understanding VLM agent tool use	10
+2026-09-05	arxiv	LLM orchestrating classical computer vision pipeline structure from motion	10
+2026-09-05	arxiv	inverse graphics large language model render and compare scene program	10
+2026-09-05	arxiv	multimodal LLM agent camera calibration triangulation tool spatial reasoning	10
+2026-09-05	arxiv	VLM zero-shot 3D object pose position estimation from two views code execution	10
+2026-09-05	arxiv	ti:PySpatial	2
+2026-09-05	arxiv	ti:"Geometrically-constrained agent" spatial reasoning	5
+2026-09-05	arxiv	ti:"unsupervised discovery of object radiance fields"	1
+2026-09-05	arxiv	ti:ObSuRF OR ti:"object scene representation transformer" OR ti:"decomposing 3D scenes into objects via unsupervised volume segmentation"	2
+2026-09-05	arxiv	ti:"training-free" AND (ti:"6D pose" OR ti:"object pose") AND abs:"multi-object"	0
+2026-09-05	arxiv	ti:"zero-shot" AND ti:"6D" AND ti:pose AND abs:"novel objects"	6
+2026-09-05	arxiv	abs:"multi-object" AND abs:"6D pose" AND abs:"few views" AND abs:"known" AND abs:"CAD"	0
+2026-09-05	arxiv	ti:"training-free" AND ti:"scene reconstruction" AND abs:"known object"	0
+2026-09-05	arxiv	ti:"training-free" AND ti:pose AND ti:"6D"	2
+2026-09-05	arxiv	abs:"BOP challenge" AND ti:"BOP challenge"	5
+2026-09-05	arxiv	ti:"training-free" AND ti:"object pose" AND abs:"foundation model"	0
+2026-09-05	arxiv	abs:"multi-view" AND abs:"object pose" AND abs:"training-free" AND abs:"CAD model"	1
+2026-09-05	arxiv	ti:"FreeZe" OR ti:"FoundPose" OR ti:"GigaPose"	15
+2026-09-05	arxiv	ti:"object symmetries" AND ti:"6D pose"	1
+2026-09-05	arxiv	abs:"multi-object" AND abs:"pose estimation" AND abs:"training-free" AND abs:"multi-view"	0
+2026-09-05	arxiv	ti:"VLM" AND ti:"6D" AND ti:pose AND abs:"zero-shot"	0
+2026-09-05	arxiv	abs:"LLM" AND abs:"6D pose" AND abs:"zero-shot" AND abs:"multi-object"	0
+2026-09-05	crossref	A general solution to the P4P problem for camera with unknown focal length	3 (DOI 10.1109/cvpr.2008.4587793)
+2026-09-05	crossref	Neural Scene De-rendering Wu Tenenbaum Kohli	4 (DOI 10.1109/cvpr.2017.744)
+2026-09-05	crossref	Picture: A probabilistic programming language for scene perception	3 (DOI 10.1109/cvpr.2015.7299068)
+2026-09-05	crossref	Vision as Bayesian inference: analysis by synthesis	3 (DOI 10.1016/j.tics.2006.05.002)
+2026-09-05	arxiv	ti:"world model" AND ti:survey	10
+2026-09-05	arxiv	ti:"world models" AND (ti:"position" OR ti:"what is" OR ti:"definition" OR ti:"critical")	10
+2026-09-05	arxiv	abs:"real-to-sim" AND abs:robot AND abs:manipulation AND (abs:"language model" OR abs:VLM OR abs:LLM)	ERROR
+2026-09-05	arxiv	ti:"PhysTwin" OR ti:"Video2Game" OR (ti:"digital twin" AND ti:images AND abs:robot AND abs:manipulation)	ERROR
+2026-09-05	arxiv	(abs:URDF OR abs:MJCF OR abs:"simulation scene") AND abs:"language model" AND abs:images AND abs:robot	ERROR
+2026-09-05	arxiv	abs:"real-to-sim" AND abs:robot AND abs:manipulation AND (abs:"language model" OR abs:VLM OR abs:LLM)	ERROR
+2026-09-05	arxiv	ti:"PhysTwin" OR ti:"Video2Game" OR (ti:"digital twin" AND ti:images AND abs:robot AND abs:manipulation)	ERROR
+2026-09-05	arxiv	abs:"real-to-sim" AND abs:manipulation AND (abs:"language model" OR abs:VLM)	ERROR
+2026-09-05	arxiv	ti:"PhysTwin" OR ti:"Video2Game" OR (ti:"digital twin" AND abs:"single image" AND abs:robot)	ERROR
+2026-09-05	arxiv-web	PhysTwin	1
+2026-09-05	arxiv-web	"real-to-sim" manipulation "language model"	5
+2026-09-05	arxiv-web	"real2sim" robot manipulation images simulation scene VLM	0
+2026-09-05	arxiv-web	robot simulation scene from images URDF MJCF "language model"	0
+2026-09-05	arxiv-web	"real-to-sim" scene reconstruction manipulation	15
+2026-09-05	arxiv-web	"digital twin" "single image" robot manipulation	0
+2026-09-05	arxiv-web	VLM "simulation scene" robot images generate	0
+2026-09-05	arxiv-web	"training-free" object pose manipulation RGB "vision-language"	0
+2026-09-05	arxiv-web	"vision-language" robot perception "API cost" latency	0
+2026-09-05	arxiv-web	world model definition "state estimation" robotics position	1
+2026-09-05	arxiv-web	"training-free" "object pose" manipulation	3
+2026-09-05	arxiv-web	VLM robot perception "inference cost" "dollars"	0
+2026-09-05	arxiv-web	"world models" "state estimation" position paper	0
+2026-09-05	arxiv-web	ReKep keypoint	1
+2026-09-05	arxiv-web	MOKA open-vocabulary manipulation	0
+2026-09-05	arxiv-web	Video2Game	1
+2026-09-05	arxiv-web	SceneScript	2
+2026-09-05	arxiv	abs:"real-to-sim" AND abs:manipulation AND (abs:"language model" OR abs:VLM)	8
+2026-09-05	arxiv	ti:"training-free" AND abs:manipulation AND (abs:keypoint OR abs:"object pose" OR abs:"scene state")	0
+2026-09-05	arxiv	abs:"vision-language model" AND abs:robot AND (abs:"API cost" OR abs:"cost per" OR abs:"inference latency") AND abs:perception	3

@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/l2u/Obw1m3aN3P/3QiRWuZOVlz8</id>
+  <title>arXiv Query: search_query=all:"vision language model" AND all:"3D scene" AND all:reconstruction AND all:"training-free"&amp;id_list=&amp;start=0&amp;max_results=20</title>
+  <updated>2026-09-05T21:40:47Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=all:%22vision+language+model%22+AND+(all:%223D+scene%22+AND+(all:reconstruction+AND+all:%22training-free%22))&amp;start=0&amp;max_results=20&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>20</opensearch:itemsPerPage>
+  <opensearch:totalResults>5</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2606.16569v1</id>
+    <title>PROSE: Training-Free Egocentric Scene Registration with Vision-Language Models</title>
+    <updated>2026-06-15T11:11:14Z</updated>
+    <link href="https://arxiv.org/abs/2606.16569v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.16569v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Registering two captures of the same indoor space taken at different times underpins persistent spatial memory for robots and AR systems, yet the realistic version of this task is egocentric and its most scalable form is RGB-only. Head-mounted cameras yield blurry, fast-moving, partially overlapping views from which dense geometry is hard to recover. Classical registration leans on exactly the clean point clouds this setting lacks, while learned scene-graph methods require a pre-built or annotated graph and a trained matcher that we find brittle under egocentric data. We take a different route, using a pretrained vision-language model as the source of both scene understanding and cross-scan matching. Our method, PROSE (Prompted Scene rEgistration), lifts each RGB sequence into an object-level 3D scene graph using off-the-shelf foundation models for geometry, segmentation, and language, then prompts the same VLM to match object instances across the two RGB sequences. To make this matching tractable and reliable, we leverage object heights as a prior and verify each proposed match with a paired same/different query, then solve for the rigid transform by hypothesizing a candidate per matched object and selecting the one with the strongest geometric consensus. PROSE adds no learned parameters and requires no depth sensor, training, or annotated graph. On the egocentric Aria Digital Twin and Aria Everyday Activities benchmarks, it outperforms both geometric and learned scene-graph baselines in registration accuracy, on ground-truth and RGB-reconstructed point clouds alike, and the scene graph it produces transfers directly to downstream tasks.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-15T11:11:14Z</published>
+    <arxiv:comment>Project page: https://rckola.github.io/prose/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Zhiang Chen</name>
+    </author>
+    <author>
+      <name>Nahyuk Lee</name>
+    </author>
+    <author>
+      <name>Boyang Sun</name>
+    </author>
+    <author>
+      <name>Taein Kwon</name>
+    </author>
+    <author>
+      <name>Marc Pollefeys</name>
+    </author>
+    <author>
+      <name>Zuria Bauer</name>
+    </author>
+    <author>
+      <name>Sunghwan Hong</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2505.15373v1</id>
+    <title>RAZER: Robust Accelerated Zero-Shot 3D Open-Vocabulary Panoptic Reconstruction with Spatio-Temporal Aggregation</title>
+    <updated>2025-05-21T11:07:25Z</updated>
+    <link href="https://arxiv.org/abs/2505.15373v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2505.15373v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Mapping and understanding complex 3D environments is fundamental to how autonomous systems perceive and interact with the physical world, requiring both precise geometric reconstruction and rich semantic comprehension. While existing 3D semantic mapping systems excel at reconstructing and identifying predefined object instances, they lack the flexibility to efficiently build semantic maps with open-vocabulary during online operation. Although recent vision-language models have enabled open-vocabulary object recognition in 2D images, they haven't yet bridged the gap to 3D spatial understanding. The critical challenge lies in developing a training-free unified system that can simultaneously construct accurate 3D maps while maintaining semantic consistency and supporting natural language interactions in real time. In this paper, we develop a zero-shot framework that seamlessly integrates GPU-accelerated geometric reconstruction with open-vocabulary vision-language models through online instance-level semantic embedding fusion, guided by hierarchical object association with spatial indexing. Our training-free system achieves superior performance through incremental processing and unified geometric-semantic updates, while robustly handling 2D segmentation inconsistencies. The proposed general-purpose 3D scene understanding framework can be used for various tasks including zero-shot 3D instance retrieval, segmentation, and object detection to reason about previously unseen objects and interpret natural language queries. The project page is available at https://razer-3d.github.io.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-05-21T11:07:25Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Naman Patel</name>
+    </author>
+    <author>
+      <name>Prashanth Krishnamurthy</name>
+    </author>
+    <author>
+      <name>Farshad Khorrami</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2605.12586v1</id>
+    <title>3D Primitives are a Spatial Language for VLMs</title>
+    <updated>2026-05-12T17:57:21Z</updated>
+    <link href="https://arxiv.org/abs/2605.12586v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2605.12586v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Vision-language models (VLMs) exhibit a striking paradox: they can generate executable code that reconstructs a 3D scene from geometric primitives with correct object counts, classes, and approximate positions, yet the same models fail at simpler spatial questions on the same image. We show that 3D geometric primitives (cubes, spheres, cylinders, expressed in executable code) serve as a powerful intermediate representation for spatial understanding, and exploit this through three contributions. First, we introduce \textbf{\textsc{SpatialBabel}}, a benchmark evaluating fourteen VLMs on primitive-based 3D scene reconstruction across six \emph{scene-code languages} (programming languages and declarative formats for 3D primitive scenes), revealing that a single model's object-detection F1 can vary by up to $5.7\times$ across languages. Second, we propose \textbf{Code-CoT} (Code Chain-of-Thought), a training-free inference strategy that routes spatial reasoning through primitive-based code generation. Code-CoT lifts the SpatialBabel-QA-Score by up to $+6.4$\% on primitive scenes and real-photo CV-Bench-3D accuracy by $+5.0$\% for VLMs with strong coding capabilities. Third, we propose \textbf{S$^{3}$-FT} (Self-Supervised Spatial Fine-Tuning), which self-supervisedly distills primitive spatial knowledge into general visual reasoning by parsing the model's own Three.js primitive-reconstructions into structured annotations and fine-tuning on the result, with \emph{no human labels and no teacher model}. Training on primitive images alone, S$^3$-FT improves Qwen3-VL-8B by $+4.6$ to $+8.6$\% on SpatialBabel-Primitive-QA, $+9.7$\% on CV-Bench-2D, and $+17$\% on HallusionBench; the recipe transfers across model families. These results establish geometric primitives in code as both a diagnostic and a transferable spatial vocabulary for VLMs. We will release all artifacts upon publication.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.DB" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-05-12T17:57:21Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Junze Liu</name>
+    </author>
+    <author>
+      <name>Kun Qian</name>
+    </author>
+    <author>
+      <name>Florian Dubost</name>
+    </author>
+    <author>
+      <name>Kai Zhong</name>
+    </author>
+    <author>
+      <name>Arvind Srinivasan</name>
+    </author>
+    <author>
+      <name>Nan Chen</name>
+    </author>
+    <author>
+      <name>Anping Wang</name>
+    </author>
+    <author>
+      <name>Sam Zhang</name>
+    </author>
+    <author>
+      <name>Alejandro Mottini</name>
+    </author>
+    <author>
+      <name>Qingjun Cui</name>
+    </author>
+    <author>
+      <name>Tian Wang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2606.22694v1</id>
+    <title>SATURN: Symbolic Spatial Reasoning for Multi-Perspective Grounding</title>
+    <updated>2026-06-21T22:15:48Z</updated>
+    <link href="https://arxiv.org/abs/2606.22694v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.22694v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Vision-Language Models (VLMs) remain unreliable when spatial reasoning requires composing relations whose meanings depend on frames of reference. Existing neuro-symbolic methods make reasoning more explicit, but often depend on brittle geometric procedures and hard decisions over noisy perception. We propose SATURN, a neuro-symbolic framework for perspective-aware compositional spatial reasoning. SATURN reconstructs an approximate 3D scene, derives soft perspective-aware spatial predicates, and composes them with a training-free Pythonic symbolic executor, separating perception from reasoning while preserving uncertainty through multi-hop inference. We also introduce 3D FORCE, a diagnostic benchmark that controls reasoning depth, view, and perspective composition across spatial arrangement grounding (SAG) and referring expression grounding (REF). On 3D FORCE, VLMs and spatially trained models degrade sharply as depth and perspective complexity increase, whereas SATURN remains stable and outperforms strong baselines. On the real-world MindCube benchmark, SATURN achieves 78.57% overall accuracy, outperforming the strongest baseline by 14 pp.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.SC" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-21T22:15:48Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Danial Kamali</name>
+    </author>
+    <author>
+      <name>Tanawan Premsri</name>
+    </author>
+    <author>
+      <name>Shreya Rajpal</name>
+    </author>
+    <author>
+      <name>Amir Zadeh</name>
+    </author>
+    <author>
+      <name>Chuan Li</name>
+    </author>
+    <author>
+      <name>Parisa Kordjamshidi</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2601.20835v2</id>
+    <title>Open-Vocabulary Functional 3D Human-Scene Interaction Generation</title>
+    <updated>2026-01-30T16:39:55Z</updated>
+    <link href="https://arxiv.org/abs/2601.20835v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2601.20835v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Generating 3D humans that functionally interact with 3D scenes remains an open problem with applications in embodied AI, robotics, and interactive content creation. The key challenge involves reasoning about both the semantics of functional elements in 3D scenes and the 3D human poses required to achieve functionality-aware interaction. Unfortunately, existing methods typically lack explicit reasoning over object functionality and the corresponding human-scene contact, resulting in implausible or functionally incorrect interactions. In this work, we propose FunHSI, a training-free, functionality-driven framework that enables functionally correct human-scene interactions from open-vocabulary task prompts. Given a task prompt, FunHSI performs functionality-aware contact reasoning to identify functional scene elements, reconstruct their 3D geometry, and model high-level interactions via a contact graph. We then leverage vision-language models to synthesize a human performing the task in the image and estimate proposed 3D body and hand poses. Finally, the proposed 3D body configuration is refined via stage-wise optimization to ensure physical plausibility and functional correctness. In contrast to existing methods, FunHSI not only synthesizes more plausible general 3D interactions, such as "sitting on a sofa'', while supporting fine-grained functional human-scene interactions, e.g., "increasing the room temperature''. Extensive experiments demonstrate that FunHSI consistently generates functionally correct and physically plausible human-scene interactions across diverse indoor and outdoor scenes.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-01-28T18:34:25Z</published>
+    <arxiv:comment>18 pages</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Jie Liu</name>
+    </author>
+    <author>
+      <name>Yu Sun</name>
+    </author>
+    <author>
+      <name>Alpar Cseke</name>
+    </author>
+    <author>
+      <name>Yao Feng</name>
+    </author>
+    <author>
+      <name>Nicolas Heron</name>
+    </author>
+    <author>
+      <name>Michael J. Black</name>
+    </author>
+    <author>
+      <name>Yan Zhang</name>
+    </author>
+  </entry>
+</feed>

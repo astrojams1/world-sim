@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/EdM382snELua2ZRcj7KKrmQ4olI</id>
+  <title>arXiv Query: search_query=ti:"Deep Convolutional Inverse Graphics Network"&amp;id_list=&amp;start=0&amp;max_results=8</title>
+  <updated>2026-09-05T21:42:56Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22Deep+Convolutional+Inverse+Graphics+Network%22&amp;start=0&amp;max_results=8&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>8</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/1503.03167v4</id>
+    <title>Deep Convolutional Inverse Graphics Network</title>
+    <updated>2015-06-22T02:10:00Z</updated>
+    <link href="https://arxiv.org/abs/1503.03167v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1503.03167v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This paper presents the Deep Convolution Inverse Graphics Network (DC-IGN), a model that learns an interpretable representation of images. This representation is disentangled with respect to transformations such as out-of-plane rotations and lighting variations. The DC-IGN model is composed of multiple layers of convolution and de-convolution operators and is trained using the Stochastic Gradient Variational Bayes (SGVB) algorithm. We propose a training procedure to encourage neurons in the graphics code layer to represent a specific transformation (e.g. pose or light). Given a single input image, our model can generate new images of the same object with variations in pose and lighting. We present qualitative and quantitative results of the model's efficacy at learning a 3D rendering engine.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.GR" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.NE" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2015-03-11T04:08:42Z</published>
+    <arxiv:comment>First two authors contributed equally</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Tejas D. Kulkarni</name>
+    </author>
+    <author>
+      <name>Will Whitney</name>
+    </author>
+    <author>
+      <name>Pushmeet Kohli</name>
+    </author>
+    <author>
+      <name>Joshua B. Tenenbaum</name>
+    </author>
+  </entry>
+</feed>

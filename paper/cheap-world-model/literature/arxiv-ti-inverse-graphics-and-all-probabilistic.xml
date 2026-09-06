@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/AlQsqvwBBIeLGePA3s5558BG28w</id>
+  <title>arXiv Query: search_query=ti:"inverse graphics" AND all:probabilistic&amp;id_list=&amp;start=0&amp;max_results=12</title>
+  <updated>2026-09-05T21:41:22Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22inverse+graphics%22+AND+all:probabilistic&amp;start=0&amp;max_results=12&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>12</opensearch:itemsPerPage>
+  <opensearch:totalResults>4</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/1407.1339v1</id>
+    <title>Inverse Graphics with Probabilistic CAD Models</title>
+    <updated>2014-07-04T23:03:25Z</updated>
+    <link href="https://arxiv.org/abs/1407.1339v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1407.1339v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Recently, multiple formulations of vision problems as probabilistic inversions of generative models based on computer graphics have been proposed. However, applications to 3D perception from natural images have focused on low-dimensional latent scenes, due to challenges in both modeling and inference. Accounting for the enormous variability in 3D object shape and 2D appearance via realistic generative models seems intractable, as does inverting even simple versions of the many-to-many computations that link 3D scenes to 2D images. This paper proposes and evaluates an approach that addresses key aspects of both these challenges. We show that it is possible to solve challenging, real-world 3D vision problems by approximate inference in generative models for images based on rendering the outputs of probabilistic CAD (PCAD) programs. Our PCAD object geometry priors generate deformable 3D meshes corresponding to plausible objects and apply affine transformations to place them in a scene. Image likelihoods are based on similarity in a feature space based on standard mid-level image representations from the vision literature. Our inference algorithm integrates single-site and locally blocked Metropolis-Hastings proposals, Hamiltonian Monte Carlo and discriminative data-driven proposals learned from training data generated from our models. We apply this approach to 3D human pose estimation and object shape reconstruction from single images, achieving quantitative and qualitative performance improvements over state-of-the-art baselines.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.ML" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2014-07-04T23:03:25Z</published>
+    <arxiv:comment>For correspondence, contact tejask@mit.edu</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Tejas D. Kulkarni</name>
+    </author>
+    <author>
+      <name>Vikash K. Mansinghka</name>
+    </author>
+    <author>
+      <name>Pushmeet Kohli</name>
+    </author>
+    <author>
+      <name>Joshua B. Tenenbaum</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2302.03744v3</id>
+    <title>3D Neural Embedding Likelihood: Probabilistic Inverse Graphics for Robust 6D Pose Estimation</title>
+    <updated>2023-09-06T21:38:20Z</updated>
+    <link href="https://arxiv.org/abs/2302.03744v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2302.03744v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>The ability to perceive and understand 3D scenes is crucial for many applications in computer vision and robotics. Inverse graphics is an appealing approach to 3D scene understanding that aims to infer the 3D scene structure from 2D images. In this paper, we introduce probabilistic modeling to the inverse graphics framework to quantify uncertainty and achieve robustness in 6D pose estimation tasks. Specifically, we propose 3D Neural Embedding Likelihood (3DNEL) as a unified probabilistic model over RGB-D images, and develop efficient inference procedures on 3D scene descriptions. 3DNEL effectively combines learned neural embeddings from RGB with depth information to improve robustness in sim-to-real 6D object pose estimation from RGB-D images. Performance on the YCB-Video dataset is on par with state-of-the-art yet is much more robust in challenging regimes. In contrast to discriminative approaches, 3DNEL's probabilistic generative formulation jointly models multiple objects in a scene, quantifies uncertainty in a principled way, and handles object pose tracking under heavy occlusion. Finally, 3DNEL provides a principled framework for incorporating prior knowledge about the scene and objects, which allows natural extension to additional tasks like camera pose tracking from video.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-02-07T20:48:35Z</published>
+    <arxiv:comment>ICCV 2023 camera ready</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Guangyao Zhou</name>
+    </author>
+    <author>
+      <name>Nishad Gothoskar</name>
+    </author>
+    <author>
+      <name>Lirui Wang</name>
+    </author>
+    <author>
+      <name>Joshua B. Tenenbaum</name>
+    </author>
+    <author>
+      <name>Dan Gutfreund</name>
+    </author>
+    <author>
+      <name>Miguel Lázaro-Gredilla</name>
+    </author>
+    <author>
+      <name>Dileep George</name>
+    </author>
+    <author>
+      <name>Vikash K. Mansinghka</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2402.01915v2</id>
+    <title>Robust Inverse Graphics via Probabilistic Inference</title>
+    <updated>2024-06-11T17:19:00Z</updated>
+    <link href="https://arxiv.org/abs/2402.01915v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2402.01915v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>How do we infer a 3D scene from a single image in the presence of corruptions like rain, snow or fog? Straightforward domain randomization relies on knowing the family of corruptions ahead of time. Here, we propose a Bayesian approach-dubbed robust inverse graphics (RIG)-that relies on a strong scene prior and an uninformative uniform corruption prior, making it applicable to a wide range of corruptions. Given a single image, RIG performs posterior inference jointly over the scene and the corruption. We demonstrate this idea by training a neural radiance field (NeRF) scene prior and using a secondary NeRF to represent the corruptions over which we place an uninformative prior. RIG, trained only on clean data, outperforms depth estimators and alternative NeRF approaches that perform point estimation instead of full inference. The results hold for a number of scene prior architectures based on normalizing flows and diffusion models. For the latter, we develop reconstruction-guidance with auxiliary latents (ReGAL)-a diffusion conditioning algorithm that is applicable in the presence of auxiliary latent variables such as the corruption. RIG demonstrates how scene priors can be used beyond generation tasks.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.CO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-02-02T21:34:51Z</published>
+    <arxiv:comment>ICML submission. Reworked main body, new appendix figures</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Tuan Anh Le</name>
+    </author>
+    <author>
+      <name>Pavel Sountsov</name>
+    </author>
+    <author>
+      <name>Matthew D. Hoffman</name>
+    </author>
+    <author>
+      <name>Ben Lee</name>
+    </author>
+    <author>
+      <name>Brian Patton</name>
+    </author>
+    <author>
+      <name>Rif A. Saurous</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2409.08351v1</id>
+    <title>Bayesian Inverse Graphics for Few-Shot Concept Learning</title>
+    <updated>2024-09-12T18:30:41Z</updated>
+    <link href="https://arxiv.org/abs/2409.08351v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2409.08351v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Humans excel at building generalizations of new concepts from just one single example. Contrary to this, current computer vision models typically require large amount of training samples to achieve a comparable accuracy. In this work we present a Bayesian model of perception that learns using only minimal data, a prototypical probabilistic program of an object. Specifically, we propose a generative inverse graphics model of primitive shapes, to infer posterior distributions over physically consistent parameters from one or several images. We show how this representation can be used for downstream tasks such as few-shot classification and pose estimation. Our model outperforms existing few-shot neural-only classification algorithms and demonstrates generalization across varying lighting conditions, backgrounds, and out-of-distribution shapes. By design, our model is uncertainty-aware and uses our new differentiable renderer for optimizing global scene parameters through gradient descent, sampling posterior distributions over object parameters with Markov Chain Monte Carlo (MCMC), and using a neural based likelihood function.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-09-12T18:30:41Z</published>
+    <arxiv:primary_category term="cs.AI"/>
+    <arxiv:journal_ref>Neural-Symbolic Learning and Reasoning. NeSy 2024. Lecture Notes in Computer Science, vol 14979, pages 141-166</arxiv:journal_ref>
+    <author>
+      <name>Octavio Arriaga</name>
+    </author>
+    <author>
+      <name>Jichen Guo</name>
+    </author>
+    <author>
+      <name>Rebecca Adam</name>
+    </author>
+    <author>
+      <name>Sebastian Houben</name>
+    </author>
+    <author>
+      <name>Frank Kirchner</name>
+    </author>
+    <arxiv:doi>10.1007/978-3-031-71167-1_8</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1007/978-3-031-71167-1_8" title="doi"/>
+  </entry>
+</feed>

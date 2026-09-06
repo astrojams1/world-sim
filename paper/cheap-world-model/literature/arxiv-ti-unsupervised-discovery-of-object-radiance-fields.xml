@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/MKC65pHxyltAhQp6QeedV/ZCNGM</id>
+  <title>arXiv Query: search_query=ti:"unsupervised discovery of object radiance fields"&amp;id_list=&amp;start=0&amp;max_results=25</title>
+  <updated>2026-09-05T21:54:25Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22unsupervised+discovery+of+object+radiance+fields%22&amp;start=0&amp;max_results=25&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>25</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2107.07905v2</id>
+    <title>Unsupervised Discovery of Object Radiance Fields</title>
+    <updated>2022-03-16T16:04:34Z</updated>
+    <link href="https://arxiv.org/abs/2107.07905v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2107.07905v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We study the problem of inferring an object-centric scene representation from a single image, aiming to derive a representation that explains the image formation process, captures the scene's 3D nature, and is learned without supervision. Most existing methods on scene decomposition lack one or more of these characteristics, due to the fundamental challenge in integrating the complex 3D-to-2D image formation process into powerful inference schemes like deep networks. In this paper, we propose unsupervised discovery of Object Radiance Fields (uORF), integrating recent progresses in neural 3D scene representations and rendering with deep inference networks for unsupervised 3D scene decomposition. Trained on multi-view RGB images without annotations, uORF learns to decompose complex scenes with diverse, textured background from a single image. We show that uORF enables novel tasks, such as scene segmentation and editing in 3D, and it performs well on these tasks and on novel view synthesis on three datasets.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2021-07-16T13:53:36Z</published>
+    <arxiv:comment>ICLR 2022. Project page: https://kovenyu.com/uorf/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Hong-Xing Yu</name>
+    </author>
+    <author>
+      <name>Leonidas J. Guibas</name>
+    </author>
+    <author>
+      <name>Jiajun Wu</name>
+    </author>
+  </entry>
+</feed>

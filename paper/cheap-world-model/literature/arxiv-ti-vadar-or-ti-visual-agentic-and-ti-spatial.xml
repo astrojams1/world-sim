@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/+GaL2rTuQKKUCbDnC1FCowaaXHA</id>
+  <title>arXiv Query: search_query=ti:VADAR OR (ti:"visual agentic" AND ti:"spatial")&amp;id_list=&amp;start=0&amp;max_results=8</title>
+  <updated>2026-09-05T21:43:10Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:VADAR+OR+(ti:%22visual+agentic%22+AND+ti:%22spatial%22)&amp;start=0&amp;max_results=8&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>8</opensearch:itemsPerPage>
+  <opensearch:totalResults>4</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2502.06787v2</id>
+    <title>Visual Agentic AI for Spatial Reasoning with a Dynamic API</title>
+    <updated>2025-03-28T02:27:02Z</updated>
+    <link href="https://arxiv.org/abs/2502.06787v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2502.06787v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Visual reasoning -- the ability to interpret the visual world -- is crucial for embodied agents that operate within three-dimensional scenes. Progress in AI has led to vision and language models capable of answering questions from images. However, their performance declines when tasked with 3D spatial reasoning. To tackle the complexity of such reasoning problems, we introduce an agentic program synthesis approach where LLM agents collaboratively generate a Pythonic API with new functions to solve common subproblems. Our method overcomes limitations of prior approaches that rely on a static, human-defined API, allowing it to handle a wider range of queries. To assess AI capabilities for 3D understanding, we introduce a new benchmark of queries involving multiple steps of grounding and inference. We show that our method outperforms prior zero-shot models for visual reasoning in 3D and empirically validate the effectiveness of our agentic framework for 3D spatial reasoning tasks. Project website: https://glab-caltech.github.io/vadar/</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-02-10T18:59:35Z</published>
+    <arxiv:comment>Project website: https://glab-caltech.github.io/vadar/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Damiano Marsili</name>
+    </author>
+    <author>
+      <name>Rohun Agrawal</name>
+    </author>
+    <author>
+      <name>Yisong Yue</name>
+    </author>
+    <author>
+      <name>Georgia Gkioxari</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2306.13219v2</id>
+    <title>VaDAR: Varstrometry for Dual AGN using Radio interferometry</title>
+    <updated>2024-01-25T14:11:54Z</updated>
+    <link href="https://arxiv.org/abs/2306.13219v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2306.13219v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Binary and dual active galactic nuclei (AGN) are an important observational tool for studying the formation and dynamical evolution of galaxies and supermassive black holes (SMBHs). An entirely new method for identifying possible AGN pairs makes use of the exquisite positional accuracy of Gaia to detect astrometrically-variable quasars, in tandem with the high spatial resolution of the Karl G. Jansky Very Large Array (VLA). We present a new pilot study of radio observations of 18 quasars (0.8 &lt; z &lt; 2.9), selected from the SDSS DR16Q and matched with the Gaia DR3. All 18 targets are identified by their excess astrometric noise in Gaia. We targeted these 18 quasars with the VLA at 2-4 GHz (S-band) and 8-12 GHz (X-band), providing resolutions of 0.65" and 0.2", respectively, in order to constrain the origin of this variability. We combine these data with ancillary radio survey data and perform radio spectral modeling. The new observations are used to constrain the driver of the excess astrometric noise. We find that ~39% of the target sample is likely to be either candidate dual AGN or gravitationally lensed quasars. Ultimately, we use this new strategy to help identify and understand this sample of astrometrically-variable quasars, demonstrate the potential of this method for systematically identifying kpc-scale dual quasars.</summary>
+    <category term="astro-ph.GA" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-06-22T21:46:53Z</published>
+    <arxiv:comment>38 pages, 21 figures, 8 tables, accepted to ApJ, comments welcome!</arxiv:comment>
+    <arxiv:primary_category term="astro-ph.GA"/>
+    <author>
+      <name>Emma Schwartzman</name>
+    </author>
+    <author>
+      <name>Tracy E. Clarke</name>
+    </author>
+    <author>
+      <name>Kristina Nyland</name>
+    </author>
+    <author>
+      <name>Nathan J. Secrest</name>
+    </author>
+    <author>
+      <name>Ryan W. Pfeifle</name>
+    </author>
+    <author>
+      <name>Henrique R. Schmitt</name>
+    </author>
+    <author>
+      <name>Shobita Satyapal</name>
+    </author>
+    <author>
+      <name>Barry Rothberg</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2606.12830v1</id>
+    <title>Perceive, Interact, Reason: Building Tool-Augmented Visual Agents for Spatial Reasoning</title>
+    <updated>2026-06-11T02:54:07Z</updated>
+    <link href="https://arxiv.org/abs/2606.12830v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.12830v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>While recent vision-language models (VLMs) demonstrate strong multimodal understanding, they remain limited in spatial reasoning tasks that require active evidence acquisition and multi-step visual interaction. This limitation suggests that relying solely on implicit visual representations from vision encoders is insufficient for recovering fine-grained spatial evidence. We introduce PERception-Interaction-reason Agent (PERIA), a tool-augmented visual agent for spatial reasoning tasks across map reasoning, visual probing, and vision reconstruction. PERIA uses two lightweight tool families: vision perception tools for exposing textual, symbolic, and spatial evidence, and vision interaction tools for manipulating visual context, tracing paths, and verifying spatial relations. To train PERIA, we develop a unified recipe that combines supervised tool-use trajectory synthesis, composite rewards, and Observation-Relaxed Group-in-Group Policy Optimization (OR-GIGPO) for effective multi-tool behavior. Experiments on 13 benchmarks from 8 datasets show that PERIA-8B improves over the Qwen3-8B backbone by 10.0% on in-distribution benchmarks and 4.4% on out-of-distribution benchmarks, while outperforming previous state-of-the-art baselines of similar size by 7.0%-14.8%. It also achieves performance comparable to much larger models such as Qwen3-VL-235B-A22B-Thinking and GPT-5, demonstrating the effectiveness of PERIA in enhancing spatial reasoning capabilities.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-11T02:54:07Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Changye Li</name>
+    </author>
+    <author>
+      <name>Meng Lu</name>
+    </author>
+    <author>
+      <name>Yi Wu</name>
+    </author>
+    <author>
+      <name>Ligeng Zhu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2503.02668v1</id>
+    <title>Varstrometry for Dual AGN using Radio interferometry: VaDAR with the VLBA</title>
+    <updated>2025-03-04T14:35:18Z</updated>
+    <link href="https://arxiv.org/abs/2503.02668v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2503.02668v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Multiple active galactic nuclei (multi-AGN) are a known result of galaxy mergers. Therefore, they are an important tool for studying the formation and dynamical evolution of galaxies and supermassive black holes (SMBHs). A novel method for the selection of multi-AGN leverages the exquisite positional accuracy of Gaia to detect astrometrically-variable quasars. Previous work has paired this method with radio interferometry on sub-arcsecond scales. In this paper, we present a follow-up study of seven astrometrically-variable quasars from the pilot sample using the Very Long Baseline Array (VLBA). We targeted these seven quasars with the VLBA at 2.0-2.4 GHz (S-band) and 8.0-8.4 GHz (X-band), reaching milliarcsecond resolutions, in order to study the radio properties at smaller scales and to constrain the origin of the astrometric variability. The new observations are also used to identify significant radio-optical offsets in all seven objects, suggesting that many astrometrically-variable quasars also exhibit significant radio-optical offsets. We find that four of the seven sources are possible candidate multi-AGN based on their radio properties and radio-optical offsets. Overall, we use this follow-up study to constrain the smaller-scale radio properties of this sample of astrometrically-variable quasars, and continue to explore the use of this method in the field of multi-AGN.</summary>
+    <category term="astro-ph.GA" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-03-04T14:35:18Z</published>
+    <arxiv:comment>36 pages, 19 figures, ApJ submitted, comments welcome</arxiv:comment>
+    <arxiv:primary_category term="astro-ph.GA"/>
+    <author>
+      <name>Emma Schwartzman</name>
+    </author>
+    <author>
+      <name>Paula Fudolig</name>
+    </author>
+    <author>
+      <name>Tracy Clarke</name>
+    </author>
+    <author>
+      <name>Krisina Nyland</name>
+    </author>
+    <author>
+      <name>Nathan Secrest</name>
+    </author>
+    <author>
+      <name>Ryan Pfeifle</name>
+    </author>
+    <author>
+      <name>Henrique Schmitt</name>
+    </author>
+    <author>
+      <name>Shobita Satyapal</name>
+    </author>
+    <author>
+      <name>Barry Rothberg</name>
+    </author>
+  </entry>
+</feed>

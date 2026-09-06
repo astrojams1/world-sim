@@ -1,0 +1,422 @@
+\begin{thebibliography}{50}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Assran et~al.(2025)Assran, Bardes, Fan, Garrido, Howes, Mojtaba,
+  Komeili, Muckley, Rizvi, Roberts, Sinha, Zholus, Arnaud, Gejji, Martin,
+  Hogan, Dugas, Bojanowski, Khalidov, Labatut, Massa, Szafraniec, Krishnakumar,
+  Li, Ma, Chandar, Meier, LeCun, Rabbat, and Ballas]{assran2025v}
+Mido Assran, Adrien Bardes, David Fan, Quentin Garrido, Russell Howes, Mojtaba,
+  Komeili, Matthew Muckley, Ammar Rizvi, Claire Roberts, Koustuv Sinha, Artem
+  Zholus, Sergio Arnaud, Abha Gejji, Ada Martin, Francois~Robert Hogan, Daniel
+  Dugas, Piotr Bojanowski, Vasil Khalidov, Patrick Labatut, Francisco Massa,
+  Marc Szafraniec, Kapil Krishnakumar, Yong Li, Xiaodong Ma, Sarath Chandar,
+  Franziska Meier, Yann LeCun, Michael Rabbat, and Nicolas Ballas.
+\newblock {V-JEPA 2: Self-Supervised Video Models Enable Understanding,
+  Prediction and Planning}.
+\newblock \emph{arXiv preprint arXiv:2506.09985}, 2025.
+
+\bibitem[Avetisyan et~al.(2024)Avetisyan, Xie, Howard-Jenkins, Yang, Aroudj,
+  Patra, Zhang, Frost, Holland, Orme, Engel, Miller, Newcombe, and
+  Balntas]{avetisyan2024scenescript}
+Armen Avetisyan, Christopher Xie, Henry Howard-Jenkins, Tsun-Yi Yang, Samir
+  Aroudj, Suvam Patra, Fuyang Zhang, Duncan Frost, Luke Holland, Campbell Orme,
+  Jakob Engel, Edward Miller, Richard Newcombe, and Vasileios Balntas.
+\newblock {SceneScript: Reconstructing Scenes With An Autoregressive Structured
+  Language Model}.
+\newblock \emph{arXiv preprint arXiv:2403.13064}, 2024.
+
+\bibitem[Bujnak et~al.(2008)Bujnak, Kukelova, and Pajdla]{bujnak2008general}
+Martin Bujnak, Zuzana Kukelova, and Tomas Pajdla.
+\newblock {A general solution to the P4P problem for camera with unknown focal
+  length}.
+\newblock In \emph{2008 IEEE Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 1--8, Anchorage, AK, USA, 2008. IEEE.
+\newblock \doi{10.1109/cvpr.2008.4587793}.
+
+\bibitem[Burgess et~al.(2019)Burgess, Matthey, Watters, Kabra, Higgins,
+  Botvinick, and Lerchner]{burgess2019monet}
+Christopher~P. Burgess, Loic Matthey, Nicholas Watters, Rishabh Kabra, Irina
+  Higgins, Matt Botvinick, and Alexander Lerchner.
+\newblock {MONet: Unsupervised Scene Decomposition and Representation}.
+\newblock \emph{arXiv preprint arXiv:1901.11390}, 2019.
+
+\bibitem[Caraffa et~al.(2023)Caraffa, Boscaini, Hamza, and
+  Poiesi]{caraffa2023freeze}
+Andrea Caraffa, Davide Boscaini, Amir Hamza, and Fabio Poiesi.
+\newblock {FreeZe: Training-free zero-shot 6D pose estimation with geometric
+  and vision foundation models}.
+\newblock \emph{arXiv preprint arXiv:2312.00947}, 2023.
+
+\bibitem[Chen et~al.(2026{\natexlab{a}})Chen, Xia, Peng, Zhang, Ma, Qian, Jiao,
+  Zhou, Ye, Zhang, Wang, Zeng, Chen, Yang, Zeng, Luo, Wang, Liu, Yuille, Shi,
+  Zheng, Li, Jiang, and Chen]{chen2026agentic}
+Guanxiong Chen, Qianjun Xia, Jiawei Peng, Heng Zhang, Bole Ma, Justin Qian,
+  Ziyi Jiao, Bingyang Zhou, Luoxin Ye, Kaifeng Zhang, Kunyi Wang, Weijia Zeng,
+  Yunuo Chen, Pengzhi Yang, Ziqiu Zeng, Siyuan Luo, Huamin Wang, Chao Liu, Alan
+  Yuille, Fan Shi, Changxi Zheng, Yunzhu Li, Chenfanfu Jiang, and Peter~Yichen
+  Chen.
+\newblock {Agentic Real2Sim: Physics-based World Modeling with Vision-Language
+  Agents}.
+\newblock \emph{arXiv preprint arXiv:2607.19190}, 2026{\natexlab{a}}.
+
+\bibitem[Chen et~al.(2025)Chen, Guo, Wang, Zhang, Huang, Zheng, Hou, Tie, Deng,
+  and Shao]{chen2025goal}
+Haonan Chen, Jingxiang Guo, Bangjun Wang, Tianrui Zhang, Xuchuan Huang, Boren
+  Zheng, Yiwen Hou, Chenrui Tie, Jiajun Deng, and Lin Shao.
+\newblock {Goal-VLA: Image-Generative VLMs as Object-Centric World Models
+  Empowering Zero-shot Robot Manipulation}.
+\newblock \emph{arXiv preprint arXiv:2506.23919}, 2025.
+
+\bibitem[Chen et~al.(2026{\natexlab{b}})Chen, Guo, Guo, Jiang, Shen, Shen, Xue,
+  Xue, Yu, Zhang, Zhao, Zhou, and Zhou]{chen2026definition}
+Xinyuan Chen, Haoyu Guo, Shi Guo, Bingqi Jiang, Chunhua Shen, Xing Shen,
+  Tianfan Xue, Yufei Xue, Mulin Yu, Weinan Zhang, Bin Zhao, Bowen Zhou, and
+  Ming Zhou.
+\newblock {A Definition and Roadmap for World Models}.
+\newblock \emph{arXiv preprint arXiv:2607.06401}, 2026{\natexlab{b}}.
+
+\bibitem[Chen et~al.(2024)Chen, Walsman, Memmel, Mo, Fang, Vemuri, Wu, Fox, and
+  Gupta]{chen2024urdformer}
+Zoey Chen, Aaron Walsman, Marius Memmel, Kaichun Mo, Alex Fang, Karthikeya
+  Vemuri, Alan Wu, Dieter Fox, and Abhishek Gupta.
+\newblock {URDFormer: A Pipeline for Constructing Articulated Simulation
+  Environments from Real-World Images}.
+\newblock \emph{arXiv preprint arXiv:2405.11656}, 2024.
+
+\bibitem[Cho et~al.(2026)Cho, Hachiuma, Badki, Su, Lee, Song, Liu,
+  Radhakrishnan, Kim, Wang, and Chen]{cho2026spatialclaw}
+Seokju Cho, Ryo Hachiuma, Abhishek Badki, Hang Su, Byung-Kwan Lee, Chan~Hee
+  Song, Sifei Liu, Subhashree Radhakrishnan, Seungryong Kim, Yu-Chiang~Frank
+  Wang, and Min-Hung Chen.
+\newblock {SpatialClaw: Rethinking Action Interface for Agentic Spatial
+  Reasoning}.
+\newblock \emph{arXiv preprint arXiv:2606.13673}, 2026.
+
+\bibitem[Dai et~al.(2024)Dai, Wong, Jiang, Wang, Gokmen, Zhang, Wu, and
+  Fei-Fei]{dai2024automated}
+Tianyuan Dai, Josiah Wong, Yunfan Jiang, Chen Wang, Cem Gokmen, Ruohan Zhang,
+  Jiajun Wu, and Li~Fei-Fei.
+\newblock {Automated Creation of Digital Cousins for Robust Policy Learning}.
+\newblock \emph{arXiv preprint arXiv:2410.07408}, 2024.
+
+\bibitem[Dai et~al.(2026)Dai, Li, Tian, Yao, Dong, Hong, Chen, Liu, Wang, Yap,
+  and Liu]{dai2026s}
+Yalun Dai, Hao Li, Shulin Tian, Runmao Yao, Yuhao Dong, Fangzhou Hong, Zhaoxi
+  Chen, Fangfu Liu, Tao Wang, Kim-Hui Yap, and Ziwei Liu.
+\newblock {S-Agent: Spatial Tool-Use Elicits Reasoning for Spatial
+  Intelligence}.
+\newblock \emph{arXiv preprint arXiv:2606.20515}, 2026.
+
+\bibitem[Ding et~al.(2024)Ding, Zhang, Shang, Feng, Zhang, Zong, Yuan, Su, Li,
+  Piao, Deng, Sukiennik, Gao, Xu, and Li]{ding2024understanding}
+Jingtao Ding, Yunke Zhang, Yu~Shang, Jie Feng, Yuheng Zhang, Zefang Zong, Yuan
+  Yuan, Hongyuan Su, Nian Li, Jinghua Piao, Yucheng Deng, Nicholas Sukiennik,
+  Chen Gao, Fengli Xu, and Yong Li.
+\newblock {Understanding World or Predicting Future? A Comprehensive Survey of
+  World Models}.
+\newblock \emph{arXiv preprint arXiv:2411.14499}, 2024.
+
+\bibitem[Feng et~al.(2025)Feng, Kang, Wang, Du, Yan, Shi, Yuan, Liang, Deng,
+  Li, Yang, An, Zheng, Wang, Chen, Xu, Liang, Yang, and Guo]{feng2025seeing}
+Zhiyuan Feng, Zhaolu Kang, Qijie Wang, Zhiying Du, Jiongrui Yan, Shubin Shi,
+  Chengbo Yuan, Huizhi Liang, Yu~Deng, Qixiu Li, Rushuai Yang, Arctanx An, Leqi
+  Zheng, Weijie Wang, Shawn Chen, Sicheng Xu, Yaobo Liang, Jiaolong Yang, and
+  Baining Guo.
+\newblock {Seeing Across Views: Benchmarking Spatial Reasoning of
+  Vision-Language Models in Robotic Scenes}.
+\newblock \emph{arXiv preprint arXiv:2510.19400}, 2025.
+
+\bibitem[Ferraro et~al.(2023)Ferraro, Mazzaglia, Verbelen, and
+  Dhoedt]{ferraro2023focus}
+Stefano Ferraro, Pietro Mazzaglia, Tim Verbelen, and Bart Dhoedt.
+\newblock {FOCUS: Object-Centric World Models for Robotics Manipulation}.
+\newblock \emph{arXiv preprint arXiv:2307.02427}, 2023.
+
+\bibitem[Gothoskar et~al.(2021)Gothoskar, Cusumano-Towner, Zinberg,
+  Ghavamizadeh, Pollok, Garrett, Tenenbaum, Gutfreund, and
+  Mansinghka]{gothoskar20213dp3}
+Nishad Gothoskar, Marco Cusumano-Towner, Ben Zinberg, Matin Ghavamizadeh, Falk
+  Pollok, Austin Garrett, Joshua~B. Tenenbaum, Dan Gutfreund, and Vikash~K.
+  Mansinghka.
+\newblock {3DP3: 3D Scene Perception via Probabilistic Programming}.
+\newblock \emph{arXiv preprint arXiv:2111.00312}, 2021.
+
+\bibitem[Gothoskar et~al.(2023)Gothoskar, Ghavami, Li, Curtis, Noseworthy,
+  Chung, Patton, Freeman, Tenenbaum, Klukas, and
+  Mansinghka]{gothoskar2023bayes3d}
+Nishad Gothoskar, Matin Ghavami, Eric Li, Aidan Curtis, Michael Noseworthy,
+  Karen Chung, Brian Patton, William~T. Freeman, Joshua~B. Tenenbaum, Mirko
+  Klukas, and Vikash~K. Mansinghka.
+\newblock {Bayes3D: fast learning and inference in structured generative models
+  of 3D objects and scenes}.
+\newblock \emph{arXiv preprint arXiv:2312.08715}, 2023.
+
+\bibitem[Greff et~al.(2019)Greff, Kaufman, Kabra, Watters, Burgess, Zoran,
+  Matthey, Botvinick, and Lerchner]{greff2019multi}
+Klaus Greff, Raphaël~Lopez Kaufman, Rishabh Kabra, Nick Watters, Chris
+  Burgess, Daniel Zoran, Loic Matthey, Matthew Botvinick, and Alexander
+  Lerchner.
+\newblock {Multi-Object Representation Learning with Iterative Variational
+  Inference}.
+\newblock \emph{arXiv preprint arXiv:1903.00450}, 2019.
+
+\bibitem[Gupta and Kembhavi(2022)]{gupta2022visual}
+Tanmay Gupta and Aniruddha Kembhavi.
+\newblock {Visual Programming: Compositional visual reasoning without
+  training}.
+\newblock \emph{arXiv preprint arXiv:2211.11559}, 2022.
+
+\bibitem[Ha and Schmidhuber(2018)]{ha2018world}
+David Ha and Jürgen Schmidhuber.
+\newblock {World Models}.
+\newblock \emph{arXiv preprint arXiv:1803.10122}, 2018.
+\newblock \doi{10.5281/zenodo.1207631}.
+
+\bibitem[Hafner et~al.(2019)Hafner, Lillicrap, Ba, and
+  Norouzi]{hafner2019dream}
+Danijar Hafner, Timothy Lillicrap, Jimmy Ba, and Mohammad Norouzi.
+\newblock {Dream to Control: Learning Behaviors by Latent Imagination}.
+\newblock \emph{arXiv preprint arXiv:1912.01603}, 2019.
+
+\bibitem[Hafner et~al.(2023)Hafner, Pasukonis, Ba, and
+  Lillicrap]{hafner2023mastering}
+Danijar Hafner, Jurgis Pasukonis, Jimmy Ba, and Timothy Lillicrap.
+\newblock {Mastering Diverse Domains through World Models}.
+\newblock \emph{arXiv preprint arXiv:2301.04104}, 2023.
+
+\bibitem[Hodan et~al.(2018)Hodan, Michel, Brachmann, Kehl, Buch, Kraft, Drost,
+  Vidal, Ihrke, Zabulis, Sahin, Manhardt, Tombari, Kim, Matas, and
+  Rother]{hodan2018bop}
+Tomas Hodan, Frank Michel, Eric Brachmann, Wadim Kehl, Anders~Glent Buch, Dirk
+  Kraft, Bertram Drost, Joel Vidal, Stephan Ihrke, Xenophon Zabulis, Caner
+  Sahin, Fabian Manhardt, Federico Tombari, Tae-Kyun Kim, Jiri Matas, and
+  Carsten Rother.
+\newblock {BOP: Benchmark for 6D Object Pose Estimation}.
+\newblock \emph{arXiv preprint arXiv:1808.08319}, 2018.
+
+\bibitem[Hodan et~al.(2020)Hodan, Sundermeyer, Drost, Labbe, Brachmann, Michel,
+  Rother, and Matas]{hodan2020bop}
+Tomas Hodan, Martin Sundermeyer, Bertram Drost, Yann Labbe, Eric Brachmann,
+  Frank Michel, Carsten Rother, and Jiri Matas.
+\newblock {BOP Challenge 2020 on 6D Object Localization}.
+\newblock \emph{arXiv preprint arXiv:2009.07378}, 2020.
+
+\bibitem[Hu et~al.(2024)Hu, Shi, Fu, Roth, Ostendorf, Zettlemoyer, Smith, and
+  Krishna]{hu2024visual}
+Yushi Hu, Weijia Shi, Xingyu Fu, Dan Roth, Mari Ostendorf, Luke Zettlemoyer,
+  Noah~A Smith, and Ranjay Krishna.
+\newblock {Visual Sketchpad: Sketching as a Visual Chain of Thought for
+  Multimodal Language Models}.
+\newblock \emph{arXiv preprint arXiv:2406.09403}, 2024.
+
+\bibitem[Jiang et~al.(2025)Jiang, Hsu, Zhang, Yu, Wang, and
+  Li]{jiang2025phystwin}
+Hanxiao Jiang, Hao-Yu Hsu, Kaifeng Zhang, Hsin-Ni Yu, Shenlong Wang, and Yunzhu
+  Li.
+\newblock {PhysTwin: Physics-Informed Reconstruction and Simulation of
+  Deformable Objects from Videos}.
+\newblock \emph{arXiv preprint arXiv:2503.17973}, 2025.
+
+\bibitem[Johnson et~al.(2016)Johnson, Hariharan, van~der Maaten, Fei-Fei,
+  Zitnick, and Girshick]{johnson2016clevr}
+Justin Johnson, Bharath Hariharan, Laurens van~der Maaten, Li~Fei-Fei,
+  C.~Lawrence Zitnick, and Ross Girshick.
+\newblock {CLEVR: A Diagnostic Dataset for Compositional Language and
+  Elementary Visual Reasoning}.
+\newblock \emph{arXiv preprint arXiv:1612.06890}, 2016.
+
+\bibitem[Kong et~al.(2025)Kong, Yang, Mei, Liu, Liang, Zhu, Lu, Yin, Hu, Jia,
+  Deng, Zhang, Wu, Yan, Gao, Wang, Li, Pan, Liu, Zhu, Ooi, Hoi, and
+  Liu]{kong20253d}
+Lingdong Kong, Yu~Yang, Jianbiao Mei, Youquan Liu, Ao~Liang, Dekai Zhu, Dongyue
+  Lu, Wei Yin, Xiaotao Hu, Mingkai Jia, Junyuan Deng, Kaiwen Zhang, Yang Wu,
+  Tianyi Yan, Shenyuan Gao, Song Wang, Linfeng Li, Liang Pan, Yong Liu, Jianke
+  Zhu, Wei~Tsang Ooi, Steven C.~H. Hoi, and Ziwei Liu.
+\newblock {3D and 4D World Modeling: A Survey}.
+\newblock \emph{arXiv preprint arXiv:2509.07996}, 2025.
+
+\bibitem[Kulits et~al.(2024)Kulits, Feng, Liu, Abrevaya, and
+  Black]{kulits2024re}
+Peter Kulits, Haiwen Feng, Weiyang Liu, Victoria Abrevaya, and Michael~J.
+  Black.
+\newblock {Re-Thinking Inverse Graphics With Large Language Models}.
+\newblock \emph{arXiv preprint arXiv:2404.15228}, 2024.
+
+\bibitem[Kulkarni et~al.(2014)Kulkarni, Mansinghka, Kohli, and
+  Tenenbaum]{kulkarni2014inverse}
+Tejas~D. Kulkarni, Vikash~K. Mansinghka, Pushmeet Kohli, and Joshua~B.
+  Tenenbaum.
+\newblock {Inverse Graphics with Probabilistic CAD Models}.
+\newblock \emph{arXiv preprint arXiv:1407.1339}, 2014.
+
+\bibitem[Kulkarni et~al.(2015{\natexlab{a}})Kulkarni, Kohli, Tenenbaum, and
+  Mansinghka]{kulkarni2015picture}
+Tejas~D. Kulkarni, Pushmeet Kohli, Joshua~B. Tenenbaum, and Vikash Mansinghka.
+\newblock {Picture: A probabilistic programming language for scene perception}.
+\newblock In \emph{2015 IEEE Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 4390--4399, Boston, MA, USA, 2015{\natexlab{a}}.
+  IEEE.
+\newblock \doi{10.1109/cvpr.2015.7299068}.
+
+\bibitem[Kulkarni et~al.(2015{\natexlab{b}})Kulkarni, Whitney, Kohli, and
+  Tenenbaum]{kulkarni2015deep}
+Tejas~D. Kulkarni, Will Whitney, Pushmeet Kohli, and Joshua~B. Tenenbaum.
+\newblock {Deep Convolutional Inverse Graphics Network}.
+\newblock \emph{arXiv preprint arXiv:1503.03167}, 2015{\natexlab{b}}.
+
+\bibitem[Labbé et~al.(2022)Labbé, Manuelli, Mousavian, Tyree, Birchfield,
+  Tremblay, Carpentier, Aubry, Fox, and Sivic]{labb2022megapose}
+Yann Labbé, Lucas Manuelli, Arsalan Mousavian, Stephen Tyree, Stan Birchfield,
+  Jonathan Tremblay, Justin Carpentier, Mathieu Aubry, Dieter Fox, and Josef
+  Sivic.
+\newblock {MegaPose: 6D Pose Estimation of Novel Objects via Render \&
+  Compare}.
+\newblock \emph{arXiv preprint arXiv:2212.06870}, 2022.
+
+\bibitem[Liu et~al.(2026)Liu, Qian, Dubost, Zhong, Srinivasan, Chen, Wang,
+  Zhang, Mottini, Cui, and Wang]{liu20263d}
+Junze Liu, Kun Qian, Florian Dubost, Kai Zhong, Arvind Srinivasan, Nan Chen,
+  Anping Wang, Sam Zhang, Alejandro Mottini, Qingjun Cui, and Tian Wang.
+\newblock {3D Primitives are a Spatial Language for VLMs}.
+\newblock \emph{arXiv preprint arXiv:2605.12586}, 2026.
+
+\bibitem[Locatello et~al.(2020)Locatello, Weissenborn, Unterthiner, Mahendran,
+  Heigold, Uszkoreit, Dosovitskiy, and Kipf]{locatello2020object}
+Francesco Locatello, Dirk Weissenborn, Thomas Unterthiner, Aravindh Mahendran,
+  Georg Heigold, Jakob Uszkoreit, Alexey Dosovitskiy, and Thomas Kipf.
+\newblock {Object-Centric Learning with Slot Attention}.
+\newblock \emph{arXiv preprint arXiv:2006.15055}, 2020.
+
+\bibitem[Luo et~al.(2026)Luo, Zhang, Yong, Dai, Wang, Ran, Shi, Sycara, and
+  Xie]{luo2026pyspatial}
+Zhanpeng Luo, Ce~Zhang, Silong Yong, Cunxi Dai, Qianwei Wang, Haoxi Ran, Guanya
+  Shi, Katia Sycara, and Yaqi Xie.
+\newblock {pySpatial: Generating 3D Visual Programs for Zero-Shot Spatial
+  Reasoning}.
+\newblock \emph{arXiv preprint arXiv:2603.00905}, 2026.
+
+\bibitem[Mandi et~al.(2024)Mandi, Weng, Bauer, and Song]{mandi2024real2code}
+Zhao Mandi, Yijia Weng, Dominik Bauer, and Shuran Song.
+\newblock {Real2Code: Reconstruct Articulated Objects via Code Generation}.
+\newblock \emph{arXiv preprint arXiv:2406.08474}, 2024.
+
+\bibitem[Marsili et~al.(2025)Marsili, Agrawal, Yue, and
+  Gkioxari]{marsili2025visual}
+Damiano Marsili, Rohun Agrawal, Yisong Yue, and Georgia Gkioxari.
+\newblock {Visual Agentic AI for Spatial Reasoning with a Dynamic API}.
+\newblock \emph{arXiv preprint arXiv:2502.06787}, 2025.
+
+\bibitem[Nguyen et~al.(2025)Nguyen, Tyree, Guo, Fourmy, Gouda, Lee, Moon, Son,
+  Ranftl, Tremblay, Brachmann, Drost, Lepetit, Rother, Birchfield, Matas,
+  Labbe, Sundermeyer, and Hodan]{nguyen2025bop}
+Van~Nguyen Nguyen, Stephen Tyree, Andrew Guo, Mederic Fourmy, Anas Gouda,
+  Taeyeop Lee, Sungphill Moon, Hyeontae Son, Lukas Ranftl, Jonathan Tremblay,
+  Eric Brachmann, Bertram Drost, Vincent Lepetit, Carsten Rother, Stan
+  Birchfield, Jiri Matas, Yann Labbe, Martin Sundermeyer, and Tomas Hodan.
+\newblock {BOP Challenge 2024 on Model-Based and Model-Free 6D Object Pose
+  Estimation}.
+\newblock \emph{arXiv preprint arXiv:2504.02812}, 2025.
+
+\bibitem[NVIDIA et~al.(2025)NVIDIA, :, Agarwal, Ali, Bala, Balaji, Barker, Cai,
+  Chattopadhyay, Chen, Cui, Ding, Dworakowski, Fan, Fenzi, Ferroni, Fidler,
+  Fox, Ge, Ge, Gu, Gururani, He, Huang, Huffman, Jannaty, Jin, Kim, Klár, Lam,
+  Lan, Leal-Taixe, Li, Li, Lin, Lin, Ling, Liu, Liu, Luo, Ma, Mao, Mo,
+  Mousavian, Nah, Niverty, Page, Paschalidou, Patel, Pavao, Ramezanali, Reda,
+  Ren, Sabavat, Schmerling, Shi, Stefaniak, Tang, Tchapmi, Tredak, Tseng,
+  Varghese, Wang, Wang, Wang, Wang, Wei, Wei, Wu, Xu, Yang, Yen-Chen, Zeng,
+  Zeng, Zhang, Zhang, Zhang, Zhao, and Zolkowski]{nvidia2025cosmos}
+NVIDIA, :, Niket Agarwal, Arslan Ali, Maciej Bala, Yogesh Balaji, Erik Barker,
+  Tiffany Cai, Prithvijit Chattopadhyay, Yongxin Chen, Yin Cui, Yifan Ding,
+  Daniel Dworakowski, Jiaojiao Fan, Michele Fenzi, Francesco Ferroni, Sanja
+  Fidler, Dieter Fox, Songwei Ge, Yunhao Ge, Jinwei Gu, Siddharth Gururani,
+  Ethan He, Jiahui Huang, Jacob Huffman, Pooya Jannaty, Jingyi Jin, Seung~Wook
+  Kim, Gergely Klár, Grace Lam, Shiyi Lan, Laura Leal-Taixe, Anqi Li, Zhaoshuo
+  Li, Chen-Hsuan Lin, Tsung-Yi Lin, Huan Ling, Ming-Yu Liu, Xian Liu, Alice
+  Luo, Qianli Ma, Hanzi Mao, Kaichun Mo, Arsalan Mousavian, Seungjun Nah,
+  Sriharsha Niverty, David Page, Despoina Paschalidou, Zeeshan Patel, Lindsey
+  Pavao, Morteza Ramezanali, Fitsum Reda, Xiaowei Ren, Vasanth Rao~Naik
+  Sabavat, Ed~Schmerling, Stella Shi, Bartosz Stefaniak, Shitao Tang, Lyne
+  Tchapmi, Przemek Tredak, Wei-Cheng Tseng, Jibin Varghese, Hao Wang, Haoxiang
+  Wang, Heng Wang, Ting-Chun Wang, Fangyin Wei, Xinyue Wei, Jay~Zhangjie Wu,
+  Jiashu Xu, Wei Yang, Lin Yen-Chen, Xiaohui Zeng, Yu~Zeng, Jing Zhang,
+  Qinsheng Zhang, Yuxuan Zhang, Qingqing Zhao, and Artur Zolkowski.
+\newblock {Cosmos World Foundation Model Platform for Physical AI}.
+\newblock \emph{arXiv preprint arXiv:2501.03575}, 2025.
+
+\bibitem[Rahmanzadehgervi et~al.(2024)Rahmanzadehgervi, Bolton, Taesiri, and
+  Nguyen]{rahmanzadehgervi2024vision}
+Pooyan Rahmanzadehgervi, Logan Bolton, Mohammad~Reza Taesiri, and Anh~Totti
+  Nguyen.
+\newblock {Vision language models are blind: Failing to translate detailed
+  visual features into words}.
+\newblock \emph{arXiv preprint arXiv:2407.06581}, 2024.
+
+\bibitem[Stelzner et~al.(2021)Stelzner, Kersting, and
+  Kosiorek]{stelzner2021decomposing}
+Karl Stelzner, Kristian Kersting, and Adam~R. Kosiorek.
+\newblock {Decomposing 3D Scenes into Objects via Unsupervised Volume
+  Segmentation}.
+\newblock \emph{arXiv preprint arXiv:2104.01148}, 2021.
+
+\bibitem[Surís et~al.(2023)Surís, Menon, and Vondrick]{surs2023vipergpt}
+Dídac Surís, Sachit Menon, and Carl Vondrick.
+\newblock {ViperGPT: Visual Inference via Python Execution for Reasoning}.
+\newblock \emph{arXiv preprint arXiv:2303.08128}, 2023.
+
+\bibitem[Wang et~al.(2026)Wang, Wang, Pei, Zhang, Liang, Hu, Li, Wu, Han,
+  Zhang, Qi, Wu, Zhang, Zheng, Pan, Navarro-Alarcon, Liu, and
+  Zhou]{wang2026world}
+Fangyuan Wang, Ziyuan Wang, Guorui Pei, Mengshi Zhang, Canxi Liang, Jun Hu,
+  Zhongxuan Li, Jinsong Wu, Ning Han, Zeqing Zhang, Jiaming Qi, Hongmin Wu,
+  Shiyao Zhang, Pai Zheng, Jia Pan, David Navarro-Alarcon, Sichao Liu, and Peng
+  Zhou.
+\newblock {World Models for Robotic Manipulation: A Survey}.
+\newblock \emph{arXiv preprint arXiv:2606.00113}, 2026.
+
+\bibitem[Wen et~al.(2023)Wen, Yang, Kautz, and
+  Birchfield]{wen2023foundationpose}
+Bowen Wen, Wei Yang, Jan Kautz, and Stan Birchfield.
+\newblock {FoundationPose: Unified 6D Pose Estimation and Tracking of Novel
+  Objects}.
+\newblock \emph{arXiv preprint arXiv:2312.08344}, 2023.
+
+\bibitem[Wu et~al.(2017)Wu, Tenenbaum, and Kohli]{wu2017neural}
+Jiajun Wu, Joshua~B. Tenenbaum, and Pushmeet Kohli.
+\newblock {Neural Scene De-rendering}.
+\newblock In \emph{2017 IEEE Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 7035--7043, Honolulu, HI, USA, 2017. IEEE.
+\newblock \doi{10.1109/cvpr.2017.744}.
+
+\bibitem[Yang et~al.(2024)Yang, Yang, Gupta, Han, Fei-Fei, and
+  Xie]{yang2024thinking}
+Jihan Yang, Shusheng Yang, Anjali~W. Gupta, Rilyn Han, Li~Fei-Fei, and Saining
+  Xie.
+\newblock {Thinking in Space: How Multimodal Large Language Models See,
+  Remember, and Recall Spaces}.
+\newblock \emph{arXiv preprint arXiv:2412.14171}, 2024.
+
+\bibitem[Yu et~al.(2021)Yu, Guibas, and Wu]{yu2021unsupervised}
+Hong-Xing Yu, Leonidas~J. Guibas, and Jiajun Wu.
+\newblock {Unsupervised Discovery of Object Radiance Fields}.
+\newblock \emph{arXiv preprint arXiv:2107.07905}, 2021.
+
+\bibitem[Yuille and Kersten(2006)]{yuille2006vision}
+Alan Yuille and Daniel Kersten.
+\newblock {Vision as Bayesian inference: analysis by synthesis?}
+\newblock \emph{Trends in Cognitive Sciences}, 10\penalty0 (7):\penalty0
+  301--308, 2006.
+\newblock \doi{10.1016/j.tics.2006.05.002}.
+
+\bibitem[Zhang et~al.(2026)Zhang, Wu, Jia, Wang, Zhang, Li, Ran, Zhang, Sun,
+  Peng, Yin, Wang, and Lu]{zhang2026think3d}
+Zaibin Zhang, Yuhan Wu, Lianjie Jia, Yifan Wang, Zhongbo Zhang, Yijiang Li,
+  Binghao Ran, Fuxi Zhang, Zhuohan Sun, Yizhuang Peng, Zhenfei Yin, Lijun Wang,
+  and Huchuan Lu.
+\newblock {Think3D: Thinking with Space for Spatial Reasoning}.
+\newblock \emph{arXiv preprint arXiv:2601.13029}, 2026.
+
+\end{thebibliography}

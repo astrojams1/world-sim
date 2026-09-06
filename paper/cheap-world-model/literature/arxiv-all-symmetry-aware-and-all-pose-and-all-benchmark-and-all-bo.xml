@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/atMyZ56HmabSwHYnUMNnK3R/694</id>
+  <title>arXiv Query: search_query=all:"symmetry-aware" AND all:"pose" AND all:benchmark AND all:BOP&amp;id_list=&amp;start=0&amp;max_results=12</title>
+  <updated>2026-09-05T21:41:45Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=all:%22symmetry-aware%22+AND+(all:%22pose%22+AND+(all:benchmark+AND+all:BOP))&amp;start=0&amp;max_results=12&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>12</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2504.07335v4</id>
+    <title>DLTPose: 6DoF Pose Estimation From Accurate Dense Surface Point Estimates</title>
+    <updated>2026-08-25T02:03:32Z</updated>
+    <link href="https://arxiv.org/abs/2504.07335v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2504.07335v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We propose DLTPose, a novel method for 6DoF object pose estimation from RGBD images that combines the accuracy of sparse keypoint methods with the robustness of dense pixel-wise predictions. DLTPose predicts per-pixel radial distances to a set of minimally four keypoints, which are then fed into our novel Direct Linear Transform (DLT) formulation to produce accurate 3D object frame surface estimates, leading to better 6DoF pose estimation. Additionally, we introduce a novel symmetry-aware keypoint ordering approach, designed to handle object symmetries that otherwise cause inconsistencies in keypoint assignments.Previous keypoint-based methods relied on fixed keypoint orderings, which failed to account for the multiple valid configurations exhibited by symmetric objects, which our ordering approach exploits to enhance the model's ability to learn stable keypoint representations. Extensive experiments on the benchmark BOP-Classic-Core datasets show that DLTPose outperforms many recent methods, performing especially well for symmetric and occluded objects. The code is available at anonymous.4open.science/r/DLTPose.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-04-09T23:30:22Z</published>
+    <arxiv:comment>made changes to the evaluation, and added a few required ablation studies</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Akash Jadhav</name>
+    </author>
+    <author>
+      <name>Michael Greenspan</name>
+    </author>
+  </entry>
+</feed>

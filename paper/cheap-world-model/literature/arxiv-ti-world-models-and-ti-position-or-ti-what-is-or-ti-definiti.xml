@@ -1,0 +1,431 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/Alyv2idk9LvxRUcqVJbzSu3o/g4</id>
+  <title>arXiv Query: search_query=ti:"world models" AND (ti:"position" OR ti:"what is" OR ti:"definition" OR ti:"critical")&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T22:01:42Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22world+models%22+AND+(ti:%22position%22+OR+(ti:%22what+is%22+OR+(ti:%22definition%22+OR+ti:%22critical%22)))&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>32</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2607.06401v1</id>
+    <title>A Definition and Roadmap for World Models</title>
+    <updated>2026-07-07T15:31:32Z</updated>
+    <link href="https://arxiv.org/abs/2607.06401v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2607.06401v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>World models -- internal simulators that learn the structure and dynamics of an environment -- have become one of the most actively debated concepts in AI. From model-based reinforcement learning and video generation to embodied robotics and ultimately, physical AI, researchers across AI subfields are building systems that they call "world models", yet there is no consensus on what a world model fundamentally is, what it should predict, or how it should be built. This perspective article provides a scientific definition of world models, discussions of their key technical aspects, and a staged roadmap for developing effective world models.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-07-07T15:31:32Z</published>
+    <arxiv:comment>Technical report, 58 pages, 10 figures</arxiv:comment>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Xinyuan Chen</name>
+    </author>
+    <author>
+      <name>Haoyu Guo</name>
+    </author>
+    <author>
+      <name>Shi Guo</name>
+    </author>
+    <author>
+      <name>Bingqi Jiang</name>
+    </author>
+    <author>
+      <name>Chunhua Shen</name>
+    </author>
+    <author>
+      <name>Xing Shen</name>
+    </author>
+    <author>
+      <name>Tianfan Xue</name>
+    </author>
+    <author>
+      <name>Yufei Xue</name>
+    </author>
+    <author>
+      <name>Mulin Yu</name>
+    </author>
+    <author>
+      <name>Weinan Zhang</name>
+    </author>
+    <author>
+      <name>Bin Zhao</name>
+    </author>
+    <author>
+      <name>Bowen Zhou</name>
+    </author>
+    <author>
+      <name>Ming Zhou</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2608.06544v1</id>
+    <title>TaskSense: Focusing on What Matters in World Models</title>
+    <updated>2026-08-06T19:49:31Z</updated>
+    <link href="https://arxiv.org/abs/2608.06544v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2608.06544v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>World models for visual control typically learn compact latent states by reconstructing observations, implicitly encouraging representations to preserve information across the entire visual input. However, task-relevant content often occupies only a small fraction of the observation, while background clutter and distractors consume valuable representational capacity. This mismatch between visual reconstruction and control objectives biases latent representations to model task-irrelevant visual content, diluting learning signals for control-relevant features and severely degrading downstream performance under visual distractions. We introduce TaskSense, a task-centric world modeling framework that enforces task relevance before latent encoding through a differentiable stochastic spatial attention mechanism conditioned on the previous latent state. To steer attention toward control-relevant regions, we augment training with an auxiliary inverse-dynamics objective. Rather than reconstructing the full observation, the world model reconstructs only the attended regions, encouraging latent representations to preserve task-relevant information while discarding irrelevant visual content. The decoder is further conditioned on the sampled attention map, enabling consistent reconstruction despite stochastic attention. Compared with the DreamerV3 baseline, TaskSense maintains competitive performance on the DeepMind Control Suite while consistently outperforming DreamerV3 on the Distracting Control Suite, demonstrating substantially improved robustness to visual distractions. Qualitative analysis further confirms that the learned attention, guided by inverse-dynamics supervision, consistently localizes control-relevant regions while suppressing irrelevant visual content.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-08-06T19:49:31Z</published>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>SM Mazharul Islam</name>
+    </author>
+    <author>
+      <name>Manfred Huber</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2604.04707v2</id>
+    <title>OpenWorldLib: A Unified Codebase and Definition of Advanced World Models</title>
+    <updated>2026-05-25T06:28:44Z</updated>
+    <link href="https://arxiv.org/abs/2604.04707v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2604.04707v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>World models have garnered significant attention as a promising research direction in artificial intelligence, yet a clear and unified definition remains lacking. In this paper, we introduce OpenWorldLib, a comprehensive and standardized inference framework for Advanced World Models. Drawing on the evolution of world models, we propose a clear definition: a world model is a model or framework centered on perception, equipped with interaction and long-term memory capabilities, for understanding and predicting the complex world. We further systematically categorize the essential capabilities of world models. Based on this definition, OpenWorldLib integrates models across different tasks within a unified framework, enabling efficient reuse and collaborative inference. Finally, we present additional reflections and analyses on potential future directions for world model research. Code link: https://github.com/OpenDCAI/OpenWorldLib</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-04-06T14:19:48Z</published>
+    <arxiv:comment>28 pages, 6 figures</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name> DataFlow Team</name>
+    </author>
+    <author>
+      <name>Bohan Zeng</name>
+    </author>
+    <author>
+      <name>Daili Hua</name>
+    </author>
+    <author>
+      <name>Kaixin Zhu</name>
+    </author>
+    <author>
+      <name>Yifan Dai</name>
+    </author>
+    <author>
+      <name>Bozhou Li</name>
+    </author>
+    <author>
+      <name>Yuran Wang</name>
+    </author>
+    <author>
+      <name>Chengzhuo Tong</name>
+    </author>
+    <author>
+      <name>Yifan Yang</name>
+    </author>
+    <author>
+      <name>Mingkun Chang</name>
+    </author>
+    <author>
+      <name>Jianbin Zhao</name>
+    </author>
+    <author>
+      <name>Zhou Liu</name>
+    </author>
+    <author>
+      <name>Hao Liang</name>
+    </author>
+    <author>
+      <name>Xiaochen Ma</name>
+    </author>
+    <author>
+      <name>Ruichuan An</name>
+    </author>
+    <author>
+      <name>Junbo Niu</name>
+    </author>
+    <author>
+      <name>Zimo Meng</name>
+    </author>
+    <author>
+      <name>Tianyi Bai</name>
+    </author>
+    <author>
+      <name>Meiyi Qiang</name>
+    </author>
+    <author>
+      <name>Huanyao Zhang</name>
+    </author>
+    <author>
+      <name>Zhiyou Xiao</name>
+    </author>
+    <author>
+      <name>Tianyu Guo</name>
+    </author>
+    <author>
+      <name>Qinhan Yu</name>
+    </author>
+    <author>
+      <name>Runhao Zhao</name>
+    </author>
+    <author>
+      <name>Zhengpin Li</name>
+    </author>
+    <author>
+      <name>Xinyi Huang</name>
+    </author>
+    <author>
+      <name>Yisheng Pan</name>
+    </author>
+    <author>
+      <name>Yiwen Tang</name>
+    </author>
+    <author>
+      <name>Juanxi Tian</name>
+    </author>
+    <author>
+      <name>Yang Shi</name>
+    </author>
+    <author>
+      <name>Yue Ding</name>
+    </author>
+    <author>
+      <name>Xinlong Chen</name>
+    </author>
+    <author>
+      <name>Hongcheng Gao</name>
+    </author>
+    <author>
+      <name>Minglei Shi</name>
+    </author>
+    <author>
+      <name>Jialong Wu</name>
+    </author>
+    <author>
+      <name>Zekun Wang</name>
+    </author>
+    <author>
+      <name>Yuanxing Zhang</name>
+    </author>
+    <author>
+      <name>Xintao Wang</name>
+    </author>
+    <author>
+      <name>Pengfei Wan</name>
+    </author>
+    <author>
+      <name>Yiren Song</name>
+    </author>
+    <author>
+      <name>Mike Zheng Shou</name>
+    </author>
+    <author>
+      <name>Wentao Zhang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2512.21577v3</id>
+    <title>A Unified Definition of Hallucination: It's The World Model, Stupid!</title>
+    <updated>2026-06-12T23:25:06Z</updated>
+    <link href="https://arxiv.org/abs/2512.21577v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2512.21577v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Despite numerous attempts at mitigation since the inception of language models, hallucinations remain a persistent problem even in today's frontier LLMs. Why is this? We review existing definitions of hallucination and fold them into a single, unified definition wherein prior definitions are subsumed. We argue that hallucination can be unified by defining it as simply inaccurate (internal) world modeling, in a form where it is observable to the user. For example, stating a fact which contradicts a knowledge base OR producing a summary which contradicts the source. By varying the reference world model and conflict policy, our framework unifies prior definitions. We argue that this unified view is useful because it forces evaluations to clarify their assumed reference "world", distinguishes true hallucinations from planning or reward errors, and provides a common language for comparison across benchmarks and discussion of mitigation strategies. Building on this definition, we also connect our framework to HalluWorld, a complementary benchmark that instantiates fully specified reference world models for stress-testing model hallucinations.</summary>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.ML" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-12-25T08:42:18Z</published>
+    <arxiv:comment>ICML 2026. HalluWorld benchmark at https://github.com/DegenAI-Labs/HalluWorld</arxiv:comment>
+    <arxiv:primary_category term="cs.CL"/>
+    <author>
+      <name>Emmy Liu</name>
+    </author>
+    <author>
+      <name>Varun Gangal</name>
+    </author>
+    <author>
+      <name>Chelsea Zou</name>
+    </author>
+    <author>
+      <name>Michael Yu</name>
+    </author>
+    <author>
+      <name>Xiaoqi Huang</name>
+    </author>
+    <author>
+      <name>Alex Chang</name>
+    </author>
+    <author>
+      <name>Zhuofu Tao</name>
+    </author>
+    <author>
+      <name>Karan Singh</name>
+    </author>
+    <author>
+      <name>Sachin Kumar</name>
+    </author>
+    <author>
+      <name>Steven Y. Feng</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2607.06640v2</id>
+    <title>What a World Model Represents Is Three Questions</title>
+    <updated>2026-08-20T18:44:53Z</updated>
+    <link href="https://arxiv.org/abs/2607.06640v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2607.06640v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>World models learn task-relevant information through many routes: observation reconstruction, recurrent state, temporal filtering, and explicit task supervision. Different routes can make different variables available. The same variable can also be available through several routes at once. When it is, looking at which route would increase the training loss most if removed does not tell you which route the model actually uses. The questions are reachability, whether a training signal can identify a task-relevant direction; admission, whether that direction is recoverable from the latent; and assignment, which eligible route carries it. We test them in environments with a known set of required coordinates. A direction cannot enter the latent unless some training signal can identify it. Reconstruction, recurrence, or filtering may already recover some of those coordinates; a reward or value head then has no residual direction to admit. For what remains, how many independent predictions the target supplies is how many coordinates install: one through four independent predictions admit one through four directions, including through the value head. Reachability is not admission: a temporal second-moment coefficient can remain absent under next-token prediction when accumulating it is a fraction of a percent of that loss, and a head that predicts the coefficient restores it. Assignment is a different test. Two routes that each carry the same variable when trained alone do not swap the carrier when we reverse which is more costly to remove. A recurrent model trained on a transformer's recorded sequences shows the same pattern. Near the point where the competing route is beginning to clear the probe threshold, independent training runs disagree. What a world model represents is therefore three questions: what information is reachable, what supervision admits, and which competing route carries it.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-07-07T14:45:17Z</published>
+    <arxiv:comment>24 pages, 12 figures. Substantial rewrite of v1 (title changed). v2 Adds the reachability / admission / assignment split and the assignment experiments / the route-boundary / RSSM-transfer / stochastic-onset and reachability-versus-admission experiments</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Donna Vakalis</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2609.03774v1</id>
+    <title>Rethinking World Models for Safety-Critical Embodied Systems</title>
+    <updated>2026-09-03T12:44:44Z</updated>
+    <link href="https://arxiv.org/abs/2609.03774v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2609.03774v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>World models have progressed from compact latent dynamics to generative, controllable, and interactive simulators of embodied environments. However, high predictive likelihood and visual fidelity do not necessarily ensure that a model preserves the evidence required for safe decision-making. This perspective identifies three structural mismatches in current world modeling: likelihood versus risk, prediction versus intervention, and finite-horizon prediction versus accumulated consequences. We propose the Risk-Informed World Model (RIWM) as a decision-centric research direction for safety-critical embodied systems. RIWM organizes world modeling around consequences, intervention, epistemic uncertainty, and recoverability, and integrates four interdependent capabilities: decision-relevant representation, counterfactual reasoning, safety-critical episodic memory, and runtime safety assurance. It distinguishes physical, social, and operational consequences while using epistemic uncertainty to qualify the evidence supporting action. We further discuss open challenges in identifying consequential futures, validating counterfactual reasoning, maintaining revisable safety memories, translating learned consequences into executable constraints, and determining when evidence is sufficient to act. This perspective argues that future world models should move beyond predicting likely futures toward identifying which futures matter, revising judgments through experience, and recognizing when to act, revise, sense, defer, or abstain.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-09-03T12:44:44Z</published>
+    <arxiv:comment>6 pages, 2 figures. Perspective article</arxiv:comment>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Kailang Ma</name>
+    </author>
+    <author>
+      <name>Heye Huang</name>
+    </author>
+    <author>
+      <name>Inhi Kim</name>
+    </author>
+    <author>
+      <name>Kitae Jang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2603.06445v3</id>
+    <title>What if? Emulative Simulation with World Models for Situated Reasoning</title>
+    <updated>2026-07-08T07:22:50Z</updated>
+    <link href="https://arxiv.org/abs/2603.06445v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2603.06445v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Situated reasoning often relies on active exploration, yet in many real-world scenarios such exploration is infeasible due to physical constraints of robots or safety concerns of visually impaired users. Given only a limited observation, can an agent mentally simulate a future trajectory toward a target situation and answer spatial what-if questions? We introduce WanderDream, the first large-scale dataset designed for the emulative simulation of mental exploration, enabling models to reason without active exploration. WanderDream-Gen comprises 15.8K panoramic videos across 1,088 real scenes from HM3D, ScanNet++, and real-world captures, depicting imagined trajectories from current viewpoints to target situations. WanderDream-QA contains 158K question-answer pairs, covering starting states, paths, and end states along each trajectory to comprehensively evaluate exploration-based reasoning. Extensive experiments with world models and MLLMs demonstrate (1) that mental exploration is essential for situated reasoning, (2) that world models achieve compelling performance on WanderDream-Gen, (3) that imagination substantially facilitates reasoning on WanderDream-QA, and (4) that WanderDream data exhibit remarkable transferability to real-world scenarios.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-03-06T16:37:15Z</published>
+    <arxiv:comment>Accepted at ECCV 2026. The data and code are available at: https://github.com/RuipingL/WanderDream</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Ruiping Liu</name>
+    </author>
+    <author>
+      <name>Yufan Chen</name>
+    </author>
+    <author>
+      <name>Yuheng Zhang</name>
+    </author>
+    <author>
+      <name>Junwei Zheng</name>
+    </author>
+    <author>
+      <name>Kunyu Peng</name>
+    </author>
+    <author>
+      <name>Chengzhi Wu</name>
+    </author>
+    <author>
+      <name>Chenguang Huang</name>
+    </author>
+    <author>
+      <name>Di Wen</name>
+    </author>
+    <author>
+      <name>Jiaming Zhang</name>
+    </author>
+    <author>
+      <name>Kailun Yang</name>
+    </author>
+    <author>
+      <name>Rainer Stiefelhagen</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2310.04276v1</id>
+    <title>From task structures to world models: What do LLMs know?</title>
+    <updated>2023-10-06T14:21:59Z</updated>
+    <link href="https://arxiv.org/abs/2310.04276v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2310.04276v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>In what sense does a large language model have knowledge? The answer to this question extends beyond the capabilities of a particular AI system, and challenges our assumptions about the nature of knowledge and intelligence. We answer by granting LLMs "instrumental knowledge"; knowledge defined by a certain set of abilities. We then ask how such knowledge is related to the more ordinary, "worldly" knowledge exhibited by human agents, and explore this in terms of the degree to which instrumental knowledge can be said to incorporate the structured world models of cognitive science. We discuss ways LLMs could recover degrees of worldly knowledge, and suggest such recovery will be governed by an implicit, resource-rational tradeoff between world models and task demands.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="q-bio.NC" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-10-06T14:21:59Z</published>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Ilker Yildirim</name>
+    </author>
+    <author>
+      <name>L. A. Paul</name>
+    </author>
+    <arxiv:doi>10.1016/j.tics.2024.02.008</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1016/j.tics.2024.02.008" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2609.02046v1</id>
+    <title>Modeling What Changes: Sparse, Residual World Models for Object-Centric Manipulation</title>
+    <updated>2026-09-02T03:20:09Z</updated>
+    <link href="https://arxiv.org/abs/2609.02046v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2609.02046v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Monolithic world models predict the entire next state at every step, spending capacity re-predicting the static majority of a scene and injecting error into it. We ask whether explicitly modeling change (a per-object change gate plus a residual delta head that perturbs only the objects the gate flags) is a more effective and interpretable bias for physical prediction and control. On a MuJoCo tabletop pushing benchmark scaling from 3 to 8 objects, the sparse/residual model predicts next-state poses 2.5 to 4.6 times more accurately than a dense multilayer perceptron at 8.6 to 11.1 times fewer parameters, sustains change-detection F1 of 0.80 to 0.87 where the dense baseline is degenerate, transfers across object counts with zero retraining (99.4 percent F1 retention), and reaches about 90 percent of its full-data accuracy with a quarter of the data. In autoregressive rollout it compounds far less error, hugging the no-motion floor while the dense model drifts. Finally, inside a sampling-based planner, prediction-only models fail (though a true-simulator oracle solves the task with the identical planner, confirming the planner is sound), but once featurized and trained for the states a planner visits, the sparse model begins to plan (0.23 plus or minus 0.06 success over three seeds) while the dense monolith stays at zero at every seed. Modeling what changes, rather than re-predicting the whole world, is a simple, effective bias for object-centric physical AI; code, data generators, and all checkpoints will be released upon publication.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-09-02T03:20:09Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Param Thakkar</name>
+    </author>
+    <author>
+      <name>Parsika Paresh Shah</name>
+    </author>
+    <author>
+      <name>Manisha Sushant Gote</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2602.07854v3</id>
+    <title>Geometry-Aware Rotary Position Embedding for Consistent Video World Model</title>
+    <updated>2026-02-21T03:07:50Z</updated>
+    <link href="https://arxiv.org/abs/2602.07854v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2602.07854v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Predictive world models that simulate future observations under explicit camera control are fundamental to interactive AI. Despite rapid advances, current systems lack spatial persistence: they fail to maintain stable scene structures over long trajectories, frequently hallucinating details when cameras revisit previously observed locations. We identify that this geometric drift stems from reliance on screen-space positional embeddings, which conflict with the projective geometry required for 3D consistency. We introduce \textbf{ViewRope}, a geometry-aware encoding that injects camera-ray directions directly into video transformer self-attention layers. By parameterizing attention with relative ray geometry rather than pixel locality, ViewRope provides a model-native inductive bias for retrieving 3D-consistent content across temporal gaps. We further propose \textbf{Geometry-Aware Frame-Sparse Attention}, which exploits these geometric cues to selectively attend to relevant historical frames, improving efficiency without sacrificing memory consistency. We also present \textbf{ViewBench}, a diagnostic suite measuring loop-closure fidelity and geometric drift. Our results demonstrate that ViewRope substantially improves long-term consistency while reducing computational costs.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-02-08T08:01:16Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Chendong Xiang</name>
+    </author>
+    <author>
+      <name>Jiajun Liu</name>
+    </author>
+    <author>
+      <name>Jintao Zhang</name>
+    </author>
+    <author>
+      <name>Xiao Yang</name>
+    </author>
+    <author>
+      <name>Zhengwei Fang</name>
+    </author>
+    <author>
+      <name>Shizun Wang</name>
+    </author>
+    <author>
+      <name>Zijun Wang</name>
+    </author>
+    <author>
+      <name>Yingtian Zou</name>
+    </author>
+    <author>
+      <name>Hang Su</name>
+    </author>
+    <author>
+      <name>Jun Zhu</name>
+    </author>
+  </entry>
+</feed>

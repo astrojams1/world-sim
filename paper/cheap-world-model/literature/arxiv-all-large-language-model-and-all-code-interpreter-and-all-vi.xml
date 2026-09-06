@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/MSFFZaFd5pAT0XB4Kung59JJxkI</id>
+  <title>arXiv Query: search_query=all:"large language model" AND all:"code interpreter" AND all:vision&amp;id_list=&amp;start=0&amp;max_results=20</title>
+  <updated>2026-09-05T21:40:50Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=all:%22large+language+model%22+AND+(all:%22code+interpreter%22+AND+all:vision)&amp;start=0&amp;max_results=20&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>20</opensearch:itemsPerPage>
+  <opensearch:totalResults>2</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2308.07921v1</id>
+    <title>Solving Challenging Math Word Problems Using GPT-4 Code Interpreter with Code-based Self-Verification</title>
+    <updated>2023-08-15T17:58:45Z</updated>
+    <link href="https://arxiv.org/abs/2308.07921v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2308.07921v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Recent progress in large language models (LLMs) like GPT-4 and PaLM-2 has brought significant advancements in addressing math reasoning problems. In particular, OpenAI's latest version of GPT-4, known as GPT-4 Code Interpreter, shows remarkable performance on challenging math datasets. In this paper, we explore the effect of code on enhancing LLMs' reasoning capability by introducing different constraints on the \textit{Code Usage Frequency} of GPT-4 Code Interpreter. We found that its success can be largely attributed to its powerful skills in generating and executing code, evaluating the output of code execution, and rectifying its solution when receiving unreasonable outputs. Based on this insight, we propose a novel and effective prompting method, explicit \uline{c}ode-based \uline{s}elf-\uline{v}erification~(CSV), to further boost the mathematical reasoning potential of GPT-4 Code Interpreter. This method employs a zero-shot prompt on GPT-4 Code Interpreter to encourage it to use code to self-verify its answers. In instances where the verification state registers as ``False'', the model shall automatically amend its solution, analogous to our approach of rectifying errors during a mathematics examination. Furthermore, we recognize that the states of the verification result indicate the confidence of a solution, which can improve the effectiveness of majority voting. With GPT-4 Code Interpreter and CSV, we achieve an impressive zero-shot accuracy on MATH dataset \textbf{(53.9\% $\to$ 84.3\%)}.</summary>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-08-15T17:58:45Z</published>
+    <arxiv:comment>Solving Challenging Math Word Problems Using GPT-4 Code Interpreter with Code-based Self-Verification</arxiv:comment>
+    <arxiv:primary_category term="cs.CL"/>
+    <author>
+      <name>Aojun Zhou</name>
+    </author>
+    <author>
+      <name>Ke Wang</name>
+    </author>
+    <author>
+      <name>Zimu Lu</name>
+    </author>
+    <author>
+      <name>Weikang Shi</name>
+    </author>
+    <author>
+      <name>Sichun Luo</name>
+    </author>
+    <author>
+      <name>Zipeng Qin</name>
+    </author>
+    <author>
+      <name>Shaoqing Lu</name>
+    </author>
+    <author>
+      <name>Anya Jia</name>
+    </author>
+    <author>
+      <name>Linqi Song</name>
+    </author>
+    <author>
+      <name>Mingjie Zhan</name>
+    </author>
+    <author>
+      <name>Hongsheng Li</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2406.06637v1</id>
+    <title>Exploring the Efficacy of Large Language Models (GPT-4) in Binary Reverse Engineering</title>
+    <updated>2024-06-09T09:23:58Z</updated>
+    <link href="https://arxiv.org/abs/2406.06637v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2406.06637v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This study investigates the capabilities of Large Language Models (LLMs), specifically GPT-4, in the context of Binary Reverse Engineering (RE). Employing a structured experimental approach, we analyzed the LLM's performance in interpreting and explaining human-written and decompiled codes. The research encompassed two phases: the first on basic code interpretation and the second on more complex malware analysis. Key findings indicate LLMs' proficiency in general code understanding, with varying effectiveness in detailed technical and security analyses. The study underscores the potential and current limitations of LLMs in reverse engineering, revealing crucial insights for future applications and improvements. Also, we examined our experimental methodologies, such as methods of evaluation and data constraints, which provided us with a technical vision for any future research activity in this field.</summary>
+    <category term="cs.SE" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-06-09T09:23:58Z</published>
+    <arxiv:primary_category term="cs.SE"/>
+    <author>
+      <name>Saman Pordanesh</name>
+    </author>
+    <author>
+      <name>Benjamin Tan</name>
+    </author>
+  </entry>
+</feed>

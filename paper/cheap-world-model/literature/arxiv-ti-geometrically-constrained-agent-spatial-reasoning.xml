@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/h2Jh7yvLjEdTM90eCw1Cl2niVPY</id>
+  <title>arXiv Query: search_query=ti:"Geometrically-constrained agent" OR all:spatial OR all:reasoning&amp;id_list=&amp;start=0&amp;max_results=5</title>
+  <updated>2026-09-05T21:50:47Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22Geometrically-constrained+agent%22+OR+(all:spatial+OR+all:reasoning)&amp;start=0&amp;max_results=5&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>5</opensearch:itemsPerPage>
+  <opensearch:totalResults>256540</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2504.16021v1</id>
+    <title>Navigating the State of Cognitive Flow: Context-Aware AI Interventions for Effective Reasoning Support</title>
+    <updated>2025-04-22T16:35:39Z</updated>
+    <link href="https://arxiv.org/abs/2504.16021v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2504.16021v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Flow theory describes an optimal cognitive state where individuals experience deep focus and intrinsic motivation when a task's difficulty aligns with their skill level. In AI-augmented reasoning, interventions that disrupt the state of cognitive flow can hinder rather than enhance decision-making. This paper proposes a context-aware cognitive augmentation framework that adapts interventions based on three key contextual factors: type, timing, and scale. By leveraging multimodal behavioral cues (e.g., gaze behavior, typing hesitation, interaction speed), AI can dynamically adjust cognitive support to maintain or restore flow. We introduce the concept of cognitive flow, an extension of flow theory in AI-augmented reasoning, where interventions are personalized, adaptive, and minimally intrusive. By shifting from static interventions to context-aware augmentation, our approach ensures that AI systems support deep engagement in complex decision-making and reasoning without disrupting cognitive immersion.</summary>
+    <category term="cs.HC" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-04-22T16:35:39Z</published>
+    <arxiv:comment>Presented at the 2025 ACM Workshop on Human-AI Interaction for Augmented Reasoning, Report Number: CHI25-WS-AUGMENTED-REASONING</arxiv:comment>
+    <arxiv:primary_category term="cs.HC"/>
+    <arxiv:journal_ref>Proceedings of the 2025 ACM CHI Workshop on Human-AI Interaction for Augmented Reasoning</arxiv:journal_ref>
+    <author>
+      <name>Dinithi Dissanayake</name>
+    </author>
+    <author>
+      <name>Suranga Nanayakkara</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2511.13782v1</id>
+    <title>Imagine in Space: Exploring the Frontier of Spatial Intelligence and Reasoning Efficiency in Vision Language Models</title>
+    <updated>2025-11-16T03:09:55Z</updated>
+    <link href="https://arxiv.org/abs/2511.13782v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2511.13782v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Large language models (LLMs) and vision language models (VLMs), such as DeepSeek R1,OpenAI o3, and Gemini 2.5 Pro, have demonstrated remarkable reasoning capabilities across logical inference, problem solving, and decision making. However, spatial reasoning:a fundamental component of human cognition that includes mental rotation, navigation, and spatial relationship comprehension remains a significant challenge for current advanced VLMs. We hypothesize that imagination, the internal simulation of spatial states, is the dominant reasoning mechanism within a spatial world model. To test this hypothesis and systematically probe current VLM spatial reasoning mechanisms, we introduce SpatiaLite, a fully synthetic benchmark that jointly measures spatial reasoning accuracy and reasoning efficiency. Comprehensive experiments reveal three key findings. First, advanced VLMs predominantly rely on linguistic representations for reasoning and imagination, resulting in significant deficiencies on visual centric tasks that demand perceptual spatial relations and 3D geometry transformations such as mental rotation or projection prediction. Second, advanced VLMs exhibit severe inefficiency in their current spatial reasoning mechanisms, with token usage growing rapidly as transformation complexity increases. Third, we propose an Imagery Driven Framework (IDF) for data synthesis and training, which can implicitly construct an internal world model that is critical for spatial reasoning in VLMs. Building on SpatiaLite, this work delineates the spatial reasoning limits and patterns of advanced VLMs, identifies key shortcomings, and informs future advances</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-11-16T03:09:55Z</published>
+    <arxiv:comment>10 pages,a detail and effective benchmark for spatial reasoning</arxiv:comment>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Xiaoxing Lian</name>
+    </author>
+    <author>
+      <name>Aidong Yang</name>
+    </author>
+    <author>
+      <name>Jun Zhu</name>
+    </author>
+    <author>
+      <name>Peng Wang</name>
+    </author>
+    <author>
+      <name>Yue Zhang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1707.03938v2</id>
+    <title>Representation Learning for Grounded Spatial Reasoning</title>
+    <updated>2017-11-11T02:20:54Z</updated>
+    <link href="https://arxiv.org/abs/1707.03938v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1707.03938v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>The interpretation of spatial references is highly contextual, requiring joint inference over both language and the environment. We consider the task of spatial reasoning in a simulated environment, where an agent can act and receive rewards. The proposed model learns a representation of the world steered by instruction text. This design allows for precise alignment of local neighborhoods with corresponding verbalizations, while also handling global references in the instructions. We train our model with reinforcement learning using a variant of generalized value iteration. The model outperforms state-of-the-art approaches on several metrics, yielding a 45% reduction in goal localization error.</summary>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2017-07-13T00:17:45Z</published>
+    <arxiv:comment>Accepted to TACL 2017, code: https://github.com/jannerm/spatial-reasoning</arxiv:comment>
+    <arxiv:primary_category term="cs.CL"/>
+    <author>
+      <name>Michael Janner</name>
+    </author>
+    <author>
+      <name>Karthik Narasimhan</name>
+    </author>
+    <author>
+      <name>Regina Barzilay</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2603.13100v1</id>
+    <title>Evaluating VLMs' Spatial Reasoning Over Robot Motion: A Step Towards Robot Planning with Motion Preferences</title>
+    <updated>2026-03-13T15:53:42Z</updated>
+    <link href="https://arxiv.org/abs/2603.13100v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2603.13100v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Understanding user instructions and object spatial relations in surrounding environments is crucial for intelligent robot systems to assist humans in various tasks. The natural language and spatial reasoning capabilities of Vision-Language Models (VLMs) have the potential to enhance the generalization of robot planners on new tasks, objects, and motion specifications. While foundation models have been applied to task planning, it is still unclear the degree to which they have the capability of spatial reasoning required to enforce user preferences or constraints on motion, such as desired distances from objects, topological properties, or motion style preferences. In this paper, we evaluate the capability of four state-of-the-art VLMs at spatial reasoning over robot motion, using four different querying methods. Our results show that, with the highest-performing querying method, Qwen2.5-VL achieves 71.4% accuracy zero-shot and 75% on a smaller model after fine-tuning, and GPT-4o leads to lower performance. We evaluate two types of motion preferences (object-proximity and path-style), and we also analyze the trade-off between accuracy and computation cost in number of tokens. This work shows some promise in the potential of VLM integration with robot motion planning pipelines.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-03-13T15:53:42Z</published>
+    <arxiv:comment>Accepted to the First Workshop on Efficient Spatial Reasoning at ICLR 2026</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Wenxi Wu</name>
+    </author>
+    <author>
+      <name>Jingjing Zhang</name>
+    </author>
+    <author>
+      <name>Martim Brandão</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2205.00363v3</id>
+    <title>Visual Spatial Reasoning</title>
+    <updated>2023-03-22T15:42:50Z</updated>
+    <link href="https://arxiv.org/abs/2205.00363v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2205.00363v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Spatial relations are a basic part of human cognition. However, they are expressed in natural language in a variety of ways, and previous work has suggested that current vision-and-language models (VLMs) struggle to capture relational information. In this paper, we present Visual Spatial Reasoning (VSR), a dataset containing more than 10k natural text-image pairs with 66 types of spatial relations in English (such as: under, in front of, and facing). While using a seemingly simple annotation format, we show how the dataset includes challenging linguistic phenomena, such as varying reference frames. We demonstrate a large gap between human and model performance: the human ceiling is above 95%, while state-of-the-art models only achieve around 70%. We observe that VLMs' by-relation performances have little correlation with the number of training examples and the tested models are in general incapable of recognising relations concerning the orientations of objects.</summary>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2022-04-30T23:03:49Z</published>
+    <arxiv:comment>TACL camera-ready version; code and data available at https://github.com/cambridgeltl/visual-spatial-reasoning</arxiv:comment>
+    <arxiv:primary_category term="cs.CL"/>
+    <author>
+      <name>Fangyu Liu</name>
+    </author>
+    <author>
+      <name>Guy Emerson</name>
+    </author>
+    <author>
+      <name>Nigel Collier</name>
+    </author>
+  </entry>
+</feed>

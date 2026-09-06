@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/3q32lPS8+NUYUNeN8mof+eoP8hw</id>
+  <title>arXiv Query: search_query=abs:"LLM" AND abs:"6D pose" AND abs:"zero-shot" AND abs:"multi-object"&amp;id_list=&amp;start=0&amp;max_results=15</title>
+  <updated>2026-09-05T21:55:18Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=abs:%22LLM%22+AND+(abs:%226D+pose%22+AND+(abs:%22zero-shot%22+AND+abs:%22multi-object%22))&amp;start=0&amp;max_results=15&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>15</opensearch:itemsPerPage>
+  <opensearch:totalResults>0</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+</feed>

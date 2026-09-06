@@ -1,0 +1,154 @@
+{
+  "objects": [
+    {
+      "shape": "cube",
+      "color": "red",
+      "size": 0.15,
+      "position": [
+        0.75,
+        0.65,
+        0.25
+      ],
+      "rotation": [
+        2.689,
+        1.214,
+        0.899
+      ]
+    },
+    {
+      "shape": "cube",
+      "color": "blue",
+      "size": 0.15,
+      "position": [
+        0.55,
+        0.35,
+        0.25
+      ],
+      "rotation": [
+        3.671,
+        6.068,
+        4.628
+      ]
+    },
+    {
+      "shape": "sphere",
+      "color": "red",
+      "size": 0.1,
+      "position": [
+        0.15,
+        0.75,
+        0.1
+      ]
+    },
+    {
+      "shape": "sphere",
+      "color": "blue",
+      "size": 0.1,
+      "position": [
+        0.45,
+        0.1,
+        0.8
+      ]
+    },
+    {
+      "shape": "cube",
+      "color": "red",
+      "size": 0.15,
+      "position": [
+        0.45,
+        0.65,
+        0.65
+      ],
+      "rotation": [
+        2.026,
+        3.676,
+        5.562
+      ]
+    },
+    {
+      "shape": "cube",
+      "color": "red",
+      "size": 0.1,
+      "position": [
+        0.8,
+        0.25,
+        0.85
+      ],
+      "rotation": [
+        3.128,
+        1.321,
+        0.276
+      ]
+    },
+    {
+      "shape": "sphere",
+      "color": "blue",
+      "size": 0.1,
+      "position": [
+        0.55,
+        0.35,
+        0.6
+      ]
+    },
+    {
+      "shape": "sphere",
+      "color": "blue",
+      "size": 0.1,
+      "position": [
+        0.75,
+        0.8,
+        0.5
+      ]
+    },
+    {
+      "shape": "cube",
+      "color": "blue",
+      "size": 0.15,
+      "position": [
+        0.3,
+        0.4,
+        0.45
+      ],
+      "rotation": [
+        5.708,
+        1.369,
+        5.651
+      ]
+    },
+    {
+      "shape": "sphere",
+      "color": "red",
+      "size": 0.2,
+      "position": [
+        0.2,
+        0.5,
+        0.75
+      ]
+    },
+    {
+      "shape": "cube",
+      "color": "red",
+      "size": 0.1,
+      "position": [
+        0.3,
+        0.8,
+        0.45
+      ],
+      "rotation": [
+        5.244,
+        0.28,
+        1.964
+      ]
+    },
+    {
+      "shape": "sphere",
+      "color": "red",
+      "size": 0.1,
+      "position": [
+        0.2,
+        0.7,
+        0.65
+      ]
+    }
+  ]
+}

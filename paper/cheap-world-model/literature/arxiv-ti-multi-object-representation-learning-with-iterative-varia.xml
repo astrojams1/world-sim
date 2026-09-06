@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/793h2AxDMMMAuaIby11dAQ9lAFU</id>
+  <title>arXiv Query: search_query=ti:"Multi-Object Representation Learning with Iterative Variational Inference" OR ti:"MONet: Unsupervised Scene Decomposition"&amp;id_list=&amp;start=0&amp;max_results=8</title>
+  <updated>2026-09-05T21:42:53Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22Multi-Object+Representation+Learning+with+Iterative+Variational+Inference%22+OR+ti:%22MONet:+Unsupervised+Scene+Decomposition%22&amp;start=0&amp;max_results=8&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>8</opensearch:itemsPerPage>
+  <opensearch:totalResults>2</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/1903.00450v3</id>
+    <title>Multi-Object Representation Learning with Iterative Variational Inference</title>
+    <updated>2020-07-27T19:55:14Z</updated>
+    <link href="https://arxiv.org/abs/1903.00450v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1903.00450v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Human perception is structured around objects which form the basis for our higher-level cognition and impressive systematic generalization abilities. Yet most work on representation learning focuses on feature learning without even considering multiple objects, or treats segmentation as an (often supervised) preprocessing step. Instead, we argue for the importance of learning to segment and represent objects jointly. We demonstrate that, starting from the simple assumption that a scene is composed of multiple entities, it is possible to learn to segment images into interpretable objects with disentangled representations. Our method learns -- without supervision -- to inpaint occluded parts, and extrapolates to scenes with more objects and to unseen objects with novel feature combinations. We also show that, due to the use of iterative variational inference, our system is able to learn multi-modal posteriors for ambiguous inputs and extends naturally to sequences.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.ML" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2019-03-01T18:21:02Z</published>
+    <arxiv:primary_category term="cs.LG"/>
+    <arxiv:journal_ref>ICML 2019 (PMLR 97:2424-2433)</arxiv:journal_ref>
+    <author>
+      <name>Klaus Greff</name>
+    </author>
+    <author>
+      <name>Raphaël Lopez Kaufman</name>
+    </author>
+    <author>
+      <name>Rishabh Kabra</name>
+    </author>
+    <author>
+      <name>Nick Watters</name>
+    </author>
+    <author>
+      <name>Chris Burgess</name>
+    </author>
+    <author>
+      <name>Daniel Zoran</name>
+    </author>
+    <author>
+      <name>Loic Matthey</name>
+    </author>
+    <author>
+      <name>Matthew Botvinick</name>
+    </author>
+    <author>
+      <name>Alexander Lerchner</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1901.11390v1</id>
+    <title>MONet: Unsupervised Scene Decomposition and Representation</title>
+    <updated>2019-01-22T18:55:34Z</updated>
+    <link href="https://arxiv.org/abs/1901.11390v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1901.11390v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>The ability to decompose scenes in terms of abstract building blocks is crucial for general intelligence. Where those basic building blocks share meaningful properties, interactions and other regularities across scenes, such decompositions can simplify reasoning and facilitate imagination of novel scenarios. In particular, representing perceptual observations in terms of entities should improve data efficiency and transfer performance on a wide range of tasks. Thus we need models capable of discovering useful decompositions of scenes by identifying units with such regularities and representing them in a common format. To address this problem, we have developed the Multi-Object Network (MONet). In this model, a VAE is trained end-to-end together with a recurrent attention network -- in a purely unsupervised manner -- to provide attention masks around, and reconstructions of, regions of images. We show that this model is capable of learning to decompose and represent challenging 3D scenes into semantically meaningful components, such as objects and background elements.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.ML" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2019-01-22T18:55:34Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Christopher P. Burgess</name>
+    </author>
+    <author>
+      <name>Loic Matthey</name>
+    </author>
+    <author>
+      <name>Nicholas Watters</name>
+    </author>
+    <author>
+      <name>Rishabh Kabra</name>
+    </author>
+    <author>
+      <name>Irina Higgins</name>
+    </author>
+    <author>
+      <name>Matt Botvinick</name>
+    </author>
+    <author>
+      <name>Alexander Lerchner</name>
+    </author>
+  </entry>
+</feed>

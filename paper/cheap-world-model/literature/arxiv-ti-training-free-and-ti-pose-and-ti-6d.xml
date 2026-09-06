@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/FGK7piHo2AI3CL/qFFaBoTkESDA</id>
+  <title>arXiv Query: search_query=ti:"training-free" AND ti:pose AND ti:"6D"&amp;id_list=&amp;start=0&amp;max_results=15</title>
+  <updated>2026-09-05T21:54:46Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22training-free%22+AND+(ti:pose+AND+ti:%226D%22)&amp;start=0&amp;max_results=15&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>15</opensearch:itemsPerPage>
+  <opensearch:totalResults>2</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2603.25228v1</id>
+    <title>Training-free Detection and 6D Pose Estimation of Unseen Surgical Instruments</title>
+    <updated>2026-03-26T09:28:19Z</updated>
+    <link href="https://arxiv.org/abs/2603.25228v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2603.25228v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Purpose: Accurate detection and 6D pose estimation of surgical instruments are crucial for many computer-assisted interventions. However, supervised methods lack flexibility for new or unseen tools and require extensive annotated data. This work introduces a training-free pipeline for accurate multi-view 6D pose estimation of unseen surgical instruments, which only requires a textured CAD model as prior knowledge. Methods: Our pipeline consists of two main stages. First, for detection, we generate object mask proposals in each view and score their similarity to rendered templates using a pre-trained feature extractor. Detections are matched across views, triangulated into 3D instance candidates, and filtered using multi-view geometric consistency. Second, for pose estimation, a set of pose hypotheses is iteratively refined and scored using feature-metric scores with cross-view attention. The best hypothesis undergoes a final refinement using a novel multi-view, occlusion-aware contour registration, which minimizes reprojection errors of unoccluded contour points. Results: The proposed method was rigorously evaluated on real-world surgical data from the MVPSP dataset. The method achieves millimeter-accurate pose estimates that are on par with supervised methods under controlled conditions, while maintaining full generalization to unseen instruments. These results demonstrate the feasibility of training-free, marker-less detection and tracking in surgical scenes, and highlight the unique challenges in surgical environments. Conclusion: We present a novel and flexible pipeline that effectively combines state-of-the-art foundational models, multi-view geometry, and contour-based refinement for high-accuracy 6D pose estimation of surgical instruments without task-specific training. This approach enables robust instrument tracking and scene understanding in dynamic clinical environments.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-03-26T09:28:19Z</published>
+    <arxiv:comment>Accepted at IJCARS: IPCAI 2026</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Jonas Hein</name>
+    </author>
+    <author>
+      <name>Lilian Calvet</name>
+    </author>
+    <author>
+      <name>Matthias Seibold</name>
+    </author>
+    <author>
+      <name>Siyu Tang</name>
+    </author>
+    <author>
+      <name>Marc Pollefeys</name>
+    </author>
+    <author>
+      <name>Philipp Fürnstahl</name>
+    </author>
+    <arxiv:doi>10.1007/s11548-026-03598-z</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1007/s11548-026-03598-z" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2312.00947v3</id>
+    <title>FreeZe: Training-free zero-shot 6D pose estimation with geometric and vision foundation models</title>
+    <updated>2025-01-08T09:41:18Z</updated>
+    <link href="https://arxiv.org/abs/2312.00947v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2312.00947v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Estimating the 6D pose of objects unseen during training is highly desirable yet challenging. Zero-shot object 6D pose estimation methods address this challenge by leveraging additional task-specific supervision provided by large-scale, photo-realistic synthetic datasets. However, their performance heavily depends on the quality and diversity of rendered data and they require extensive training. In this work, we show how to tackle the same task but without training on specific data. We propose FreeZe, a novel solution that harnesses the capabilities of pre-trained geometric and vision foundation models. FreeZe leverages 3D geometric descriptors learned from unrelated 3D point clouds and 2D visual features learned from web-scale 2D images to generate discriminative 3D point-level descriptors. We then estimate the 6D pose of unseen objects by 3D registration based on RANSAC. We also introduce a novel algorithm to solve ambiguous cases due to geometrically symmetric objects that is based on visual features. We comprehensively evaluate FreeZe across the seven core datasets of the BOP Benchmark, which include over a hundred 3D objects and 20,000 images captured in various scenarios. FreeZe consistently outperforms all state-of-the-art approaches, including competitors extensively trained on synthetic 6D pose estimation data. Code will be publicly available at https://andreacaraffa.github.io/freeze.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-12-01T22:00:14Z</published>
+    <arxiv:comment>Accepted to ECCV 2024. Project page: https://andreacaraffa.github.io/freeze</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Andrea Caraffa</name>
+    </author>
+    <author>
+      <name>Davide Boscaini</name>
+    </author>
+    <author>
+      <name>Amir Hamza</name>
+    </author>
+    <author>
+      <name>Fabio Poiesi</name>
+    </author>
+  </entry>
+</feed>

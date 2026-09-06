@@ -1,0 +1,608 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/DY8CAZDxwbtByBev1zyqN87/io4</id>
+  <title>arXiv Query: search_query=all:"LLM" AND all:"scene graph" AND all:"3D" AND all:robot&amp;id_list=&amp;start=0&amp;max_results=20</title>
+  <updated>2026-09-05T21:40:53Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=all:%22LLM%22+AND+(all:%22scene+graph%22+AND+(all:%223D%22+AND+all:robot))&amp;start=0&amp;max_results=20&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>20</opensearch:itemsPerPage>
+  <opensearch:totalResults>35</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2307.06135v2</id>
+    <title>SayPlan: Grounding Large Language Models using 3D Scene Graphs for Scalable Robot Task Planning</title>
+    <updated>2023-09-27T23:17:28Z</updated>
+    <link href="https://arxiv.org/abs/2307.06135v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2307.06135v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Large language models (LLMs) have demonstrated impressive results in developing generalist planning agents for diverse tasks. However, grounding these plans in expansive, multi-floor, and multi-room environments presents a significant challenge for robotics. We introduce SayPlan, a scalable approach to LLM-based, large-scale task planning for robotics using 3D scene graph (3DSG) representations. To ensure the scalability of our approach, we: (1) exploit the hierarchical nature of 3DSGs to allow LLMs to conduct a 'semantic search' for task-relevant subgraphs from a smaller, collapsed representation of the full graph; (2) reduce the planning horizon for the LLM by integrating a classical path planner and (3) introduce an 'iterative replanning' pipeline that refines the initial plan using feedback from a scene graph simulator, correcting infeasible actions and avoiding planning failures. We evaluate our approach on two large-scale environments spanning up to 3 floors and 36 rooms with 140 assets and objects and show that our approach is capable of grounding large-scale, long-horizon task plans from abstract, and natural language instruction for a mobile manipulator robot to execute. We provide real robot video demonstrations on our project page https://sayplan.github.io.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-07-12T12:37:55Z</published>
+    <arxiv:comment>Accepted for oral presentation at the Conference on Robot Learning (CoRL), 2023. Project page can be found here: https://sayplan.github.io</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Krishan Rana</name>
+    </author>
+    <author>
+      <name>Jesse Haviland</name>
+    </author>
+    <author>
+      <name>Sourav Garg</name>
+    </author>
+    <author>
+      <name>Jad Abou-Chakra</name>
+    </author>
+    <author>
+      <name>Ian Reid</name>
+    </author>
+    <author>
+      <name>Niko Suenderhauf</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2506.07454v2</id>
+    <title>Language-Grounded Hierarchical Planning and Execution with Multi-Robot 3D Scene Graphs</title>
+    <updated>2025-07-10T23:26:07Z</updated>
+    <link href="https://arxiv.org/abs/2506.07454v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2506.07454v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>In this paper, we introduce a multi-robot system that integrates mapping, localization, and task and motion planning (TAMP) enabled by 3D scene graphs to execute complex instructions expressed in natural language. Our system builds a shared 3D scene graph incorporating an open-set object-based map, which is leveraged for multi-robot 3D scene graph fusion. This representation supports real-time, view-invariant relocalization (via the object-based map) and planning (via the 3D scene graph), allowing a team of robots to reason about their surroundings and execute complex tasks. Additionally, we introduce a planning approach that translates operator intent into Planning Domain Definition Language (PDDL) goals using a Large Language Model (LLM) by leveraging context from the shared 3D scene graph and robot capabilities. We provide an experimental assessment of the performance of our system on real-world tasks in large-scale, outdoor environments. A supplementary video is available at https://youtu.be/8xbGGOLfLAY.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-06-09T06:02:34Z</published>
+    <arxiv:comment>12 pages, 4 figures, 4 tables</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Jared Strader</name>
+    </author>
+    <author>
+      <name>Aaron Ray</name>
+    </author>
+    <author>
+      <name>Jacob Arkin</name>
+    </author>
+    <author>
+      <name>Mason B. Peterson</name>
+    </author>
+    <author>
+      <name>Yun Chang</name>
+    </author>
+    <author>
+      <name>Nathan Hughes</name>
+    </author>
+    <author>
+      <name>Christopher Bradley</name>
+    </author>
+    <author>
+      <name>Yi Xuan Jia</name>
+    </author>
+    <author>
+      <name>Carlos Nieto-Granda</name>
+    </author>
+    <author>
+      <name>Rajat Talak</name>
+    </author>
+    <author>
+      <name>Chuchu Fan</name>
+    </author>
+    <author>
+      <name>Luca Carlone</name>
+    </author>
+    <author>
+      <name>Jonathan P. How</name>
+    </author>
+    <author>
+      <name>Nicholas Roy</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2410.23968v1</id>
+    <title>EmbodiedRAG: Dynamic 3D Scene Graph Retrieval for Efficient and Scalable Robot Task Planning</title>
+    <updated>2024-10-31T14:22:20Z</updated>
+    <link href="https://arxiv.org/abs/2410.23968v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2410.23968v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Recent advances in Large Language Models (LLMs) have helped facilitate exciting progress for robotic planning in real, open-world environments. 3D scene graphs (3DSGs) offer a promising environment representation for grounding such LLM-based planners as they are compact and semantically rich. However, as the robot's environment scales (e.g., number of entities tracked) and the complexity of scene graph information increases (e.g., maintaining more attributes), providing the 3DSG as-is to an LLM-based planner quickly becomes infeasible due to input token count limits and attentional biases present in LLMs. Inspired by the successes of Retrieval-Augmented Generation (RAG) methods that retrieve query-relevant document chunks for LLM question and answering, we adapt the paradigm for our embodied domain. Specifically, we propose a 3D scene subgraph retrieval framework, called EmbodiedRAG, that we augment an LLM-based planner with for executing natural language robotic tasks. Notably, our retrieved subgraphs adapt to changes in the environment as well as changes in task-relevancy as the robot executes its plan. We demonstrate EmbodiedRAG's ability to significantly reduce input token counts (by an order of magnitude) and planning time (up to 70% reduction in average time per planning step) while improving success rates on AI2Thor simulated household tasks with a single-arm, mobile manipulator. Additionally, we implement EmbodiedRAG on a quadruped with a manipulator to highlight the performance benefits for robot deployment at the edge in real environments.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-10-31T14:22:20Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Meghan Booker</name>
+    </author>
+    <author>
+      <name>Grayson Byrd</name>
+    </author>
+    <author>
+      <name>Bethany Kemp</name>
+    </author>
+    <author>
+      <name>Aurora Schmidt</name>
+    </author>
+    <author>
+      <name>Corban Rivera</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2411.02938v1</id>
+    <title>Multi-Modal 3D Scene Graph Updater for Shared and Dynamic Environments</title>
+    <updated>2024-11-05T09:31:30Z</updated>
+    <link href="https://arxiv.org/abs/2411.02938v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2411.02938v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>The advent of generalist Large Language Models (LLMs) and Large Vision Models (VLMs) have streamlined the construction of semantically enriched maps that can enable robots to ground high-level reasoning and planning into their representations. One of the most widely used semantic map formats is the 3D Scene Graph, which captures both metric (low-level) and semantic (high-level) information. However, these maps often assume a static world, while real environments, like homes and offices, are dynamic. Even small changes in these spaces can significantly impact task performance. To integrate robots into dynamic environments, they must detect changes and update the scene graph in real-time. This update process is inherently multimodal, requiring input from various sources, such as human agents, the robot's own perception system, time, and its actions. This work proposes a framework that leverages these multimodal inputs to maintain the consistency of scene graphs during real-time operation, presenting promising initial results and outlining a roadmap for future research.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-11-05T09:31:30Z</published>
+    <arxiv:comment>This paper has been accepted at the Workshop on Lifelong Learning for Home Robots at the 8th Conference on Robot Learning (CoRL 2024), Munich, Germany</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Emilio Olivastri</name>
+    </author>
+    <author>
+      <name>Jonathan Francis</name>
+    </author>
+    <author>
+      <name>Alberto Pretto</name>
+    </author>
+    <author>
+      <name>Niko Sünderhauf</name>
+    </author>
+    <author>
+      <name>Krishan Rana</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2510.16643v1</id>
+    <title>Structured Interfaces for Automated Reasoning with 3D Scene Graphs</title>
+    <updated>2025-10-18T21:19:13Z</updated>
+    <link href="https://arxiv.org/abs/2510.16643v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2510.16643v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>In order to provide a robot with the ability to understand and react to a user's natural language inputs, the natural language must be connected to the robot's underlying representations of the world. Recently, large language models (LLMs) and 3D scene graphs (3DSGs) have become a popular choice for grounding natural language and representing the world. In this work, we address the challenge of using LLMs with 3DSGs to ground natural language. Existing methods encode the scene graph as serialized text within the LLM's context window, but this encoding does not scale to large or rich 3DSGs. Instead, we propose to use a form of Retrieval Augmented Generation to select a subset of the 3DSG relevant to the task. We encode a 3DSG in a graph database and provide a query language interface (Cypher) as a tool to the LLM with which it can retrieve relevant data for language grounding. We evaluate our approach on instruction following and scene question-answering tasks and compare against baseline context window and code generation methods. Our results show that using Cypher as an interface to 3D scene graphs scales significantly better to large, rich graphs on both local and cloud-based models. This leads to large performance improvements in grounded language tasks while also substantially reducing the token count of the scene graph content. A video supplement is available at https://www.youtube.com/watch?v=zY_YI9giZSA.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-10-18T21:19:13Z</published>
+    <arxiv:comment>25 pages, 3 figures</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Aaron Ray</name>
+    </author>
+    <author>
+      <name>Jacob Arkin</name>
+    </author>
+    <author>
+      <name>Harel Biggie</name>
+    </author>
+    <author>
+      <name>Chuchu Fan</name>
+    </author>
+    <author>
+      <name>Luca Carlone</name>
+    </author>
+    <author>
+      <name>Nicholas Roy</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2602.02456v1</id>
+    <title>Relationship-Aware Hierarchical 3D Scene Graph for Task Reasoning</title>
+    <updated>2026-02-02T18:47:02Z</updated>
+    <link href="https://arxiv.org/abs/2602.02456v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2602.02456v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Representing and understanding 3D environments in a structured manner is crucial for autonomous agents to navigate and reason about their surroundings. While traditional Simultaneous Localization and Mapping (SLAM) methods generate metric reconstructions and can be extended to metric-semantic mapping, they lack a higher level of abstraction and relational reasoning. To address this gap, 3D scene graphs have emerged as a powerful representation for capturing hierarchical structures and object relationships. In this work, we propose an enhanced hierarchical 3D scene graph that integrates open-vocabulary features across multiple abstraction levels and supports object-relational reasoning. Our approach leverages a Vision Language Model (VLM) to infer semantic relationships. Notably, we introduce a task reasoning module that combines Large Language Models (LLM) and a VLM to interpret the scene graph's semantic and relational information, enabling agents to reason about tasks and interact with their environment more intelligently. We validate our method by deploying it on a quadruped robot in multiple environments and tasks, highlighting its ability to reason about them.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-02-02T18:47:02Z</published>
+    <arxiv:comment>ICRA 2026, 8 pages</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Albert Gassol Puigjaner</name>
+    </author>
+    <author>
+      <name>Angelos Zacharia</name>
+    </author>
+    <author>
+      <name>Kostas Alexis</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2606.23312v1</id>
+    <title>From Pixels to Concepts: Growing Rich 3D Semantic Scene Graph Forests utilizing Foundation Models</title>
+    <updated>2026-06-22T13:26:17Z</updated>
+    <link href="https://arxiv.org/abs/2606.23312v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.23312v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Operating in complex real-world environments requires robots to understand their surroundings on a functional semantic level. This demands a detailed multi-layer world model capturing the complex relations of its surroundings. Hierarchical 3D scene graphs address this challenge by integrating geometric, semantic, and relational data within a unified spatial framework. However, current 3D scene graph approaches often restrict themselves to rigid structures of pre-determined relationship classes, mostly neglecting important semantic connections, like causal connections or environmental contexts. This paper explores the potential of foundation models to build forests of 3D scene graphs with open semantic relationships to improve scene understanding and robotic task execution. We propose a method where instance-specific concept-nodes and relationships are first identified by a VLM and extended upon by a LLM, inferring broader, more abstract concept-nodes and relationships through reasoning. These object-nodes, concept-nodes, and relationships are then assembled into a forest of hierarchical 3D scene graphs, enhanced with concept-nodes to represent abstract concepts. Evaluations were conducted on the uHumans2 and ScanNet indoor dataset, validating the accuracy and relevance of the generated relationships. Downstream suitability of scene-graph forests for robotics applications is demonstrated in an open-vocabulary object-retrieval task utilizing both ScanNet data and a real-world indoor deployment using a Boston Dynamics Spot. This paper leverages foundation models to create more expressive, semantically deep 3D hierarchical scene graphs and demonstrates their potential to advance semantic and environmental understanding in robotics.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-22T13:26:17Z</published>
+    <arxiv:comment>To be published in the Proceedings of the IEEE/RSJ International Conference on Intelligent Robots &amp; Systems (IEEE IROS 2026)</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>David Oberacker</name>
+    </author>
+    <author>
+      <name>Meike Deitersen</name>
+    </author>
+    <author>
+      <name>Niklas Spielbauer</name>
+    </author>
+    <author>
+      <name>Tristan Schnell</name>
+    </author>
+    <author>
+      <name>Georg Heppner</name>
+    </author>
+    <author>
+      <name>Arne Roennau</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2312.11713v2</id>
+    <title>Indoor and Outdoor 3D Scene Graph Generation via Language-Enabled Spatial Ontologies</title>
+    <updated>2024-04-24T21:57:57Z</updated>
+    <link href="https://arxiv.org/abs/2312.11713v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2312.11713v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This paper proposes an approach to build 3D scene graphs in arbitrary indoor and outdoor environments. Such extension is challenging; the hierarchy of concepts that describe an outdoor environment is more complex than for indoors, and manually defining such hierarchy is time-consuming and does not scale. Furthermore, the lack of training data prevents the straightforward application of learning-based tools used in indoor settings. To address these challenges, we propose two novel extensions. First, we develop methods to build a spatial ontology defining concepts and relations relevant for indoor and outdoor robot operation. In particular, we use a Large Language Model (LLM) to build such an ontology, thus largely reducing the amount of manual effort required. Second, we leverage the spatial ontology for 3D scene graph construction using Logic Tensor Networks (LTN) to add logical rules, or axioms (e.g., "a beach contains sand"), which provide additional supervisory signals at training time thus reducing the need for labelled data, providing better predictions, and even allowing predicting concepts unseen at training time. We test our approach in a variety of datasets, including indoor, rural, and coastal environments, and show that it leads to a significant increase in the quality of the 3D scene graph generation with sparsely annotated data.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-12-18T21:20:28Z</published>
+    <arxiv:comment>10 pages, 6 figures, accepted to Robotics and Automation Letters</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Jared Strader</name>
+    </author>
+    <author>
+      <name>Nathan Hughes</name>
+    </author>
+    <author>
+      <name>William Chen</name>
+    </author>
+    <author>
+      <name>Alberto Speranzon</name>
+    </author>
+    <author>
+      <name>Luca Carlone</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2606.29786v2</id>
+    <title>OP3DSG: Open-Vocabulary Part-Aware 3D Scene Graph Generation for Real-World Environments</title>
+    <updated>2026-08-20T05:56:40Z</updated>
+    <link href="https://arxiv.org/abs/2606.29786v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.29786v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>3D scene graphs (3DSGs) provide a compact and structured abstraction of 3D environments. Although advances in foundation models have enabled open-vocabulary 3DSG generation, existing approaches remain object-centric and encode limited relational information -- restricting their applicability in real-world scenarios that require fine-grained understanding. We propose OP3DSG, an open-vocabulary part-aware 3DSG generation framework that constructs unified graphs that jointly model objects, interactive parts, spatial relations, functional relations, and affordances. OP3DSG integrates object-part knowledge-guided detection with part-aware 3D fusion to preserve small and interaction-relevant components, and employs a geometry-initialized prior graph with LLM-based refinement to reduce spurious relational predictions while enabling efficient graph construction. To systematically evaluate unified 3D scene graph construction, we introduce UniGraph3D, a benchmark designed for part-aware perception and multi-level relational reasoning. Experimental results show that OP3DSG achieves state-of-the-art performance and demonstrates its effectiveness as a perception backbone in diverse real-world robotics tasks.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-29T05:05:54Z</published>
+    <arxiv:comment>Accepted to ECCV 2026</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yirum Kim</name>
+    </author>
+    <author>
+      <name>Ue-Hwan Kim</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2503.19199v1</id>
+    <title>Open-Vocabulary Functional 3D Scene Graphs for Real-World Indoor Spaces</title>
+    <updated>2025-03-24T22:53:19Z</updated>
+    <link href="https://arxiv.org/abs/2503.19199v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2503.19199v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We introduce the task of predicting functional 3D scene graphs for real-world indoor environments from posed RGB-D images. Unlike traditional 3D scene graphs that focus on spatial relationships of objects, functional 3D scene graphs capture objects, interactive elements, and their functional relationships. Due to the lack of training data, we leverage foundation models, including visual language models (VLMs) and large language models (LLMs), to encode functional knowledge. We evaluate our approach on an extended SceneFun3D dataset and a newly collected dataset, FunGraph3D, both annotated with functional 3D scene graphs. Our method significantly outperforms adapted baselines, including Open3DSG and ConceptGraph, demonstrating its effectiveness in modeling complex scene functionalities. We also demonstrate downstream applications such as 3D question answering and robotic manipulation using functional 3D scene graphs. See our project page at https://openfungraph.github.io</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-03-24T22:53:19Z</published>
+    <arxiv:comment>Accepted at CVPR 2025</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Chenyangguang Zhang</name>
+    </author>
+    <author>
+      <name>Alexandros Delitzas</name>
+    </author>
+    <author>
+      <name>Fangjinhua Wang</name>
+    </author>
+    <author>
+      <name>Ruida Zhang</name>
+    </author>
+    <author>
+      <name>Xiangyang Ji</name>
+    </author>
+    <author>
+      <name>Marc Pollefeys</name>
+    </author>
+    <author>
+      <name>Francis Engelmann</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2510.01049v2</id>
+    <title>KeySG: Hierarchical Keyframe-Based 3D Scene Graphs</title>
+    <updated>2026-03-23T15:56:13Z</updated>
+    <link href="https://arxiv.org/abs/2510.01049v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2510.01049v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>In recent years, 3D scene graphs have emerged as a powerful world representation, offering both geometric accuracy and semantic richness. Combining 3D scene graphs with large language models enables robots to reason, plan, and navigate in complex human-centered environments. However, current approaches for constructing 3D scene graphs are semantically limited to a predefined set of relationships, and their serialization in large environments can easily exceed an LLM's context window. We introduce KeySG, a framework that represents 3D scenes as a hierarchical graph consisting of floors, rooms, objects, and functional elements, where nodes are augmented with multi-modal information extracted from keyframes selected to optimize geometric and visual coverage. The keyframes allow us to efficiently leverage VLMs to extract scene information, alleviating the need to explicitly model relationship edges between objects, enabling more general, task-agnostic reasoning and planning. Our approach can process complex and ambiguous queries while mitigating the scalability issues associated with large scene graphs by utilizing a hierarchical multi-modal retrieval-augmented generation (RAG) pipeline to extract relevant context from the graph. Evaluated across three distinct benchmarks, 3D object semantic segmentation, functional element segmentation, and complex query retrieval, KeySG outperforms prior approaches on most metrics, demonstrating its superior semantic richness and efficiency.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-10-01T15:53:27Z</published>
+    <arxiv:comment>Code and video are available at https://keysg-lab.github.io/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Abdelrhman Werby</name>
+    </author>
+    <author>
+      <name>Dennis Rotondi</name>
+    </author>
+    <author>
+      <name>Fabio Scaparro</name>
+    </author>
+    <author>
+      <name>Kai O. Arras</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2503.15091v1</id>
+    <title>Intelligent Spatial Perception by Building Hierarchical 3D Scene Graphs for Indoor Scenarios with the Help of LLMs</title>
+    <updated>2025-03-19T10:40:28Z</updated>
+    <link href="https://arxiv.org/abs/2503.15091v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2503.15091v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This paper addresses the high demand in advanced intelligent robot navigation for a more holistic understanding of spatial environments, by introducing a novel system that harnesses the capabilities of Large Language Models (LLMs) to construct hierarchical 3D Scene Graphs (3DSGs) for indoor scenarios. The proposed framework constructs 3DSGs consisting of a fundamental layer with rich metric-semantic information, an object layer featuring precise point-cloud representation of object nodes as well as visual descriptors, and higher layers of room, floor, and building nodes. Thanks to the innovative application of LLMs, not only object nodes but also nodes of higher layers, e.g., room nodes, are annotated in an intelligent and accurate manner. A polling mechanism for room classification using LLMs is proposed to enhance the accuracy and reliability of the room node annotation. Thorough numerical experiments demonstrate the system's ability to integrate semantic descriptions with geometric data, creating an accurate and comprehensive representation of the environment instrumental for context-aware navigation and task planning.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-03-19T10:40:28Z</published>
+    <arxiv:comment>accepted by WRC SARA 2024</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Yao Cheng</name>
+    </author>
+    <author>
+      <name>Zhe Han</name>
+    </author>
+    <author>
+      <name>Fengyang Jiang</name>
+    </author>
+    <author>
+      <name>Huaizhen Wang</name>
+    </author>
+    <author>
+      <name>Fengyu Zhou</name>
+    </author>
+    <author>
+      <name>Qingshan Yin</name>
+    </author>
+    <author>
+      <name>Lei Wei</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2607.10879v2</id>
+    <title>3D Scene Graph Prediction: Generating Hierarchical Models from Partially Observed Environments</title>
+    <updated>2026-07-17T19:41:25Z</updated>
+    <link href="https://arxiv.org/abs/2607.10879v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2607.10879v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Generating realistic 3D indoor scenes is an area of growing interest in computer vision and robotics. Existing methods, often motivated by applications such as interior design, generally focus on object layout generation within a single room. The generation of high-level scene structure, such as room-level layout and traversability, remains underexplored despite its importance for robotics applications. In this paper, we consider the case where a robot has explored part of an environment and needs to predict the unexplored parts to support downstream tasks such as exploration or object search. We propose a top-down framework for synthesizing hierarchical 3D scene graphs, including a room layer -- describing the floor plan and traversability -- and an object layer modeling object layouts within each room. For the room layer, we propose a novel mixed-domain graph diffusion model jointly predicting room categories, floor boundaries, and traversability between rooms. Via corruption and masking, this model supports partial constraints such as incomplete floor plans, avoiding the need for partially observed training data. For the object layer, we integrate an existing mixed discrete-continuous diffusion model for joint prediction of object categories, locations, sizes, and orientations within each room given the floor plan. We compare our method with state-of-the-art occupancy-based and LLM-based floor plan generation methods on a standard benchmark. Compared with an occupancy-based learning baseline, our method generalizes substantially better to out-of-distribution partial floor plans. We also demonstrate our integrated prediction pipeline on real-world scenes from robot-collected data, enabling prediction beyond explored areas.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-07-12T18:52:05Z</published>
+    <arxiv:comment>Accepted at IROS 2026. Main paper: 8 pages, 3 figures, 3 tables. Includes a supplementary appendix</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Siyi Hu</name>
+    </author>
+    <author>
+      <name>Jared Strader</name>
+    </author>
+    <author>
+      <name>Hyungtae Lim</name>
+    </author>
+    <author>
+      <name>Luca Carlone</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2404.14285v3</id>
+    <title>LLM-Personalize: Aligning LLM Planners with Human Preferences via Reinforced Self-Training for Housekeeping Robots</title>
+    <updated>2024-12-30T01:41:37Z</updated>
+    <link href="https://arxiv.org/abs/2404.14285v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2404.14285v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Large language models (LLMs) have shown significant potential for robotics applications, particularly task planning, by harnessing their language comprehension and text generation capabilities. However, in applications such as household robotics, a critical gap remains in the personalization of these models to individual user preferences. We introduce LLM-Personalize, a novel framework with an optimization pipeline designed to personalize LLM planners for household robotics. Our LLM-Personalize framework features an LLM planner that performs iterative planning in multi-room, partially-observable household scenarios, making use of a scene graph constructed with local observations. The generated plan consists of a sequence of high-level actions which are subsequently executed by a controller. Central to our approach is the optimization pipeline, which combines imitation learning and iterative self-training to personalize the LLM planner. In particular, the imitation learning phase performs initial LLM alignment from demonstrations, and bootstraps the model to facilitate effective iterative self-training, which further explores and aligns the model to user preferences. We evaluate LLM-Personalize on Housekeep, a challenging simulated real-world 3D benchmark for household rearrangements, and show that LLM-Personalize achieves more than a 30 percent increase in success rate over existing LLM planners, showcasing significantly improved alignment with human preferences. Project page: https://gdg94.github.io/projectllmpersonalize/.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-04-22T15:35:33Z</published>
+    <arxiv:comment>COLING 2025</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Dongge Han</name>
+    </author>
+    <author>
+      <name>Trevor McInroe</name>
+    </author>
+    <author>
+      <name>Adam Jelley</name>
+    </author>
+    <author>
+      <name>Stefano V. Albrecht</name>
+    </author>
+    <author>
+      <name>Peter Bell</name>
+    </author>
+    <author>
+      <name>Amos Storkey</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2405.00552v4</id>
+    <title>Long-Term Human Trajectory Prediction using 3D Dynamic Scene Graphs</title>
+    <updated>2024-10-30T13:49:11Z</updated>
+    <link href="https://arxiv.org/abs/2405.00552v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2405.00552v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We present a novel approach for long-term human trajectory prediction in indoor human-centric environments, which is essential for long-horizon robot planning in these environments. State-of-the-art human trajectory prediction methods are limited by their focus on collision avoidance and short-term planning, and their inability to model complex interactions of humans with the environment. In contrast, our approach overcomes these limitations by predicting sequences of human interactions with the environment and using this information to guide trajectory predictions over a horizon of up to 60s. We leverage Large Language Models (LLMs) to predict interactions with the environment by conditioning the LLM prediction on rich contextual information about the scene. This information is given as a 3D Dynamic Scene Graph that encodes the geometry, semantics, and traversability of the environment into a hierarchical representation. We then ground these interaction sequences into multi-modal spatio-temporal distributions over human positions using a probabilistic approach based on continuous-time Markov Chains. To evaluate our approach, we introduce a new semi-synthetic dataset of long-term human trajectories in complex indoor environments, which also includes annotations of human-object interactions. We show in thorough experimental evaluations that our approach achieves a 54% lower average negative log-likelihood and a 26.5% lower Best-of-20 displacement error compared to the best non-privileged (i.e., evaluated in a zero-shot fashion on the dataset) baselines for a time horizon of 60s.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.HC" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-05-01T14:50:58Z</published>
+    <arxiv:comment>8 pages, 6 figures. Accepted at IEEE Robotics and Automation Letters (RA-L). Code released at: https://github.com/MIT-SPARK/LP2</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <arxiv:journal_ref>IEEE Robotics and Automation Letters, vol. 9, no. 12, pp. 10978-10985, Dec. 2024</arxiv:journal_ref>
+    <author>
+      <name>Nicolas Gorlo</name>
+    </author>
+    <author>
+      <name>Lukas Schmid</name>
+    </author>
+    <author>
+      <name>Luca Carlone</name>
+    </author>
+    <arxiv:doi>10.1109/LRA.2024.3482169</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1109/LRA.2024.3482169" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2602.04635v2</id>
+    <title>Relational Scene Graphs for Object Grounding of Natural Language Commands</title>
+    <updated>2026-07-30T11:24:04Z</updated>
+    <link href="https://arxiv.org/abs/2602.04635v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2602.04635v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Robots are finding wider adoption in human environments, increasing the need for natural human-robot interaction. However, understanding a natural language command requires the robot to infer the intended task and how to decompose it into executable actions, and to ground those actions in the robot's knowledge of the environment, including relevant objects, agents, and locations. This challenge can be addressed by combining the capabilities of large language models (LLMs) to understand natural language with 3D scene graphs (3DSGs) for grounding inferred actions in a semantic representation of the environment. However, many 3DSGs lack explicit spatial relations between objects, even though humans often rely on these relations to describe an environment. This paper investigates whether incorporating open- or closed-vocabulary spatial relations into 3DSGs can improve the ability of LLMs to interpret natural language commands. To address this, we implement two pipelines using off-the-shelf models: an LLM-based pipeline for target object grounding from open-vocabulary language commands and a vision language model-based pipeline to add open-vocabulary spatial edges to 3DSGs from images captured while mapping. Finally, we evaluate two LLMs across 14 scenes using 905 natural language statements (786 procedurally-generated, 119 human-authored) to assess performance on the downstream task of target object grounding. Our study demonstrates that explicit spatial relations improve the ability of LLMs to ground objects, and while open-vocabulary relation generation with vision language models proves feasible from robot-captured images, our analysis did not yield evidence favoring either open- or closed-vocabulary relations.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-02-04T15:05:29Z</published>
+    <arxiv:comment>Accepted to the 35th IEEE International Conference on Robot and Human Interactive Communication (RO-MAN 2026)</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Julia Kuhn</name>
+    </author>
+    <author>
+      <name>Francesco Verdoja</name>
+    </author>
+    <author>
+      <name>Tsvetomila Mihaylova</name>
+    </author>
+    <author>
+      <name>Ville Kyrki</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2602.03781v1</id>
+    <title>A Scene Graph Backed Approach to Open Set Semantic Mapping</title>
+    <updated>2026-02-03T17:41:51Z</updated>
+    <link href="https://arxiv.org/abs/2602.03781v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2602.03781v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>While Open Set Semantic Mapping and 3D Semantic Scene Graphs (3DSSGs) are established paradigms in robotic perception, deploying them effectively to support high-level reasoning in large-scale, real-world environments remains a significant challenge. Most existing approaches decouple perception from representation, treating the scene graph as a derivative layer generated post hoc. This limits both consistency and scalability. In contrast, we propose a mapping architecture where the 3DSSG serves as the foundational backend, acting as the primary knowledge representation for the entire mapping process.
+  Our approach leverages prior work on incremental scene graph prediction to infer and update the graph structure in real-time as the environment is explored. This ensures that the map remains topologically consistent and computationally efficient, even during extended operations in large-scale settings. By maintaining an explicit, spatially grounded representation that supports both flat and hierarchical topologies, we bridge the gap between sub-symbolic raw sensor data and high-level symbolic reasoning. Consequently, this provides a stable, verifiable structure that knowledge-driven frameworks, ranging from knowledge graphs and ontologies to Large Language Models (LLMs), can directly exploit, enabling agents to operate with enhanced interpretability, trustworthiness, and alignment to human concepts.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-02-03T17:41:51Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Martin Günther</name>
+    </author>
+    <author>
+      <name>Felix Igelbrink</name>
+    </author>
+    <author>
+      <name>Oscar Lima</name>
+    </author>
+    <author>
+      <name>Lennart Niecksch</name>
+    </author>
+    <author>
+      <name>Marian Renz</name>
+    </author>
+    <author>
+      <name>Martin Atzmueller</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2603.05642v2</id>
+    <title>Relational Semantic Reasoning on 3D Scene Graphs for Open World Interactive Object Search</title>
+    <updated>2026-05-27T15:29:52Z</updated>
+    <link href="https://arxiv.org/abs/2603.05642v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2603.05642v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Open-world interactive object search in household environments requires understanding semantic relationships between objects and their surrounding context to guide exploration efficiently. Prior methods either rely on vision-language embeddings similarity, which does not reliably capture task-relevant relational semantics, or large language models (LLMs), which are too slow and costly for real-time deployment. We introduce SCOUT: Scene Graph-Based Exploration with Learned Utility for Open-World Interactive Object Search, a novel method that searches directly over 3D scene graphs by assigning utility scores to rooms, frontiers, and objects using relational exploration heuristics such as room-object containment and object-object co-occurrence. To make this practical without sacrificing open-vocabulary generalization, we propose an offline procedural distillation framework that extracts structured relational knowledge from LLMs into lightweight models for on-robot inference. Furthermore, we present SymSearch, a scalable symbolic benchmark for evaluating semantic reasoning in interactive object search tasks. Extensive evaluations across symbolic and simulation environments show that SCOUT outperforms embedding similarity-based methods and matches LLM-level performance while remaining computationally efficient. Finally, real-world experiments demonstrate effective transfer to physical environments, enabling open-world interactive object search under realistic sensing and navigation constraints.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-03-05T19:52:26Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Imen Mahdi</name>
+    </author>
+    <author>
+      <name>Matteo Cassinelli</name>
+    </author>
+    <author>
+      <name>Fabien Despinoy</name>
+    </author>
+    <author>
+      <name>Tim Welschehold</name>
+    </author>
+    <author>
+      <name>Abhinav Valada</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2607.13245v1</id>
+    <title>Just-In-Time Scene Graph Growth: Combating Perceptual Saturation in Long-Horizon Robotics</title>
+    <updated>2026-07-14T20:14:50Z</updated>
+    <link href="https://arxiv.org/abs/2607.13245v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2607.13245v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>While 3D Scene Graphs (3DSGs) provide crucial structured representations for embodied agents, conventional Ahead-of-Time, build-everything-then-filter pipelines conflict with the real-time, low-latency demands of edge platforms, inducing a perceptual saturation effect via severe observation redundancy. To resolve this, we present JITOMA (Just-In-Time On-demand Memory Activation), a closed-loop framework that unifies task reasoning, perception, and memory into a just-in-time growth process. Instead of exhaustively mapping the entire environment, JITOMA leverages a top-down task heatmap at the frontend to filter continuous observations, routing minimal streams to maintain a global foundation of low-cost, dormant anchors. Upon a cognitive query, the backend Large Language Model (LLM) parses the robotic intent to dynamically awaken task-relevant anchors, triggering resource-intensive operations -- such as dense node captioning and functional inference -- exclusively within the activated local subgraph. To evaluate these dynamic capabilities and study perceptual saturation trade-offs, we introduce JITOMA-Bench, a comprehensive suite for long-horizon multi-tasking and complex multi-step reasoning. Extensive experiments demonstrate that JITOMA substantially reduces active graph size and captioning latency, while maintaining stable processing time under long-horizon task switching.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-07-14T20:14:50Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yue Chang</name>
+    </author>
+    <author>
+      <name>Rufeng Chen</name>
+    </author>
+    <author>
+      <name>Yifan Tian</name>
+    </author>
+    <author>
+      <name>Dazhi Huang</name>
+    </author>
+    <author>
+      <name>Zhaofan Zhang</name>
+    </author>
+    <author>
+      <name>Yi Chen</name>
+    </author>
+    <author>
+      <name>Wenze Zhang</name>
+    </author>
+    <author>
+      <name>Li Chen</name>
+    </author>
+    <author>
+      <name>Hui Xiong</name>
+    </author>
+    <author>
+      <name>Sihong Xie</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2506.15828v3</id>
+    <title>Context Matters! Relaxing Goals with LLMs for Feasible 3D Scene Planning</title>
+    <updated>2026-03-09T08:51:01Z</updated>
+    <link href="https://arxiv.org/abs/2506.15828v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2506.15828v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Embodied agents need to plan and act reliably in real and complex 3D environments. Classical planning (e.g., PDDL) offers structure and guarantees, but in practice it fails under noisy perception and incorrect predicate grounding. On the other hand, Large Language Models (LLMs)-based planners leverage commonsense reasoning, yet frequently propose actions that are unfeasible or unsafe. Following recent works that combine the two approaches, we introduce ContextMatters, a framework that fuses LLMs and classical planning to perform hierarchical goal relaxation: the LLM helps ground symbols to the scene and, when the target is unreachable, it proposes functionally equivalent goals that progressively relax constraints, adapting the goal to the context of the agent's environment. Operating on 3D Scene Graphs, this mechanism turns many nominally unfeasible tasks into tractable plans and enables context-aware partial achievement when full completion is not achievable. Our experimental results show a +52.45% Success Rate improvement over state-of-the-art LLMs+PDDL baseline, demonstrating the effectiveness of our approach. Moreover, we validate the execution of ContextMatter in a real world scenario by deploying it on a TIAGo robot. Code, dataset, and supplementary materials are available to the community at https://lab-rococo-sapienza.github.io/context-matters/.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-06-18T19:14:56Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Emanuele Musumeci</name>
+    </author>
+    <author>
+      <name>Michele Brienza</name>
+    </author>
+    <author>
+      <name>Francesco Argenziano</name>
+    </author>
+    <author>
+      <name>Abdel Hakim Drid</name>
+    </author>
+    <author>
+      <name>Vincenzo Suriani</name>
+    </author>
+    <author>
+      <name>Daniele Nardi</name>
+    </author>
+    <author>
+      <name>Domenico D. Bloisi</name>
+    </author>
+  </entry>
+</feed>

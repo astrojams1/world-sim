@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/b2hJUQB4V3sx/a6ukZa247GfYgk</id>
+  <title>arXiv Query: search_query=ti:"object symmetries" AND ti:"6D pose"&amp;id_list=&amp;start=0&amp;max_results=15</title>
+  <updated>2026-09-05T21:55:07Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22object+symmetries%22+AND+ti:%226D+pose%22&amp;start=0&amp;max_results=15&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>15</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/1908.07640v1</id>
+    <title>On Object Symmetries and 6D Pose Estimation from Images</title>
+    <updated>2019-08-20T22:44:24Z</updated>
+    <link href="https://arxiv.org/abs/1908.07640v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1908.07640v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Objects with symmetries are common in our daily life and in industrial contexts, but are often ignored in the recent literature on 6D pose estimation from images. In this paper, we study in an analytical way the link between the symmetries of a 3D object and its appearance in images. We explain why symmetrical objects can be a challenge when training machine learning algorithms that aim at estimating their 6D pose from images. We propose an efficient and simple solution that relies on the normalization of the pose rotation. Our approach is general and can be used with any 6D pose estimation algorithm. Moreover, our method is also beneficial for objects that are 'almost symmetrical', i.e. objects for which only a detail breaks the symmetry. We validate our approach within a Faster-RCNN framework on a synthetic dataset made with objects from the T-Less dataset, which exhibit various types of symmetries, as well as real sequences from T-Less.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2019-08-20T22:44:24Z</published>
+    <arxiv:comment>International Conference on 3D Vision</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Giorgia Pitteri</name>
+    </author>
+    <author>
+      <name>Michaël Ramamonjisoa</name>
+    </author>
+    <author>
+      <name>Slobodan Ilic</name>
+    </author>
+    <author>
+      <name>Vincent Lepetit</name>
+    </author>
+  </entry>
+</feed>

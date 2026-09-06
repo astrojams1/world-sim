@@ -1,0 +1,390 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/fOSBiD2qL90eTvtFRl+0z3zl9ms</id>
+  <title>arXiv Query: search_query=all:multimodal OR all:LLM OR all:agent OR all:camera OR all:calibration OR all:triangulation OR all:tool OR all:spatial OR all:reasoning&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T21:49:22Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=all:multimodal+OR+(all:LLM+OR+(all:agent+OR+(all:camera+OR+(all:calibration+OR+(all:triangulation+OR+(all:tool+OR+(all:spatial+OR+all:reasoning)))))))&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>561302</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2604.08140v1</id>
+    <title>Multimodal Reasoning with LLM for Encrypted Traffic Interpretation: A Benchmark</title>
+    <updated>2026-04-09T11:56:28Z</updated>
+    <link href="https://arxiv.org/abs/2604.08140v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2604.08140v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Network traffic, as a key media format, is crucial for ensuring security and communications in modern internet infrastructure. While existing methods offer excellent performance, they face two key bottlenecks: (1) They fail to capture multidimensional semantics beyond unimodal sequence patterns. (2) Their black box property, i.e., providing only category labels, lacks an auditable reasoning process. We identify a key factor that existing network traffic datasets are primarily designed for classification and inherently lack rich semantic annotations, failing to generate human-readable evidence report. To address data scarcity, this paper proposes a Byte-Grounded Traffic Description (BGTD) benchmark for the first time, combining raw bytes with structured expert annotations. BGTD provides necessary behavioral features and verifiable chains of evidence for multimodal reasoning towards explainable encrypted traffic interpretation. Built upon BGTD, this paper proposes an end-to-end traffic-language representation framework (mmTraffic), a multimodal reasoning architecture bridging physical traffic encoding and semantic interpretation. In order to alleviate modality interference and generative hallucinations, mmTraffic adopts a jointly-optimized perception-cognition architecture. By incorporating a perception-centered traffic encoder and a cognition-centered LLM generator, mmTraffic achieves refined traffic interpretation with guaranteed category prediction. Extensive experiments demonstrate that mmTraffic autonomously generates high-fidelity, human-readable, and evidence-grounded traffic interpretation reports, while maintaining highly competitive classification accuracy comparing to specialized unimodal model (e.g., NetMamba). The source code is available at https://github.com/lgzhangzlg/Multimodal-Reasoning-with-LLM-for-Encrypted-Traffic-Interpretation-A-Benchmark</summary>
+    <category term="cs.CR" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.MM" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.NI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-04-09T11:56:28Z</published>
+    <arxiv:comment>Project page \url{https://github.com/lgzhangzlg/Multimodal-Reasoning-with-LLM-for-Encrypted-Traffic-Interpretation-A-Benchmark}</arxiv:comment>
+    <arxiv:primary_category term="cs.CR"/>
+    <author>
+      <name>Longgang Zhang</name>
+    </author>
+    <author>
+      <name>Xiaowei Fu</name>
+    </author>
+    <author>
+      <name>Fuxiang Huang</name>
+    </author>
+    <author>
+      <name>Lei Zhang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2504.16021v1</id>
+    <title>Navigating the State of Cognitive Flow: Context-Aware AI Interventions for Effective Reasoning Support</title>
+    <updated>2025-04-22T16:35:39Z</updated>
+    <link href="https://arxiv.org/abs/2504.16021v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2504.16021v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Flow theory describes an optimal cognitive state where individuals experience deep focus and intrinsic motivation when a task's difficulty aligns with their skill level. In AI-augmented reasoning, interventions that disrupt the state of cognitive flow can hinder rather than enhance decision-making. This paper proposes a context-aware cognitive augmentation framework that adapts interventions based on three key contextual factors: type, timing, and scale. By leveraging multimodal behavioral cues (e.g., gaze behavior, typing hesitation, interaction speed), AI can dynamically adjust cognitive support to maintain or restore flow. We introduce the concept of cognitive flow, an extension of flow theory in AI-augmented reasoning, where interventions are personalized, adaptive, and minimally intrusive. By shifting from static interventions to context-aware augmentation, our approach ensures that AI systems support deep engagement in complex decision-making and reasoning without disrupting cognitive immersion.</summary>
+    <category term="cs.HC" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-04-22T16:35:39Z</published>
+    <arxiv:comment>Presented at the 2025 ACM Workshop on Human-AI Interaction for Augmented Reasoning, Report Number: CHI25-WS-AUGMENTED-REASONING</arxiv:comment>
+    <arxiv:primary_category term="cs.HC"/>
+    <arxiv:journal_ref>Proceedings of the 2025 ACM CHI Workshop on Human-AI Interaction for Augmented Reasoning</arxiv:journal_ref>
+    <author>
+      <name>Dinithi Dissanayake</name>
+    </author>
+    <author>
+      <name>Suranga Nanayakkara</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2303.10559v3</id>
+    <title>Deep Learning for Camera Calibration and Beyond: A Survey</title>
+    <updated>2025-02-24T02:40:11Z</updated>
+    <link href="https://arxiv.org/abs/2303.10559v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2303.10559v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Camera calibration involves estimating camera parameters to infer geometric features from captured sequences, which is crucial for computer vision and robotics. However, conventional calibration is laborious and requires dedicated collection. Recent efforts show that learning-based solutions have the potential to be used in place of the repeatability works of manual calibrations. Among these solutions, various learning strategies, networks, geometric priors, and datasets have been investigated. In this paper, we provide a comprehensive survey of learning-based camera calibration techniques, by analyzing their strengths and limitations. Our main calibration categories include the standard pinhole camera model, distortion camera model, cross-view model, and cross-sensor model, following the research trend and extended applications. As there is no unified benchmark in this community, we collect a holistic calibration dataset that can serve as a public platform to evaluate the generalization of existing methods. It comprises both synthetic and real-world data, with images and videos captured by different cameras in diverse scenes. Toward the end of this paper, we discuss the challenges and provide further research directions. To our knowledge, this is the first survey for the learning-based camera calibration (spanned 10 years). The summarized methods, datasets, and benchmarks are available and will be regularly updated at https://github.com/KangLiao929/Awesome-Deep-Camera-Calibration.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-03-19T04:00:05Z</published>
+    <arxiv:comment>Github repository: https://github.com/KangLiao929/Awesome-Deep-Camera-Calibration</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Kang Liao</name>
+    </author>
+    <author>
+      <name>Lang Nie</name>
+    </author>
+    <author>
+      <name>Shujuan Huang</name>
+    </author>
+    <author>
+      <name>Chunyu Lin</name>
+    </author>
+    <author>
+      <name>Jing Zhang</name>
+    </author>
+    <author>
+      <name>Yao Zhao</name>
+    </author>
+    <author>
+      <name>Moncef Gabbouj</name>
+    </author>
+    <author>
+      <name>Dacheng Tao</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2606.20023v2</id>
+    <title>When Lower Privileges Suffice: Investigating Over-Privileged Tool Selection in LLM Agents</title>
+    <updated>2026-07-07T12:24:40Z</updated>
+    <link href="https://arxiv.org/abs/2606.20023v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.20023v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>As LLM agents increasingly select tools autonomously, their choices among tools with different privileges become safety-relevant. However, prior tool-selection studies focus on safety-agnostic metadata preferences, leaving privilege-sensitive choices underexplored. To address this gap, we study over-privileged tool selection, in which an agent selects or escalates to a higher-privilege tool despite a sufficient lower-privilege alternative. We introduce ToolPrivBench to evaluate whether agents choose higher-privilege tools despite sufficient lower-privilege alternatives, measuring both initial selection and escalation after transient tool failures. Across eight domains and five recurring risk patterns, we find that over-privileged tool selection is common among mainstream LLM agents and is further amplified by transient failures. We further find that general safety alignment does not reliably transfer to least-privilege tool choice, while prompt-level controls provide only limited mitigation under transient failures. We therefore introduce a privilege-aware post-training defense that teaches agents to prefer sufficient lower-privilege tools and escalate only when necessary. Our mitigation experiments show that this defense substantially reduces unnecessary high-privilege tool use while preserving general capabilities.</summary>
+    <category term="cs.SE" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-18T09:54:48Z</published>
+    <arxiv:comment>code: https://github.com/AISafetyHub/agent-tool-selection-bias</arxiv:comment>
+    <arxiv:primary_category term="cs.SE"/>
+    <author>
+      <name>Kaiyue Yang</name>
+    </author>
+    <author>
+      <name>Yuyan Bu</name>
+    </author>
+    <author>
+      <name>Jingwei Yi</name>
+    </author>
+    <author>
+      <name>Yuchi Wang</name>
+    </author>
+    <author>
+      <name>Biyu Zhou</name>
+    </author>
+    <author>
+      <name>Juntao Dai</name>
+    </author>
+    <author>
+      <name>Songlin Hu</name>
+    </author>
+    <author>
+      <name>Yaodong Yang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2606.20515v3</id>
+    <title>S-Agent: Spatial Tool-Use Elicits Reasoning for Spatial Intelligence</title>
+    <updated>2026-07-23T12:24:43Z</updated>
+    <link href="https://arxiv.org/abs/2606.20515v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.20515v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Real-world spatial intelligence requires reasoning over a continuous and evolving 3D world, yet existing VLMs and tool-augmented agents largely remain tied to static, stateless inference from isolated visual observations. We introduce \textbf{\textsc{S-Agent}}, a spatial tool-use agentic paradigm for understanding and reasoning over continuous multi-view images and videos. By formulating spatial reasoning as spatio-temporal evidence accumulation rather than isolated frame-level prediction, \textsc{S-Agent} reshapes spatial perception into scene-centric understanding beyond frame-centric recognition. Specifically, \textsc{S-Agent} casts the VLM as a semantic planner that decides what evidence is needed, while a hierarchy of spatial tools and experts grounds objects in 2D, lifts them into 3D geometric evidence, and aggregates this evidence into high-level spatial knowledge (\textit{e.g.}, counting, measurement, orientation, and relative position). Additionally, a temporal memory mechanism, including Scene Memory for maintaining the evolving scene state and Agent Memory for accumulating reasoning context, enables evidence integration across frames and reasoning steps. Comprehensive experiments on multi-view and video spatial reasoning benchmarks show that \textsc{S-Agent} consistently improves both open-source and closed-source VLMs in a training-free manner. Beyond inference-time augmentation, supervised fine-tuning (SFT) on \textsc{S-Agent}-generated spatial trajectories \textsc{S-300K} yields \textsc{S-Agent-8B}, a compact spatial agent that significantly surpasses similar-scale baselines (e.g., Qwen3-VL-8B) and performs comparably to advanced closed-source models (e.g., GPT-5.4 and Gemini 3).</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-18T17:34:55Z</published>
+    <arxiv:comment>Project Page : https://Ropedia.github.io/S-Agent</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yalun Dai</name>
+    </author>
+    <author>
+      <name>Hao Li</name>
+    </author>
+    <author>
+      <name>Shulin Tian</name>
+    </author>
+    <author>
+      <name>Runmao Yao</name>
+    </author>
+    <author>
+      <name>Yuhao Dong</name>
+    </author>
+    <author>
+      <name>Fangzhou Hong</name>
+    </author>
+    <author>
+      <name>Zhaoxi Chen</name>
+    </author>
+    <author>
+      <name>Fangfu Liu</name>
+    </author>
+    <author>
+      <name>Tao Wang</name>
+    </author>
+    <author>
+      <name>Kim-Hui Yap</name>
+    </author>
+    <author>
+      <name>Ziwei Liu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2510.04514v3</id>
+    <title>ChartAgent: A Multimodal Agent for Visually Grounded Reasoning in Complex Chart Question Answering</title>
+    <updated>2026-06-08T20:02:58Z</updated>
+    <link href="https://arxiv.org/abs/2510.04514v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2510.04514v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Recent multimodal LLMs have shown promise in chart-based visual question answering, but their performance declines sharply on unannotated charts-those requiring precise visual interpretation rather than relying on textual shortcuts. To address this, we introduce ChartAgent, a novel agentic framework that explicitly performs visual reasoning directly within the chart's spatial domain. Unlike textual chain-of-thought reasoning, ChartAgent iteratively decomposes queries into visual subtasks and actively manipulates and interacts with chart images through specialized actions such as drawing annotations, cropping regions (e.g., segmenting pie slices, isolating bars), and localizing axes, using a library of chart-specific vision tools to fulfill each subtask. This iterative reasoning process closely mirrors human cognitive strategies for chart comprehension. ChartAgent achieves state-of-the-art accuracy on the ChartBench and ChartX benchmarks, surpassing prior methods by up to 16.07% absolute gain overall and 17.31% on unannotated, numerically intensive queries. Furthermore, our analyses show that ChartAgent is (a) effective across diverse chart types, (b) achieves the highest scores across varying visual and reasoning complexity levels, and (c) serves as a plug-and-play framework that boosts performance across diverse underlying LLMs. Our work is among the first to demonstrate visually grounded reasoning for chart understanding using tool-augmented multimodal agents.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CE" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.ME" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-10-06T06:05:36Z</published>
+    <arxiv:comment>Accepted at ACL 2026 (Main Conference). Also presented as an oral paper at the NeurIPS 2025 Multimodal Algorithmic Reasoning Workshop (https://marworkshop.github.io/neurips25/)</arxiv:comment>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Rachneet Kaur</name>
+    </author>
+    <author>
+      <name>Nishan Srishankar</name>
+    </author>
+    <author>
+      <name>Zhen Zeng</name>
+    </author>
+    <author>
+      <name>Sumitra Ganesh</name>
+    </author>
+    <author>
+      <name>Manuela Veloso</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2401.07324v3</id>
+    <title>Small LLMs Are Weak Tool Learners: A Multi-LLM Agent</title>
+    <updated>2024-02-16T12:42:25Z</updated>
+    <link href="https://arxiv.org/abs/2401.07324v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2401.07324v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Large Language Model (LLM) agents significantly extend the capabilities of standalone LLMs, empowering them to interact with external tools (e.g., APIs, functions) and complete various tasks in a self-directed fashion. The challenge of tool use demands that LLMs not only understand user queries and generate answers accurately but also excel in task planning, tool invocation, and result summarization. While traditional works focus on training a single LLM with all these capabilities, performance limitations become apparent, particularly with smaller models. To overcome these challenges, we propose a novel approach that decomposes the aforementioned capabilities into a planner, caller, and summarizer. Each component is implemented by a single LLM that focuses on a specific capability and collaborates with others to accomplish the task. This modular framework facilitates individual updates and the potential use of smaller LLMs for building each capability. To effectively train this framework, we introduce a two-stage training paradigm. First, we fine-tune a backbone LLM on the entire dataset without discriminating sub-tasks, providing the model with a comprehensive understanding of the task. Second, the fine-tuned LLM is used to instantiate the planner, caller, and summarizer respectively, which are continually fine-tuned on respective sub-tasks. Evaluation across various tool-use benchmarks illustrates that our proposed multi-LLM framework surpasses the traditional single-LLM approach, highlighting its efficacy and advantages in tool learning.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-01-14T16:17:07Z</published>
+    <arxiv:comment>On progress, github repo: https://github.com/X-PLUG/Multi-LLM-Agent</arxiv:comment>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Weizhou Shen</name>
+    </author>
+    <author>
+      <name>Chenliang Li</name>
+    </author>
+    <author>
+      <name>Hongzhan Chen</name>
+    </author>
+    <author>
+      <name>Ming Yan</name>
+    </author>
+    <author>
+      <name>Xiaojun Quan</name>
+    </author>
+    <author>
+      <name>Hehong Chen</name>
+    </author>
+    <author>
+      <name>Ji Zhang</name>
+    </author>
+    <author>
+      <name>Fei Huang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2608.30498v1</id>
+    <title>CM2: Multimodal Cultural Reasoning via an Integrated Multi-Agent Framework</title>
+    <updated>2026-08-31T09:29:04Z</updated>
+    <link href="https://arxiv.org/abs/2608.30498v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2608.30498v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Multimodal Large Language Models (MLLMs) have shown remarkable success in STEM domains, where progress is often driven by vertical, step-by-step deduction under relatively stable symbol systems. Their horizontal, interdisciplinary cultural reasoning, however, remains underexplored.We propose CM2, a multi-agent framework grounded in the cognitive pathway of human cultural interpretation. CM2 integrates multimodal perception, retrieval-augmented generation, networked reasoning, gated fusion, and reward-driven feedback.Experiments on CM2D across multiple MLLM backbones show consistent gains over CoT and typical reasoning paradigms; ablations validate each module's contribution, and conflict analyses confirm genuine cross-modal arbitration.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-08-31T09:29:04Z</published>
+    <arxiv:comment>Accepted to the 23rd Pacific Rim International Conference on Artificial Intelligence (PRICAI 2026) as a short paper. 11 pages, 4 figures. Code and dataset are available at https://github.com/GitHub-12138/CM2-Multimodal-Cultural-Reasoning-via-an-Integrated-Multi-Agent-Framework</arxiv:comment>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Qi Li</name>
+    </author>
+    <author>
+      <name>Zhaojie Kang</name>
+    </author>
+    <author>
+      <name>Yingjie He</name>
+    </author>
+    <author>
+      <name>Zheng Lin</name>
+    </author>
+    <author>
+      <name>Hao Zhang</name>
+    </author>
+    <author>
+      <name>Guangxin Wu</name>
+    </author>
+    <author>
+      <name>Yan Gong</name>
+    </author>
+    <author>
+      <name>Rong Fu</name>
+    </author>
+    <author>
+      <name>Jianyuan Ni</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2111.01762v1</id>
+    <title>AIRCC-Clim: a user-friendly tool for generating regional probabilistic climate change scenarios and risk measures</title>
+    <updated>2021-10-30T11:09:03Z</updated>
+    <link href="https://arxiv.org/abs/2111.01762v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2111.01762v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Complex physical models are the most advanced tools available for producing realistic simulations of the climate system. However, such levels of realism imply high computational cost and restrictions on their use for policymaking and risk assessment. Two central characteristics of climate change are uncertainty and that it is a dynamic problem in which international actions can significantly alter climate projections and information needs, including partial and full compliance of global climate goals. Here we present AIRCC-Clim, a simple climate model emulator that produces regional probabilistic climate change projections of monthly and annual temperature and precipitation, as well as risk measures, based both on standard and user-defined emissions scenarios for six greenhouse gases. AIRCC-Clim emulates 37 atmosphere-ocean coupled general circulation models with low computational and technical requirements for the user. This standalone, user-friendly software is designed for a variety of applications including impact assessments, climate policy evaluation and integrated assessment modelling.</summary>
+    <category term="physics.ao-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="econ.GN" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.AP" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2021-10-30T11:09:03Z</published>
+    <arxiv:primary_category term="physics.ao-ph"/>
+    <author>
+      <name>Francisco Estrada</name>
+    </author>
+    <author>
+      <name>Oscar Calderón-Bustamante</name>
+    </author>
+    <author>
+      <name>Wouter Botzen</name>
+    </author>
+    <author>
+      <name>Julián A. Velasco</name>
+    </author>
+    <author>
+      <name>Richard S. J. Tol</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2505.04921v2</id>
+    <title>Perception, Reason, Think, and Plan: A Survey on Large Multimodal Reasoning Models</title>
+    <updated>2025-07-06T14:40:27Z</updated>
+    <link href="https://arxiv.org/abs/2505.04921v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2505.04921v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Reasoning lies at the heart of intelligence, shaping the ability to make decisions, draw conclusions, and generalize across domains. In artificial intelligence, as systems increasingly operate in open, uncertain, and multimodal environments, reasoning becomes essential for enabling robust and adaptive behavior. Large Multimodal Reasoning Models (LMRMs) have emerged as a promising paradigm, integrating modalities such as text, images, audio, and video to support complex reasoning capabilities and aiming to achieve comprehensive perception, precise understanding, and deep reasoning. As research advances, multimodal reasoning has rapidly evolved from modular, perception-driven pipelines to unified, language-centric frameworks that offer more coherent cross-modal understanding. While instruction tuning and reinforcement learning have improved model reasoning, significant challenges remain in omni-modal generalization, reasoning depth, and agentic behavior. To address these issues, we present a comprehensive and structured survey of multimodal reasoning research, organized around a four-stage developmental roadmap that reflects the field's shifting design philosophies and emerging capabilities. First, we review early efforts based on task-specific modules, where reasoning was implicitly embedded across stages of representation, alignment, and fusion. Next, we examine recent approaches that unify reasoning into multimodal LLMs, with advances such as Multimodal Chain-of-Thought (MCoT) and multimodal reinforcement learning enabling richer and more structured reasoning chains. Finally, drawing on empirical insights from challenging benchmarks and experimental cases of OpenAI O3 and O4-mini, we discuss the conceptual direction of native large multimodal reasoning models (N-LMRMs), which aim to support scalable, agentic, and adaptive reasoning and planning in complex, real-world environments.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-05-08T03:35:23Z</published>
+    <arxiv:comment>v2, 91 Pages, 10 figures; Project: https://github.com/HITsz-TMG/Awesome-Large-Multimodal-Reasoning-Models</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yunxin Li</name>
+    </author>
+    <author>
+      <name>Zhenyu Liu</name>
+    </author>
+    <author>
+      <name>Zitao Li</name>
+    </author>
+    <author>
+      <name>Xuanyu Zhang</name>
+    </author>
+    <author>
+      <name>Zhenran Xu</name>
+    </author>
+    <author>
+      <name>Xinyu Chen</name>
+    </author>
+    <author>
+      <name>Haoyuan Shi</name>
+    </author>
+    <author>
+      <name>Shenyuan Jiang</name>
+    </author>
+    <author>
+      <name>Xintong Wang</name>
+    </author>
+    <author>
+      <name>Jifang Wang</name>
+    </author>
+    <author>
+      <name>Shouzheng Huang</name>
+    </author>
+    <author>
+      <name>Xinping Zhao</name>
+    </author>
+    <author>
+      <name>Borui Jiang</name>
+    </author>
+    <author>
+      <name>Lanqing Hong</name>
+    </author>
+    <author>
+      <name>Longyue Wang</name>
+    </author>
+    <author>
+      <name>Zhuotao Tian</name>
+    </author>
+    <author>
+      <name>Baoxing Huai</name>
+    </author>
+    <author>
+      <name>Wenhan Luo</name>
+    </author>
+    <author>
+      <name>Weihua Luo</name>
+    </author>
+    <author>
+      <name>Zheng Zhang</name>
+    </author>
+    <author>
+      <name>Baotian Hu</name>
+    </author>
+    <author>
+      <name>Min Zhang</name>
+    </author>
+  </entry>
+</feed>

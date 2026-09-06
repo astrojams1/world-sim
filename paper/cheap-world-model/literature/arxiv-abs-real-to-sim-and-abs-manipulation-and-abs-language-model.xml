@@ -1,0 +1,371 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/5k+0vjGYUf2hJI2CbO5QhyShDd8</id>
+  <title>arXiv Query: search_query=abs:"real-to-sim" AND abs:manipulation AND (abs:"language model" OR abs:VLM)&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T22:16:21Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=abs:%22real-to-sim%22+AND+(abs:manipulation+AND+(abs:%22language+model%22+OR+abs:VLM))&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>8</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2510.11689v2</id>
+    <title>Phys2Real: Fusing VLM Priors with Interactive Online Adaptation for Uncertainty-Aware Sim-to-Real Manipulation</title>
+    <updated>2026-03-06T01:58:18Z</updated>
+    <link href="https://arxiv.org/abs/2510.11689v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2510.11689v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Learning robotic manipulation policies directly in the real world can be expensive and time-consuming. While reinforcement learning (RL) policies trained in simulation present a scalable alternative, effective sim-to-real transfer remains challenging, particularly for tasks that require precise dynamics. To address this, we propose Phys2Real, a real-to-sim-to-real RL pipeline that combines vision-language model (VLM)-inferred physical parameter estimates with interactive adaptation through uncertainty-aware fusion. Our approach consists of three core components: (1) high-fidelity geometric reconstruction with 3D Gaussian splatting, (2) VLM-inferred prior distributions over physical parameters, and (3) online physical parameter estimation from interaction data. Phys2Real conditions policies on interpretable physical parameters, refining VLM predictions with online estimates via ensemble-based uncertainty quantification. On planar pushing tasks of a T-block with varying center of mass (CoM) and a hammer with an off-center mass distribution, Phys2Real achieves substantial improvements over a domain randomization baseline: 100% vs 79% success rate for the bottom-weighted T-block, 57% vs 23% in the challenging top-weighted T-block, and 15% faster average task completion for hammer pushing. Ablation studies indicate that the combination of VLM and interaction information is essential for success. Project website: https://phys2real.github.io/.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-10-13T17:51:23Z</published>
+    <arxiv:comment>Accepted to IEEE International Conference on Robotics and Automation (ICRA) 2026</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Maggie Wang</name>
+    </author>
+    <author>
+      <name>Stephen Tian</name>
+    </author>
+    <author>
+      <name>Aiden Swann</name>
+    </author>
+    <author>
+      <name>Ola Shorinwa</name>
+    </author>
+    <author>
+      <name>Jiajun Wu</name>
+    </author>
+    <author>
+      <name>Mac Schwager</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2609.03276v1</id>
+    <title>R2S-Eval: Robot Evaluation with Real-to-Sim Calibration via Vision-Language Models</title>
+    <updated>2026-09-03T02:08:16Z</updated>
+    <link href="https://arxiv.org/abs/2609.03276v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2609.03276v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Evaluating robot manipulation policies is becoming increasingly important as generalist models, particularly vision-language-action (VLA) models, are deployed on physical robots. However, conventional real-world evaluation remains labor-intensive, unstable, and insufficiently informative. It requires repeated hardware trials, manual scene resets, and continuous operator monitoring, may produce different policy rankings across repeated evaluations, and primarily relies on success-rate metrics that provide limited information about execution quality. In contrast, humans assess robot performance by observing and comparing complete behaviors rather than relying solely on binary success outcomes. To this end, we propose R2S-Eval, an evaluation pipeline that combines real-to-sim calibration with vision-language model (VLM) preference evaluation. The real-to-sim component efficiently generates rollout videos in a simulator calibrated to the real-world evaluation setting, thereby reducing the need for repeated hardware trials. The VLM evaluator assesses the execution quality of rollout videos and produces pairwise preferences, which are subsequently aggregated into policy rankings. We further introduce a protocol to assess whether the proposed evaluation pipeline yields validated policy conclusions while mitigating the key challenges of conventional real-world evaluation. Experiments in both simulation and real-world settings demonstrate that R2S-Eval produces reliable and stable policy conclusions, achieves agreement with human preferences, substantially reduces repeated hardware-operation effort, and reveals behavior-quality differences that are not captured by binary success labels. In general, R2S-Eval advances robot evaluation from manual success counting toward automated, statistically stable, and quality-aware evaluation of robot behavior. Project page: https://r2s-eval.github.io.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-09-03T02:08:16Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Yidi Wang</name>
+    </author>
+    <author>
+      <name>Feixiang Ruan</name>
+    </author>
+    <author>
+      <name>Ruoqu Chen</name>
+    </author>
+    <author>
+      <name>Jie Yin</name>
+    </author>
+    <author>
+      <name>Yang Yu</name>
+    </author>
+    <author>
+      <name>Mengdi Xu</name>
+    </author>
+    <author>
+      <name>Kaifeng Zhang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2509.13731v1</id>
+    <title>Reinforcement Learning for Robotic Insertion of Flexible Cables in Industrial Settings</title>
+    <updated>2025-09-17T06:35:34Z</updated>
+    <link href="https://arxiv.org/abs/2509.13731v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2509.13731v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>The industrial insertion of flexible flat cables (FFCs) into receptacles presents a significant challenge owing to the need for submillimeter precision when handling the deformable cables. In manufacturing processes, FFC insertion with robotic manipulators often requires laborious human-guided trajectory generation. While Reinforcement Learning (RL) offers a solution to automate this task without modeling complex properties of FFCs, the nondeterminism caused by the deformability of FFCs requires significant efforts and time on training. Moreover, training directly in a real environment is dangerous as industrial robots move fast and possess no safety measure. We propose an RL algorithm for FFC insertion that leverages a foundation model-based real-to-sim approach to reduce the training time and eliminate the risk of physical damages to robots and surroundings. Training is done entirely in simulation, allowing for random exploration without the risk of physical damages. Sim-to-real transfer is achieved through semantic segmentation masks which leave only those visual features relevant to the insertion tasks such as the geometric and spatial information of the cables and receptacles. To enhance generality, we use a foundation model, Segment Anything Model 2 (SAM2). To eleminate human intervention, we employ a Vision-Language Model (VLM) to automate the initial prompting of SAM2 to find segmentation masks. In the experiments, our method exhibits zero-shot capabilities, which enable direct deployments to real environments without fine-tuning.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-09-17T06:35:34Z</published>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Jeongwoo Park</name>
+    </author>
+    <author>
+      <name>Seabin Lee</name>
+    </author>
+    <author>
+      <name>Changmin Park</name>
+    </author>
+    <author>
+      <name>Wonjong Lee</name>
+    </author>
+    <author>
+      <name>Changjoo Nam</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2604.05484v1</id>
+    <title>CoEnv: Driving Embodied Multi-Agent Collaboration via Compositional Environment</title>
+    <updated>2026-04-07T06:24:41Z</updated>
+    <link href="https://arxiv.org/abs/2604.05484v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2604.05484v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Multi-agent embodied systems hold promise for complex collaborative manipulation, yet face critical challenges in spatial coordination, temporal reasoning, and shared workspace awareness. Inspired by human collaboration where cognitive planning occurs separately from physical execution, we introduce the concept of compositional environment -- a synergistic integration of real-world and simulation components that enables multiple robotic agents to perceive intentions and operate within a unified decision-making space. Building on this concept, we present CoEnv, a framework that leverages simulation for safe strategy exploration while ensuring reliable real-world deployment. CoEnv operates through three stages: real-to-sim scene reconstruction that digitizes physical workspaces, VLM-driven action synthesis supporting both real-time planning with high-level interfaces and iterative planning with code-based trajectory generation, and validated sim-to-real transfer with collision detection for safe deployment. Extensive experiments on challenging multi-arm manipulation benchmarks demonstrate CoEnv's effectiveness in achieving high task success rates and execution efficiency, establishing a new paradigm for multi-agent embodied AI.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-04-07T06:24:41Z</published>
+    <arxiv:comment>31 pages, 8 figures, including supplementary material. Project page: https://faceong.github.io/CoEnv/</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Li Kang</name>
+    </author>
+    <author>
+      <name>Yutao Fan</name>
+    </author>
+    <author>
+      <name>Rui Li</name>
+    </author>
+    <author>
+      <name>Heng Zhou</name>
+    </author>
+    <author>
+      <name>Yiran Qin</name>
+    </author>
+    <author>
+      <name>Zhemeng Zhang</name>
+    </author>
+    <author>
+      <name>Songtao Huang</name>
+    </author>
+    <author>
+      <name>Xiufeng Song</name>
+    </author>
+    <author>
+      <name>Zaibin Zhang</name>
+    </author>
+    <author>
+      <name>Bruno N. Y. Chen</name>
+    </author>
+    <author>
+      <name>Zhenfei Yin</name>
+    </author>
+    <author>
+      <name>Dongzhan Zhou</name>
+    </author>
+    <author>
+      <name>Wangmeng Zuo</name>
+    </author>
+    <author>
+      <name>Lei Bai</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2602.04672v4</id>
+    <title>AGILE: Hand-Object Interaction Reconstruction from Video via Agentic Generation</title>
+    <updated>2026-06-01T04:06:12Z</updated>
+    <link href="https://arxiv.org/abs/2602.04672v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2602.04672v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Reconstructing dynamic hand-object interactions from monocular videos is critical for dexterous manipulation data collection and creating realistic digital twins for robotics and VR. However, current methods face two prohibitive barriers: (1) reliance on neural rendering often yields fragmented, non-simulation-ready geometries under heavy occlusion, and (2) dependence on brittle Structure-from-Motion (SfM) initialization leads to frequent failures on in-the-wild footage. To overcome these limitations, we introduce AGILE, a robust framework that shifts the paradigm from reconstruction to agentic generation for interaction learning. First, we employ an agentic pipeline where a Vision-Language Model (VLM) guides a generative model to synthesize a complete, watertight object mesh with high-fidelity texture, independent of video occlusions. Second, bypassing fragile SfM entirely, we propose a robust anchor-and-track strategy. We initialize the object pose at a single interaction onset frame using a foundation model and propagate it temporally by leveraging the strong visual similarity between our generated asset and video observations. Finally, a contact-aware optimization integrates semantic, geometric, and interaction stability constraints to enforce physical plausibility. Extensive experiments on HO3D, DexYCB, ARCTIC, and in-the-wild videos reveal that AGILE outperforms baselines in global geometric accuracy while demonstrating exceptional robustness on challenging sequences where prior arts frequently collapse. By prioritizing physical validity, our method produces simulation-ready assets validated via real-to-sim retargeting for robotic applications. Project page: https://agile-hoi.github.io.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.GR" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-02-04T15:42:58Z</published>
+    <arxiv:comment>16 pages, SIGGRAPH 2026</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Jin-Chuan Shi</name>
+    </author>
+    <author>
+      <name>Binhong Ye</name>
+    </author>
+    <author>
+      <name>Tao Liu</name>
+    </author>
+    <author>
+      <name>Junzhe He</name>
+    </author>
+    <author>
+      <name>Yangjinhui Xu</name>
+    </author>
+    <author>
+      <name>Xiaoyang Liu</name>
+    </author>
+    <author>
+      <name>Zeju Li</name>
+    </author>
+    <author>
+      <name>Hao Chen</name>
+    </author>
+    <author>
+      <name>Chunhua Shen</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2502.08643v2</id>
+    <title>A Real-to-Sim-to-Real Approach to Robotic Manipulation with VLM-Generated Iterative Keypoint Rewards</title>
+    <updated>2025-02-18T16:45:59Z</updated>
+    <link href="https://arxiv.org/abs/2502.08643v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2502.08643v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Task specification for robotic manipulation in open-world environments is challenging, requiring flexible and adaptive objectives that align with human intentions and can evolve through iterative feedback. We introduce Iterative Keypoint Reward (IKER), a visually grounded, Python-based reward function that serves as a dynamic task specification. Our framework leverages VLMs to generate and refine these reward functions for multi-step manipulation tasks. Given RGB-D observations and free-form language instructions, we sample keypoints in the scene and generate a reward function conditioned on these keypoints. IKER operates on the spatial relationships between keypoints, leveraging commonsense priors about the desired behaviors, and enabling precise SE(3) control. We reconstruct real-world scenes in simulation and use the generated rewards to train reinforcement learning (RL) policies, which are then deployed into the real world-forming a real-to-sim-to-real loop. Our approach demonstrates notable capabilities across diverse scenarios, including both prehensile and non-prehensile tasks, showcasing multi-step task execution, spontaneous error recovery, and on-the-fly strategy adjustments. The results highlight IKER's effectiveness in enabling robots to perform multi-step tasks in dynamic environments through iterative reward shaping.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-02-12T18:57:22Z</published>
+    <arxiv:comment>ICRA 2025, Project Page: https://iker-robot.github.io/</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Shivansh Patel</name>
+    </author>
+    <author>
+      <name>Xinchen Yin</name>
+    </author>
+    <author>
+      <name>Wenlong Huang</name>
+    </author>
+    <author>
+      <name>Shubham Garg</name>
+    </author>
+    <author>
+      <name>Hooshang Nayyeri</name>
+    </author>
+    <author>
+      <name>Li Fei-Fei</name>
+    </author>
+    <author>
+      <name>Svetlana Lazebnik</name>
+    </author>
+    <author>
+      <name>Yunzhu Li</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2607.13653v2</id>
+    <title>Exploratory, Communicative, and Deployable: Vision-Driven Embodied Agents for Open-World Mobile Manipulation</title>
+    <updated>2026-07-27T04:02:35Z</updated>
+    <link href="https://arxiv.org/abs/2607.13653v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2607.13653v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Real-world deployment of embodied agents requires active exploration, visual grounding, and interactive intent disambiguation. However, existing frameworks often rely on privileged simulator states or assume complete instructions, bypassing realistic deployment challenges. To bridge this gap, we present REAL, an agentic framework for open-world mobile manipulation. REAL establishes sim-to-real-consistent environment APIs without oracle perception and integrates a simulated user to enable human-in-the-loop interaction. Within this environment, we design diverse task compositions to drive data collection, supervised fine-tuning, and online reinforcement learning, systematically optimizing agent performance. To comprehensively evaluate this approach, we introduce REAL-Bench, a benchmark spanning 241 tasks across active exploration, visual distraction, articulated manipulation, and interactive disambiguation.
+  Experimental results demonstrate that our trained agent outperforms leading commercial closed-source VLMs on interactive tasks with a 56.9% success rate. Further empirical analysis reveals that our hierarchical training pipeline successfully aligns the model's tool-use capabilities while maintaining robust open-vocabulary reasoning under extended exploration horizons. Finally, we deploy and evaluate our framework on a physical dual-arm mobile robot, where it achieves a 78.3% end-to-end success rate over 60 real-world episodes. These physical trials demonstrate robust zero-shot transferability to unseen household scenarios, validating that our sim-to-real-consistent design successfully bridges the reality gap for long-horizon mobile manipulation. Code is available at https://github.com/InternRobotics/REAL.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-07-15T09:55:45Z</published>
+    <arxiv:comment>Accepted to ECCV 2026. 57 pages. Code available at https://github.com/InternRobotics/REAL</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Boyu Mi</name>
+    </author>
+    <author>
+      <name>Mengchen Ma</name>
+    </author>
+    <author>
+      <name>Yifei Yao</name>
+    </author>
+    <author>
+      <name>Xing Gao</name>
+    </author>
+    <author>
+      <name>Junting Chen</name>
+    </author>
+    <author>
+      <name>Yangzi Li</name>
+    </author>
+    <author>
+      <name>Zihou Zhu</name>
+    </author>
+    <author>
+      <name>Guohao Li</name>
+    </author>
+    <author>
+      <name>Zhenfei Yin</name>
+    </author>
+    <author>
+      <name>Tai Wang</name>
+    </author>
+    <author>
+      <name>Yao Mu</name>
+    </author>
+    <author>
+      <name>Jiangmiao Pang</name>
+    </author>
+    <author>
+      <name>Hanqing Wang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2607.19190v3</id>
+    <title>Agentic Real2Sim: Physics-based World Modeling with Vision-Language Agents</title>
+    <updated>2026-07-24T08:16:46Z</updated>
+    <link href="https://arxiv.org/abs/2607.19190v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2607.19190v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Real-to-sim conversion for robotic interaction with objects remains labor-intensive because it requires more than visual reconstruction: a streamlined real2sim process must recover scene geometries and object states, infer physical parameters, and assemble actors, objects, cameras, poses, and trajectories into a runnable physical simulation. Today this process still depends on manual tuning of visual foundation models, mesh cleanup, coordinate-frame alignment, and brittle workflow glue across visual perception tools and simulators. We introduce \textit{Agentic Real2Sim}, a framework for generalized physical world modeling with vision-language agents, converting a real-world recording of object-robot interaction into a simulatable episodic twin which preserves observations, geometries, robot interactions, and object states. We evaluate Agentic Real2Sim on rigid-object manipulation, deformable-object interaction, and humanoid motion scenes, spanning domains that are usually handled by separate Real2Sim pipelines, marking a first step toward scalable conversion. The framework's agentic decisions can be driven by an open-weight VLM backend at a small fraction of the cost of frontier models, while attaining comparable conversion success rate. We aim to use the resulting real-world-aligned twins for downstream robotics tasks, specifically policy learning and evaluation. The project site is available at https://agentic-real2sim.github.io/.</summary>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-07-21T15:23:38Z</published>
+    <arxiv:comment>Authorship change</arxiv:comment>
+    <arxiv:primary_category term="cs.RO"/>
+    <author>
+      <name>Guanxiong Chen</name>
+    </author>
+    <author>
+      <name>Qianjun Xia</name>
+    </author>
+    <author>
+      <name>Jiawei Peng</name>
+    </author>
+    <author>
+      <name>Heng Zhang</name>
+    </author>
+    <author>
+      <name>Bole Ma</name>
+    </author>
+    <author>
+      <name>Justin Qian</name>
+    </author>
+    <author>
+      <name>Ziyi Jiao</name>
+    </author>
+    <author>
+      <name>Bingyang Zhou</name>
+    </author>
+    <author>
+      <name>Luoxin Ye</name>
+    </author>
+    <author>
+      <name>Kaifeng Zhang</name>
+    </author>
+    <author>
+      <name>Kunyi Wang</name>
+    </author>
+    <author>
+      <name>Weijia Zeng</name>
+    </author>
+    <author>
+      <name>Yunuo Chen</name>
+    </author>
+    <author>
+      <name>Pengzhi Yang</name>
+    </author>
+    <author>
+      <name>Ziqiu Zeng</name>
+    </author>
+    <author>
+      <name>Siyuan Luo</name>
+    </author>
+    <author>
+      <name>Huamin Wang</name>
+    </author>
+    <author>
+      <name>Chao Liu</name>
+    </author>
+    <author>
+      <name>Alan Yuille</name>
+    </author>
+    <author>
+      <name>Fan Shi</name>
+    </author>
+    <author>
+      <name>Changxi Zheng</name>
+    </author>
+    <author>
+      <name>Yunzhu Li</name>
+    </author>
+    <author>
+      <name>Chenfanfu Jiang</name>
+    </author>
+    <author>
+      <name>Peter Yichen Chen</name>
+    </author>
+  </entry>
+</feed>

@@ -1,0 +1,389 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/dtHegCv+O46MwqKrMZEnUJBxmCs</id>
+  <title>arXiv Query: search_query=all:inverse OR all:graphics OR all:large OR all:language OR all:model OR all:render OR all:and OR all:compare OR all:scene OR all:program&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T21:49:02Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=all:inverse+OR+(all:graphics+OR+(all:large+OR+(all:language+OR+(all:model+OR+(all:render+OR+(all:and+OR+(all:compare+OR+(all:scene+OR+all:program))))))))&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>1773516</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2410.16770v2</id>
+    <title>The Scene Language: Representing Scenes with Programs, Words, and Embeddings</title>
+    <updated>2025-03-29T19:17:13Z</updated>
+    <link href="https://arxiv.org/abs/2410.16770v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2410.16770v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We introduce the Scene Language, a visual scene representation that concisely and precisely describes the structure, semantics, and identity of visual scenes. It represents a scene with three key components: a program that specifies the hierarchical and relational structure of entities in the scene, words in natural language that summarize the semantic class of each entity, and embeddings that capture the visual identity of each entity. This representation can be inferred from pre-trained language models via a training-free inference technique, given text or image inputs. The resulting scene can be rendered into images using traditional, neural, or hybrid graphics renderers. Together, this forms a robust, automated system for high-quality 3D and 4D scene generation. Compared with existing representations like scene graphs, our proposed Scene Language generates complex scenes with higher fidelity, while explicitly modeling the scene structures to enable precise control and editing.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-10-22T07:40:20Z</published>
+    <arxiv:comment>CVPR 2025. Project page: https://ai.stanford.edu/~yzzhang/projects/scene-language/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yunzhi Zhang</name>
+    </author>
+    <author>
+      <name>Zizhang Li</name>
+    </author>
+    <author>
+      <name>Matt Zhou</name>
+    </author>
+    <author>
+      <name>Shangzhe Wu</name>
+    </author>
+    <author>
+      <name>Jiajun Wu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2404.15228v2</id>
+    <title>Re-Thinking Inverse Graphics With Large Language Models</title>
+    <updated>2024-08-24T03:51:44Z</updated>
+    <link href="https://arxiv.org/abs/2404.15228v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2404.15228v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Inverse graphics -- the task of inverting an image into physical variables that, when rendered, enable reproduction of the observed scene -- is a fundamental challenge in computer vision and graphics. Successfully disentangling an image into its constituent elements, such as the shape, color, and material properties of the objects of the 3D scene that produced it, requires a comprehensive understanding of the environment. This complexity limits the ability of existing carefully engineered approaches to generalize across domains. Inspired by the zero-shot ability of large language models (LLMs) to generalize to novel contexts, we investigate the possibility of leveraging the broad world knowledge encoded in such models to solve inverse-graphics problems. To this end, we propose the Inverse-Graphics Large Language Model (IG-LLM), an inverse-graphics framework centered around an LLM, that autoregressively decodes a visual embedding into a structured, compositional 3D-scene representation. We incorporate a frozen pre-trained visual encoder and a continuous numeric head to enable end-to-end training. Through our investigation, we demonstrate the potential of LLMs to facilitate inverse graphics through next-token prediction, without the application of image-space supervision. Our analysis enables new possibilities for precise spatial reasoning about images that exploit the visual knowledge of LLMs. We release our code and data at https://ig-llm.is.tue.mpg.de/ to ensure the reproducibility of our investigation and to facilitate future research.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-04-23T16:59:02Z</published>
+    <arxiv:comment>TMLR camera-ready; 31 pages; project page: https://ig-llm.is.tue.mpg.de/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Peter Kulits</name>
+    </author>
+    <author>
+      <name>Haiwen Feng</name>
+    </author>
+    <author>
+      <name>Weiyang Liu</name>
+    </author>
+    <author>
+      <name>Victoria Abrevaya</name>
+    </author>
+    <author>
+      <name>Michael J. Black</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2402.11651v2</id>
+    <title>Learning From Failure: Integrating Negative Examples when Fine-tuning Large Language Models as Agents</title>
+    <updated>2024-04-16T11:41:13Z</updated>
+    <link href="https://arxiv.org/abs/2402.11651v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2402.11651v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Large language models (LLMs) have achieved success in acting as agents, which interact with environments through tools such as search engines. However, LLMs are optimized for language generation instead of tool use during training or alignment, limiting their effectiveness as agents. To resolve this problem, previous work has first collected interaction trajectories between LLMs and environments, using only trajectories that successfully finished the task to fine-tune smaller models, making fine-tuning data scarce and acquiring it both difficult and costly. Discarding failed trajectories also leads to significant wastage of data and resources and limits the possible optimization paths during fine-tuning. In this paper, we argue that unsuccessful trajectories offer valuable insights, and LLMs can learn from these trajectories through appropriate quality control and fine-tuning strategies. By simply adding a prefix or suffix that tells the model whether to generate a successful trajectory during training, we improve model performance by a large margin on mathematical reasoning, multi-hop question answering, and strategic question answering tasks. We further analyze the inference results and find that our method provides a better trade-off between valuable information and errors in unsuccessful trajectories. To our knowledge, we are the first to demonstrate the value of negative trajectories and their application in agent-tunning scenarios. Our findings offer guidance for developing better agent-tuning methods and low-resource data usage techniques.</summary>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-02-18T17:10:07Z</published>
+    <arxiv:comment>Agent, LLM, Large Language Model</arxiv:comment>
+    <arxiv:primary_category term="cs.CL"/>
+    <author>
+      <name>Renxi Wang</name>
+    </author>
+    <author>
+      <name>Haonan Li</name>
+    </author>
+    <author>
+      <name>Xudong Han</name>
+    </author>
+    <author>
+      <name>Yixuan Zhang</name>
+    </author>
+    <author>
+      <name>Timothy Baldwin</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2312.10793v3</id>
+    <title>Demystifying Instruction Mixing for Fine-tuning Large Language Models</title>
+    <updated>2024-02-18T17:13:36Z</updated>
+    <link href="https://arxiv.org/abs/2312.10793v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2312.10793v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Instruction tuning significantly enhances the performance of large language models (LLMs) across various tasks. However, the procedure to optimizing the mixing of instruction datasets for LLM fine-tuning is still poorly understood. This study categorizes instructions into three primary types: NLP downstream tasks, coding, and general chat. We explore the effects of instruction tuning on different combinations of datasets on LLM performance, and find that certain instruction types are more advantageous for specific applications but can negatively impact other areas. This work provides insights into instruction mixtures, laying the foundations for future research.</summary>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-12-17T18:44:26Z</published>
+    <arxiv:comment>Instruction Tuning, Large Language Model, Alignment</arxiv:comment>
+    <arxiv:primary_category term="cs.CL"/>
+    <author>
+      <name>Renxi Wang</name>
+    </author>
+    <author>
+      <name>Haonan Li</name>
+    </author>
+    <author>
+      <name>Minghao Wu</name>
+    </author>
+    <author>
+      <name>Yuxia Wang</name>
+    </author>
+    <author>
+      <name>Xudong Han</name>
+    </author>
+    <author>
+      <name>Chiyu Zhang</name>
+    </author>
+    <author>
+      <name>Timothy Baldwin</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2304.12244v3</id>
+    <title>WizardLM: Empowering large pre-trained language models to follow complex instructions</title>
+    <updated>2025-05-27T06:49:09Z</updated>
+    <link href="https://arxiv.org/abs/2304.12244v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2304.12244v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Training large language models (LLMs) with open-domain instruction following data brings colossal success. However, manually creating such instruction data is very time-consuming and labor-intensive. Moreover, humans may struggle to produce high-complexity instructions. In this paper, we show an avenue for creating large amounts of instruction data with varying levels of complexity using LLM instead of humans. Starting with an initial set of instructions, we use our proposed Evol-Instruct to rewrite them step by step into more complex instructions. Then, we mix all generated instruction data to fine-tune LLaMA. We call the resulting model WizardLM. Human evaluations on a complexity-balanced test bed and Vicuna's testset show that instructions from Evol-Instruct are superior to human-created ones. By analyzing the human evaluation results of the high complexity part, we demonstrate that outputs from our WizardLM are preferred to outputs from OpenAI ChatGPT. In GPT-4 automatic evaluation, WizardLM achieves more than 90\% capacity of ChatGPT on 17 out of 29 skills. Even though WizardLM still lags behind ChatGPT in some aspects, our findings suggest that fine-tuning with AI-evolved instructions is a promising direction for enhancing LLMs. Our code and data are public at https://github.com/nlpxucan/WizardLM</summary>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-04-24T16:31:06Z</published>
+    <arxiv:comment>large language model, instruction fine-tune</arxiv:comment>
+    <arxiv:primary_category term="cs.CL"/>
+    <arxiv:journal_ref>The Twelfth International Conference on Learning Representations (ICLR 2024)</arxiv:journal_ref>
+    <author>
+      <name>Can Xu</name>
+    </author>
+    <author>
+      <name>Qingfeng Sun</name>
+    </author>
+    <author>
+      <name>Kai Zheng</name>
+    </author>
+    <author>
+      <name>Xiubo Geng</name>
+    </author>
+    <author>
+      <name>Pu Zhao</name>
+    </author>
+    <author>
+      <name>Jiazhan Feng</name>
+    </author>
+    <author>
+      <name>Chongyang Tao</name>
+    </author>
+    <author>
+      <name>Qingwei Lin</name>
+    </author>
+    <author>
+      <name>Daxin Jiang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1109.6494v1</id>
+    <title>A Survey of Ocean Simulation and Rendering Techniques in Computer Graphics</title>
+    <updated>2011-09-29T11:50:29Z</updated>
+    <link href="https://arxiv.org/abs/1109.6494v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1109.6494v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This paper presents a survey of ocean simulation and rendering methods in computer graphics. To model and animate the ocean's surface, these methods mainly rely on two main approaches: on the one hand, those which approximate ocean dynamics with parametric, spectral or hybrid models and use empirical laws from oceanographic research. We will see that this type of methods essentially allows the simulation of ocean scenes in the deep water domain, without breaking waves. On the other hand, physically-based methods use Navier-Stokes Equations (NSE) to represent breaking waves and more generally ocean surface near the shore. We also describe ocean rendering methods in computer graphics, with a special interest in the simulation of phenomena such as foam and spray, and light's interaction with the ocean surface.</summary>
+    <category term="cs.GR" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2011-09-29T11:50:29Z</published>
+    <arxiv:primary_category term="cs.GR"/>
+    <arxiv:journal_ref>Computer Graphics Forum 30, 1 (2011) 43-60</arxiv:journal_ref>
+    <author>
+      <name>Emmanuelle Darles</name>
+      <arxiv:affiliation>XLIM</arxiv:affiliation>
+    </author>
+    <author>
+      <name>Benoît Crespin</name>
+      <arxiv:affiliation>XLIM</arxiv:affiliation>
+    </author>
+    <author>
+      <name>Djamchid Ghazanfarpour</name>
+      <arxiv:affiliation>XLIM</arxiv:affiliation>
+    </author>
+    <author>
+      <name>Jean-Christophe Gonzato</name>
+      <arxiv:affiliation>INRIA Bordeaux - Sud-Ouest, LaBRI</arxiv:affiliation>
+    </author>
+    <arxiv:doi>10.1111/j.1467-8659.2010.01828.x</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1111/j.1467-8659.2010.01828.x" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2502.13372v2</id>
+    <title>MoVer: Motion Verification for Motion Graphics Animations</title>
+    <updated>2025-05-17T02:41:52Z</updated>
+    <link href="https://arxiv.org/abs/2502.13372v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2502.13372v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>While large vision-language models can generate motion graphics animations from text prompts, they regularly fail to include all spatio-temporal properties described in the prompt. We introduce MoVer, a motion verification DSL based on first-order logic that can check spatio-temporal properties of a motion graphics animation. We identify a general set of such properties that people commonly use to describe animations (e.g., the direction and timing of motions, the relative positioning of objects, etc.). We implement these properties as predicates in MoVer and provide an execution engine that can apply a MoVer program to any input SVG-based motion graphics animation. We then demonstrate how MoVer can be used in an LLM-based synthesis and verification pipeline for iteratively refining motion graphics animations. Given a text prompt, our pipeline synthesizes a motion graphics animation and a corresponding MoVer program. Executing the verification program on the animation yields a report of the predicates that failed and the report can be automatically fed back to LLM to iteratively correct the animation. To evaluate our pipeline, we build a synthetic dataset of 5600 text prompts paired with ground truth MoVer verification programs. We find that while our LLM-based pipeline is able to automatically generate a correct motion graphics animation for 58.8% of the test prompts without any iteration, this number raises to 93.6% with up to 50 correction iterations. Our code and dataset are at https://mover-dsl.github.io.</summary>
+    <category term="cs.GR" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-02-19T02:11:41Z</published>
+    <arxiv:comment>Accepted to ACM Transactions on Graphics (SIGGRAPH 2025)</arxiv:comment>
+    <arxiv:primary_category term="cs.GR"/>
+    <author>
+      <name>Jiaju Ma</name>
+    </author>
+    <author>
+      <name>Maneesh Agrawala</name>
+    </author>
+    <arxiv:doi>10.1145/3731209.</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1145/3731209." title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2310.00034v2</id>
+    <title>PB-LLM: Partially Binarized Large Language Models</title>
+    <updated>2023-11-07T20:41:22Z</updated>
+    <link href="https://arxiv.org/abs/2310.00034v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2310.00034v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>This paper explores network binarization, a radical form of quantization, compressing model weights to a single bit, specifically for Large Language Models (LLMs) compression. Due to previous binarization methods collapsing LLMs, we propose a novel approach, Partially-Binarized LLM (PB-LLM), which can achieve extreme low-bit quantization while maintaining the linguistic reasoning capacity of quantized LLMs. Specifically, our exploration first uncovers the ineffectiveness of naive applications of existing binarization algorithms and highlights the imperative role of salient weights in achieving low-bit quantization. Thus, PB-LLM filters a small ratio of salient weights during binarization, allocating them to higher-bit storage, i.e., partially-binarization. PB-LLM is extended to recover the capacities of quantized LMMs, by analyzing from the perspective of post-training quantization (PTQ) and quantization-aware training (QAT). Under PTQ, combining the concepts from GPTQ, we reconstruct the binarized weight matrix guided by the Hessian matrix and successfully recover the reasoning capacity of PB-LLM in low-bit. Under QAT, we freeze the salient weights during training, explore the derivation of optimal scaling factors crucial for minimizing the quantization error, and propose a scaling mechanism based on this derived scaling strategy for residual binarized weights. Those explorations and the developed methodologies significantly contribute to rejuvenating the performance of low-bit quantized LLMs and present substantial advancements in the field of network binarization for LLMs.The code is available at https://github.com/hahnyuan/BinaryLLM.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-09-29T14:35:27Z</published>
+    <arxiv:comment>Frist work using network binarization for large language model compression</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Yuzhang Shang</name>
+    </author>
+    <author>
+      <name>Zhihang Yuan</name>
+    </author>
+    <author>
+      <name>Qiang Wu</name>
+    </author>
+    <author>
+      <name>Zhen Dong</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2509.05208v2</id>
+    <title>Symbolic Graphics Programming with Large Language Models</title>
+    <updated>2026-08-07T05:48:38Z</updated>
+    <link href="https://arxiv.org/abs/2509.05208v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2509.05208v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Large language models (LLMs) excel at program synthesis, yet their ability to produce symbolic graphics programs (SGPs) that render into precise visual content remains underexplored. We study symbolic graphics programming, where the goal is to generate an SGP from a natural-language description. This task also serves as a lens into how LLMs understand the visual world by prompting them to generate images rendered from SGPs. Among various SGPs, our paper sticks to scalable vector graphics (SVGs). We begin by examining the extent to which LLMs can generate SGPs. To this end, we introduce SGP-GenBench, a comprehensive benchmark covering object fidelity, scene fidelity, and compositionality (attribute binding, spatial relations, numeracy). On SGP-GenBench, we discover that frontier proprietary models substantially outperform open-source models, and performance correlates well with general coding capabilities. Motivated by this gap, we aim to improve LLMs' ability to generate SGPs. We propose a reinforcement learning (RL) with verifiable rewards approach, where a format-validity gate ensures renderable SVG, and a cross-modal reward aligns text and the rendered image via strong vision encoders (e.g., SigLIP for text-image and DINO for image-image). Applied to Qwen-2.5-7B, our method substantially improves SVG generation quality and semantics, achieving performance on par with frontier systems. We further analyze training dynamics, showing that RL induces (i) finer decomposition of objects into controllable primitives and (ii) contextual details that improve scene coherence. Our results demonstrate that symbolic graphics programming offers a precise and interpretable lens on cross-modal grounding.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-09-05T16:10:53Z</published>
+    <arxiv:comment>Accepted by Transactions on Machine Learning Research. (32 pages, 12 figures.) This version refines the paper structure, adds experimental results. Project page: https://spherelab.ai/SGP-Gen/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yamei Chen</name>
+    </author>
+    <author>
+      <name>Haoquan Zhang</name>
+    </author>
+    <author>
+      <name>Yangyi Huang</name>
+    </author>
+    <author>
+      <name>Zeju Qiu</name>
+    </author>
+    <author>
+      <name>Kaipeng Zhang</name>
+    </author>
+    <author>
+      <name>Yandong Wen</name>
+    </author>
+    <author>
+      <name>Weiyang Liu</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2308.16149v2</id>
+    <title>Jais and Jais-chat: Arabic-Centric Foundation and Instruction-Tuned Open Generative Large Language Models</title>
+    <updated>2023-09-29T11:51:51Z</updated>
+    <link href="https://arxiv.org/abs/2308.16149v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2308.16149v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We introduce Jais and Jais-chat, new state-of-the-art Arabic-centric foundation and instruction-tuned open generative large language models (LLMs). The models are based on the GPT-3 decoder-only architecture and are pretrained on a mixture of Arabic and English texts, including source code in various programming languages. With 13 billion parameters, they demonstrate better knowledge and reasoning capabilities in Arabic than any existing open Arabic and multilingual models by a sizable margin, based on extensive evaluation. Moreover, the models are competitive in English compared to English-centric open models of similar size, despite being trained on much less English data. We provide a detailed description of the training, the tuning, the safety alignment, and the evaluation of the models. We release two open versions of the model -- the foundation Jais model, and an instruction-tuned Jais-chat variant -- with the aim of promoting research on Arabic LLMs. Available at https://huggingface.co/inception-mbzuai/jais-13b-chat</summary>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-08-30T17:07:17Z</published>
+    <arxiv:comment>Arabic-centric, foundation model, large-language model, LLM, generative model, instruction-tuned, Jais, Jais-chat</arxiv:comment>
+    <arxiv:primary_category term="cs.CL"/>
+    <author>
+      <name>Neha Sengupta</name>
+    </author>
+    <author>
+      <name>Sunil Kumar Sahu</name>
+    </author>
+    <author>
+      <name>Bokang Jia</name>
+    </author>
+    <author>
+      <name>Satheesh Katipomu</name>
+    </author>
+    <author>
+      <name>Haonan Li</name>
+    </author>
+    <author>
+      <name>Fajri Koto</name>
+    </author>
+    <author>
+      <name>William Marshall</name>
+    </author>
+    <author>
+      <name>Gurpreet Gosal</name>
+    </author>
+    <author>
+      <name>Cynthia Liu</name>
+    </author>
+    <author>
+      <name>Zhiming Chen</name>
+    </author>
+    <author>
+      <name>Osama Mohammed Afzal</name>
+    </author>
+    <author>
+      <name>Samta Kamboj</name>
+    </author>
+    <author>
+      <name>Onkar Pandit</name>
+    </author>
+    <author>
+      <name>Rahul Pal</name>
+    </author>
+    <author>
+      <name>Lalit Pradhan</name>
+    </author>
+    <author>
+      <name>Zain Muhammad Mujahid</name>
+    </author>
+    <author>
+      <name>Massa Baali</name>
+    </author>
+    <author>
+      <name>Xudong Han</name>
+    </author>
+    <author>
+      <name>Sondos Mahmoud Bsharat</name>
+    </author>
+    <author>
+      <name>Alham Fikri Aji</name>
+    </author>
+    <author>
+      <name>Zhiqiang Shen</name>
+    </author>
+    <author>
+      <name>Zhengzhong Liu</name>
+    </author>
+    <author>
+      <name>Natalia Vassilieva</name>
+    </author>
+    <author>
+      <name>Joel Hestness</name>
+    </author>
+    <author>
+      <name>Andy Hock</name>
+    </author>
+    <author>
+      <name>Andrew Feldman</name>
+    </author>
+    <author>
+      <name>Jonathan Lee</name>
+    </author>
+    <author>
+      <name>Andrew Jackson</name>
+    </author>
+    <author>
+      <name>Hector Xuguang Ren</name>
+    </author>
+    <author>
+      <name>Preslav Nakov</name>
+    </author>
+    <author>
+      <name>Timothy Baldwin</name>
+    </author>
+    <author>
+      <name>Eric Xing</name>
+    </author>
+  </entry>
+</feed>

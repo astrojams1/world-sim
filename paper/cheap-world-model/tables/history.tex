@@ -1,0 +1,45 @@
+\begin{tabular}{@{}rlp{5.6cm}rrrrrr@{}}
+\toprule
+It. & Effort & Change tested & Mean & Exact & s/room & Tokens & \$/room & Cells \\
+\midrule
+0 & medium & baseline prompt + helper, medium effort & 90.0 & 2 & 232 & 23,132 & 0.045 & 21.7 \\
+1 & medium & silhouette shape check in prompt; soft renders & 87.1 & 3 & 174 & 22,089 & 0.044 & 20.3 \\
+2 & medium & one-shot solve\_all pipeline + finish() & 91.1 & 3 & 243 & 15,160 & 0.038 & 11.3 \\
+2 & medium & \emph{confirmation run} & 90.9 & 3 & 282 & 17,429 & 0.040 & 16.6 \\
+3 & medium & per-object search on residuals; blob caps & 90.8 & 4 & 95 & 16,809 & 0.040 & 11.9 \\
+3 & medium & \emph{confirmation run} & 87.5 & 4 & 89 & 16,373 & 0.040 & 13.6 \\
+4 & medium & shape verdicts final; output JSON verbatim; 6-cell cap & 92.7 & 5 & 97 & 17,128 & 0.040 & 14.1 \\
+4 & medium & \emph{confirmation run} & 91.0 & 4 & 89 & 15,339 & 0.039 & 13.2 \\
+5 & medium & grid-aligned wall margin; size-scaled cube margin & 93.0 & 3 & 91 & 16,886 & 0.040 & 14.1 \\
+5 & medium & \emph{confirmation run} & 91.7 & 2 & 82 & 16,814 & 0.040 & 12.8 \\
+6 & medium & FINAL ANSWER banner as hard stop & 90.9 & 2 & 87 & 16,173 & 0.040 & 11.6 \\
+7 & medium & shading tie-break for sphere vs cube & 95.8 & 4 & 85 & 14,680 & 0.038 & 10.0 \\
+7 & medium & \emph{confirmation run} & 92.7 & 3 & 92 & 16,453 & 0.040 & 13.8 \\
+8 & medium & apparent-size term in blob pairing & 94.3 & 3 & 97 & 15,368 & 0.039 & 11.4 \\
+9 & low & same code, reasoning effort low & 76.6 & 3 & 48 & 10,845 & 0.034 & 7.2 \\
+10 & low & truncation fallback; no help(ws); outline de-dup & 86.8 & 4 & 47 & 7,803 & 0.033 & 2.5 \\
+11 & low & candidate outlines (6/5-corner fallbacks) & 90.4 & 3 & 62 & 7,923 & 0.034 & 2.8 \\
+12 & low & transcript tee moved into helper; count rule & 95.2 & 3 & 92 & 11,828 & 0.036 & 4.3 \\
+12 & low & \emph{confirmation run} & 92.3 & 3 & 61 & 10,560 & 0.035 & 3.0 \\
+13 & low & capped outline fallback & 94.3 & 3 & 62 & 10,856 & 0.035 & 3.0 \\
+14 & low & five-corner (pentagon) outline fit & 94.3 & 3 & 55 & 10,422 & 0.035 & 2.6 \\
+14 & low & \emph{confirmation run} & 94.6 & 4 & 73 & 10,508 & 0.035 & 3.0 \\
+15 & low & batched pose fit; early stop; app default low & 96.4 & 5 & 58 & 11,442 & 0.035 & 3.8 \\
+15 & low & \emph{confirmation run} & 96.4 & 5 & 44 & 10,534 & 0.035 & 3.0 \\
+16 & low & size+rotation joint refine; chroma masks; overlap test & 98.3 & 7 & 55 & 10,613 & 0.035 & 3.1 \\
+16 & low & \emph{confirmation run} & 88.3 & 6 & 65 & 10,736 & 0.035 & 3.0 \\
+17 & low & phantom test by footprint; stop on repeated issue & 98.3 & 6 & 39 & 8,551 & 0.033 & 2.1 \\
+17 & low & \emph{confirmation run} & 98.3 & 6 & 39 & 8,533 & 0.033 & 2.1 \\
+18 & low & occlusion-aware explain\_unpaired; skip hidden views & 99.4 & 6 & 36 & 8,457 & 0.033 & 2.0 \\
+18 & low & \emph{confirmation run} & 99.4 & 6 & 36 & 8,318 & 0.033 & 2.0 \\
+19 & low & solve\_all prints the banner: one cell & 99.4 & 6 & 34 & 7,260 & 0.033 & 1.1 \\
+20 & low & cheaper rotation/depth searches & 99.4 & 6 & 32 & 7,080 & 0.033 & 1.1 \\
+21 & low & no Powell polish; 150 starts; lean renderer & 99.5 & 6 & 26 & 7,087 & 0.033 & 1.0 \\
+21 & low & \emph{confirmation run} & 99.5 & 6 & 27 & 7,076 & 0.033 & 1.0 \\
+22 & low & two-sentence notes; skip poor labelings & 99.5 & 6 & 24 & 6,755 & 0.032 & 1.0 \\
+22 & low & \emph{confirmation run} & 99.5 & 6 & 23 & 6,791 & 0.032 & 1.0 \\
+23 & low & compact printout & 99.5 & 6 & 21 & 6,347 & 0.032 & 1.0 \\
+23 & low & \emph{confirmation run} & 99.5 & 6 & 23 & 6,200 & 0.032 & 1.0 \\
+25 & low & blob shared in one view judged from the other & 99.5 & 6 & 23 & 6,290 & 0.032 & 1.0 \\
+\bottomrule
+\end{tabular}

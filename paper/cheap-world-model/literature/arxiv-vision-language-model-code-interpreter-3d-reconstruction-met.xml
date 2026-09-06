@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/ZBmmZDQIXAivR4VYoyVZCt+VcnM</id>
+  <title>arXiv Query: search_query=all:vision OR all:language OR all:model OR all:code OR all:interpreter OR all:3D OR all:reconstruction OR all:metric OR all:scene OR all:state&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T21:48:48Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=all:vision+OR+(all:language+OR+(all:model+OR+(all:code+OR+(all:interpreter+OR+(all:3D+OR+(all:reconstruction+OR+(all:metric+OR+(all:scene+OR+all:state))))))))&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>1848946</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2509.14981v4</id>
+    <title>SPATIALGEN: Layout-guided 3D Indoor Scene Generation</title>
+    <updated>2026-01-15T13:38:16Z</updated>
+    <link href="https://arxiv.org/abs/2509.14981v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2509.14981v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Creating high-fidelity 3D models of indoor environments is essential for applications in design, virtual reality, and robotics. However, manual 3D modeling remains time-consuming and labor-intensive. While recent advances in generative AI have enabled automated scene synthesis, existing methods often face challenges in balancing visual quality, diversity, semantic consistency, and user control. A major bottleneck is the lack of a large-scale, high-quality dataset tailored to this task. To address this gap, we introduce a comprehensive synthetic dataset, featuring 12,328 structured annotated scenes with 57,431 rooms, and 4.7M photorealistic 2D renderings. Leveraging this dataset, we present SpatialGen, a novel multi-view multi-modal diffusion model that generates realistic and semantically consistent 3D indoor scenes. Given a 3D layout and a reference image (derived from a text prompt), our model synthesizes appearance (color image), geometry (scene coordinate map), and semantic (semantic segmentation map) from arbitrary viewpoints, while preserving spatial consistency across modalities. SpatialGen consistently generates superior results to previous methods in our experiments. We are open-sourcing our data and models to empower the community and advance the field of indoor scene understanding and generation.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-09-18T14:12:32Z</published>
+    <arxiv:comment>3D scene generation; diffusion model; Scene reconstruction and understanding</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Chuan Fang</name>
+    </author>
+    <author>
+      <name>Heng Li</name>
+    </author>
+    <author>
+      <name>Yixun Liang</name>
+    </author>
+    <author>
+      <name>Jia Zheng</name>
+    </author>
+    <author>
+      <name>Yongsen Mao</name>
+    </author>
+    <author>
+      <name>Yuan Liu</name>
+    </author>
+    <author>
+      <name>Rui Tang</name>
+    </author>
+    <author>
+      <name>Zihan Zhou</name>
+    </author>
+    <author>
+      <name>Ping Tan</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2110.13526v1</id>
+    <title>Software Implementation of the Krylov Methods Based Reconstruction for the 3D Cone Beam CT Operator</title>
+    <updated>2021-10-26T09:35:53Z</updated>
+    <link href="https://arxiv.org/abs/2110.13526v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2110.13526v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Krylov subspace methods are considered a standard tool to solve large systems of linear algebraic equations in many scientific disciplines such as image restoration or solving partial differential equations in mechanics of continuum. In the context of computer tomography however, the mostly used algebraic reconstruction techniques are based on classical iterative schemes. In this work we present software package that implements fully 3D cone beam projection operator and uses Krylov subspace methods, namely CGLS and LSQR to solve related tomographic reconstruction problems. It also implements basic preconditioning strategies. On the example of the cone beam CT reconstruction of 3D Shepp-Logan phantom we show that the speed of convergence of the CGLS clearly outperforms PSIRT algorithm. Therefore Krylov subspace methods present an interesting option for the reconstruction of large 3D cone beam CT problems.</summary>
+    <category term="math.NA" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="eess.IV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="physics.med-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2021-10-26T09:35:53Z</published>
+    <arxiv:comment>5 pages, 3 figures, published in Proceedings of the 16th Virtual International Meeting on Fully 3D Image Reconstruction in Radiology and Nuclear Medicine 2021 arXiv:2110.04143</arxiv:comment>
+    <arxiv:primary_category term="math.NA"/>
+    <arxiv:journal_ref>Published in Proceedings of the 16th Virtual International Meeting on Fully 3D Image Reconstruction in Radiology and Nuclear Medicine 2021 arXiv:2110.04143</arxiv:journal_ref>
+    <author>
+      <name>Vojtěch Kulvait</name>
+      <arxiv:affiliation>Institute for Medical Engineering and Research Campus STIMULATE, University of Magdeburg, Magdeburg, Germany</arxiv:affiliation>
+    </author>
+    <author>
+      <name>Georg Rose</name>
+      <arxiv:affiliation>Institute for Medical Engineering and Research Campus STIMULATE, University of Magdeburg, Magdeburg, Germany</arxiv:affiliation>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2503.07152v1</id>
+    <title>Controllable 3D Outdoor Scene Generation via Scene Graphs</title>
+    <updated>2025-03-10T10:26:08Z</updated>
+    <link href="https://arxiv.org/abs/2503.07152v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2503.07152v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Three-dimensional scene generation is crucial in computer vision, with applications spanning autonomous driving, gaming and the metaverse. Current methods either lack user control or rely on imprecise, non-intuitive conditions. In this work, we propose a method that uses, scene graphs, an accessible, user friendly control format to generate outdoor 3D scenes. We develop an interactive system that transforms a sparse scene graph into a dense BEV (Bird's Eye View) Embedding Map, which guides a conditional diffusion model to generate 3D scenes that match the scene graph description. During inference, users can easily create or modify scene graphs to generate large-scale outdoor scenes. We create a large-scale dataset with paired scene graphs and 3D semantic scenes to train the BEV embedding and diffusion models. Experimental results show that our approach consistently produces high-quality 3D urban scenes closely aligned with the input scene graphs. To the best of our knowledge, this is the first approach to generate 3D outdoor scenes conditioned on scene graphs.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-03-10T10:26:08Z</published>
+    <arxiv:comment>Project Page: https://yuheng.ink/project-page/control-3d-scene/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yuheng Liu</name>
+    </author>
+    <author>
+      <name>Xinke Li</name>
+    </author>
+    <author>
+      <name>Yuning Zhang</name>
+    </author>
+    <author>
+      <name>Lu Qi</name>
+    </author>
+    <author>
+      <name>Xin Li</name>
+    </author>
+    <author>
+      <name>Wenping Wang</name>
+    </author>
+    <author>
+      <name>Chongshou Li</name>
+    </author>
+    <author>
+      <name>Xueting Li</name>
+    </author>
+    <author>
+      <name>Ming-Hsuan Yang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2505.05474v2</id>
+    <title>3D Scene Generation: A Survey</title>
+    <updated>2026-08-12T17:59:31Z</updated>
+    <link href="https://arxiv.org/abs/2505.05474v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2505.05474v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>3D scene generation seeks to synthesize spatially structured, semantically meaningful, and photorealistic environments for applications such as immersive media, robotics, autonomous driving, and embodied AI. Early methods based on procedural rules offered scalability but limited diversity. Recent advances in deep generative models (e.g., GANs, diffusion models) and 3D representations (e.g., NeRF, 3D Gaussians) have enabled the learning of real-world scene distributions, improving fidelity, diversity, and view consistency. Recent advances like diffusion models bridge 3D scene synthesis and photorealism by reframing generation as image or video synthesis problems. This survey provides a systematic overview of state-of-the-art approaches, organizing them into four paradigms: procedural generation, neural 3D-based generation, image-based generation, and video-based generation. We analyze their technical foundations, trade-offs, and representative results, and review commonly used datasets, evaluation protocols, and downstream applications. We conclude by discussing key challenges in generation capacity, 3D representation, data and annotations, and evaluation, and outline promising directions including higher fidelity, physics-aware and interactive generation, and unified perception-generation models. This review organizes recent advances in 3D scene generation and highlights promising directions at the intersection of generative AI, 3D vision, and embodied intelligence. To track ongoing developments, we maintain an up-to-date project page: https://github.com/hzxie/Awesome-3D-Scene-Generation.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-05-08T17:59:54Z</published>
+    <arxiv:comment>Accepted by IJCV. Project Page: https://github.com/hzxie/Awesome-3D-Scene-Generation</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Haozhe Xie</name>
+    </author>
+    <author>
+      <name>Beichen Wen</name>
+    </author>
+    <author>
+      <name>Zhaoxi Chen</name>
+    </author>
+    <author>
+      <name>Fangzhou Hong</name>
+    </author>
+    <author>
+      <name>Ziwei Liu</name>
+    </author>
+    <arxiv:doi>10.1007/s11263-026-02999-6</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1007/s11263-026-02999-6" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2406.15982v1</id>
+    <title>Learning with Noisy Ground Truth: From 2D Classification to 3D Reconstruction</title>
+    <updated>2024-06-23T02:21:48Z</updated>
+    <link href="https://arxiv.org/abs/2406.15982v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2406.15982v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Deep neural networks has been highly successful in data-intense computer vision applications, while such success relies heavily on the massive and clean data. In real-world scenarios, clean data sometimes is difficult to obtain. For example, in image classification and segmentation tasks, precise annotations of millions samples are generally very expensive and time-consuming. In 3D static scene reconstruction task, most NeRF related methods require the foundational assumption of the static scene (e.g. consistent lighting condition and persistent object positions), which is often violated in real-world scenarios. To address these problem, learning with noisy ground truth (LNGT) has emerged as an effective learning method and shows great potential. In this short survey, we propose a formal definition unify the analysis of LNGT LNGT in the context of different machine learning tasks (classification and regression). Based on this definition, we propose a novel taxonomy to classify the existing work according to the error decomposition with the fundamental definition of machine learning. Further, we provide in-depth analysis on memorization effect and insightful discussion about potential future research opportunities from 2D classification to 3D reconstruction, in the hope of providing guidance to follow-up research.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-06-23T02:21:48Z</published>
+    <arxiv:comment>Computer vision, Noisy Labels, 3D reconstruction, 3D Gaussian Splats, (Work still in progress)</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yangdi Lu</name>
+    </author>
+    <author>
+      <name>Wenbo He</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2304.06061v1</id>
+    <title>CLIP-Guided Vision-Language Pre-training for Question Answering in 3D Scenes</title>
+    <updated>2023-04-12T16:52:29Z</updated>
+    <link href="https://arxiv.org/abs/2304.06061v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2304.06061v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Training models to apply linguistic knowledge and visual concepts from 2D images to 3D world understanding is a promising direction that researchers have only recently started to explore. In this work, we design a novel 3D pre-training Vision-Language method that helps a model learn semantically meaningful and transferable 3D scene point cloud representations. We inject the representational power of the popular CLIP model into our 3D encoder by aligning the encoded 3D scene features with the corresponding 2D image and text embeddings produced by CLIP. To assess our model's 3D world reasoning capability, we evaluate it on the downstream task of 3D Visual Question Answering. Experimental quantitative and qualitative results show that our pre-training method outperforms state-of-the-art works in this task and leads to an interpretable representation of 3D scene features.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-04-12T16:52:29Z</published>
+    <arxiv:comment>CVPRW 2023. Code will be made publicly available: https://github.com/AlexDelitzas/3D-VQA</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Maria Parelli</name>
+    </author>
+    <author>
+      <name>Alexandros Delitzas</name>
+    </author>
+    <author>
+      <name>Nikolas Hars</name>
+    </author>
+    <author>
+      <name>Georgios Vlassis</name>
+    </author>
+    <author>
+      <name>Sotirios Anagnostidis</name>
+    </author>
+    <author>
+      <name>Gregor Bachmann</name>
+    </author>
+    <author>
+      <name>Thomas Hofmann</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2606.10594v1</id>
+    <title>Segment and Select: Vision-Language Segmentation in 3D Scenarios</title>
+    <updated>2026-06-09T08:58:59Z</updated>
+    <link href="https://arxiv.org/abs/2606.10594v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2606.10594v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>3D vision-language segmentation aims to segment target objects in 3D scenarios according to the linguistic instructions and visual observations. Prior art heavily relies on the coarse superpoint representation to reduce the computation complexity, which suffers from poor segmentation quality and messy object boundaries. In this paper, we propose the SEGment-And-select (SEGA3D) paradigm for 3D visionlanguage segmentation that directly operates on the fine-grained visual information and is free from the superpoint dependency. Specifically, we first leverage a mask candidate generator to provide fine-grained categorical mask candidates, substantially improving the quality of candidate masks over the superpoint counterparts. Then, a Large Language Model (LLM) is utilized to generate the semantic and spatial information based on the linguistic description and visual features. The LLM output and visual features are fed to the Semantic-Spatial Selector (SSS) to produce the top-ranking mask candidates. Eventually, the Loopback Verification Module (LVM) is designed to yield the segmentation mask from the selected candidate masks. Our SEGA3D attains competitive performance on ScanRefer, ScanNet and Matterport3D benchmarks. Notably, our SEGA3D surpasses the top-performing counterpart by 8.3 mIoU and 5.3 mIoU on ScanNet and Matterport3D, respectively. Codes will be available upon publication.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-06-09T08:58:59Z</published>
+    <arxiv:comment>The core idea is to reformulate 3D vision-language segmentation as the segment-and-select paradigm (free from the superpoint dependency)</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yulin Chen</name>
+    </author>
+    <author>
+      <name>Zhihang Zhong</name>
+    </author>
+    <author>
+      <name>Yuenan Hou</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2506.23863v1</id>
+    <title>Puzzles: Unbounded Video-Depth Augmentation for Scalable End-to-End 3D Reconstruction</title>
+    <updated>2025-06-30T13:57:24Z</updated>
+    <link href="https://arxiv.org/abs/2506.23863v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2506.23863v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Multi-view 3D reconstruction remains a core challenge in computer vision. Recent methods, such as DUST3R and its successors, directly regress pointmaps from image pairs without relying on known scene geometry or camera parameters. However, the performance of these models is constrained by the diversity and scale of available training data. In this work, we introduce Puzzles, a data augmentation strategy that synthesizes an unbounded volume of high-quality posed video-depth data from a single image or video clip. By simulating diverse camera trajectories and realistic scene geometry through targeted image transformations, Puzzles significantly enhances data variety. Extensive experiments show that integrating Puzzles into existing video-based 3D reconstruction pipelines consistently boosts performance without modifying the underlying network architecture. Notably, models trained on only ten percent of the original data augmented with Puzzles still achieve accuracy comparable to those trained on the full dataset. Code is available at https://jiahao-ma.github.io/puzzles/.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-06-30T13:57:24Z</published>
+    <arxiv:comment>Feed-forward 3D reconstruction, Data Augmentation</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Jiahao Ma</name>
+    </author>
+    <author>
+      <name>Lei Wang</name>
+    </author>
+    <author>
+      <name>Miaomiao liu</name>
+    </author>
+    <author>
+      <name>David Ahmedt-Aristizabal</name>
+    </author>
+    <author>
+      <name>Chuong Nguyen</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2301.05175v3</id>
+    <title>Scene-Aware 3D Multi-Human Motion Capture from a Single Camera</title>
+    <updated>2023-03-27T06:59:55Z</updated>
+    <link href="https://arxiv.org/abs/2301.05175v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2301.05175v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>In this work, we consider the problem of estimating the 3D position of multiple humans in a scene as well as their body shape and articulation from a single RGB video recorded with a static camera. In contrast to expensive marker-based or multi-view systems, our lightweight setup is ideal for private users as it enables an affordable 3D motion capture that is easy to install and does not require expert knowledge. To deal with this challenging setting, we leverage recent advances in computer vision using large-scale pre-trained models for a variety of modalities, including 2D body joints, joint angles, normalized disparity maps, and human segmentation masks. Thus, we introduce the first non-linear optimization-based approach that jointly solves for the absolute 3D position of each human, their articulated pose, their individual shapes as well as the scale of the scene. In particular, we estimate the scene depth and person unique scale from normalized disparity predictions using the 2D body joints and joint angles. Given the per-frame scene depth, we reconstruct a point-cloud of the static scene in 3D space. Finally, given the per-frame 3D estimates of the humans and scene point-cloud, we perform a space-time coherent optimization over the video to ensure temporal, spatial and physical plausibility. We evaluate our method on established multi-person 3D human pose benchmarks where we consistently outperform previous methods and we qualitatively demonstrate that our method is robust to in-the-wild conditions including challenging scenes with people of different sizes.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-01-12T18:01:28Z</published>
+    <arxiv:comment>Accepted to Eurographics 2023. See also github: https://github.com/dluvizon/scene-aware-3d-multi-human project page: https://vcai.mpi-inf.mpg.de/projects/scene-aware-3d-multi-human/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Diogo Luvizon</name>
+    </author>
+    <author>
+      <name>Marc Habermann</name>
+    </author>
+    <author>
+      <name>Vladislav Golyanik</name>
+    </author>
+    <author>
+      <name>Adam Kortylewski</name>
+    </author>
+    <author>
+      <name>Christian Theobalt</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2410.16770v2</id>
+    <title>The Scene Language: Representing Scenes with Programs, Words, and Embeddings</title>
+    <updated>2025-03-29T19:17:13Z</updated>
+    <link href="https://arxiv.org/abs/2410.16770v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2410.16770v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We introduce the Scene Language, a visual scene representation that concisely and precisely describes the structure, semantics, and identity of visual scenes. It represents a scene with three key components: a program that specifies the hierarchical and relational structure of entities in the scene, words in natural language that summarize the semantic class of each entity, and embeddings that capture the visual identity of each entity. This representation can be inferred from pre-trained language models via a training-free inference technique, given text or image inputs. The resulting scene can be rendered into images using traditional, neural, or hybrid graphics renderers. Together, this forms a robust, automated system for high-quality 3D and 4D scene generation. Compared with existing representations like scene graphs, our proposed Scene Language generates complex scenes with higher fidelity, while explicitly modeling the scene structures to enable precise control and editing.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-10-22T07:40:20Z</published>
+    <arxiv:comment>CVPR 2025. Project page: https://ai.stanford.edu/~yzzhang/projects/scene-language/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yunzhi Zhang</name>
+    </author>
+    <author>
+      <name>Zizhang Li</name>
+    </author>
+    <author>
+      <name>Matt Zhou</name>
+    </author>
+    <author>
+      <name>Shangzhe Wu</name>
+    </author>
+    <author>
+      <name>Jiajun Wu</name>
+    </author>
+  </entry>
+</feed>

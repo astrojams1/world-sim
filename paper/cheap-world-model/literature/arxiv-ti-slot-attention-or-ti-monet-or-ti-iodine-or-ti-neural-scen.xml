@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/auNNyq8o+xwVSguVNjYzk+ZKcGo</id>
+  <title>arXiv Query: search_query=ti:"Slot Attention" OR ti:"MONet" OR ti:"IODINE" OR ti:"Neural Scene De-rendering"&amp;id_list=&amp;start=0&amp;max_results=10</title>
+  <updated>2026-09-05T21:42:03Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22Slot+Attention%22+OR+(ti:%22MONet%22+OR+(ti:%22IODINE%22+OR+ti:%22Neural+Scene+De-rendering%22))&amp;start=0&amp;max_results=10&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <opensearch:totalResults>190</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2006.15055v2</id>
+    <title>Object-Centric Learning with Slot Attention</title>
+    <updated>2020-10-14T08:51:40Z</updated>
+    <link href="https://arxiv.org/abs/2006.15055v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2006.15055v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Learning object-centric representations of complex scenes is a promising step towards enabling efficient abstract reasoning from low-level perceptual features. Yet, most deep learning approaches learn distributed representations that do not capture the compositional properties of natural scenes. In this paper, we present the Slot Attention module, an architectural component that interfaces with perceptual representations such as the output of a convolutional neural network and produces a set of task-dependent abstract representations which we call slots. These slots are exchangeable and can bind to any object in the input by specializing through a competitive procedure over multiple rounds of attention. We empirically demonstrate that Slot Attention can extract object-centric representations that enable generalization to unseen compositions when trained on unsupervised object discovery and supervised property prediction tasks.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="stat.ML" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2020-06-26T15:31:57Z</published>
+    <arxiv:comment>NeurIPS 2020. Code available at https://github.com/google-research/google-research/tree/master/slot_attention</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Francesco Locatello</name>
+    </author>
+    <author>
+      <name>Dirk Weissenborn</name>
+    </author>
+    <author>
+      <name>Thomas Unterthiner</name>
+    </author>
+    <author>
+      <name>Aravindh Mahendran</name>
+    </author>
+    <author>
+      <name>Georg Heigold</name>
+    </author>
+    <author>
+      <name>Jakob Uszkoreit</name>
+    </author>
+    <author>
+      <name>Alexey Dosovitskiy</name>
+    </author>
+    <author>
+      <name>Thomas Kipf</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2508.05417v5</id>
+    <title>Smoothing Slot Attention Iterations and Recurrences</title>
+    <updated>2026-05-27T15:27:53Z</updated>
+    <link href="https://arxiv.org/abs/2508.05417v5" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2508.05417v5" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Slot Attention (SA) lies at the heart of mainstream Object-Centric Learning (OCL). Image features can be aggregated into object-level representations by SA \textit{iteratively} refining cold-start query slots. For video, such aggregation proceeds by SA \textit{recurrently} shared across frames, with queries cold-started on the first frame while transitioned from the previous frame's slots thereafter. However, cold-start queries lack sample-specific cues thus hindering precise aggregation on image or video's first frame; Non-first frames' queries are already sample-specific thus requiring aggregation transforms different from the first frame. We address these issues with our \textit{SmoothSA}: (1) To smooth SA iterations on image or video's first frame, we \textit{preheat} cold-start queries with rich input-feature information, by a tiny module self-distilled inside OCL; (2) To smooth SA recurrences across video's first and non-first frames, we \textit{differentiate} the homogeneous aggregation transforms by using full and single iterations respectively. Comprehensive experiments on object discovery, recognition and visual reasoning validate our method's effectiveness. Further visual analyses illuminate the underline mechanisms. Our \textit{source code}, \textit{model checkpoints} and \textit{training logs} are provided on https://github.com/Genera1Z/SmoothSA.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-08-07T14:09:33Z</published>
+    <arxiv:comment>Accepted to ICML 2026</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Rongzhen Zhao</name>
+    </author>
+    <author>
+      <name>Wenyan Yang</name>
+    </author>
+    <author>
+      <name>Juho Kannala</name>
+    </author>
+    <author>
+      <name>Joni Pajarinen</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1802.07303v2</id>
+    <title>MoNet: Moments Embedding Network</title>
+    <updated>2018-03-29T19:34:39Z</updated>
+    <link href="https://arxiv.org/abs/1802.07303v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1802.07303v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Bilinear pooling has been recently proposed as a feature encoding layer, which can be used after the convolutional layers of a deep network, to improve performance in multiple vision tasks. Different from conventional global average pooling or fully connected layer, bilinear pooling gathers 2nd order information in a translation invariant fashion. However, a serious drawback of this family of pooling layers is their dimensionality explosion. Approximate pooling methods with compact properties have been explored towards resolving this weakness. Additionally, recent results have shown that significant performance gains can be achieved by adding 1st order information and applying matrix normalization to regularize unstable higher order information. However, combining compact pooling with matrix normalization and other order information has not been explored until now. In this paper, we unify bilinear pooling and the global Gaussian embedding layers through the empirical moment matrix. In addition, we propose a novel sub-matrix square-root layer, which can be used to normalize the output of the convolution layer directly and mitigate the dimensionality problem with off-the-shelf compact pooling methods. Our experiments on three widely used fine-grained classification datasets illustrate that our proposed architecture, MoNet, can achieve similar or better performance than with the state-of-art G2DeNet. Furthermore, when combined with compact pooling technique, MoNet obtains comparable performance with encoded features with 96% less dimensions.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2018-02-20T19:54:58Z</published>
+    <arxiv:comment>Accepted in CVPR 2018</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Mengran Gou</name>
+    </author>
+    <author>
+      <name>Fei Xiong</name>
+    </author>
+    <author>
+      <name>Octavia Camps</name>
+    </author>
+    <author>
+      <name>Mario Sznaier</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2206.08645v2</id>
+    <title>Local Slot Attention for Vision-and-Language Navigation</title>
+    <updated>2022-06-22T02:32:32Z</updated>
+    <link href="https://arxiv.org/abs/2206.08645v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2206.08645v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Vision-and-language navigation (VLN), a frontier study aiming to pave the way for general-purpose robots, has been a hot topic in the computer vision and natural language processing community. The VLN task requires an agent to navigate to a goal location following natural language instructions in unfamiliar environments.
+  Recently, transformer-based models have gained significant improvements on the VLN task. Since the attention mechanism in the transformer architecture can better integrate inter- and intra-modal information of vision and language.
+  However, there exist two problems in current transformer-based models.
+  1) The models process each view independently without taking the integrity of the objects into account.
+  2) During the self-attention operation in the visual modality, the views that are spatially distant can be inter-weaved with each other without explicit restriction. This kind of mixing may introduce extra noise instead of useful information.
+  To address these issues, we propose 1) A slot-attention based module to incorporate information from segmentation of the same object. 2) A local attention mask mechanism to limit the visual attention span. The proposed modules can be easily plugged into any VLN architecture and we use the Recurrent VLN-Bert as our base model. Experiments on the R2R dataset show that our model has achieved the state-of-the-art results.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2022-06-17T09:21:26Z</published>
+    <arxiv:comment>ICMR 2022</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Yifeng Zhuang</name>
+    </author>
+    <author>
+      <name>Qiang Sun</name>
+    </author>
+    <author>
+      <name>Yanwei Fu</name>
+    </author>
+    <author>
+      <name>Lifeng Chen</name>
+    </author>
+    <author>
+      <name>Xiangyang Xue</name>
+    </author>
+    <arxiv:doi>10.1145/3512527.3531366</arxiv:doi>
+    <link rel="related" href="https://doi.org/10.1145/3512527.3531366" title="doi"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2602.07544v2</id>
+    <title>MUFASA: A Multi-Layer Framework for Slot Attention</title>
+    <updated>2026-06-17T14:58:11Z</updated>
+    <link href="https://arxiv.org/abs/2602.07544v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2602.07544v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Unsupervised object-centric learning (OCL) decomposes visual scenes into distinct entities. Slot attention is a popular approach that represents individual objects as latent vectors, called slots. Current methods obtain these slot representations solely from the last layer of a pre-trained vision transformer (ViT), ignoring valuable, semantically rich information encoded across the other layers. To better utilize this latent semantic information, we introduce MUFASA, a lightweight plug-and-play framework for slot-attention-based approaches to unsupervised object segmentation. Our model computes slot attention across multiple feature layers of the ViT encoder, fully leveraging their semantic richness. We propose a fusion strategy to aggregate slots obtained on multiple layers into a unified object-centric representation. Integrating MUFASA into existing OCL methods improves their segmentation results across multiple datasets, setting a new state of the art while simultaneously improving training convergence with only minor inference overhead.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-02-07T13:44:56Z</published>
+    <arxiv:comment>CVPR 2026. Authors Sebastian Bock and Leonie Schüßler contributed equally. Project page: https://visinf.github.io/mufasa/</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Sebastian Bock</name>
+    </author>
+    <author>
+      <name>Leonie Schüßler</name>
+    </author>
+    <author>
+      <name>Krishnakant Singh</name>
+    </author>
+    <author>
+      <name>Simone Schaub-Meyer</name>
+    </author>
+    <author>
+      <name>Stefan Roth</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2303.08314v3</id>
+    <title>Guided Slot Attention for Unsupervised Video Object Segmentation</title>
+    <updated>2024-03-31T04:11:30Z</updated>
+    <link href="https://arxiv.org/abs/2303.08314v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2303.08314v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Unsupervised video object segmentation aims to segment the most prominent object in a video sequence. However, the existence of complex backgrounds and multiple foreground objects make this task challenging. To address this issue, we propose a guided slot attention network to reinforce spatial structural information and obtain better foreground--background separation. The foreground and background slots, which are initialized with query guidance, are iteratively refined based on interactions with template information. Furthermore, to improve slot--template interaction and effectively fuse global and local features in the target and reference frames, K-nearest neighbors filtering and a feature aggregation transformer are introduced. The proposed model achieves state-of-the-art performance on two popular datasets. Additionally, we demonstrate the robustness of the proposed model in challenging scenes through various comparative experiments.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-03-15T02:08:20Z</published>
+    <arxiv:comment>Accepted to CVPR 2024</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Minhyeok Lee</name>
+    </author>
+    <author>
+      <name>Suhwan Cho</name>
+    </author>
+    <author>
+      <name>Dogyoon Lee</name>
+    </author>
+    <author>
+      <name>Chaewon Park</name>
+    </author>
+    <author>
+      <name>Jungho Lee</name>
+    </author>
+    <author>
+      <name>Sangyoun Lee</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2301.13197v2</id>
+    <title>Unlocking Slot Attention by Changing Optimal Transport Costs</title>
+    <updated>2023-05-31T16:14:38Z</updated>
+    <link href="https://arxiv.org/abs/2301.13197v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2301.13197v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Slot attention is a powerful method for object-centric modeling in images and videos. However, its set-equivariance limits its ability to handle videos with a dynamic number of objects because it cannot break ties. To overcome this limitation, we first establish a connection between slot attention and optimal transport. Based on this new perspective we propose MESH (Minimize Entropy of Sinkhorn): a cross-attention module that combines the tiebreaking properties of unregularized optimal transport with the speed of regularized optimal transport. We evaluate slot attention using MESH on multiple object-centric learning benchmarks and find significant improvements over slot attention in every setting.</summary>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2023-01-30T18:59:21Z</published>
+    <arxiv:comment>Published at International Conference on Machine Learning (ICML) 2023</arxiv:comment>
+    <arxiv:primary_category term="cs.LG"/>
+    <author>
+      <name>Yan Zhang</name>
+    </author>
+    <author>
+      <name>David W. Zhang</name>
+    </author>
+    <author>
+      <name>Simon Lacoste-Julien</name>
+    </author>
+    <author>
+      <name>Gertjan J. Burghouts</name>
+    </author>
+    <author>
+      <name>Cees G. M. Snoek</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2407.04170v2</id>
+    <title>Attention Normalization Impacts Cardinality Generalization in Slot Attention</title>
+    <updated>2024-11-10T11:27:34Z</updated>
+    <link href="https://arxiv.org/abs/2407.04170v2" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2407.04170v2" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Object-centric scene decompositions are important representations for downstream tasks in fields such as computer vision and robotics. The recently proposed Slot Attention module, already leveraged by several derivative works for image segmentation and object tracking in videos, is a deep learning component which performs unsupervised object-centric scene decomposition on input images. It is based on an attention architecture, in which latent slot vectors, which hold compressed information on objects, attend to localized perceptual features from the input image. In this paper, we demonstrate that design decisions on normalizing the aggregated values in the attention architecture have considerable impact on the capabilities of Slot Attention to generalize to a higher number of slots and objects as seen during training. We propose and investigate alternatives to the original normalization scheme which increase the generalization capabilities of Slot Attention to varying slot and object counts, resulting in performance gains on the task of unsupervised image segmentation. The newly proposed normalizations represent minimal and easy to implement modifications of the usual Slot Attention module, changing the value aggregation mechanism from a weighted mean operation to a scaled weighted sum operation.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-07-04T22:09:01Z</published>
+    <arxiv:comment>30 pages</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Markus Krimmel</name>
+    </author>
+    <author>
+      <name>Jan Achterhold</name>
+    </author>
+    <author>
+      <name>Joerg Stueckler</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2507.23755v3</id>
+    <title>Slot Attention with Re-Initialization and Self-Distillation</title>
+    <updated>2025-11-09T11:40:46Z</updated>
+    <link href="https://arxiv.org/abs/2507.23755v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2507.23755v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Unlike popular solutions based on dense feature maps, Object-Centric Learning (OCL) represents visual scenes as sub-symbolic object-level feature vectors, termed slots, which are highly versatile for tasks involving visual modalities. OCL typically aggregates object superpixels into slots by iteratively applying competitive cross attention, known as Slot Attention, with the slots as the query. However, once initialized, these slots are reused naively, causing redundant slots to compete with informative ones for representing objects. This often results in objects being erroneously segmented into parts. Additionally, mainstream methods derive supervision signals solely from decoding slots into the input's reconstruction, overlooking potential supervision based on internal information. To address these issues, we propose Slot Attention with re-Initialization and self-Distillation (DIAS): $\emph{i)}$ We reduce redundancy in the aggregated slots and re-initialize extra aggregation to update the remaining slots; $\emph{ii)}$ We drive the bad attention map at the first aggregation iteration to approximate the good at the last iteration to enable self-distillation. Experiments demonstrate that DIAS achieves state-of-the-art on OCL tasks like object discovery and recognition, while also improving advanced visual prediction and reasoning. Our source code and model checkpoints are available on https://github.com/Genera1Z/DIAS.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-07-31T17:41:18Z</published>
+    <arxiv:comment>Accepted to ACM MM 2025</arxiv:comment>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Rongzhen Zhao</name>
+    </author>
+    <author>
+      <name>Yi Zhao</name>
+    </author>
+    <author>
+      <name>Juho Kannala</name>
+    </author>
+    <author>
+      <name>Joni Pajarinen</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2009.06138v4</id>
+    <title>SCOUTER: Slot Attention-based Classifier for Explainable Image Recognition</title>
+    <updated>2021-08-20T07:34:12Z</updated>
+    <link href="https://arxiv.org/abs/2009.06138v4" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2009.06138v4" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Explainable artificial intelligence has been gaining attention in the past few years. However, most existing methods are based on gradients or intermediate features, which are not directly involved in the decision-making process of the classifier. In this paper, we propose a slot attention-based classifier called SCOUTER for transparent yet accurate classification. Two major differences from other attention-based methods include: (a) SCOUTER's explanation is involved in the final confidence for each category, offering more intuitive interpretation, and (b) all the categories have their corresponding positive or negative explanation, which tells "why the image is of a certain category" or "why the image is not of a certain category." We design a new loss tailored for SCOUTER that controls the model's behavior to switch between positive and negative explanations, as well as the size of explanatory regions. Experimental results show that SCOUTER can give better visual explanations in terms of various metrics while keeping good accuracy on small and medium-sized datasets.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2020-09-14T01:34:56Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Liangzhi Li</name>
+    </author>
+    <author>
+      <name>Bowen Wang</name>
+    </author>
+    <author>
+      <name>Manisha Verma</name>
+    </author>
+    <author>
+      <name>Yuta Nakashima</name>
+    </author>
+    <author>
+      <name>Ryo Kawasaki</name>
+    </author>
+    <author>
+      <name>Hajime Nagahara</name>
+    </author>
+  </entry>
+</feed>

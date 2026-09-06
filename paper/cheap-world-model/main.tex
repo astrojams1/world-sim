@@ -1,0 +1,325 @@
+% Built with: bash <skills>/skills/research-paper/scripts/build.sh paper/cheap-world-model
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{enumitem}
+\usepackage{listings}
+\graphicspath{{figures/}}
+\setlist{nosep}
+\captionsetup{font=small,labelfont=bf}
+\lstset{basicstyle=\ttfamily\scriptsize,breaklines=true,breakatwhitespace=false,columns=fullflexible,keepspaces=true,frame=single,framerule=0.3pt}
+
+\newcommand{\ws}{World Sim}
+\newcommand{\helper}{\texttt{worldsim.py}}
+
+\title{\textbf{How Cheap Can an Explicit World Model Get Without Training?\\ Two-View Scene State from a Vision LLM, a Code Sandbox, and 2,000 Lines of Geometry}}
+\author{James\\ Independent researcher, San Francisco\\ \texttt{astrojams1@gmail.com}}
+\date{September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We ask how cheap an explicit, simulator-ready scene state---every object's shape, color, size, position and orientation---can get with no training. \ws{} sends two uncalibrated images of a synthetic room to a low-cost hosted vision--language model (VLM; \texttt{gpt-5-mini}) with a Python sandbox holding a classical helper that calibrates both cameras from the room's silhouette, triangulates objects and refines them by rendering and comparing; in one API call the model runs this loop and returns JSON. On a ten-room benchmark with a symmetry-invariant metric the system scores 99.5/100 (two identical confirming runs) in 22\,s and \$0.032 per room, \$0.030 of it the sandbox session; with eight objects per room it scores 95.9. Twenty-six tuning iterations moved work from the model into deterministic tools: mean score 90.0 to 99.5, time 232\,s to 22\,s, tokens 23k to 6k. The helper alone reproduces every benchmark score; the model's measured contribution fell from $+13.9$ points at the baseline to 0, and where it intervened it helped once and hurt once. On 100 fresh rooms the helper alone scores 95.3 (95\,\% CI 93.4--96.9), so about four points of the benchmark score are tuning to those rooms. Benchmark, scorer, protocol and all runs are released; claims are limited to this synthetic benchmark.
+\end{abstract}
+
+\section{Introduction}
+
+A manipulation or assembly system needs to know the state of the world it acts on. The dominant answer in learning-based robotics is a \emph{world model}: a learned, action-conditioned predictive model of observations or latents \citep{ha2018world,hafner2019dream,hafner2023mastering,assran2025v,nvidia2025cosmos}. Such models are powerful and expensive: trained on large corpora, run on accelerators, with an implicit state. At the other end of the spectrum sits the oldest answer, an explicit list of objects with poses that a physics engine can simulate directly---what the real-to-sim literature calls a digital twin \citep{dai2024automated,chen2024urdformer,mandi2024real2code}. This paper asks a narrow question about that explicit end: how cheap can a complete, explicit scene state get if nothing is trained?
+
+Our answer, on one synthetic benchmark, has two halves. A cheap hosted VLM given a code sandbox and a 2,000-line classical helper recovers the full state of a two-view scene at a mean of 99.5/100 in 22\,s and \$0.032 per room, with no training of any component (Section~\ref{sec:results}). And the model is not what makes it accurate: the helper alone, run with no model, produces exactly the same answers on every benchmark room; its measured contribution fell from $+13.9$ points at the baseline to within a point of zero by the seventh iteration and to exactly zero from the fifteenth, and on the seven room-runs where it did intervene it helped once and hurt once. The benchmark number is also a tuned number: on 100 fresh rooms the helper alone scores 95.3 with 58 rooms exact, and on 30 fresh rooms with eight objects 89.6, against 99.5 and 95.9 on the ten rooms the loop optimized (Section~\ref{sec:ablation}). The accuracy came from 26 tuning iterations that moved work out of the model into deterministic tools---mean score 90.0 to 99.5, time 232\,s to 22\,s, tokens 23k to 6k, code cells per room 21.7 to 1.0---and a lower reasoning-effort setting became usable once the tool printout was robust (Section~\ref{sec:trajectory}). The remaining errors are what two silhouettes cannot resolve (Section~\ref{sec:failures}).
+
+The system is built on an observation and a pattern. VLMs fail at elementary geometric perception \citep{rahmanzadehgervi2024vision}, at spatial recall across views \citep{yang2024thinking} and at multi-view robotic scenes in particular \citep{feng2025seeing}, but they can write code, and a recent line of work gives a VLM a Python interpreter with perception and geometry primitives and lets it iterate \citep{gupta2022visual,surs2023vipergpt,hu2024visual,marsili2025visual,cho2026spatialclaw,luo2026pyspatial}. Those systems answer spatial questions; we use the pattern to produce the state itself and measure how much of the result is the model's. \ws{} (Figure~\ref{fig:feeds}) draws a unit-cube room with 2--12 floating red or blue spheres and cubes, random wall colors and lighting, and two cameras at unknown positions outside the room; renders the two views; and hands them, the unit-cube statement, the generator's object vocabulary and a sandbox containing the helper \helper{} to the model in a single API call. Nothing else is passed. The model returns a JSON list of objects, which a scorer invariant to the room's 48 symmetries and each cube's 24 rotational symmetries compares with the truth.
+
+Terminology, used consistently below: the \emph{helper} is \helper{}; the \emph{pipeline} is its one-call entry point \texttt{solve\_all}; the \emph{VLM} is \texttt{gpt-5-mini}; \emph{VLM + helper} is the deployed system and \emph{helper alone} the pipeline run offline with no model. We use ``world model'' in the state-estimation sense---an explicit, simulator-ready description of the objects in a scene---rather than the learned latent-dynamics sense of \citet{ha2018world} and \citet{hafner2023mastering}; the resulting scene is a digital twin whose dynamics are supplied by a physics engine, so it complements rather than replaces predictive world models \citep{wang2026world,chen2026definition,ding2024understanding}. Contributions: the system and its measured accuracy, latency and cost; a benchmark, a symmetry-invariant metric and an anti-cheating tuning protocol; the tuning trajectory with the helper-alone floor at every iteration, as an empirical study of where accuracy comes from in a VLM-plus-tools system; and a failure analysis. All claims are about the benchmark of Section~\ref{sec:setting}; we make none about real photographs.
+
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}{0.49\linewidth}\includegraphics[width=\linewidth]{room101_A.jpg}\caption{Camera A}\end{subfigure}
+  \begin{subfigure}{0.49\linewidth}\includegraphics[width=\linewidth]{room101_B.jpg}\caption{Camera B}\end{subfigure}
+  \caption{The two images the model receives for benchmark room 101 (five objects: two red spheres, two red cubes, one blue cube). The room is seen from outside with its near faces culled; the hexagonal outline is what the helper calibrates the cameras from. The final configuration scores this room 99.3/100; its one error is the 0.15 red cube's center 0.071 units off (one grid step along each of two axes).}
+  \label{fig:feeds}
+\end{figure}
+
+\section{Related work}
+
+\paragraph{VLM agents with code and tools.}
+VisProg \citep{gupta2022visual} and ViperGPT \citep{surs2023vipergpt} showed that a large language model (LLM) can compose vision modules through generated programs without training. Visual Sketchpad \citep{hu2024visual} adds visual feedback and reports per-sample cost. VADAR \citep{marsili2025visual} synthesizes a Python API for 3D queries on CLEVR-like scenes and finds, by an oracle experiment, that the vision modules and not the LLM bound accuracy---the decomposition we quantify for reconstruction rather than question answering. SpatialClaw \citep{cho2026spatialclaw} is the closest architecture: a training-free VLM writing cells in a persistent kernel preloaded with perception and geometry primitives, images fed back, a revise loop. pySpatial \citep{luo2026pyspatial}, S-Agent \citep{dai2026s} and Think3D \citep{zhang2026think3d} are multi-view, training-free agents that build a 3D state with learned reconstructors as an intermediate. All output answers to questions; none scores the state or reports cost. SpatialBabel \citep{liu20263d} is the closest task: VLMs emit executable primitive-scene code (cubes, spheres; position, scale, rotation) from single renders, scored by matched position and scale fidelity, but the code is never executed or compared with the image. IG-LLM \citep{kulits2024re} is the trained counterpart: an LLM fine-tuned to decode a single CLEVR image into a scene program with a numeric head. We claim none of these ingredients; we claim their closed-loop combination, its measured frontier, and the finding about where the accuracy comes from.
+
+\paragraph{Analysis by synthesis and inverse graphics.}
+Explaining an image by rendering hypotheses and comparing is the classical formulation of vision as inference \citep{yuille2006vision}, made concrete in probabilistic programs \citep{kulkarni2015picture,kulkarni2014inverse}, learned inverse-graphics networks \citep{kulkarni2015deep} and Neural Scene De-rendering \citep{wu2017neural}, whose per-object description with position and yaw/pitch/roll is the nearest published output format to ours (trained, single view). 3DP3 \citep{gothoskar20213dp3} and Bayes3D \citep{gothoskar2023bayes3d} run render-and-compare in structured generative models---3DP3 enumerates the cube's 24 rotational symmetries as orientation proposals---but consume depth from a calibrated camera; our helper is their deterministic, RGB-only, uncalibrated cousin. CLEVR \citep{johnson2016clevr} defines the primitive-scene universe we borrow, and the object-centric line \citep{burgess2019monet,greff2019multi,locatello2020object,yu2021unsupervised,stelzner2021decomposing} learns to decompose such scenes into masks or latents; none outputs orientation and all are trained. Training-free 6D pose estimators \citep{wen2023foundationpose,labb2022megapose,caraffa2023freeze} are single-image, per-object and assume known intrinsics. Classical two-view structure from motion does not apply here: there are two views of textureless flat-colored surfaces with unknown intrinsics; what makes the problem solvable is the known unit cube, which reduces calibration to a perspective-$n$-point problem with unknown focal length \citep{bujnak2008general}.
+
+\paragraph{World models and real-to-sim.}
+``World model'' dominantly denotes a learned, action-conditioned predictive model \citep{ha2018world,hafner2019dream,hafner2023mastering,assran2025v,nvidia2025cosmos}; \citet{wang2026world} state that a perception module ``is not itself a world model unless it models temporal change'', while \citet{ding2024understanding} and \citet{chen2026definition} recognize an understanding-oriented branch that includes state estimation, and the term is acknowledged to be contested \citep{kong20253d}. Object-centric world models for manipulation \citep{ferraro2023focus,chen2025goal} argue that an explicit object state is the right interface to a policy. On the real-to-sim side, ACDC \citep{dai2024automated} is training-free and VLM-orchestrated but needs a calibrated camera and monocular depth and retrieves assets rather than estimating shape and size; URDFormer \citep{chen2024urdformer} and Real2Code \citep{mandi2024real2code} train inverse models from images to robot description files (Real2Code's zero-shot GPT-4 baseline lost to its fine-tuned model); Agentic Real2Sim \citep{chen2026agentic} confines the VLM to schema-bounded decisions while deterministic geometry tools do the work and reports model bills per episode, the cost convention we follow. SceneScript \citep{avetisyan2024scenescript} and PhysTwin \citep{jiang2025phystwin} are further points on the scene-as-structured-description line. None recovers explicit size and orientation of every object from two uncalibrated RGB views with no training and a stated per-scene cost.
+
+\paragraph{Symmetry-aware evaluation.}
+BOP's maximum symmetry-aware surface and projection distances (MSSD, MSPD) \citep{hodan2018bop,hodan2020bop} minimize pose error over an object's symmetry set before comparison; BOP localization gives the instance count at test time, and BOP 2024 adds a detection task \citep{nguyen2025bop}. Our scorer adopts the symmetry minimization and adds a scene-level 48-fold symmetry (the room is itself a cube and the cameras are uncalibrated), an assignment between predicted and true object sets, a penalty for extra objects, and joint scoring of discrete attributes with pose.
+
+\section{Problem setting and benchmark}
+\label{sec:setting}
+
+\paragraph{Scene state.}
+A room is the unit cube $[0,1]^3$ with $y$ up. Its state is a set of objects $S=\{o_1,\dots,o_n\}$, $o_i=(\text{shape}_i,\text{color}_i,s_i,\mathbf{p}_i,R_i)$ with shape $\in\{\text{sphere},\text{cube}\}$, color $\in\{\text{red},\text{blue}\}$, size $s_i\in\{0.10,0.15,0.20\}$ (sphere diameter or cube edge), center $\mathbf{p}_i\in(0.05\,\mathbb{Z})^3$ and, for cubes, an orientation $R_i\in SO(3)$ given as XYZ Euler angles. The generator (\texttt{src/lib/room.ts}) draws $n\in\{2,\dots,5\}$ by default, or an exact $n\le 12$ on the capacity axis; objects float, keep at least 0.05 from the walls and do not touch; cube orientations are uniform in Euler angles; wall, floor and ceiling colors are muted hues kept away from red and blue; one shadow-casting distant light, an ambient term and a fill light are drawn at random. Two cameras sit on a sphere of radius 1.7--2.6 around the room center at 25--60$^\circ$ elevation, at least 50$^\circ$ apart in azimuth, with a field of view just containing the room, looking near the center. Everything is a deterministic function of a seed.
+
+\paragraph{Observation, givens and denials.}
+Each camera renders a $640\times480$ JPEG with three.js. Because the camera is outside the room the near faces are culled, so the image shows the room as an open box on black whose outline is a hexagon of six room corners (Figure~\ref{fig:feeds}). The system is given: the two images; that they are two views of a $1\times1\times1$ room from unknown viewpoints outside it; that it holds 2--12 objects, each a sphere or cube, pure red or pure blue, of size 0.10, 0.15 or 0.20, centered on a 0.05 grid, floating, not touching one another or the walls, cubes at any orientation; that room surfaces are never red or blue and that shadows are not objects; the output schema; and the helper. It is denied camera intrinsics and extrinsics, surface colors, the object count and the seed. A static check forbids the server route from touching room or camera data, and the benchmark driver intercepts every request to verify that its body contains only the model name, the reasoning effort and the two image data URLs exactly as displayed on the page.
+
+\paragraph{Score.}
+Let $G$ be the 48-element symmetry group of the cube, acting on positions and orientations. Because nothing marks which corner is the origin, a prediction $\hat S$ is compared with the truth $S$ under the best $g\in G$ and the best partial injection $\pi$ from $S$ into $\hat S$:
+\begin{equation}
+\mathrm{score}(\hat S,S)=\max\Big(0,\;\max_{g\in G}\;\max_{\pi}\;\frac{100}{|S|}\Big[\sum_{i\in\mathrm{dom}\,\pi} c\big(g\cdot\hat o_{\pi(i)},\,o_i\big)\;-\;\big(|\hat S|-|\mathrm{dom}\,\pi|\big)\Big]\Big),
+\label{eq:score}
+\end{equation}
+where a true object outside $\mathrm{dom}\,\pi$ scores 0, each unmatched prediction costs as much as a missing object, and the per-object credit $c\in[0,1]$ awards 0.2 for the correct shape, 0.2 for color, 0.2 for size within 0.012, and 0.4 for position within 0.03 (spheres) or 0.3 for position plus 0.1 for orientation within $10^\circ$ (cubes); beyond the tolerance, size credit decays linearly to zero at an error of 0.162, position credit at 0.38 and orientation credit at $45^\circ$. Orientation error is the rotation angle between $\hat R$ and $R$ minimized over the cube's 24 rotational symmetries and is awarded only when the predicted shape is also a cube. The assignment is computed by the Hungarian algorithm on the per-object credits. A room scores 100 only when every object is matched within tolerance with no extras (``exact''); any other room is capped at 99.9.
+
+\paragraph{Sets.}
+The \emph{benchmark} is seeds 101--110 with the default draw (38 objects). Seeds 201--210 are a \emph{development set}: they were run only offline with the helper alone, never through the API, and were used during tuning in three ways---to keep helper changes that were neutral on the benchmark but better on them (iterations 8 and 25), to diagnose specific rooms (204 and 210), and to reject changes that hurt them (iteration 26). They are therefore a validation set, not a held-out one. The \emph{test set}, introduced for this paper, is seeds 1001--1100 with the default draw and seeds 1001--1030 with eight objects; no tuning decision was based on any of these rooms and they are run only with the helper alone. The \emph{capacity axis} renders seeds 101--110 with exactly $n\in\{6,8,10,12\}$ objects; capacity is the largest $n$ at which the two-run mean is at least 95.
+
+\paragraph{Record rule and accounting.}
+A tuning iteration is one hypothesis and one change to the prompt or the helper. A candidate record must be confirmed by a second run of the same configuration, and the record is the mean of both. A new record requires $+1.0$ mean score; or an equal score (within 1.0) with 20\,\% lower cost or 30\,\% lower time per room; or (a clause added once the score passed 99) a pure time or token gain with no score loss. Reported time is wall clock per room with three rooms in flight; tokens are the API's usage counts; cost is the list price on 2026-09-05 (\$0.25, \$0.025 and \$2.00 per million input, cached and output tokens) plus \$0.030 for one code-interpreter session per room. Three requests in the whole campaign were rejected by the provider's moderation on an unchanged prompt (room 108 in iteration 4's confirmation, room 107 twice in iteration 16's); each room was re-run alone and the re-run substituted in the log. Iteration 4's result file has the substitution patched in; iteration 16's keeps the zero and the re-run is a separate file, which is why Table~\ref{tab:history} shows 88.3 for that run while the log's record is 98.3. Timeouts and wrong answers were never retried.
+
+\section{System}
+\label{sec:system}
+
+\paragraph{One call.}
+The server uploads the two images and the helper to a code-interpreter container and starts one background response with the system prompt (Appendix~\ref{app:prompt}), the two images as inputs, the \texttt{code\_interpreter} tool and a JSON schema for the answer; the client polls. The prompt states the givens, the helper's API and a five-step method: look at both images and count objects and colors; run the pipeline in one cell; reconcile the printout with the visual inventory, touching only what eyes can judge better than silhouettes (add an object hidden in a shared blob, remove a phantom object, fix a color; never edit numbers); re-verify if anything changed; output the printed JSON verbatim. Everything printed in the sandbox is teed to a transcript file that the server fetches afterwards.
+
+\paragraph{Self-calibration from the room silhouette.}
+The helper thresholds the non-black region of each image, traces its contour and simplifies it to a hexagon of six pixel corners $\mathbf{u}_1,\dots,\mathbf{u}_6$. Each corner is one of the eight cube vertices; a consistent labeling assigns vertices to corners, and for a hexagon there are 24 candidates (two families of twelve, depending on whether the camera sees three faces meeting at a corner or two opposite faces), all equivalent up to a symmetry in $G$. For each labeling the helper fits a pose $(R,\mathbf{t})$ and focal length $f$ by least squares on the reprojection error
+\begin{equation}
+E(R,\mathbf{t},f)=\sum_{k=1}^{6}\big\|\Pi_f(R\,\mathbf{X}_{\ell(k)}+\mathbf{t})-\mathbf{u}_k\big\|^2 ,
+\label{eq:pose}
+\end{equation}
+where $\mathbf{X}_{\ell(k)}$ is the cube vertex assigned to corner $k$ and $\Pi_f$ the pinhole projection with unknown $f$. A direct linear transform initialization is refined first; if it refines to worse than 3\,px the labeling is skipped, otherwise 60 random rotation starts over five fields of view are solved in one batch, and the first labeling that fits within 1\,px is accepted (a fit is valid only for $10<f<20{,}000$\,px and all corners in front of the camera). When the hexagon is degenerate---a true pentagon, one corner collinear with its neighbors---or two corners nearly coincide, alternative outlines are tried; the five-corner case has 144 labelings and no closed-form start, so it uses 600 random starts. Over the 40 benchmark and development cameras the accepted fits are all under 1.5\,px.
+
+\paragraph{Frame alignment.}
+Camera B's pose is expressed in camera A's frame by scoring all 48 candidate transformations: the colors of the room faces visible in both images must agree, and the rays of same-colored blobs must nearly intersect; near-ties are broken by image fit.
+
+\paragraph{Detection, matching, hypothesis.}
+Red and blue masks require the dominant channel to exceed the others by 45, so that bluish-gray walls are not detected; connected components of at least 150 pixels become \emph{blobs} with area, bounding box, centroid and circularity. Blobs are paired across the views by a Hungarian assignment whose cost is the ray gap plus a term for the mismatch between the sizes implied by each blob's width, with a pair accepted below a cost of 0.16. Each pair yields an object: triangulated center, size from apparent width, an initial shape from circularity. A blob paired in only one view is explained by a search along its ray over depth and, for cubes, rotation, scored with a depth buffer so that the part of a candidate hidden behind nearer objects is neutral and the visible part must land on unexplained pixels of its color.
+
+\paragraph{Analysis by synthesis.}
+Every subsequent decision is made by rendering. For an object $o$ and view $v$, $\mathrm{cov}_v(o)$ is its soft ($3\times$ super-sampled) silhouette and $M_v$ the real mask of its color with the other objects' renders subtracted; the per-object objective is $J(o)=\sum_v \mathrm{IoU}\big(\mathrm{cov}_v(o),M_v\big)$ (intersection over union), skipping a view in which the object is more than half hidden. Coordinate descent over position on the grid, size over the three legal values and, for cubes, orientation maximizes $J$ for each object in turn; orientation is refined with 150 random starts for every legal size, so that a cube seen one size too large cannot settle into a wrong orientation. Sphere versus cube is decided by fitting the object both ways: a change to cube must win by 0.06 IoU and a change to sphere by 0.03, both margins scaled by $\min(1,\max(\tfrac12, s/0.15))$ so that the smallest objects, whose silhouettes are only about 25\,px across, need two thirds of the margin; when the silhouettes are inconclusive, the fraction of flat-gradient pixels inside the blob (flat faces with edges versus one smooth gradient, with a threshold per size) casts the vote. A blob shared with another object in one view is judged from the other view alone; a blob shared in both views is left as it is. Finally \texttt{compare} renders the hypothesis in both views and reports mean IoU, per-object pixel offsets, phantoms (objects whose footprint falls on too few real pixels of their color) and unexplained real blobs. Algorithm~\ref{alg:solve} lists the pipeline.
+
+\begin{algorithm}[t]
+\caption{\texttt{solve\_all}: the helper's pipeline (no model in the loop)}
+\label{alg:solve}
+\begin{algorithmic}[1]
+\State outlines $\gets$ room silhouettes of A and B, simplified to hexagons (with pentagon/merged fallbacks)
+\State $(R_A,\mathbf{t}_A,f_A),(R_B,\mathbf{t}_B,f_B)\gets$ first corner labeling whose least-squares fit of Eq.~\eqref{eq:pose} is within 1\,px
+\State $R_B,\mathbf{t}_B\gets$ best of the 48 room symmetries by face colors and blob triangulation
+\State blobs $\gets$ red/blue connected components in each view; matches $\gets$ assignment by ray gap and apparent size
+\State objects $\gets$ one object per match (triangulated center, size from width, shape from circularity); 3 passes of coordinate descent
+\State objects $\gets$ objects $\cup$ objects explaining unpaired blobs along their rays (depth-buffered)
+\State shapes $\gets$ sphere-vs-cube fit with margins and shading vote; apply; coordinate descent over position, size and orientation
+\State orientations $\gets$ random-start refinement for every legal size; settle positions if a size changed
+\State report $\gets$ render both views, compare with the images (IoU, offsets, phantoms, unexplained blobs)
+\State print report and answer JSON under a banner: \textsc{final} if no open issue, else the one thing to fix
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{What is left to the model.}
+The prompt reserves for the model's eyes the object count and colors, the splitting of a blob that contains two touching objects (via \texttt{object\_from\_pixels} with pixel centers it reads off the images), the removal of phantoms, and the decision to stop. Shape verdicts are final unless the model sees straight edges in both images; numbers are never typed. \texttt{finish} re-verifies after any change and prints the answer under a \textsc{final answer} banner when no issue is open, or when the open issue is identical to the previous call's (two views cannot resolve it); running any further cell after \textsc{final} is declared an error. In the final configuration every benchmark room-run finishes in one cell.
+
+\section{Results}
+\label{sec:results}
+
+\paragraph{Final configuration.}
+Table~\ref{tab:record} lists the two confirming runs of the final configuration (iteration 23 of Section~\ref{sec:trajectory}; helper at commit \texttt{3744bdf}). The two-run mean is 99.5/100 with six rooms exact in each run and identical per-room scores across the runs. Wall-clock time per room is 17--31\,s (two-run mean 22.3\,s; 115 and 134\,s for ten rooms with three in flight), tokens 5.5--6.8k (two-run mean 6,274), estimated cost \$0.032. All 38 objects are matched with the right shape, color and size; the four objects in error are listed in the table and analyzed in Section~\ref{sec:failures}.
+
+\begin{table}[t]
+\centering\small
+\caption{Final configuration (\texttt{gpt-5-mini}, reasoning effort \emph{low}, iteration 23, helper commit \texttt{3744bdf}), seeds 101--110, two runs; every room ran one code cell. Time and tokens are run 2 (run-2 means 23.4\,s and 6,200 tokens); time is wall clock with three rooms in flight; tokens are the API's total. Remaining error: attribute errors beyond tolerance under the best assignment and room symmetry (pos in room units; ori in degrees).}
+\label{tab:record}
+\input{tables/record_rooms.tex}
+\end{table}
+
+\paragraph{Cost.}
+Of the \$0.032 per room, \$0.030 is the flat code-interpreter session price and about \$0.002 is the model (run-2 means: 5,783 input tokens of which 2,726 cached, 417 output tokens of which 147 reasoning). The cost floor of a one-call deployment is therefore the sandbox, not the model. Section~\ref{sec:ablation} shows that the same state is obtained with neither, in about ten seconds of CPU time, so the \$0.032 prices the convenience of one hosted call with no infrastructure, not the reconstruction.
+
+\paragraph{Latency.}
+Of the 22\,s per room, the helper's computation takes 3--10\,s in the sandbox (it runs 2--3$\times$ slower there than on a laptop, and the shared two-vCPU machine of Section~\ref{sec:ablation} is slower still); the rest is fixed API overhead and the model turn, which dominated by the end of tuning.
+
+\paragraph{Capacity.}
+Table~\ref{tab:capacity} reports the capacity axis with VLM + helper. With six objects per room the configuration scores 97.7 and with eight 95.9 (two confirming runs, identical per-room scores), so the capacity record is eight objects; with ten it falls to 89.5. These are ten-room means: at eight objects the 95 threshold is passed by 0.9 points and one room (107, at 83.6) carries the largest share of the loss, so the verdict is one room away from flipping, and on 30 fresh eight-object rooms the helper alone scores 89.6 (Section~\ref{sec:ablation}); capacity eight is a statement about the tuned rooms.
+
+\begin{table}[t]
+\centering\small
+\caption{Capacity axis with VLM + helper: seeds 101--110 rendered with an exact object count (Exact is out of 10). The first two runs at 6 and 8 objects predate the frame tie-breaker and tighter pairing of the released helper; the \texttt{-b}, \texttt{-confirm} and 10-object runs use the released helper (commit \texttt{d3b8a2d}). The 6- and 10-object entries are single runs.}
+\label{tab:capacity}
+\input{tables/capacity.tex}
+\end{table}
+
+\section{Helper alone versus VLM + helper}
+\label{sec:ablation}
+
+The natural ablation is to remove the model. We rendered rooms with the app (no API involved), ran \texttt{solve\_all} on the two JPEGs offline in a fresh Python process, and scored the printed JSON with the same scorer. Two helper versions matter: the one that produced the final configuration (commit \texttt{3744bdf}) and the released one (\texttt{d3b8a2d}), which differs by four later commits made for the capacity axis (a shape rule for blobs shared in one view, tighter pairing, a frame tie-breaker and its penalty setting). Offline scores of the two on seeds 101--110 are identical room for room; on the development set they differ on one room (210: 90.9 with the final configuration's helper, 98.8 with the released one). No API run on seeds 101--110 exists with the released helper; the capacity runs marked in Table~\ref{tab:capacity} use it.
+
+\paragraph{Benchmark rooms.}
+Table~\ref{tab:ablation} compares. With the same helper, the helper alone returns exactly the score of the VLM + helper run on all ten rooms, because in the final configuration the model runs one cell and outputs the printout verbatim; its visual reconciliation step never fires.
+
+\begin{table}[t]
+\centering\small
+\caption{Removing the model on seeds 101--110. ``Helper alone'' runs \texttt{solve\_all} offline on the same two JPEGs with no model; ``same helper'' is commit \texttt{3744bdf} (the one in the VLM + helper runs), ``released helper'' \texttt{d3b8a2d}. Offline time on two shared vCPUs is 8--21\,s per room and is not comparable to the sandbox.}
+\label{tab:ablation}
+\input{tables/llm_vs_pipeline.tex}
+\end{table}
+
+\paragraph{Development and test sets.}
+The helper alone scores 98.8 on the development set with the same helper and 99.6 with the released one (seven rooms exact; the misses are three cube orientations $15$--$23^\circ$ off and three centers 0.071 off, Table~\ref{tab:heldout}); the second number is the one the development set was used to select, so it is not evidence of generalization. The test set is where the tuned numbers meet the generator's distribution (Table~\ref{tab:fresh}). On 100 fresh rooms with the default draw the released helper alone scores a mean of \input{tables/fresh_mean_default.tex}\unskip{} (bootstrap 95\,\% interval 93.4--96.9), with 58 rooms exact and 29 below 95; on 30 fresh rooms with eight objects it scores \input{tables/fresh_mean_o8.tex}\unskip{} (86.1--92.9), with 7 exact and 16 of 240 objects missing. The gap to the ten tuned rooms---four points at the default draw, six at eight objects---is the price of 26 iterations of selection on those rooms, and these are the numbers to quote for the helper's accuracy; the benchmark numbers are the model-in-the-loop check on rooms the loop saw. The error profile on the test set (Table~\ref{tab:fresh}) is the benchmark's four error kinds at their base rates plus one the benchmark never showed: a room whose two views are nearly opposite and in which an object is almost fully hidden in one view (room 1087, 40.7) produced two phantom objects, the only extras in 100 rooms.
+
+\begin{table}[t]
+\centering\small
+\caption{Development set, seeds 201--210, helper alone with the released helper (commit \texttt{d3b8a2d}), same scorer, offline. The API was never run on these rooms; see Section~\ref{sec:setting} for how the set was used during tuning.}
+\label{tab:heldout}
+\input{tables/heldout.tex}
+\end{table}
+
+\begin{table}[t]
+\centering\small
+\caption{Test set (seeds as listed), never used in any tuning decision: helper alone, released helper, offline. CI is a bootstrap 95\,\% interval of the mean over rooms; ``$<95$'' counts rooms under 95; the last four columns count objects with that error beyond tolerance.}
+\label{tab:fresh}
+{\footnotesize\input{tables/fresh.tex}}
+\end{table}
+
+\paragraph{Capacity rooms and where the model intervened.}
+Table~\ref{tab:capacity_offline} and Figure~\ref{fig:capacity} give the helper alone on the capacity rooms: 97.3, 95.9, 90.4 and 80.8 at 6, 8, 10 and 12 objects, with 0, 1, 5 and 13 objects missing over the ten rooms. The VLM + helper runs with the released helper (40 room-runs) are identical to the helper alone except on the rooms listed in Table~\ref{tab:interventions}. In seven of the forty the model ran more than one cell; in five of those it changed nothing, in one it corrected a shape and gained 4.2 points, and in one it deleted a real object and lost 9.4 points---that single room is the whole gap between 89.5 and 90.4 at ten objects. So the model's contribution is zero where the prompt confines it to one cell, and of both signs where it intervenes.
+
+\begin{table}[t]
+\centering\small
+\caption{Capacity axis, helper alone (released helper, offline) with the VLM + helper means of Table~\ref{tab:capacity} for comparison (the six-object entry is the single \texttt{-b} run, ten objects a single run). ``Missing'' counts true objects left unmatched over the ten rooms; offline seconds are on two shared vCPUs.}
+\label{tab:capacity_offline}
+\input{tables/capacity_offline.tex}
+\end{table}
+
+\begin{table}[t]
+\centering\small
+\caption{Every capacity room-run with the released helper in which VLM + helper and helper alone differ or the model ran more than one cell (7 of 40). ``Objects returned'' is the length of the model's answer against the true count.}
+\label{tab:interventions}
+\input{tables/interventions.tex}
+\end{table}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.55\linewidth]{capacity.pdf}
+  \caption{Mean score (0--100) against objects per room, helper alone (offline, 6--12 objects) and VLM + helper (API, 6--10 objects); the two differ by at most 0.9 points, all of it from one room (Table~\ref{tab:interventions}). The capacity rule's threshold of 95 is passed at eight objects.}
+  \label{fig:capacity}
+\end{figure}
+
+\paragraph{The model's contribution over the tuning campaign.}
+The tuning log recorded the helper-alone score at most iterations; Table~\ref{tab:floor} and the last panel of Figure~\ref{fig:frontier} put it beside the VLM + helper score. At the baseline helper the model was worth $+13.9$ points (90.0 against 76.1): it was doing real work, adding objects hidden in shared blobs and removing phantoms across twenty-odd cells. Each such intervention was treated as a signal that the helper should do it deterministically; by iteration 7 the contribution was within a point of zero, and from iteration 15 it was exactly zero on every room. What remains of the model in the final configuration is the harness: one API call that needs no GPU, no server-side Python environment and no per-scene engineering. Whether a model helps on the rooms the helper fails is the experiment we did not run (Section~\ref{sec:recommended}); the two interventions in Table~\ref{tab:interventions} are the only evidence, and they point both ways.
+
+\begin{table}[t]
+\centering\small
+\caption{Helper-alone score at each tuning iteration where the log recorded it (transcribed from \texttt{bench/BENCH.md}) beside the VLM + helper mean for the same code; $^*$ marks single API runs, the rest are two-run means. Iteration 0's helper-alone value is the log's ``before'' number at iteration 2; iteration 4 was a prompt-only change on iteration 3's helper.}
+\label{tab:floor}
+\resizebox{0.9\linewidth}{!}{\input{tables/floor.tex}}
+\end{table}
+
+\section{How the frontier moved}
+\label{sec:trajectory}
+
+The tuning campaign was carried out in eleven hours on 2026-09-05 by an AI coding agent following a written procedure (Appendix~\ref{app:protocol}). The 48 result files (454 room solves, 5.1\,M tokens, \$16.07 of API spend, zero anti-cheat violations) are in the repository; Figure~\ref{fig:frontier} plots them and Table~\ref{tab:history} lists every iteration. Iterations are numbered 0--26; 24 and 26 were offline-only and reverted.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{frontier.pdf}
+  \caption{The tuning trajectory. Left three panels: mean score, seconds and tokens per room for every benchmark run (filled markers: candidate runs; open markers: confirmation runs, offset right). Iterations 0--8 used medium reasoning effort, 9--25 low; the dip at iteration 9 is two rooms answered with an empty list after the low-effort model lost a truncated printout. Right panel: VLM + helper minus helper alone at the iterations where the log recorded the helper-alone score (Table~\ref{tab:floor}).}
+  \label{fig:frontier}
+\end{figure}
+
+\paragraph{Work moved from the model to the tools.}
+The baseline (iteration 0) already contained the helper's primitives and scored 90.0, but the model orchestrated them itself in 21.7 code cells per room over 232\,s and 23k tokens. Iteration 2 folded the whole pipeline into one \texttt{solve\_all} call and cut tokens by 30\,\%; iteration 4 forbade the model from editing numbers and told it to output the printout verbatim; iterations 7, 16, 17 and 18 moved the shape decision, the size--rotation coupling, the phantom test and occlusion handling into the helper, each removing a class of model intervention; iteration 19 let \texttt{solve\_all} print the final banner so that rooms finish in one cell; iterations 20--23 cut sandbox compute and printout length. Cost records were effectively closed from iteration 3, once the sandbox session dominated; time and accuracy were the remaining levers, and every record from iteration 15 on was either a score gain (iterations 16, 18 and 21; 16 at the price of 23\,\% more time, 50.8 to 62.4\,s in two-run means) or a time and token gain at equal score.
+
+\paragraph{Reasoning effort.}
+Iteration 9 ran iteration 8's code with the model's reasoning effort lowered from medium to low, one run each. On the eight rooms both settings answered, the scores are identical room for room (mean 95.8 for both); low effort took half the time and 30\,\% fewer tokens. The other two rooms came back with an empty object list at low effort: transcripts showed that the bootstrap's \texttt{help(ws)} printed 15k characters, the sandbox truncated the output, and the low-effort model then reported that it could not see the report and gave up after 10--13 cells. Removing the long printout and adding a fallback rule fixed the failure, and every later record is at low effort. On this task, then, the weaker reasoning setting did not reason worse; it coped worse with broken tool output.
+
+\paragraph{Run-to-run variance.}
+Fourteen configurations were run twice. Across the 139 room pairs (one API error excluded), 84\,\% of rooms scored identically in both runs, the median absolute difference is 0 and the 90th percentile 7 points; the largest single-room difference is 27 points (iteration 12) and the largest difference between two runs' means is 10.0 points (iteration 16's confirmation, with the rejected request counted as zero). At the final configuration all ten rooms are identical across the two runs. Variance shrank with the number of code cells: once the model runs one deterministic cell, a run is deterministic up to API errors, so the confirming second run is cheap insurance early in tuning and a formality at the end.
+
+\paragraph{Negative results.}
+Two offline attempts were reverted. A second rotation-refinement pass after a position pass (iteration 24) left the two coupled-minimum rooms unchanged and worsened room 105 from $41^\circ$ to $52^\circ$. Explaining unexplained residual regions of a color along their rays (iteration 26, aimed at capacity) gained 0.1--1.1 points at eight and twelve objects but produced phantom objects on the development set (99.6 to 87.4) and was not adopted, because the protocol forbids lowering the default sets to gain capacity.
+
+\section{Failure analysis}
+\label{sec:failures}
+
+At the final configuration the four objects in error show three kinds of failure, and all three are limits of two silhouettes rather than of the search; the diagnosis comes from scoring the true state in the solver's frame (iteration 24). (1) \emph{Silhouette-ambiguous orientation}: a cube whose two silhouettes are equally well explained by two orientations (rooms 104, $11^\circ$, and 105, $41^\circ$); the true rotation scores no better overlap than the found one, so no silhouette objective can recover it, and only shading or a third view could. (2) \emph{Coupled position--rotation minimum for an occluded object}: room 108's blue cube is hidden behind a blue sphere in camera B, so its depth is constrained by one view only and the search settles one grid step deep with a compensating $18^\circ$ rotation; the true pose scores 0.92--0.96 against 0.68--0.79 for the found one, so this is a local minimum a contact prior or a shading term could escape. (3) \emph{One grid step along two axes}: room 101's red cube center 0.071 off, within the search's local basin. As the object count rises the dominant failure changes: objects of the same color that overlap in \emph{both} views form one blob in each and are reconstructed as one object; the helper's residual-region search can find them only at the price of phantoms elsewhere (iteration 26), and the model, in the runs we have, did not split them either (Table~\ref{tab:interventions}). On the 100-room test set the same kinds recur at higher rates (Table~\ref{tab:fresh}): of 356 objects, 21 have the wrong shape, 25 the wrong size, 24 a center beyond tolerance and 23 an orientation beyond $10^\circ$, and 6 are missing; most rooms below 95 have one object with two coupled errors (a wrong size with a shifted center, or a wrong shape with a wrong size). The tuning loop removed these on the ten rooms it could see; the helper's constants and margins were set on them.
+
+\section{Limitations}
+\label{sec:limitations}
+
+The benchmark is synthetic, with two colors, two shapes, three sizes, a grid of positions, a unit room on a black background and at most 12 objects; the helper's silhouette calibration and color masks exploit every one of these facts, and nothing here transfers to a photograph without new tools. ``Training-free'' means no learned component beyond the hosted VLM; the helper does contain constants fitted on labeled generator output---the three shading thresholds (midpoints between sphere and cube medians over 130 blobs) and the pairing threshold (a percentile of correct pairs' ray gaps)---and the repository does not record which seeds those blobs came from, so they may overlap the benchmark and development rooms. The test set of Section~\ref{sec:ablation} is our answer to that: its rooms did not exist when the constants were fixed, and it shows the tuned numbers overstate the generator-distribution accuracy by about four points. The ten-room benchmark was optimized against and the development set was used for selection; the only model-in-the-loop numbers are on those rooms, so whether the model helps on the fresh rooms the helper fails is unmeasured, and an API run on the test set is owed. One model from one provider was used; the effort comparison is one run per setting on ten rooms. Cost figures are list prices on the day of the runs, and the sandbox session that dominates them is a pricing decision, not a property of the method. There are no dynamics: the output is a state, and any world model in the predictive sense has to be built on top of it by a simulator.
+
+\section{Recommended experiments}
+\label{sec:recommended}
+
+Each of the following is a benchmark command in the repository at about \$0.32 per ten-room run. (i) The model without the sandbox, and the model with a sandbox but without the helper, at low and medium effort: the two VLM-only baselines this paper argues from citations rather than measures, and the actual test of whether a model can write its own geometry for this benchmark. (ii) The API on the test set (about \$3.20 for 100 rooms), to report a model-in-the-loop number that no tuning decision touched, and in particular whether the model recovers any of the 42 rooms the helper alone gets wrong. (iii) Capacity rooms with a prompt that asks the model to split blobs the pipeline reports as too wide, to test whether a model can add accuracy where the tools fail. (iv) Other cheap models at the same prompt, to separate the harness from the model. Beyond the repository: a physical unit-cube room with painted spheres and cubes and two phone cameras, as the smallest step toward real images.
+
+\section{Conclusion}
+
+On a synthetic two-view benchmark, a cheap VLM given a code sandbox and a classical, self-calibrating analysis-by-synthesis helper recovers the complete explicit state of the scene at 99.5/100, in 22\,s and for \$0.032, with no training; the accuracy was obtained by moving work from the model into deterministic tools; by the end the model's contribution to accuracy was zero on the benchmark and of both signs where it intervened, and on 100 rooms that the loop never saw, the tools alone score 95.3. For explicit scene state on structured scenes, the cost floor we found is a deterministic tool library that runs in seconds of CPU time; the three cents buy a hosted call around it.
+
+\paragraph{Reproducibility.}
+Code, prompt, helper, scorer, benchmark driver, anti-cheat check and all 48 result files: \url{https://github.com/astrojams1/world-sim} (released helper at commit \texttt{d3b8a2d}; the final configuration's helper is \texttt{3744bdf}). The offline experiments, the analysis scripts and this paper's source are under \texttt{paper/cheap-world-model/} in the same repository; every table and figure is generated from the result files by \texttt{scripts/analyze\_bench.py}, and the transcribed helper-alone series carries its log line references in \texttt{experiments/offline-floor-benchmd.json}. No license file is present in the repository at the time of writing; one will be added.
+
+\paragraph{Disclosure.}
+The system, its tuning campaign and the text of this paper were produced with AI coding agents (Claude) directed by the author, who set the task, the anti-cheating rules and the claims and is responsible for the content. The benchmarked model is \texttt{gpt-5-mini} accessed through the OpenAI Responses API.
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\appendix
+
+\section{The system prompt}
+\label{app:prompt}
+The prompt is generated by \texttt{src/lib/skill.ts}; sizes and grid are substituted from the generator's constants. It is reproduced verbatim, including the repository's British spelling.
+\lstinputlisting{experiments/system-prompt.txt}
+
+\section{Tuning protocol}
+\label{app:protocol}
+The agent-facing procedure is \texttt{.claude/skills/tune-skill/SKILL.md} in the repository. Its ground rules: the model receives only the two unaltered images, the unit-cube statement, the object rules and the output format; only the prompt, the helper, the model and effort defaults and the request plumbing may change; the scorer, generator and seed set may not; every run must pass the static no-cheating check and the runtime request check; API-side errors are retried once and reported, wrong answers never; one hypothesis per iteration, a row in the log regardless of outcome, a confirming second run for candidates, and an offline development-set check for helper changes that are neutral on the benchmark.
+
+\section{All benchmark runs}
+\label{app:runs}
+Table~\ref{tab:history} lists the 39 default-benchmark runs in \texttt{bench/results/}, in order; omitted are the two-room diagnostic run of iteration 9, the two single-room re-runs after moderation rejections, and the six capacity runs of Table~\ref{tab:capacity}.
+
+\begin{table}[p]
+\centering\scriptsize
+\caption{Every default-benchmark run. Cells is the mean number of code-interpreter calls per room. Iteration 16's confirmation shows 88.3 because the rejected room is counted as zero in the file; with the substituted re-run the log records 98.3.}
+\label{tab:history}
+\input{tables/history.tex}
+\end{table}
+
+\section{Notation}
+\begin{center}\small
+\begin{tabular}{@{}ll@{}}
+\toprule
+$[0,1]^3$ & the room, $y$ up \\
+$o=(\text{shape},\text{color},s,\mathbf{p},R)$ & one object: shape, color, size, center, orientation \\
+$S$, $\hat S$ & true and predicted object sets \\
+$G$ & the 48-element symmetry group of the cube, acting on the room frame \\
+$\pi$ & a partial injection from $S$ into $\hat S$ (the assignment) \\
+$c(\cdot,\cdot)\in[0,1]$ & per-object credit \\
+$\Pi_f$ & pinhole projection with focal length $f$ (pixels), $640\times480$ image \\
+$\mathbf{u}_k$, $\mathbf{X}_{\ell(k)}$ & outline corner $k$ in pixels and the cube vertex its labeling assigns \\
+$\mathrm{cov}_v(o)$, $M_v$ & soft silhouette of $o$ in view $v$; real mask of $o$'s color less other objects \\
+$J(o)$ & per-object soft-IoU objective over the views in which $o$ is at most half hidden \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}

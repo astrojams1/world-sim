@@ -1,0 +1,501 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/WBoDs0olM1WH+75TUYcIM4aw8jY</id>
+  <title>arXiv Query: search_query=ti:"Cosmos World Foundation Model" OR ti:"Genie 2" OR ti:"V-JEPA"&amp;id_list=&amp;start=0&amp;max_results=8</title>
+  <updated>2026-09-05T21:42:59Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=ti:%22Cosmos+World+Foundation+Model%22+OR+(ti:%22Genie+2%22+OR+ti:%22V-JEPA%22)&amp;start=0&amp;max_results=8&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>8</opensearch:itemsPerPage>
+  <opensearch:totalResults>7</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2501.03575v3</id>
+    <title>Cosmos World Foundation Model Platform for Physical AI</title>
+    <updated>2025-07-09T19:35:31Z</updated>
+    <link href="https://arxiv.org/abs/2501.03575v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2501.03575v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Physical AI needs to be trained digitally first. It needs a digital twin of itself, the policy model, and a digital twin of the world, the world model. In this paper, we present the Cosmos World Foundation Model Platform to help developers build customized world models for their Physical AI setups. We position a world foundation model as a general-purpose world model that can be fine-tuned into customized world models for downstream applications. Our platform covers a video curation pipeline, pre-trained world foundation models, examples of post-training of pre-trained world foundation models, and video tokenizers. To help Physical AI builders solve the most critical problems of our society, we make Cosmos open-source and our models open-weight with permissive licenses available via https://github.com/nvidia-cosmos/cosmos-predict1.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-01-07T06:55:50Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name> NVIDIA</name>
+    </author>
+    <author>
+      <name> :</name>
+    </author>
+    <author>
+      <name>Niket Agarwal</name>
+    </author>
+    <author>
+      <name>Arslan Ali</name>
+    </author>
+    <author>
+      <name>Maciej Bala</name>
+    </author>
+    <author>
+      <name>Yogesh Balaji</name>
+    </author>
+    <author>
+      <name>Erik Barker</name>
+    </author>
+    <author>
+      <name>Tiffany Cai</name>
+    </author>
+    <author>
+      <name>Prithvijit Chattopadhyay</name>
+    </author>
+    <author>
+      <name>Yongxin Chen</name>
+    </author>
+    <author>
+      <name>Yin Cui</name>
+    </author>
+    <author>
+      <name>Yifan Ding</name>
+    </author>
+    <author>
+      <name>Daniel Dworakowski</name>
+    </author>
+    <author>
+      <name>Jiaojiao Fan</name>
+    </author>
+    <author>
+      <name>Michele Fenzi</name>
+    </author>
+    <author>
+      <name>Francesco Ferroni</name>
+    </author>
+    <author>
+      <name>Sanja Fidler</name>
+    </author>
+    <author>
+      <name>Dieter Fox</name>
+    </author>
+    <author>
+      <name>Songwei Ge</name>
+    </author>
+    <author>
+      <name>Yunhao Ge</name>
+    </author>
+    <author>
+      <name>Jinwei Gu</name>
+    </author>
+    <author>
+      <name>Siddharth Gururani</name>
+    </author>
+    <author>
+      <name>Ethan He</name>
+    </author>
+    <author>
+      <name>Jiahui Huang</name>
+    </author>
+    <author>
+      <name>Jacob Huffman</name>
+    </author>
+    <author>
+      <name>Pooya Jannaty</name>
+    </author>
+    <author>
+      <name>Jingyi Jin</name>
+    </author>
+    <author>
+      <name>Seung Wook Kim</name>
+    </author>
+    <author>
+      <name>Gergely Klár</name>
+    </author>
+    <author>
+      <name>Grace Lam</name>
+    </author>
+    <author>
+      <name>Shiyi Lan</name>
+    </author>
+    <author>
+      <name>Laura Leal-Taixe</name>
+    </author>
+    <author>
+      <name>Anqi Li</name>
+    </author>
+    <author>
+      <name>Zhaoshuo Li</name>
+    </author>
+    <author>
+      <name>Chen-Hsuan Lin</name>
+    </author>
+    <author>
+      <name>Tsung-Yi Lin</name>
+    </author>
+    <author>
+      <name>Huan Ling</name>
+    </author>
+    <author>
+      <name>Ming-Yu Liu</name>
+    </author>
+    <author>
+      <name>Xian Liu</name>
+    </author>
+    <author>
+      <name>Alice Luo</name>
+    </author>
+    <author>
+      <name>Qianli Ma</name>
+    </author>
+    <author>
+      <name>Hanzi Mao</name>
+    </author>
+    <author>
+      <name>Kaichun Mo</name>
+    </author>
+    <author>
+      <name>Arsalan Mousavian</name>
+    </author>
+    <author>
+      <name>Seungjun Nah</name>
+    </author>
+    <author>
+      <name>Sriharsha Niverty</name>
+    </author>
+    <author>
+      <name>David Page</name>
+    </author>
+    <author>
+      <name>Despoina Paschalidou</name>
+    </author>
+    <author>
+      <name>Zeeshan Patel</name>
+    </author>
+    <author>
+      <name>Lindsey Pavao</name>
+    </author>
+    <author>
+      <name>Morteza Ramezanali</name>
+    </author>
+    <author>
+      <name>Fitsum Reda</name>
+    </author>
+    <author>
+      <name>Xiaowei Ren</name>
+    </author>
+    <author>
+      <name>Vasanth Rao Naik Sabavat</name>
+    </author>
+    <author>
+      <name>Ed Schmerling</name>
+    </author>
+    <author>
+      <name>Stella Shi</name>
+    </author>
+    <author>
+      <name>Bartosz Stefaniak</name>
+    </author>
+    <author>
+      <name>Shitao Tang</name>
+    </author>
+    <author>
+      <name>Lyne Tchapmi</name>
+    </author>
+    <author>
+      <name>Przemek Tredak</name>
+    </author>
+    <author>
+      <name>Wei-Cheng Tseng</name>
+    </author>
+    <author>
+      <name>Jibin Varghese</name>
+    </author>
+    <author>
+      <name>Hao Wang</name>
+    </author>
+    <author>
+      <name>Haoxiang Wang</name>
+    </author>
+    <author>
+      <name>Heng Wang</name>
+    </author>
+    <author>
+      <name>Ting-Chun Wang</name>
+    </author>
+    <author>
+      <name>Fangyin Wei</name>
+    </author>
+    <author>
+      <name>Xinyue Wei</name>
+    </author>
+    <author>
+      <name>Jay Zhangjie Wu</name>
+    </author>
+    <author>
+      <name>Jiashu Xu</name>
+    </author>
+    <author>
+      <name>Wei Yang</name>
+    </author>
+    <author>
+      <name>Lin Yen-Chen</name>
+    </author>
+    <author>
+      <name>Xiaohui Zeng</name>
+    </author>
+    <author>
+      <name>Yu Zeng</name>
+    </author>
+    <author>
+      <name>Jing Zhang</name>
+    </author>
+    <author>
+      <name>Qinsheng Zhang</name>
+    </author>
+    <author>
+      <name>Yuxuan Zhang</name>
+    </author>
+    <author>
+      <name>Qingqing Zhao</name>
+    </author>
+    <author>
+      <name>Artur Zolkowski</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2603.14482v3</id>
+    <title>V-JEPA 2.1: Unlocking Dense Features in Video Self-Supervised Learning</title>
+    <updated>2026-06-11T10:07:56Z</updated>
+    <link href="https://arxiv.org/abs/2603.14482v3" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2603.14482v3" rel="related" type="application/pdf" title="pdf"/>
+    <summary>We present V-JEPA 2.1, a family of self-supervised models that learn dense, high-quality visual representations for both images and videos while retaining strong global scene understanding. The approach combines four key components. First, a dense predictive loss uses a masking-based objective in which both visible and masked tokens contribute to the training signal, encouraging explicit spatial and temporal grounding. Second, deep self-supervision applies the self-supervised objective hierarchically across multiple intermediate encoder layers to improve representation quality. Third, multi-modal tokenizers enable unified training across images and videos. Finally, the model benefits from effective scaling in both model capacity and training data. Together, these design choices produce representations that are spatially structured, semantically coherent, and temporally consistent.
+  Empirically, V-JEPA 2.1 achieves state-of-the-art performance on several challenging benchmarks, including 7.71 mAP on Ego4D for short-term object-interaction anticipation and 40.8 Recall@5 on EPIC-KITCHENS for high-level action anticipation, as well as a 20-point improvement in real-robot grasping success rate over V-JEPA-2 AC. The model also demonstrates strong performance in robotic navigation (5.687 ATE on TartanDrive), depth estimation (0.307 RMSE on NYUv2 with a linear probe), and global recognition (77.7 on Something-Something-V2). These results show that V-JEPA 2.1 significantly advances the state of the art in dense visual understanding and world modeling.</summary>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-03-15T17:02:40Z</published>
+    <arxiv:primary_category term="cs.CV"/>
+    <author>
+      <name>Lorenzo Mur-Labadia</name>
+    </author>
+    <author>
+      <name>Matthew Muckley</name>
+    </author>
+    <author>
+      <name>Amir Bar</name>
+    </author>
+    <author>
+      <name>Mido Assran</name>
+    </author>
+    <author>
+      <name>Koustuv Sinha</name>
+    </author>
+    <author>
+      <name>Mike Rabbat</name>
+    </author>
+    <author>
+      <name>Yann LeCun</name>
+    </author>
+    <author>
+      <name>Nicolas Ballas</name>
+    </author>
+    <author>
+      <name>Adrien Bardes</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2506.09985v1</id>
+    <title>V-JEPA 2: Self-Supervised Video Models Enable Understanding, Prediction and Planning</title>
+    <updated>2025-06-11T17:57:09Z</updated>
+    <link href="https://arxiv.org/abs/2506.09985v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2506.09985v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>A major challenge for modern AI is to learn to understand the world and learn to act largely by observation. This paper explores a self-supervised approach that combines internet-scale video data with a small amount of interaction data (robot trajectories), to develop models capable of understanding, predicting, and planning in the physical world. We first pre-train an action-free joint-embedding-predictive architecture, V-JEPA 2, on a video and image dataset comprising over 1 million hours of internet video. V-JEPA 2 achieves strong performance on motion understanding (77.3 top-1 accuracy on Something-Something v2) and state-of-the-art performance on human action anticipation (39.7 recall-at-5 on Epic-Kitchens-100) surpassing previous task-specific models. Additionally, after aligning V-JEPA 2 with a large language model, we demonstrate state-of-the-art performance on multiple video question-answering tasks at the 8 billion parameter scale (e.g., 84.0 on PerceptionTest, 76.9 on TempCompass). Finally, we show how self-supervised learning can be applied to robotic planning tasks by post-training a latent action-conditioned world model, V-JEPA 2-AC, using less than 62 hours of unlabeled robot videos from the Droid dataset. We deploy V-JEPA 2-AC zero-shot on Franka arms in two different labs and enable picking and placing of objects using planning with image goals. Notably, this is achieved without collecting any data from the robots in these environments, and without any task-specific training or reward. This work demonstrates how self-supervised learning from web-scale data and a small amount of robot interaction data can yield a world model capable of planning in the physical world.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.RO" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-06-11T17:57:09Z</published>
+    <arxiv:comment>48 pages, 19 figures</arxiv:comment>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Mido Assran</name>
+    </author>
+    <author>
+      <name>Adrien Bardes</name>
+    </author>
+    <author>
+      <name>David Fan</name>
+    </author>
+    <author>
+      <name>Quentin Garrido</name>
+    </author>
+    <author>
+      <name>Russell Howes</name>
+    </author>
+    <author>
+      <name> Mojtaba</name>
+    </author>
+    <author>
+      <name> Komeili</name>
+    </author>
+    <author>
+      <name>Matthew Muckley</name>
+    </author>
+    <author>
+      <name>Ammar Rizvi</name>
+    </author>
+    <author>
+      <name>Claire Roberts</name>
+    </author>
+    <author>
+      <name>Koustuv Sinha</name>
+    </author>
+    <author>
+      <name>Artem Zholus</name>
+    </author>
+    <author>
+      <name>Sergio Arnaud</name>
+    </author>
+    <author>
+      <name>Abha Gejji</name>
+    </author>
+    <author>
+      <name>Ada Martin</name>
+    </author>
+    <author>
+      <name>Francois Robert Hogan</name>
+    </author>
+    <author>
+      <name>Daniel Dugas</name>
+    </author>
+    <author>
+      <name>Piotr Bojanowski</name>
+    </author>
+    <author>
+      <name>Vasil Khalidov</name>
+    </author>
+    <author>
+      <name>Patrick Labatut</name>
+    </author>
+    <author>
+      <name>Francisco Massa</name>
+    </author>
+    <author>
+      <name>Marc Szafraniec</name>
+    </author>
+    <author>
+      <name>Kapil Krishnakumar</name>
+    </author>
+    <author>
+      <name>Yong Li</name>
+    </author>
+    <author>
+      <name>Xiaodong Ma</name>
+    </author>
+    <author>
+      <name>Sarath Chandar</name>
+    </author>
+    <author>
+      <name>Franziska Meier</name>
+    </author>
+    <author>
+      <name>Yann LeCun</name>
+    </author>
+    <author>
+      <name>Michael Rabbat</name>
+    </author>
+    <author>
+      <name>Nicolas Ballas</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2607.11998v1</id>
+    <title>HPC-Enabled Video-based Coastal Wave Parameter Estimation Using V-JEPA and Deep Spatiotemporal Learning</title>
+    <updated>2026-07-13T16:57:46Z</updated>
+    <link href="https://arxiv.org/abs/2607.11998v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2607.11998v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>High deployment cost, poor spatial coverage and susceptibility to storm conditions are all challenges faced by traditional in-situ methods. This paper presents a video-based and high performance computing (HPC) enabled deep learning framework for joint sensor free estimation of five coastal wave parameters, namely significant wave height (Hs), maximum wave height (Hmax), peak period (Tp), zero upcrossing period (Tz) and wave direction (theta) from monocular coastal video. The proposed architecture comprises of a V-JEPA (self supervised) ViT Small backbone for robust spatiotemporal feature extraction in visually challenging scenarios, a dual-stream SlowFast temporal encoder for broad bandwidth representation of wave motion in both hydrodynamic breaking and swell regimes, an optical flow stream based on Farneback optical flow algorithm for adding saliency information to the structure with emphasis on hydrodynamically active wavelength bands of waves, and a multi-task regression layer with dispersion constraints (Airy wave dispersion lambda_p = 0.1). The model was trained on an NVIDIA DGX A100 cluster and was early stopped at epoch 31 and achieved Pearson correlation coefficients of 0.451, 0.578, 0.643, 0.680 and 0.832 for Hs, Hmax, Tp, Tz and wave direction respectively, with generalization ability to geographically diverse held out test data sites. While operating in a data-limited regime (6 annotated training scenes), the framework demonstrates statistically significant temporal correlations (PCC of 0.451 to 0.832), confirming proof of concept feasibility; R2 values (max 0.246) indicate that variance capture will improve with larger annotated datasets.</summary>
+    <category term="eess.IV" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-07-13T16:57:46Z</published>
+    <arxiv:primary_category term="eess.IV"/>
+    <author>
+      <name>Abubakar Hamisu Kamagata</name>
+    </author>
+    <author>
+      <name>Dharm Singh Jat</name>
+    </author>
+    <author>
+      <name>Attlee Munyaradzi Gamundani</name>
+    </author>
+    <author>
+      <name>Saravanakumar Paramasivam</name>
+    </author>
+    <author>
+      <name>Babangida Sani</name>
+    </author>
+    <author>
+      <name>Aliyu Zakariyya</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2405.15489v1</id>
+    <title>Out of Many, One: Designing and Scaffolding Proteins at the Scale of the Structural Universe with Genie 2</title>
+    <updated>2024-05-24T12:11:41Z</updated>
+    <link href="https://arxiv.org/abs/2405.15489v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2405.15489v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Protein diffusion models have emerged as a promising approach for protein design. One such pioneering model is Genie, a method that asymmetrically represents protein structures during the forward and backward processes, using simple Gaussian noising for the former and expressive SE(3)-equivariant attention for the latter. In this work we introduce Genie 2, extending Genie to capture a larger and more diverse protein structure space through architectural innovations and massive data augmentation. Genie 2 adds motif scaffolding capabilities via a novel multi-motif framework that designs co-occurring motifs with unspecified inter-motif positions and orientations. This makes possible complex protein designs that engage multiple interaction partners and perform multiple functions. On both unconditional and conditional generation, Genie 2 achieves state-of-the-art performance, outperforming all known methods on key design metrics including designability, diversity, and novelty. Genie 2 also solves more motif scaffolding problems than other methods and does so with more unique and varied solutions. Taken together, these advances set a new standard for structure-based protein design. Genie 2 inference and training code, as well as model weights, are freely available at: https://github.com/aqlaboratory/genie2.</summary>
+    <category term="q-bio.BM" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.LG" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-05-24T12:11:41Z</published>
+    <arxiv:primary_category term="q-bio.BM"/>
+    <author>
+      <name>Yeqing Lin</name>
+    </author>
+    <author>
+      <name>Minji Lee</name>
+    </author>
+    <author>
+      <name>Zhao Zhang</name>
+    </author>
+    <author>
+      <name>Mohammed AlQuraishi</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2407.10311v1</id>
+    <title>Sora and V-JEPA Have Not Learned The Complete Real World Model -- A Philosophical Analysis of Video AIs Through the Theory of Productive Imagination</title>
+    <updated>2024-05-06T18:18:13Z</updated>
+    <link href="https://arxiv.org/abs/2407.10311v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2407.10311v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Sora from Open AI has shown exceptional performance, yet it faces scrutiny over whether its technological prowess equates to an authentic comprehension of reality. Critics contend that it lacks a foundational grasp of the world, a deficiency V-JEPA from Meta aims to amend with its joint embedding approach. This debate is vital for steering the future direction of Artificial General Intelligence(AGI). We enrich this debate by developing a theory of productive imagination that generates a coherent world model based on Kantian philosophy. We identify three indispensable components of the coherent world model capable of genuine world understanding: representations of isolated objects, an a priori law of change across space and time, and Kantian categories. Our analysis reveals that Sora is limited because of its oversight of the a priori law of change and Kantian categories, flaws that are not rectifiable through scaling up the training. V-JEPA learns the context-dependent aspect of the a priori law of change. Yet it fails to fully comprehend Kantian categories and incorporate experience, leading us to conclude that neither system currently achieves a comprehensive world understanding. Nevertheless, each system has developed components essential to advancing an integrated AI productive imagination-understanding engine. Finally, we propose an innovative training framework for an AI productive imagination-understanding engine, centered around a joint embedding system designed to transform disordered perceptual input into a structured, coherent world model. Our philosophical analysis pinpoints critical challenges within contemporary video AI technologies and a pathway toward achieving an AI system capable of genuine world understanding, such that it can be applied for reasoning and planning in the future.</summary>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CL" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.CV" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2024-05-06T18:18:13Z</published>
+    <arxiv:comment>30 pages, 9 figures</arxiv:comment>
+    <arxiv:primary_category term="cs.AI"/>
+    <author>
+      <name>Jianqiu Zhang</name>
+    </author>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/1511.03185v1</id>
+    <title>Magnetic Properties of GeNi$_{2-x}$Mg$_{x}$O$_{4}$ Under High Pressure and Magnetic Dilution</title>
+    <updated>2015-11-10T17:07:10Z</updated>
+    <link href="https://arxiv.org/abs/1511.03185v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/1511.03185v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>The effects of magnetic dilution and applied pressure on frustrated spinel Ni$_{2-x}$Mg$_{x}$GeO$_{4}$ (0 $\leq x \leq 1.0$) are analyzed using specific heat, AC and DC magnetization and x-ray diffraction. The parent compound has two closely spaced antiferromagnetic transitions $T_{\text{N1}}=12.0$ K (kagomé planes) and $T_{\text{N2}}=11.4$ K (triangular planes). In the dilution range tested, the low temperature magnetic state takes three forms: antiferromagnetic ($0 \leq x \leq 0.05$), ill-defined ($x=0.10$ and 0.15), and spin glass ($0.30 \leq x \leq 1.0$). The AFM region shows an extreme vulnerability to dilution with a percolation threshold of $p_{\text{c1}}=0.74 \pm 0.04$ and $p_{\text{c2}}=0.65 \pm 0.05$ for the kagomé and triangular planes respectively, which are much larger than expected for 3D systems. We suggest that this behavior is possibly due to coupling between the kagomé and triangular spins forming a 'network of networks' (NON). Thermal expansion data on parent NGO indicates a field dependent lattice contraction during ordering events. Furthermore, there is a transition from contraction to expansion in an applied field of 6 T in the kagomé planes. For dilution levels $x \geq 0.30$, the system becomes a spin glass with canonical behavior. Specific heat results suggest that the triangular spins become disordered with increasing Mg$^{2+}$ substitution followed by the onset of glassiness in the kagomé planes. Furthermore, there appears to be a dilution driven shift from 3 dimensional to 2 dimensional behavior as the low temperature magnetic heat capacity scales as $T^{2}$ in the spin glass state.</summary>
+    <category term="cond-mat.mtrl-sci" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2015-11-10T17:07:10Z</published>
+    <arxiv:comment>10 pages, 10 figures</arxiv:comment>
+    <arxiv:primary_category term="cond-mat.mtrl-sci"/>
+    <author>
+      <name>J. T. Korobanik</name>
+    </author>
+    <author>
+      <name>K. Caslin</name>
+    </author>
+    <author>
+      <name>P. Reuvekamp</name>
+    </author>
+    <author>
+      <name>F. S. Razavi</name>
+    </author>
+  </entry>
+</feed>
