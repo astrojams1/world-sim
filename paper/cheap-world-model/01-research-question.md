@@ -34,3 +34,17 @@ user wants (robotics automation) is exactly a question of cheap state estimation
   explicit, simulator-ready scene description; the "world model" wording is scoped to that.
 - Not a claim about real photographs; the benchmark is synthetic and the claim is about the benchmark.
 - Not a claim about the LLM's intrinsic 3D understanding.
+
+## Answer after the experiments (added 2026-09-06)
+
+Stage 14 answered Q2 in the negative: the helper alone reproduces every benchmark answer, the VLM's
+contribution went from +13.9 points (iteration 0) to exactly 0 (iteration 15 onward), and where the VLM did
+intervene (capacity rooms) it helped once and hurt once. That negative answer changes the subject of Q1: the
+system that "goes far" is the deterministic pipeline, and the question the evidence answers is
+
+**Q1′. How far can a deterministic, training-free analysis-by-synthesis pipeline that calibrates its own
+cameras go toward recovering the complete metric 3D state of a scene from two uncalibrated images — and does
+a cheap vision LLM placed around it add anything?**
+
+Answer: 99.5/100 on the tuned rooms, 95.3 on 100 fresh rooms, in seconds of CPU; and no, not once the tools
+were good. The run-1 paper kept Q1's wording with the VLM as subject; the revision writes Q1′.

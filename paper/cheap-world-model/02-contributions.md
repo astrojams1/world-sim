@@ -14,7 +14,20 @@
 | C10 | Cost anatomy: $0.030 of $0.032 is the sandbox session; the model itself is ≈$0.002; latency floor ≈14 s of fixed API overhead | bench PRICES, iter23 notes | medium | pricing dates quickly |
 | C11 | Negative results: residual-region explanation at capacity (iter26) raised held-out phantoms; second rotation refinement (iter24) worsened 105 | BENCH.md | weak-medium | anecdotal |
 
-## Pruned set for the paper (3-5)
+## Pruned set for the paper (revised 2026-09-06, after the thesis re-check)
+
+1. **The deterministic pipeline + numbers** (C1 + C3 + C2 helper-alone rows + fresh test set): explicit,
+   simulator-ready scene state from two uncalibrated images with no training and no model, 99.5 on the tuned
+   rooms, 95.3 [93.4, 96.9] on 100 fresh rooms, ≈10 s of CPU.
+2. **The VLM's contribution, measured over the campaign** (C9 + C5 + C6): +13.9 → 0 as work moved from the
+   model into the tools; of both signs where it intervened; the hosted-call deployment costs $0.032 and 22 s.
+3. **Benchmark, metric and anti-cheat protocol** (C4 + C8): unchanged.
+4. **Failure analysis** (C7 + C11): unchanged.
+
+Run-1 order (superseded): "System + numbers" with the VLM + helper system as item 1 and the helper-alone
+ablation folded into item 2. The evidence for C9 (produced in stage 14) is what moved the helper to item 1.
+
+## Pruned set for the paper (run 1 — superseded)
 
 1. **System + numbers** (C1 + C2 + C10): explicit, simulator-ready scene state from two uncalibrated images,
    no training, ≈3 cents and ≈22 s per scene.

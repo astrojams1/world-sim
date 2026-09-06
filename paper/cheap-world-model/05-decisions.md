@@ -1,6 +1,42 @@
 # Decisions (stages 6–12)
 
-## Thesis (stage 6)
+## Thesis (revised 2026-09-06, after the stage 14 thesis re-check)
+
+**A deterministic, training-free analysis-by-synthesis pipeline that calibrates two unknown cameras from the
+room's own silhouette recovers the complete explicit state of a synthetic multi-object scene (shape, color,
+size, position, orientation) from two uncalibrated images at 99.5/100 on the ten benchmark rooms and 95.3 on
+100 fresh rooms, in seconds of CPU with no model in the loop; the cheap vision LLM that was placed around it to
+orchestrate it was worth +13.9 points before tuning and exactly zero after, because every intervention it made
+was turned into deterministic code.**
+
+Subject test: the component the ablation credits with the result is the helper (`worldsim.py`, `solve_all`);
+it is the grammatical subject. The VLM is the subject of the second clause, a finding about the VLM.
+
+Rejected (the run-1 thesis below, kept for the record): it made the VLM the subject ("A cheap vision LLM that
+only orchestrates ... recovers ...") of a result that Table `llm_vs_pipeline`, Table `floor` and the fresh test
+set attribute entirely to the helper. The scientific review (major point 11) offered "retitle around the
+actual finding"; the run-1 response chose to reword the cost sentence instead. The title ("How Cheap Can an
+Explicit World Model Get Without Training? ... from a Vision LLM, a Code Sandbox, and 2,000 Lines of
+Geometry"), the abstract's first sentence, the system section (one call first, helper second) and the results
+order (VLM + helper first, helper alone second) all followed the stale subject. This is the failure the skill's
+stage 14 gate (v0.3.0) now checks for.
+
+**Title (revised).** *Explicit Scene State from Two Uncalibrated Views Without Training or a Model: How a Cheap
+Vision LLM Tuned Itself Out of the Loop* (128 characters).
+
+**Paper type (revised).** Primary: systems (the deterministic pipeline and its measured accuracy on tuned and
+fresh rooms). Secondary: negative result / empirical study (the VLM's contribution over 26 tuning iterations,
++13.9 → 0, and the mechanism) and benchmark/protocol. Audience, venue, scope, math level and style are
+unchanged; the paper directory keeps its slug `cheap-world-model` for continuity with the ledger and the branch.
+
+**Consequences for the draft.** Abstract and introduction lead with the helper and its numbers, then the
+VLM finding. Section 4 describes the helper first and the VLM harness last. Section 5 reports helper-alone
+results (benchmark, development, test, capacity) before the VLM-in-the-loop results (record run, cost,
+latency, interventions). "World model" leaves the title; the state-estimation definition stays in the
+introduction because the related-work section discusses it. Terminology (helper / pipeline / VLM / helper
+alone / VLM + helper) is unchanged.
+
+## Thesis (stage 6, run 1 — superseded)
 
 **A cheap vision LLM that only orchestrates a deterministic, self-calibrating analysis-by-synthesis
 pipeline inside a code sandbox recovers the complete explicit state of a synthetic multi-object scene

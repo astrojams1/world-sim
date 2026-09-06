@@ -1,7 +1,10 @@
-# Paper: How Cheap Can an Explicit World Model Get Without Training?
+# Paper: Explicit Scene State from Two Uncalibrated Views Without Training or a Model
 
-Produced by the `research-paper` skill (astrojams1/skills, `skills/research-paper`, v0.2.0); run log in that
-repository under `skills/research-paper/ledger/runs/2026-09-05-world-sim-cheap-world-model.md`.
+(Directory slug `cheap-world-model` is the run-1 working title; the paper was retitled in the 2026-09-06 revision after its own ablation showed the deterministic helper, not the VLM, produces the result.)
+
+Produced by the `research-paper` skill (astrojams1/skills, `skills/research-paper`, v0.2.0, revised with v0.3.0); run logs in
+that repository under `skills/research-paper/ledger/runs/2026-09-05-world-sim-cheap-world-model.md` and
+`.../2026-09-06-world-sim-cheap-world-model.md`.
 
 ## Rebuild
 

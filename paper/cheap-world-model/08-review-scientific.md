@@ -317,3 +317,29 @@ Every point was acted on; the paper was rewritten around the fresh-test-set resu
 12. **Effort ablation — fixed**: same eight rooms, identical scores (95.8 both), two failures reported separately, single run per setting stated.
 
 Minor points: 1 (room 101 error is the red 0.15 cube; "one grid step along each of two axes") fixed everywhere; 2 fixed (three orientations, three centers); 3 fixed (Appendix C says what is omitted); 4 fixed (caption: time and tokens are run 2); 5 fixed (givens listed in full); 6 fixed; 7 — the IG-LLM and Sketchpad numbers were removed from the text rather than re-verified; 8 fixed (SfM sentence); 9 fixed (price date; per session); 10 fixed; 11 — no LICENSE exists; stated in Reproducibility as to be added; 12 fixed; 13 fixed (single runs marked); 14 — record iterations are identifiable from Table 9; figure left as is.
+
+## Post-delivery finding (author, 2026-09-06) — the paper had the wrong subject
+
+After the run-1 paper was merged, the author observed that its thesis ("a cheap vision LLM ... recovers the
+complete explicit state") is contradicted by its own content: Table `llm_vs_pipeline` shows the helper alone
+reproduces every benchmark answer, Table `floor` shows the VLM's contribution at exactly 0 from iteration 15,
+and the fresh test set was run with no model at all. The problem the paper solved was solved deterministically;
+the VLM was the scaffold the deterministic solution was built inside, and its contribution collapsing to zero is
+the paper's second finding, not its framing.
+
+This review's major point 11 offered two fixes — "reframe the three cents" or "retitle around the actual
+finding" — and the run-1 response took the first. That was the wrong choice: candor about a zero inside the old
+framing left the title, the abstract's first sentence, the system section (one call first, helper second) and
+the results order (VLM + helper first, helper alone second) all making the VLM the actor of a result the helper
+produced. Rubric A item 6 (attribution) was applied, but nothing in the skill required the thesis chosen at stage
+6 to be re-tested against the stage 14 ablation.
+
+**Revision (skill v0.3.0, ledger run `2026-09-06-world-sim-cheap-world-model`).** Thesis, title, contributions
+and research question re-chosen (05-decisions.md, 01-, 02-, 07-). `main.tex`: new title and abstract;
+introduction leads with the helper-alone results and then the VLM finding; Section 4 describes the helper first
+and the hosted call last; Section 5 is "Results: the helper alone" (benchmark, development, test, capacity) and
+Section 6 "The VLM in the loop" (record run, cost, latency, capacity with the model, interventions, contribution
+per iteration); limitations and conclusion rewritten. No number changed; no table or figure changed; the
+ablation table's caption now describes its role. A fresh-context framing review of the revised text is in
+`08b-review-framing.md`. The skill now has a stage 14 thesis re-check gate, a stage 6 subject test, rubric A
+item 12 and rubric B item 11 so that this is caught before the outline, not after the merge.
