@@ -67,6 +67,25 @@ floor rows are the helper alone.
 | 2-4 | platform-1 | 100 | 10 | 38.1 | first API run (gpt-5-mini, low): 8062 tokens, $0.032/room; every room one cell, answer copied verbatim |
 | 2-4 | platform-1-confirm | 100 | 10 | 36.6 | **mode-2 record** (two-run mean 100.0): 7971 tokens, $0.032/room |
 
+### Experiment: one camera instead of two (mode 2 unchanged)
+
+`scripts/mono-experiment.py --camera A|B` solves the same 20 platform rooms from a single camera's two snapshots
+(the helper's tools with one pose; the plane from one green cross-section, normal toward the camera; object
+positions from the pixel ray meeting the resting plane; displacement from the second snapshot on the same plane).
+Offline, helper alone; result files `bench/results/platform-mono-A.json`, `platform-mono-B.json`.
+
+| Cameras | Mean | Exact | Mean plane offset | Mean normal | Mean velocity error |
+|---|---|---|---|---|---|
+| A and B (mode 2) | 100.0 | 20/20 | 0.005 | 0.42 deg | 0.006 units/s |
+| A only | 95.8 | 13/20 | 0.005 | 0.46 deg | 0.014 units/s |
+| B only | 92.5 | 13/20 | 0.007 | 0.62 deg | 0.070 units/s (0.013 without room 110's 4-degree view) |
+
+The plane and the velocity survive one camera whenever it sits at least ~25 degrees above the plane. The losses
+are (a) shape verdicts on 0.1 cubes from a single silhouette (rooms 104, 105, 205, 206, 207: 8-17 points each),
+(b) objects merged or hidden in the only view, which the second view used to resolve (110-A, 109-B, 203-B: a
+missing object and, in 109-B, a wrong displacement), and (c) grazing views: at 11-17 degrees (208-A, 209) positions
+are 0.04-0.15 off and the velocity error is 2-4x the tolerance; at 4 degrees (110-B) nothing survives.
+
 ## History
 
 | Iter | Label | Hypothesis / change | Mean | Exact | Mean s | Mean tokens | Cost/room | Verdict |
