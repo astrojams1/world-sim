@@ -3,14 +3,24 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { addContent, buildRoomScene, makeCamera, roomContent, type SceneContent } from "@/lib/scene";
+import { addObjects, buildRoomScene, makeCamera, makePlatformMesh, roomContent, type SceneContent } from "@/lib/scene";
 import { SNAPSHOT_INTERVAL } from "@/lib/room";
 import type { Platform, Room } from "@/lib/types";
 
 interface Props {
   room: Room;
+  /** The model's answer, already re-expressed in the truth's room frame (alignGuessToTruth). */
   guess?: SceneContent | null;
   showTruth?: boolean;
+}
+
+/** In platform mode the objects glide from the first snapshot to the second (SNAPSHOT_INTERVAL later), hold
+ * there, and start again: the motion the four images encode, as a loop. Wall-clock milliseconds per cycle. */
+const LOOP_MOVE_MS = 2000;
+const LOOP_HOLD_MS = 800;
+function loopTime(nowMs: number): number {
+  const phase = nowMs % (LOOP_MOVE_MS + LOOP_HOLD_MS);
+  return phase < LOOP_MOVE_MS ? (phase / LOOP_MOVE_MS) * SNAPSHOT_INTERVAL : SNAPSHOT_INTERVAL;
 }
 
 function makeLabel(text: string, color: string): THREE.Sprite {
@@ -55,14 +65,19 @@ export default function RoomViewer({ room, guess, showTruth = true }: Props) {
 
     const scene = buildRoomScene(room);
     // Walls face inward, so the near walls are culled while orbiting and you can see inside.
-    if (showTruth) {
-      addContent(scene, roomContent(room));
-      if (room.platform) scene.add(velocityArrow(room.platform, 0xffffff));
-    }
-    if (guess && (guess.objects.length || guess.platform)) {
-      addContent(scene, guess, { ghost: true });
-      if (guess.platform) scene.add(velocityArrow(guess.platform, 0xffd166));
-    }
+    // Objects riding a platform are animated along its velocity (truth and guess each with their own).
+    const moving: Array<{ mesh: THREE.Object3D; base: THREE.Vector3; velocity: THREE.Vector3 }> = [];
+    const place = (content: SceneContent, ghost: boolean, arrowColor: number) => {
+      if (content.platform) scene.add(makePlatformMesh(content.platform, { ghost }));
+      const group = addObjects(scene, content.objects, { ghost });
+      if (content.platform) {
+        const velocity = new THREE.Vector3(...content.platform.velocity);
+        for (const mesh of group.children) moving.push({ mesh, base: mesh.position.clone(), velocity });
+        scene.add(velocityArrow(content.platform, arrowColor));
+      }
+    };
+    if (showTruth) place(roomContent(room), false, 0xffffff);
+    if (guess && (guess.objects.length || guess.platform)) place(guess, true, 0xffd166);
 
     // Camera frusta + labels
     for (const spec of room.cameras) {
@@ -127,6 +142,10 @@ export default function RoomViewer({ room, guess, showTruth = true }: Props) {
 
     let raf = 0;
     const tick = () => {
+      if (moving.length) {
+        const t = loopTime(performance.now());
+        for (const m of moving) m.mesh.position.copy(m.base).addScaledVector(m.velocity, t);
+      }
       controls.update();
       renderer.render(scene, viewCam);
       raf = requestAnimationFrame(tick);

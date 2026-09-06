@@ -6,7 +6,8 @@ import { feedIds, feedInfo, renderFeeds, type FeedId, type Feeds } from "@/lib/f
 import { ALLOWED_MODELS, DEFAULT_MODEL, type ModelId } from "@/lib/models";
 import { generateRoom, groundTruth, maxObjects, MIN_OBJECTS, SNAPSHOT_INTERVAL } from "@/lib/room";
 import { guessToContent } from "@/lib/scene";
-import { scoreGuess } from "@/lib/score";
+import { alignGuessToTruth, scoreGuess } from "@/lib/score";
+import JsonDiff from "@/components/JsonDiff";
 import { MODES, type Guess, type Mode, type Room, type Score } from "@/lib/types";
 
 interface CodeRun {
@@ -16,7 +17,10 @@ interface CodeRun {
 }
 
 interface AnalysisResult {
+  /** The model's answer as returned (in the model's own room frame). */
   guess: Guess;
+  /** The same answer re-expressed in the truth's frame (the frame it scored in): what is drawn and diffed. */
+  aligned: Guess;
   score: Score;
   notes: string;
   durationMs: number;
@@ -141,9 +145,11 @@ export default function App() {
         if (!pollRes.ok) throw new Error(data.error ?? `HTTP ${pollRes.status}`);
         const guess: Guess = data.guess;
         const score = scoreGuess(room, guess);
-        const guessFeeds = renderFeeds(room, guessToContent(guess));
+        const aligned = alignGuessToTruth(guess, score.symmetry);
+        const guessFeeds = renderFeeds(room, guessToContent(aligned));
         setResult({
           guess,
+          aligned,
           score,
           notes: data.notes,
           durationMs: Date.now() - started,
@@ -200,7 +206,7 @@ export default function App() {
     }
   }, [feeds, running, room, model, effort]);
 
-  const guessContent = useMemo(() => (result && showGuess ? guessToContent(result.guess) : null), [result, showGuess]);
+  const guessContent = useMemo(() => (result && showGuess ? guessToContent(result.aligned) : null), [result, showGuess]);
   const ids = feedIds(room);
   const runsToShow = result?.codeRuns ?? liveRuns;
 
@@ -306,6 +312,11 @@ export default function App() {
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div className="relative h-[85vw] max-h-[420px] min-h-[240px] overflow-hidden rounded-lg border border-neutral-400/30 bg-neutral-900 lg:col-span-2 lg:h-auto lg:max-h-none lg:self-stretch">
           <RoomViewer room={room} guess={guessContent} showTruth={showTruth} />
+          {room.platform && (
+            <div className="pointer-events-none absolute left-2 top-2 rounded bg-black/50 px-2 py-1 text-xs text-white/80">
+              motion loop: snapshot 1 → snapshot 2 ({SNAPSHOT_INTERVAL} s)
+            </div>
+          )}
           {result && (
             <div className="absolute right-2 top-2 flex gap-3 rounded bg-black/50 px-3 py-2 text-sm text-white">
               <label className="flex min-h-6 items-center gap-1">
@@ -395,7 +406,9 @@ export default function App() {
                 {result.codeRuns.length} code run(s)
                 {result.usage?.total_tokens ? ` · ${result.usage.total_tokens} tok` : ""}
               </div>
-              <div className="text-xs opacity-60">scored in room frame {result.score.symmetry} (frame-invariant)</div>
+              <div className="text-xs opacity-60">
+                scored in room frame {result.score.symmetry} (frame-invariant); the guess is shown re-expressed in the truth&apos;s frame
+              </div>
             </div>
             {!result.usedSandbox && (
               <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 px-3 py-2 text-xs text-amber-300">
@@ -412,16 +425,17 @@ export default function App() {
             <pre className="panel-body whitespace-pre-wrap font-mono text-xs opacity-80">{result.notes}</pre>
           </details>
 
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            <details className="panel">
-              <summary className="panel-summary">Ground-truth JSON</summary>
-              <pre className="panel-body max-h-96 overflow-auto font-mono text-xs opacity-80">{JSON.stringify(groundTruth(room), null, 2)}</pre>
-            </details>
-            <details className="panel">
-              <summary className="panel-summary">Model JSON</summary>
-              <pre className="panel-body max-h-96 overflow-auto font-mono text-xs opacity-80">{JSON.stringify(result.guess, null, 2)}</pre>
-            </details>
-          </div>
+          <details className="panel" open>
+            <summary className="panel-summary">Ground truth vs model JSON (diff)</summary>
+            <div className="panel-body">
+              <JsonDiff room={room} guess={result.aligned} score={result.score} />
+            </div>
+          </details>
+
+          <details className="panel">
+            <summary className="panel-summary">Raw model JSON (as returned, in the model&apos;s own room frame)</summary>
+            <pre className="panel-body max-h-96 overflow-auto font-mono text-xs opacity-80">{JSON.stringify(result.guess, null, 2)}</pre>
+          </details>
 
           <details className="panel">
             <summary className="panel-summary">Render of the model&apos;s guess from the cameras (for you, not the model)</summary>
@@ -484,14 +498,14 @@ function CodeRuns({ runs, live, sessionLog }: { runs: CodeRun[]; live: boolean; 
 }
 
 function Comparison({ room, result }: { room: Room; result: AnalysisResult }) {
-  const { score, guess } = result;
+  const { score, aligned: guess } = result;
   return (
     <div className="overflow-x-auto rounded-lg border border-neutral-400/30">
       <table className="w-full min-w-[640px] text-left text-xs">
         <thead className="bg-neutral-500/10">
           <tr>
             <th className="px-2 py-1">Actual object</th>
-            <th className="px-2 py-1">Matched guess (model&apos;s frame)</th>
+            <th className="px-2 py-1">Matched guess (in the truth&apos;s frame)</th>
             <th className="px-2 py-1">Shape</th>
             <th className="px-2 py-1">Color</th>
             <th className="px-2 py-1">Size err</th>
@@ -540,7 +554,7 @@ function Comparison({ room, result }: { room: Room; result: AnalysisResult }) {
 function PlatformComparison({ room, result }: { room: Room; result: AnalysisResult }) {
   const p = result.score.platform;
   const t = room.platform!;
-  const g = result.guess.platform;
+  const g = result.aligned.platform;
   const fmt = (v: readonly number[]) => `[${v.map((x) => +x.toFixed(3)).join(", ")}]`;
   return (
     <div className="overflow-x-auto rounded-lg border border-neutral-400/30">
@@ -549,7 +563,7 @@ function PlatformComparison({ room, result }: { room: Room; result: AnalysisResu
           <tr>
             <th className="px-2 py-1">Platform</th>
             <th className="px-2 py-1">Actual</th>
-            <th className="px-2 py-1">Guess (model&apos;s frame)</th>
+            <th className="px-2 py-1">Guess (in the truth&apos;s frame)</th>
             <th className="px-2 py-1">Error</th>
           </tr>
         </thead>
