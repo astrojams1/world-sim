@@ -11,7 +11,8 @@
     "prebuild": "node scripts/embed-sandbox.mjs",
     "predev": "node scripts/embed-sandbox.mjs",
     "embed": "node scripts/embed-sandbox.mjs",
-    "check:no-cheating": "node scripts/check-no-cheating.mjs"
+    "check:no-cheating": "node scripts/check-no-cheating.mjs",
+    "check:mobile": "node scripts/mobile-check.mjs"
   },
   "dependencies": {
     "next": "16.3.4",

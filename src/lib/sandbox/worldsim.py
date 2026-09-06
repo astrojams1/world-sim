@@ -16,6 +16,10 @@ An "objects" list is a list of dicts: {"shape": "sphere"|"cube", "color": "red"|
 "position": [x, y, z], "rotation": [rx, ry, rz] (Euler XYZ radians, matrix = Rx*Ry*Rz; cubes only, None for spheres)}.
 Orientation is part of the answer and is scored modulo the cube's 24 symmetries, to about 10 degrees.
 
+Platform mode (camera_A2.jpg / camera_B2.jpg present): the objects rest on an infinite green plane that moves within
+itself; see solve_platform() at the end of this file. The same tools are used, under a "resting on the platform"
+constraint, and the velocity is read from the objects' motion between the snapshots.
+
 Typical workflow (short form):
     import worldsim as ws
     r = ws.solve_all()                                            # everything below in one call; read its printout
@@ -63,6 +67,16 @@ def _out(*args, **kwargs):
 GRID = 0.05
 ROOM = 1.0
 CENTRE = np.array([0.5, 0.5, 0.5])
+
+# Platform mode (fixed rules of the generator): the platform is an infinite green plane tilted at most
+# PLATFORM_MAX_TILT degrees from horizontal (in the true frame; this module's frame may have any axis "up"), and
+# SNAPSHOT_INTERVAL seconds separate the two snapshots. _PLATFORM_MODE switches the tools to the
+# resting-on-the-platform constraint; _PLATFORM is the fitted plane once known
+# ({"position": point of the plane nearest the room centre, "normal", "axis": an in-plane unit vector, "velocity"}).
+PLATFORM_MAX_TILT = 40.0
+SNAPSHOT_INTERVAL = 0.5
+_PLATFORM_MODE = False
+_PLATFORM = None
 
 
 def _find(name):
@@ -721,6 +735,8 @@ def face_colours(cam_id, pose, verbose=False):
     W, H = image_size(cam_id)
     masks = color_masks(img)
     exclude = masks["red"] | masks["blue"] | ~room_mask(cam_id)
+    if _PLATFORM_MODE:
+        exclude = exclude | platform_mask(cam_id)
     out = {}
     cam_pos = pose.position
     for axis in range(3):
@@ -779,13 +795,18 @@ def align(pose_a, pose_b, blobs_a=None, blobs_b=None, verbose=True):
         # geometric: cameras must be outside the room in both frames (they are, by construction), and blobs must triangulate
         tri_cost, _ = _match_cost(pose_a, pb, blobs_a, blobs_b)
         # also require that both cameras see a consistent room: the far corners should differ (cameras on different sides)
-        scored.append((colour_cost * 3 + tri_cost, colour_cost, tri_cost, M, pb))
+        # face colours weigh less in platform mode: the green plane hides much of every face
+        scored.append((colour_cost * (1.0 if _PLATFORM_MODE else 3.0) + tri_cost, colour_cost, tri_cost, M, pb))
     scored.sort(key=lambda s: s[0])
-    if len(scored) > 1 and scored[1][0] - scored[0][0] < 0.08:
+    # In platform mode the green plane hides much of the faces, so face colours are weak evidence and a few objects
+    # can triangulate passably in a wrong frame: more frames are put to the image test, and the plane's fit
+    # (a large silhouette) is part of it.
+    window, n_close = (0.25, 6) if _PLATFORM_MODE else (0.08, 3)
+    if len(scored) > 1 and scored[1][0] - scored[0][0] < window:
         # near tie (several same-colour blobs can triangulate almost as well in a wrong frame): let the images
         # decide. Each close frame gets a quick hypothesis (pairing, initial objects, one local-search pass) and
         # the frame whose rendered objects overlap the real pixels best wins.
-        close = [c for c in scored if c[0] - scored[0][0] < 0.08][:3]
+        close = [c for c in scored if c[0] - scored[0][0] < window][:n_close]
         rescored = []
         for c in close:
             try:
@@ -796,7 +817,12 @@ def align(pose_a, pose_b, blobs_a=None, blobs_b=None, verbose=True):
                 shapes = ["sphere" if 0.5 * (blobs_a[x["a"]]["circularity"] + blobs_b[x["b"]]["circularity"]) > 0.95 else "cube" for x in m]
                 objs = initial_hypothesis(pose_a, c[4], m, shapes, blobs_a, blobs_b, verbose=False)
                 objs = local_search(objs, pose_a, c[4], passes=1, verbose=False)
-                rescored.append((compare(objs, pose_a, c[4], verbose=False)["score"], c))
+                fit = compare(objs, pose_a, c[4], verbose=False)["score"]
+                if _PLATFORM_MODE:
+                    # the green plane crosses the whole room: a wrong frame cannot fit its silhouette in both views
+                    plat = fit_platform(pose_a, c[4], verbose=False, refine=False)
+                    fit += _platform_score(plat, (pose_a, c[4]))
+                rescored.append((fit, c))
             except Exception:
                 rescored.append((0.0, c))
         rescored.sort(key=lambda r: -r[0])
@@ -961,10 +987,15 @@ def blobs(cam_id, min_area=150, verbose=True):
 
 # ----------------------------------------------------------------------------- hypotheses
 def snap(objects):
-    """Snap positions to the 0.05 grid inside the room, sizes to the legal set; keep cube rotations."""
+    """Snap positions to the 0.05 grid inside the room, sizes to the legal set; keep cube rotations. In platform
+    mode positions are not on a grid: objects are put onto the platform's top face instead (once it is known),
+    and cube rotations are reduced to a yaw about the platform's normal."""
     out = []
     for o in objects:
         size = min(SIZES, key=lambda s: abs(s - float(o["size"])))
+        if _PLATFORM_MODE:
+            out.append(_platform_snap(o, size))
+            continue
         reach = size / 2 * (math.sqrt(3) if o["shape"] == "cube" else 1)
         margin = reach + 0.05
         lo = math.ceil(margin / GRID - 1e-9) * GRID
@@ -1072,21 +1103,20 @@ def _matched_blob_mask(o, pose, others=None):
 
 def _object_fit(o, pose_a, pose_b, shape, n_rot=40, seed=3, others=None, skip=()):
     """Best per-object silhouette IoU (mean over the two cameras) for `shape`, over legal sizes and, for cubes,
-    random rotations. Returns (score, size, rotation)."""
-    from scipy.spatial.transform import Rotation
-
+    random rotations (yaws in platform mode). Returns (score, size, rotation)."""
     targets = []
     for pose in (pose_a, pose_b):
         m, b = (None, None) if pose.cam_id in skip else _matched_blob_mask(o, pose, others)
         targets.append((pose, m))
     if all(m is None for _, m in targets):
         return None
-    rng = np.random.default_rng(seed)
-    rots = [[0.0, 0.0, 0.0]] + ([list(Rotation.random(random_state=int(rng.integers(1 << 30))).as_euler("xyz")) for _ in range(n_rot)] if shape == "cube" else [])
+    rots = _rotation_candidates(n_rot, seed, first=[0.0, 0.0, 0.0]) if shape == "cube" else [None]
     best = None
     for size in SIZES:
         for rot in rots:
             cand = {"shape": shape, "color": o["color"], "size": size, "position": o["position"]}
+            if _PLATFORM_MODE:
+                cand = _platform_snap(cand, size)  # the resting height depends on the size
             if shape == "cube":
                 cand["rotation"] = rot
             ious = []
@@ -1153,7 +1183,7 @@ def _shading_vote(o, pose_a, pose_b, size, others=None, skip=()):
     return float(np.mean(vals)) - _FLAT_THRESHOLD[min(SIZES, key=lambda x: abs(x - size))]
 
 
-def shape_check(objects, pose_a, pose_b, margin=0.03, cube_margin=0.06, verbose=True):
+def shape_check(objects, pose_a, pose_b, margin=0.03, cube_margin=0.06, shading_override=0.0, verbose=True):
     """Decide sphere vs cube for EVERY object from its own silhouette: each object is fitted as a sphere and as a
     cube (size and rotation re-fitted for each shape) against the real blob it matches in each camera, and the
     shape with the clearly higher per-object overlap wins. Returns the recommended shapes (and prints the sizes
@@ -1203,6 +1233,10 @@ def shape_check(objects, pose_a, pose_b, margin=0.03, cube_margin=0.06, verbose=
         if not shared and oth_sc - cur_sc > need:
             rec = other
         elif not shared and vote is not None and abs(oth_sc - cur_sc) <= need and abs(vote) > 0.05:
+            rec = "cube" if vote > 0 else "sphere"
+        elif not shared and shading_override > 0 and vote is not None and abs(vote) > shading_override and abs(oth_sc - cur_sc) <= 0.1:
+            # clear shading evidence beats a small silhouette advantage (platform mode: a cube can only yaw, so
+            # a small cube fitted as a slightly bigger sphere is the usual confusion)
             rec = "cube" if vote > 0 else "sphere"
         else:
             rec = current
@@ -1515,6 +1549,8 @@ def compare(objects, pose_a, pose_b, verbose=True):
 
 
 def _overlaps(objects):
+    if _PLATFORM_MODE and _PLATFORM is not None:
+        return _platform_overlaps(objects)
     for i in range(len(objects)):
         for j in range(i + 1, len(objects)):
             a, b = objects[i], objects[j]
@@ -1543,18 +1579,13 @@ def _rotation_score(o, rot, targets):
 
 def _fit_rotation(objects, i, pose_a, pose_b, n=40, seed=0):
     """Random search over the rotation of cube i against its own silhouette in both cameras (fast, sub-pixel)."""
-    from scipy.spatial.transform import Rotation
-
     if objects[i]["shape"] != "cube":
         return objects
     o = objects[i]
     targets = _rotation_targets(o, pose_a, pose_b, [x for k, x in enumerate(objects) if k != i])
     if not targets:
         return objects
-    rng = np.random.default_rng(seed)
-    cands = [o.get("rotation") or [0.0, 0.0, 0.0]] + [
-        list(Rotation.random(random_state=int(rng.integers(1 << 30))).as_euler("xyz")) for _ in range(n)
-    ]
+    cands = _rotation_candidates(n, seed, first=o.get("rotation") or [0.0, 0.0, 0.0])
     best_rot = max(cands, key=lambda r: _rotation_score(o, r, targets))
     out = [dict(x) for x in objects]
     out[i]["rotation"] = [float(r) for r in best_rot]
@@ -1609,17 +1640,14 @@ def local_search(objects, pose_a, pose_b, passes=6, try_sizes=True, verbose=True
                 if fitted[i]["rotation"] != objs[i].get("rotation"):
                     objs = fitted
             best = _object_score(objs[i], targets)
-            steps = (-0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15)
-            for axis in range(3):
+            for axis_vec, steps in _search_axes():
                 for d in steps:
                     for s in (SIZES if try_sizes else [objs[i]["size"]]):
                         if d == 0 and s == objs[i]["size"]:
                             continue
                         o = dict(objs[i])
                         o["size"] = s
-                        pos = list(objs[i]["position"])
-                        pos[axis] += d
-                        o["position"] = pos
+                        o["position"] = [float(v) + d * a for v, a in zip(objs[i]["position"], axis_vec)]
                         o = snap([o])[0]
                         trial = list(objs)
                         trial[i] = o
@@ -1642,9 +1670,6 @@ def refine_rotation(objects, pose_a, pose_b, i, n=150, try_sizes=True, verbose=T
     size settles into a wrong orientation (the silhouette of a bigger cube can mimic a rotated smaller one), so
     the two must be decided together. Orientation is scored to about 10 degrees modulo the cube's own
     symmetries. Returns the updated list."""
-    from scipy.optimize import minimize
-    from scipy.spatial.transform import Rotation
-
     if objects[i]["shape"] != "cube":
         return objects
     o = dict(objects[i])
@@ -1653,8 +1678,7 @@ def refine_rotation(objects, pose_a, pose_b, i, n=150, try_sizes=True, verbose=T
         if verbose:
             _out(f"refine_rotation #{i}: no matching blob, rotation and size unchanged")
         return objects
-    rng = np.random.default_rng(7)
-    rand = [list(Rotation.random(random_state=int(rng.integers(1 << 30))).as_euler("xyz")) for _ in range(n)]
+    rand = _rotation_candidates(n, 7, first=None)
     sizes = list(SIZES) if try_sizes else [o["size"]]
     # the current size is searched last so that ties keep it
     sizes.sort(key=lambda s: s == o["size"])
@@ -1663,6 +1687,8 @@ def refine_rotation(objects, pose_a, pose_b, i, n=150, try_sizes=True, verbose=T
     for size in sizes:
         cand = dict(o)
         cand["size"] = size
+        if _PLATFORM_MODE:
+            cand = _platform_snap(cand, size)
         score = lambda rot, cand=cand: _rotation_score(cand, rot, targets)  # noqa: E731
         cands = [o.get("rotation") or [0.0, 0.0, 0.0]] + (rand if len(sizes) == 1 else rand[: max(1, n // 3)])
         rot = max(cands, key=score)
@@ -1688,20 +1714,19 @@ def refine_rotation(objects, pose_a, pose_b, i, n=150, try_sizes=True, verbose=T
             improved = True
             while improved:
                 improved = False
-                for axis in range(3):
-                    for d in (-step, step):
-                        r2 = list(rot)
-                        r2[axis] += d
-                        s2 = score(r2)
-                        if s2 > sc + 1e-5:
-                            sc, rot, improved = s2, r2, True
+                # neighbours are taken from the current rotation, so an accepted step feeds the next axis
+                for k in range(len(_rotation_neighbours(rot, step))):
+                    r2 = _rotation_neighbours(rot, step)[k]
+                    s2 = score(r2)
+                    if s2 > sc + 1e-5:
+                        sc, rot, improved = s2, r2, True
         if sc >= best:
             best, best_rot, best_size = sc, rot, size
-    o["size"] = best_size
-    score = lambda rot: _rotation_score(o, rot, targets)  # noqa: E731
     out = [dict(x) for x in objects]
     out[i]["rotation"] = [float(r) for r in best_rot]
     out[i]["size"] = float(best_size)
+    if _PLATFORM_MODE:
+        out[i] = _platform_snap(out[i], best_size)
     if verbose:
         changed = "" if best_size == objects[i]["size"] else f" size {objects[i]['size']} -> {best_size}"
         _out(f"refine_rotation #{i}: rotation={[round(r, 3) for r in best_rot]}{changed} silhouette IoU={best:.3f}")
@@ -1746,16 +1771,13 @@ def explain_unpaired(objects, pose_a, pose_b, matches, blobs_a, blobs_b, min_sco
     it: every depth inside the room x legal sizes x sphere/cube (rotation fitted). The candidate is scored by its
     silhouette overlap with the unpaired blob and with the still-unexplained pixels of that colour in the other
     view. Accepted candidates are appended (printed as AUTO-ADDED) so you can veto them. Returns the new list."""
-    from scipy.spatial.transform import Rotation
-
     objs = [dict(o) for o in objects]
     used_a = {m["a"] for m in matches}
     used_b = {m["b"] for m in matches}
     todo = [("A", j) for j in range(len(blobs_a)) if j not in used_a] + [("B", j) for j in range(len(blobs_b)) if j not in used_b]
     poses = {"A": pose_a, "B": pose_b}
     masks = {"A": _blob_masks("A"), "B": _blob_masks("B")}
-    rng = np.random.default_rng(5)
-    rots = [[0.0, 0.0, 0.0]] + [list(Rotation.random(random_state=int(rng.integers(1 << 30))).as_euler("xyz")) for _ in range(10)]
+    rots = _rotation_candidates(10, 5, first=[0.0, 0.0, 0.0])
     for cam, j in todo:
         blob = (blobs_a if cam == "A" else blobs_b)[j]
         pose = poses[cam]
@@ -1775,38 +1797,45 @@ def explain_unpaired(objects, pose_a, pose_b, matches, blobs_a, blobs_b, min_sco
         ranked = []  # every candidate scored, so that the best NON-overlapping one can be chosen
         step = (span[1] - span[0]) / 14
         depths = list(np.linspace(span[0], span[1], 15))
-        for t in depths:
+        if _PLATFORM_MODE and _PLATFORM is not None:
+            # the object rests on the platform: one candidate depth per size (where the ray meets the resting plane)
+            depths = None
+        # static: every depth along the ray x legal sizes; platform: the depth where the ray meets the resting
+        # plane of each size (the platform's own candidate list)
+        cands_ts = [(t, s) for t in depths for s in SIZES] if depths is not None else _platform_ray_candidates(o, d)
+        for t, size in cands_ts:
             p = o + t * d
-            for size in SIZES:
-                for shape in ("sphere", "cube"):
-                    for rot in (rots if shape == "cube" else [None]):
-                        cand = {"shape": shape, "color": blob["color"], "size": size, "position": [float(v) for v in p]}
-                        if rot is not None:
-                            cand["rotation"] = rot
-                        cov, win = render_soft(cand, pose)
-                        s_own = _soft_iou(cov, own_mask, win)
-                        cov2, win2 = render_soft(cand, opose)
-                        if cov2 is not None and cov2.sum() > 1e-6:
-                            # consistency with the other view: the part of the footprint hidden behind a nearer
-                            # object is consistent whatever the image shows there; the visible part must land on
-                            # unexplained pixels of the colour (a visible footprint on nothing is a contradiction)
-                            x0, y0, x1, y1 = win2
-                            pr2 = opose.project(p)
-                            hidden = (depth_other[y0:y1, x0:x1] < pr2[2]) if pr2 is not None else np.zeros_like(cov2, dtype=bool)
-                            visible = cov2 * ~hidden
-                            vis_area = visible.sum()
-                            if vis_area < 0.2 * cov2.sum():
-                                s_other = 0.5  # (almost) entirely hidden: the other view neither confirms nor denies
-                            else:
-                                inter = np.minimum(visible, resid_other[y0:y1, x0:x1]).sum()
-                                s_other = float(inter / vis_area)
-                            score = 0.6 * s_own + 0.4 * s_other
+            for shape in ("sphere", "cube"):
+                for rot in (rots if shape == "cube" else [None]):
+                    cand = {"shape": shape, "color": blob["color"], "size": size, "position": [float(v) for v in p]}
+                    if rot is not None:
+                        cand["rotation"] = rot
+                    if depths is None:
+                        cand = _platform_snap(cand, size)
+                    cov, win = render_soft(cand, pose)
+                    s_own = _soft_iou(cov, own_mask, win)
+                    cov2, win2 = render_soft(cand, opose)
+                    if cov2 is not None and cov2.sum() > 1e-6:
+                        # consistency with the other view: the part of the footprint hidden behind a nearer
+                        # object is consistent whatever the image shows there; the visible part must land on
+                        # unexplained pixels of the colour (a visible footprint on nothing is a contradiction)
+                        x0, y0, x1, y1 = win2
+                        pr2 = opose.project(p)
+                        hidden = (depth_other[y0:y1, x0:x1] < pr2[2]) if pr2 is not None else np.zeros_like(cov2, dtype=bool)
+                        visible = cov2 * ~hidden
+                        vis_area = visible.sum()
+                        if vis_area < 0.2 * cov2.sum():
+                            s_other = 0.5  # (almost) entirely hidden: the other view neither confirms nor denies
                         else:
-                            score = s_own
-                        ranked.append((score, cand, s_own, s_other if cov2 is not None else None))
-                        if best is None or score > best[0]:
-                            best = ranked[-1]
-        if best is not None:
+                            inter = np.minimum(visible, resid_other[y0:y1, x0:x1]).sum()
+                            s_other = float(inter / vis_area)
+                        score = 0.6 * s_own + 0.4 * s_other
+                    else:
+                        score = s_own
+                    ranked.append((score, cand, s_own, s_other if cov2 is not None else None))
+                    if best is None or score > best[0]:
+                        best = ranked[-1]
+        if best is not None and depths is not None:
             # fine pass: neighbouring depths around the best, same shape and size, a few rotations
             base = dict(best[1])
             t_best = float(np.dot(np.array(base["position"]) - o, d))
@@ -1937,7 +1966,7 @@ def _open_issues(objs, report):
     return issues
 
 
-def _print_answer(objs, report, first):
+def _print_answer(objs, report, first, platform=None):
     """Print the answer JSON under a banner: FINAL when the compare report has no open issue (or the same open
     issue as the previous answer, which two views cannot resolve), otherwise a request to fix that one thing."""
     global _LAST_ISSUES
@@ -1952,17 +1981,595 @@ def _print_answer(objs, report, first):
     else:
         _out("=== ANSWER (one open issue remains: fix it in ONE cell, call finish once more, then stop) ===")
     _LAST_ISSUES = issues
-    _out(to_json(objs, compact=True))
+    _out(to_json(objs, platform, compact=True))
 
 
-def to_json(objects, compact=False):
-    """Final answer: positions on the grid, legal sizes, cube rotations (Euler XYZ radians), null for spheres.
+def to_json(objects, platform=None, compact=False):
+    """Final answer: positions on the grid (static) or on the platform (platform mode), legal sizes, cube rotations
+    (Euler XYZ radians), null for spheres; in platform mode the platform {position, normal, velocity} comes first.
     `compact` prints one object per line (shorter to read and to copy)."""
     out = []
     for o in snap(objects):
         rec = {"shape": o["shape"], "color": o["color"], "size": o["size"], "position": o["position"]}
         rec["rotation"] = [round(float(r), 4) for r in (o.get("rotation") or [0.0, 0.0, 0.0])] if o["shape"] == "cube" else None
         out.append(rec)
+    plat = None
+    if platform is not None:
+        plat = {
+            "position": [round(float(v), 4) for v in platform["position"]],
+            "normal": [round(float(v), 4) for v in platform["normal"]],
+            "velocity": [round(float(v), 4) for v in platform.get("velocity", [0.0, 0.0, 0.0])],
+        }
     if compact:
-        return '{"objects": [\n' + ",\n".join("  " + json.dumps(r) for r in out) + "\n]}"
-    return json.dumps({"objects": out}, indent=2)
+        head = '{"platform": ' + json.dumps(plat) + ',\n "objects": [\n' if plat is not None else '{"objects": [\n'
+        return head + ",\n".join("  " + json.dumps(r) for r in out) + "\n]}"
+    return json.dumps(({"platform": plat} if plat is not None else {}) | {"objects": out}, indent=2)
+
+
+# ============================================================================= platform mode
+# Mode 2: the objects rest on an infinite, featureless green plane that moves at a constant velocity within
+# itself; each camera took a second snapshot SNAPSHOT_INTERVAL later (camera_A2.jpg, camera_B2.jpg). Everything
+# above is reused: the cameras are solved from the room outline as before, and the object tools run under a
+# "resting on the platform" constraint (snap puts objects on the plane, local_search moves them in the plane, cube
+# rotations are a yaw about the normal). The plane itself is fitted to its green silhouette (its cross-section with
+# the room) in both cameras; since the plane looks the same in both snapshots, the velocity comes from the objects'
+# common displacement. Entry point: solve_platform().
+
+
+def set_mode(mode):
+    """'static' (default) or 'platform'. solve_platform() sets platform mode itself."""
+    global _PLATFORM_MODE, _PLATFORM
+    _PLATFORM_MODE = mode == "platform"
+    if not _PLATFORM_MODE:
+        _PLATFORM = None
+
+
+def set_platform(platform):
+    """Install the plane that constrains every object tool (dict with position, normal, velocity[, axis])."""
+    global _PLATFORM
+    _PLATFORM = None if platform is None else _platform_normalised(platform)
+    return _PLATFORM
+
+
+def _unit(v):
+    v = np.asarray(v, dtype=float)
+    n = np.linalg.norm(v)
+    return v / n if n > 1e-12 else v
+
+
+def _platform_normalised(p):
+    """Canonical form: unit normal, position = the plane's point nearest the room centre, an in-plane unit axis
+    (the direction of motion when the velocity is known, else any in-plane direction)."""
+    n = _unit(p["normal"])
+    pos = np.asarray(p["position"], dtype=float)
+    foot = CENTRE + n * float(n @ (pos - CENTRE))
+    vel = np.asarray(p.get("velocity", [0.0, 0.0, 0.0]), dtype=float)
+    axis = vel if np.linalg.norm(vel) > 1e-9 else np.asarray(p.get("axis") if p.get("axis") is not None else [0.0, 0.0, 0.0], dtype=float)
+    if np.linalg.norm(axis - n * (axis @ n)) < 1e-6:
+        axis = np.eye(3)[int(np.argmin(np.abs(n)))]  # the room axis least aligned with the normal
+    axis = _unit(axis - n * (axis @ n))
+    return {
+        "position": [float(v) for v in foot],
+        "normal": [float(v) for v in n],
+        "axis": [float(v) for v in axis],
+        "velocity": [float(v) for v in vel],
+    }
+
+
+def _platform_frame(p=None):
+    """(point on the plane, d = in-plane axis / direction of motion, n = normal, e = d x n)."""
+    p = _PLATFORM if p is None else p
+    c = np.asarray(p["position"], dtype=float)
+    n = _unit(p["normal"])
+    d = _unit(p["axis"])
+    e = np.cross(d, n)
+    return c, d, n, e
+
+
+def _platform_basis(p=None):
+    """Rotation matrix with columns (d, n, e): maps a local frame (x along d, y up, z across) to the room."""
+    _, d, n, e = _platform_frame(p)
+    return np.stack([d, n, e], axis=1)
+
+
+def _matrix_to_euler(R):
+    """Euler XYZ angles of R (R = Rx * Ry * Rz), the inverse of _euler_matrix."""
+    m13 = float(R[0, 2])
+    y = math.asin(max(-1.0, min(1.0, m13)))
+    if abs(m13) < 0.9999999:
+        return [math.atan2(-float(R[1, 2]), float(R[2, 2])), y, math.atan2(-float(R[0, 1]), float(R[0, 0]))]
+    return [math.atan2(float(R[2, 1]), float(R[1, 1])), y, 0.0]
+
+
+def _platform_rotation(yaw, p=None):
+    """Euler XYZ rotation of a cube sitting flat on the platform, turned by `yaw` about the platform's normal."""
+    cy, sy = math.cos(yaw), math.sin(yaw)
+    Ry = np.array([[cy, 0, sy], [0, 1, 0], [-sy, 0, cy]])
+    return [float(v) for v in _matrix_to_euler(_platform_basis(p) @ Ry)]
+
+
+def _platform_yaw_of(rot, p=None):
+    """Yaw (in [0, pi/2)) of the cube rotation `rot` (Euler XYZ) about the platform's normal, ignoring which of the
+    cube's faces is down (any rotation is projected onto the nearest flat-on-the-platform orientation)."""
+    R = _euler_matrix(*rot) if rot is not None else np.eye(3)
+    Rl = _platform_basis(p).T @ R  # cube axes in platform coordinates
+    up = int(np.argmax(np.abs(Rl[1, :])))  # the cube axis most aligned with the normal
+    j = (up + 1) % 3
+    x, z = float(Rl[0, j]), float(Rl[2, j])
+    yaw = math.atan2(-z, x)
+    return yaw % (math.pi / 2)
+
+
+def _platform_snap(o, size):
+    """Put object o onto the platform: keep its in-plane coordinates, set its height to size/2 above the plane,
+    and reduce a cube's rotation to a yaw about the normal. Before the plane is known, only the size is legalised
+    and the position kept inside the room."""
+    new = {"shape": o["shape"], "color": o["color"], "size": size, "position": [float(v) for v in o["position"]]}
+    if o["shape"] == "cube":
+        new["rotation"] = [float(r) for r in (o.get("rotation") or [0.0, 0.0, 0.0])]
+    if _PLATFORM is None:
+        reach = size / 2 * (math.sqrt(3) if o["shape"] == "cube" else 1)
+        new["position"] = [round(min(max(v, reach + 0.05), ROOM - reach - 0.05), 4) for v in new["position"]]
+        return new
+    c, d, n, e = _platform_frame()
+    p = np.asarray(new["position"], dtype=float) - c
+    a, b = float(p @ d), float(p @ e)
+    if o["shape"] == "cube":
+        new["rotation"] = _platform_rotation(_platform_yaw_of(new["rotation"]))
+    pos = c + a * d + b * e + n * (size / 2)
+    new["position"] = [round(float(v), 4) for v in pos]
+    return new
+
+
+def _in_room(o, margin=0.03):
+    reach = o["size"] / 2 * (math.sqrt(3) if o["shape"] == "cube" else 1)
+    return all(reach + margin <= float(v) <= ROOM - reach - margin for v in o["position"])
+
+
+def _platform_overlaps(objects, margin=0.02):
+    """Objects on the plane overlap when their footprints (circumcircles) come closer than `margin`; an object
+    outside the room (with a margin) counts as overlapping too, so local_search never moves one there."""
+    c, d, n, e = _platform_frame()
+    foot = []
+    for o in objects:
+        if not _in_room(o):
+            return True
+        p = np.asarray(o["position"], dtype=float) - c
+        r = o["size"] / 2 * (math.sqrt(2) if o["shape"] == "cube" else 1)
+        foot.append((float(p @ d), float(p @ e), r))
+    for i in range(len(foot)):
+        for j in range(i + 1, len(foot)):
+            if math.hypot(foot[i][0] - foot[j][0], foot[i][1] - foot[j][1]) < foot[i][2] + foot[j][2] + margin:
+                return True
+    return False
+
+
+def _rotation_candidates(n, seed, first=None):
+    """Candidate cube rotations: `first` (if given) followed by n random rotations (static mode) or n yaws evenly
+    spread over the cube's quarter turn (platform mode; the platform must be known)."""
+    if _PLATFORM_MODE and _PLATFORM is not None:
+        yaws = [k * (math.pi / 2) / max(n, 1) for k in range(max(n, 1))]
+        return ([_platform_rotation(_platform_yaw_of(first))] if first is not None else []) + [_platform_rotation(y) for y in yaws]
+    from scipy.spatial.transform import Rotation
+
+    rng = np.random.default_rng(seed)
+    rand = [list(Rotation.random(random_state=int(rng.integers(1 << 30))).as_euler("xyz")) for _ in range(n)]
+    return ([first] if first is not None else []) + rand
+
+
+def _rotation_neighbours(rot, step):
+    """Rotations one coordinate step away from `rot`: +-step on each Euler angle, or +-step of yaw in platform mode."""
+    if _PLATFORM_MODE and _PLATFORM is not None:
+        yaw = _platform_yaw_of(rot)
+        return [_platform_rotation(yaw + step), _platform_rotation(yaw - step)]
+    out = []
+    for axis in range(3):
+        for d in (-step, step):
+            r2 = list(rot)
+            r2[axis] += d
+            out.append(r2)
+    return out
+
+
+def _search_axes():
+    """Directions and step lists local_search moves an object along: the room axes on the grid (static) or two
+    in-plane axes of the platform with finer, continuous steps (platform mode)."""
+    if _PLATFORM_MODE and _PLATFORM is not None:
+        _, d, _, e = _platform_frame()
+        steps = (-0.1, -0.05, -0.025, -0.0125, 0, 0.0125, 0.025, 0.05, 0.1)
+        return [(d, steps), (e, steps)]
+    steps = (-0.15, -0.1, -0.05, 0, 0.05, 0.1, 0.15) if not _PLATFORM_MODE else (-0.1, -0.05, -0.025, -0.0125, 0, 0.0125, 0.025, 0.05, 0.1)
+    return [(np.eye(3)[k], steps) for k in range(3)]
+
+
+def _platform_ray_candidates(origin, direction):
+    """(t, size) pairs where the ray origin + t*direction meets the resting plane of each legal size."""
+    c, d, n, e = _platform_frame()
+    out = []
+    nd = float(n @ direction)
+    if abs(nd) < 1e-6:
+        return out
+    for size in SIZES:
+        t = (size / 2 - float(n @ (origin - c))) / nd
+        if t <= 0:
+            continue
+        p = origin + t * direction
+        if all(-0.05 <= v <= 1.05 for v in p):
+            out.append((float(t), size))
+    return out
+
+
+# ----------------------------------------------------------------------------- the plane in the images
+_PLATMASK = {}
+
+
+def platform_mask(cam_id):
+    """Pixels of the pure-green platform (green dominant by a factor 2 over both other channels)."""
+    if cam_id not in _PLATMASK:
+        img = load_image(cam_id)
+        r, g, b = img[..., 0], img[..., 1], img[..., 2]
+        _PLATMASK[cam_id] = (g > 50) & (g > 2.0 * r) & (g > 2.0 * b)
+    return _PLATMASK[cam_id]
+
+
+_CUBE_EDGES = [(i, j) for i in range(8) for j in range(i + 1, 8) if int(abs(CUBE_CORNERS[i] - CUBE_CORNERS[j]).sum()) == 1]
+
+
+def plane_polygon(platform):
+    """The plane's cross-section with the room: the convex polygon (3 to 6 room-space vertices, in order) where
+    the plane cuts the unit cube. Empty if the plane misses the room."""
+    c, d, n, e = _platform_frame(platform)
+    s = CUBE_CORNERS @ n - float(n @ c)
+    pts = []
+    for i, j in _CUBE_EDGES:
+        si, sj = s[i], s[j]
+        if abs(si) < 1e-9:
+            pts.append(CUBE_CORNERS[i])
+        if abs(sj) < 1e-9:
+            pts.append(CUBE_CORNERS[j])
+        if si * sj < 0:
+            t = si / (si - sj)
+            pts.append(CUBE_CORNERS[i] + t * (CUBE_CORNERS[j] - CUBE_CORNERS[i]))
+    if len(pts) < 3:
+        return []
+    P = np.array(pts)
+    uv = np.stack([(P - c) @ d, (P - c) @ e], axis=1)
+    keep = []
+    for k in range(len(P)):
+        if all(np.linalg.norm(uv[k] - uv[m]) > 1e-6 for m in keep):
+            keep.append(k)
+    P, uv = P[keep], uv[keep]
+    centre = uv.mean(axis=0)
+    order = np.argsort(np.arctan2(uv[:, 1] - centre[1], uv[:, 0] - centre[0]))
+    return [P[k] for k in order]
+
+
+def _render_plane_soft(platform, pose, scale=2, window=None):
+    """Sub-pixel silhouette coverage of the plane's cross-section with the room in this camera, inside a crop
+    window (the projected polygon's bounding box unless given). Returns (coverage, window)."""
+    poly = plane_polygon(platform)
+    pts = []
+    for p in poly:
+        q = pose.R @ p + pose.t
+        if q[2] > 1e-6:
+            pts.append((pose.f * q[0] / q[2] + pose.cx, pose.f * q[1] / q[2] + pose.cy))
+    if len(pts) < 3:
+        return None, None
+    if window is None:
+        us, vs = [p[0] for p in pts], [p[1] for p in pts]
+        x0, x1 = int(max(0, min(us) - 3)), int(min(pose.W, max(us) + 4))
+        y0, y1 = int(max(0, min(vs) - 3)), int(min(pose.H, max(vs) + 4))
+        if x1 <= x0 or y1 <= y0:
+            return None, None
+        window = (x0, y0, x1, y1)
+    x0, y0, x1, y1 = window
+    w, h = x1 - x0, y1 - y0
+    img = Image.new("L", (w * scale, h * scale), 0)
+    hull = _convex_hull([(round((u - x0) * scale, 2), round((v - y0) * scale, 2)) for u, v in pts])
+    if len(hull) >= 3:
+        ImageDraw.Draw(img).polygon(hull, fill=255)
+    m = np.asarray(img, dtype=np.float32) * (1.0 / 255.0)
+    return m.reshape(h, scale, w, scale).mean(axis=(1, 3)), window
+
+
+def _platform_view_score(platform, pose, image_id=None, scale=2):
+    """Soft IoU of the rendered plane cross-section against the green pixels of `image_id` (default: the pose's own
+    image); pixels of the red/blue objects (which stand on the plane and hide part of it) do not count either way."""
+    image_id = pose.cam_id if image_id is None else image_id
+    cov, win = _render_plane_soft(platform, pose, scale=scale)
+    if cov is None:
+        return 0.0
+    green, keep, total = _plane_targets(image_id)
+    x0, y0, x1, y1 = win
+    cov = cov * keep[y0:y1, x0:x1]
+    g = green[y0:y1, x0:x1]
+    inter = np.minimum(cov, g).sum()
+    union = np.maximum(cov, g).sum() + (total - g.sum())
+    return float(inter / union) if union else 0.0
+
+
+_PLANE_TARGETS = {}
+
+
+def _plane_targets(image_id):
+    """(green mask as float32, keep = 1 where no red/blue object pixel, total green) for an image, cached."""
+    if image_id not in _PLANE_TARGETS:
+        green = platform_mask(image_id).astype(np.float32)
+        masks = color_masks(load_image(image_id))
+        keep = (~(masks["red"] | masks["blue"])).astype(np.float32)
+        _PLANE_TARGETS[image_id] = (green, keep, float(green.sum()))
+    return _PLANE_TARGETS[image_id]
+
+
+def _platform_score(platform, poses, scale=2):
+    return float(np.mean([_platform_view_score(platform, p, scale=scale) for p in poses]))
+
+
+def _plane(normal, offset):
+    """A plane with unit `normal` passing `offset` from the room centre along it (velocity unknown)."""
+    n = _unit(normal)
+    return _platform_normalised({"position": CENTRE + n * offset, "normal": n, "velocity": [0.0, 0.0, 0.0]})
+
+
+def _candidate_normals(tilt_max=PLATFORM_MAX_TILT, tilt_step=10.0, az_step=30.0):
+    """Unit normals within tilt_max of any room axis (this module's frame may have any axis up); each plane is
+    counted once (n and -n are the same plane)."""
+    out = []
+    for k in range(3):
+        up = np.eye(3)[k]
+        u1 = np.eye(3)[(k + 1) % 3]
+        u2 = np.eye(3)[(k + 2) % 3]
+        tilts = [0.0] + [t for t in np.arange(tilt_step, tilt_max + 1e-9, tilt_step)]
+        for tilt in tilts:
+            azs = [0.0] if tilt == 0.0 else list(np.arange(0.0, 360.0, az_step))
+            for az in azs:
+                t, a = math.radians(tilt), math.radians(az)
+                out.append(_unit(math.cos(t) * up + math.sin(t) * (math.cos(a) * u1 + math.sin(a) * u2)))
+    return out
+
+
+def _descend_plane(n, offset, poses, stages, scale=2):
+    """Coordinate descent over the plane's offset and two tilt angles with shrinking steps; returns (score, n, offset)."""
+    best = _platform_score(_plane(n, offset), poses, scale=scale)
+    for ostep, rstep in stages:
+        improved = True
+        while improved:
+            improved = False
+            for s in (-ostep, ostep):
+                sc = _platform_score(_plane(n, offset + s), poses, scale=scale)
+                if sc > best + 1e-5:
+                    best, offset, improved = sc, offset + s, True
+            _, d, _, e = _platform_frame(_plane(n, offset))
+            for axis in (d, e):
+                for s in (-rstep, rstep):
+                    n2 = _unit(_rotvec_to_matrix(axis * s) @ n)
+                    sc = _platform_score(_plane(n2, offset), poses, scale=scale)
+                    if sc > best + 1e-5:
+                        best, n, improved = sc, n2, True
+    return best, n, offset
+
+
+def fit_platform(pose_a, pose_b, verbose=True, refine=True):
+    """Fit the plane (normal and offset: three degrees of freedom) to its green cross-section in both first-snapshot
+    images: a coarse grid over normals within PLATFORM_MAX_TILT of any room axis and offsets across the room is
+    scored by silhouette overlap (object pixels are neutral), and the best starts are descended with shrinking steps.
+    The normal's sign is not decided here (see _platform_sign). Returns the platform dict (velocity zero)."""
+    poses = (pose_a, pose_b)
+    scored = []
+    for n in _candidate_normals():
+        for offset in np.arange(-0.35, 0.3501, 0.07):
+            scored.append((_platform_score(_plane(n, offset), poses, scale=1), n, float(offset)))
+    scored.sort(key=lambda s: -s[0])
+    if not refine:
+        best, n, offset = _descend_plane(scored[0][1], scored[0][2], poses, ((0.03, 0.06), (0.015, 0.03)), scale=1)
+        return _plane(n, offset)
+    cands = [_descend_plane(n, offset, poses, ((0.03, 0.06), (0.015, 0.03), (0.0075, 0.015))) for _, n, offset in scored[:6]]
+    cands.sort(key=lambda s: -s[0])
+    best, n, offset = _descend_plane(cands[0][1], cands[0][2], poses, ((0.004, 0.008), (0.002, 0.004), (0.001, 0.002), (0.0005, 0.001)))
+    plat = _plane(n, offset)
+    if verbose:
+        c = plat["position"]
+        _out(f"platform plane: silhouette IoU {best:.3f}; point nearest the room centre ({c[0]:.3f}, {c[1]:.3f}, {c[2]:.3f}), normal ({n[0]:+.3f}, {n[1]:+.3f}, {n[2]:+.3f}) (sign decided by the objects)")
+    return plat
+
+
+def _platform_sign(platform, objects, pose_a):
+    """Flip the normal so that it points from the plane toward the objects (they rest on that side); with no
+    objects, toward camera A."""
+    c, d, n, e = _platform_frame(platform)
+    if objects:
+        side = sum(float((np.asarray(o["position"], dtype=float) - c) @ n) for o in objects)
+    else:
+        side = float((pose_a.position - c) @ n)
+    if side < 0:
+        return _platform_normalised({"position": c, "normal": -n, "axis": d, "velocity": platform.get("velocity", [0.0, 0.0, 0.0])})
+    return platform
+
+
+def _shifted(objects, shift):
+    out = []
+    for o in objects:
+        o2 = dict(o)
+        o2["position"] = [float(v) + float(s) for v, s in zip(o["position"], shift)]
+        out.append(o2)
+    return out
+
+
+def _motion_score(objects, poses, shift):
+    """How well the objects displaced by `shift` explain the second snapshots: their mean sub-pixel silhouette
+    overlap with the pixels of their colour, over both cameras (the plane itself looks the same in both snapshots)."""
+    vals = []
+    for pose in poses:
+        real = color_masks(load_image(pose.cam_id + "2"))
+        moved = _shifted(objects, shift)
+        for i, o in enumerate(moved):
+            others = [x for k, x in enumerate(moved) if k != i]
+            target = real[o["color"]] & ~render_masks(others, pose)[o["color"]] if others else real[o["color"]]
+            cov, win = render_soft(o, pose)
+            if cov is None:
+                continue
+            vals.append(_soft_iou(cov, target, win))
+    return float(np.mean(vals)) if vals else 0.0
+
+
+def _initial_displacement(objects, platform, pose_a, pose_b):
+    """First estimate of the objects' common displacement: each object's centre is projected into both cameras,
+    the nearest blob of its colour in each second snapshot is taken as where it went, and the two are
+    triangulated; the median over objects, projected into the plane, is the estimate."""
+    c, d, n, e = _platform_frame(platform)
+    deltas = []
+    for o in objects:
+        hits = []
+        for pose in (pose_a, pose_b):
+            pr = pose.project(o["position"])
+            if pr is None:
+                break
+            cands = [b for b in blobs(pose.cam_id + "2", verbose=False) if b["color"] == o["color"]]
+            if not cands:
+                break
+            b = min(cands, key=lambda b: math.hypot(b["centroid"][0] - pr[0], b["centroid"][1] - pr[1]))
+            if math.hypot(b["centroid"][0] - pr[0], b["centroid"][1] - pr[1]) > 150:
+                break
+            hits.append(b["centroid"])
+        if len(hits) == 2:
+            p2, gap = triangulate(pose_a, hits[0], pose_b, hits[1])
+            if gap < 0.08:
+                delta = p2 - np.asarray(o["position"], dtype=float)
+                deltas.append([float(delta @ d), float(delta @ e)])
+    if not deltas:
+        return 0.0, 0.0
+    med = np.median(np.array(deltas), axis=0)
+    return float(med[0]), float(med[1])
+
+
+def platform_displacement(objects, platform, pose_a, pose_b, verbose=True):
+    """Displacement of everything on the platform between the two snapshots, searched in the plane (the plane
+    itself is featureless, so only the objects show the motion): a blob-based first estimate, then coordinate
+    descent in the plane maximising the objects' silhouette overlap with the second snapshots. Returns the platform
+    with its velocity (displacement / SNAPSHOT_INTERVAL) and its axis along the motion."""
+    poses = (pose_a, pose_b)
+    c, d, n, e = _platform_frame(platform)
+    a, b = _initial_displacement(objects, platform, pose_a, pose_b)
+    score = lambda a, b: _motion_score(objects, poses, a * d + b * e)  # noqa: E731
+    best = score(a, b)
+    for step in (0.02, 0.01, 0.005, 0.002, 0.001, 0.0005):
+        improved = True
+        while improved:
+            improved = False
+            for da, db in ((step, 0), (-step, 0), (0, step), (0, -step)):
+                sc = score(a + da, b + db)
+                if sc > best + 1e-6:
+                    best, a, b, improved = sc, a + da, b + db, True
+    shift = a * d + b * e
+    velocity = shift / SNAPSHOT_INTERVAL
+    out = _platform_normalised({"position": platform["position"], "normal": platform["normal"], "axis": platform["axis"], "velocity": velocity})
+    if verbose:
+        _out(f"displacement between snapshots: {np.linalg.norm(shift):.4f} along ({shift[0]:+.3f}, {shift[1]:+.3f}, {shift[2]:+.3f}) -> velocity ({velocity[0]:+.4f}, {velocity[1]:+.4f}, {velocity[2]:+.4f}) units/s; second-snapshot object fit {best:.3f}")
+    return out
+
+
+def platform_info(platform, pose_a=None, pose_b=None):
+    """Print the plane's point nearest the room centre, normal and velocity, and the outline of its cross-section
+    with the room projected into each camera (to check against the images)."""
+    c, d, n, e = _platform_frame(platform)
+    _out(f"platform plane through ({c[0]:.3f}, {c[1]:.3f}, {c[2]:.3f}) (nearest the room centre), normal ({n[0]:+.3f}, {n[1]:+.3f}, {n[2]:+.3f}), velocity {[round(float(v), 4) for v in platform.get('velocity', [0, 0, 0])]} units/s")
+    poly = plane_polygon(platform)
+    for pose in (p for p in (pose_a, pose_b) if p is not None):
+        pts = [pose.project(k) for k in poly]
+        _out(f"  cross-section outline in camera {pose.cam_id}: " + ", ".join("(off-screen)" if p is None else f"({p[0]:.0f},{p[1]:.0f})" for p in pts))
+
+
+def solve_platform(shapes=None, verbose=True):
+    """One-shot pipeline for platform mode: outline -> cameras -> align -> plane -> blobs -> match -> hypothesis
+    (on the plane) -> shape check -> refine -> displacement/velocity -> compare. Prints everything you need to
+    review and the answer JSON under a banner; returns a dict with pose_a, pose_b, platform, blobs_a, blobs_b,
+    matches, objects, report."""
+    global _PLATFORM_MODE
+    t_start = time.time()
+    _PLATFORM_MODE = True
+    set_platform(None)
+    room_outline("A", verbose=verbose)
+    room_outline("B", verbose=verbose)
+    pa = solve_camera("A", verbose=verbose)
+    pb = solve_camera("B", verbose=verbose)
+    ba = blobs("A", verbose=verbose)
+    bb = blobs("B", verbose=verbose)
+    pb = align(pa, pb, ba, bb, verbose=verbose)
+    if verbose:
+        _out("platform:")
+    plat = fit_platform(pa, pb, verbose=verbose)
+    if verbose:
+        _out("matches (A blob <-> B blob):")
+    matches = auto_match(pa, pb, ba, bb, verbose=verbose)
+    if not matches:
+        raise RuntimeError("no blob pairs matched across the two views; check the outlines and blobs")
+    if shapes is None:
+        shapes = []
+        for m in matches:
+            circ = 0.5 * (ba[m["a"]]["circularity"] + bb[m["b"]]["circularity"])
+            shapes.append("sphere" if circ > 0.95 else "cube")
+    # unconstrained first hypothesis (the plane is not installed yet): it tells which side the objects are on
+    objs = initial_hypothesis(pa, pb, matches, shapes, ba, bb, verbose=False)
+    plat = _platform_sign(plat, objs, pa)
+    set_platform(plat)
+    objs = snap(objs)
+    if verbose:
+        _out("initial hypothesis (on the platform):")
+        for o in objs:
+            _out("  ", o)
+    objs = local_search(objs, pa, pb, passes=3, verbose=False)
+    if verbose:
+        _out("unpaired blobs:")
+    objs = explain_unpaired(objs, pa, pb, matches, ba, bb, verbose=verbose)
+    if verbose:
+        _out("shape check:")
+    # a cube on the platform has only a yaw free (not a full rotation), so it cannot mimic a disc the way a
+    # free cube can: it need not win by the wider static-mode margin
+    rec = shape_check(objs, pa, pb, cube_margin=0.03, shading_override=0.06, verbose=verbose)
+    objs = apply_shapes(objs, rec)
+    objs = snap(objs)
+    objs = local_search(objs, pa, pb, verbose=False)
+    before = objs
+    objs = refine_all_rotations(objs, pa, pb, verbose=False)
+    if any(a["size"] != b["size"] for a, b in zip(objs, before)):
+        objs = local_search(objs, pa, pb, passes=2, try_sizes=False, verbose=False)
+    if verbose:
+        _out("motion:")
+    plat = platform_displacement(objs, plat, pa, pb, verbose=verbose)
+    set_platform(plat)
+    objs = snap(objs)
+    _REFINED.add(to_json(objs))
+    if verbose:
+        _out("compare (first snapshot):")
+    report = compare(objs, pa, pb, verbose=verbose)
+    if verbose:
+        _out(f"platform silhouette IoU {_platform_score(plat, (pa, pb)):.3f} (first snapshot), second-snapshot object fit {_motion_score(objs, (pa, pb), np.asarray(plat['velocity']) * SNAPSHOT_INTERVAL):.3f}")
+        _print_answer(objs, report, first=True, platform=plat)
+        _out(f"(solve_platform took {time.time() - t_start:.1f} s)")
+    return {"pose_a": pa, "pose_b": pb, "platform": plat, "blobs_a": ba, "blobs_b": bb, "matches": matches, "objects": objs, "report": report}
+
+
+def finish_platform(objects, platform, pose_a, pose_b, verbose=True):
+    """After you have corrected the inventory: refine positions/sizes/yaws on the plane, re-measure the
+    displacement, verify, and print the answer. Objects exactly as solve_platform() (or a previous finish) returned
+    them are only verified again."""
+    global _PLATFORM_MODE, _REFINED
+    _PLATFORM_MODE = True
+    plat = set_platform(platform)
+    key = to_json(objects)
+    if key in _REFINED:
+        objs = [dict(o) for o in objects]
+    else:
+        objs = snap(objects)
+        objs = local_search(objs, pose_a, pose_b, verbose=False)
+        objs = refine_all_rotations(objs, pose_a, pose_b, verbose=False)
+        plat = platform_displacement(objs, plat, pose_a, pose_b, verbose=verbose)
+        set_platform(plat)
+        objs = snap(objs)
+        _REFINED.add(to_json(objs))
+    report = compare(objs, pose_a, pose_b, verbose=verbose)
+    if verbose:
+        _print_answer(objs, report, first=False, platform=plat)
+    platform.clear()
+    platform.update(plat)
+    return objs

@@ -1,4 +1,8 @@
-import type { Guess, Room, Score, ScoreObjectDetail, Vec3 } from "./types";
+import type { Guess, Room, Score, ScoreObjectDetail, ScorePlatformDetail, Vec3 } from "./types";
+import { SNAPSHOT_INTERVAL } from "./room";
+import { angleDeg, det, dot, eulerToMatrix, length, matMul, matVec, normalize, sub, transpose, type Mat3 } from "./vec";
+
+export { eulerToMatrix };
 
 // Tolerances for "exact" credit.
 export const POS_TOL = 0.03; // room units (room is 1 unit wide)
@@ -7,58 +11,20 @@ export const ORI_TOL = 10; // degrees
 const POS_ZERO = 0.35; // position error at which position credit reaches 0
 const ORI_ZERO = 45; // orientation error (degrees) at which orientation credit reaches 0
 
+// Platform mode: the platform's own credit (plane offset, normal, velocity), and its share of the total.
+export const PLATFORM_SHARE = 0.3;
+export const NORMAL_TOL = 5; // degrees
+const NORMAL_ZERO = 30;
+/** Velocity tolerance is stated as the displacement error over one snapshot interval (room units). */
+export const VELOCITY_TOL = 0.015;
+const VELOCITY_ZERO = 0.15;
+const PLATFORM_W = { position: 1 / 3, normal: 1 / 3, velocity: 1 / 3 };
+
 // Spheres: shape 20, colour 20, size 20, position 40. Cubes: position 30 + orientation 10.
 const W = { shape: 0.2, color: 0.2, size: 0.2, position: 0.4, cubePosition: 0.3, orientation: 0.1 };
 
-type Mat3 = [Vec3, Vec3, Vec3];
-
 function dist(a: Vec3, b: Vec3) {
   return Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
-}
-
-function matMul(a: Mat3, b: Mat3): Mat3 {
-  const r: Mat3 = [
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0],
-  ];
-  for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) r[i][j] = a[i][0] * b[0][j] + a[i][1] * b[1][j] + a[i][2] * b[2][j];
-  return r;
-}
-function transpose(a: Mat3): Mat3 {
-  return [
-    [a[0][0], a[1][0], a[2][0]],
-    [a[0][1], a[1][1], a[2][1]],
-    [a[0][2], a[1][2], a[2][2]],
-  ];
-}
-function det(a: Mat3): number {
-  return (
-    a[0][0] * (a[1][1] * a[2][2] - a[1][2] * a[2][1]) -
-    a[0][1] * (a[1][0] * a[2][2] - a[1][2] * a[2][0]) +
-    a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0])
-  );
-}
-
-/** Rotation matrix from Euler XYZ angles (radians), matching three.js: R = Rx * Ry * Rz. */
-export function eulerToMatrix([x, y, z]: Vec3): Mat3 {
-  const cx = Math.cos(x), sx = Math.sin(x), cy = Math.cos(y), sy = Math.sin(y), cz = Math.cos(z), sz = Math.sin(z);
-  const Rx: Mat3 = [
-    [1, 0, 0],
-    [0, cx, -sx],
-    [0, sx, cx],
-  ];
-  const Ry: Mat3 = [
-    [cy, 0, sy],
-    [0, 1, 0],
-    [-sy, 0, cy],
-  ];
-  const Rz: Mat3 = [
-    [cz, -sz, 0],
-    [sz, cz, 0],
-    [0, 0, 1],
-  ];
-  return matMul(Rx, matMul(Ry, Rz));
 }
 
 /** Angle (degrees) between two rotations. */
@@ -209,14 +175,47 @@ export function scoreGuess(room: Room, guess: Guess): Score {
         rotationMatrix: rot ? matMul(sym.matrix, matMul(rot, Mt)) : undefined,
       };
     });
-    const sc = scoreInFrame(room, transformed, sym.name);
+    const platform =
+      guess?.platform && isVec3(guess.platform.position) && isVec3(guess.platform.normal) && isVec3(guess.platform.velocity)
+        ? {
+            position: sym.apply(guess.platform.position),
+            normal: matVec(sym.matrix, guess.platform.normal),
+            velocity: matVec(sym.matrix, guess.platform.velocity),
+          }
+        : undefined;
+    const sc = scoreInFrame(room, transformed, sym.name, platform);
     if (!best || sc.total > best.total || (sc.exact && !best.exact)) best = sc;
     if (best.exact) break;
   }
   return best!;
 }
 
-function scoreInFrame(room: Room, guessed: GuessObj[], symmetry: string): Score {
+function isVec3(v: unknown): v is Vec3 {
+  return Array.isArray(v) && v.length === 3 && v.every((x) => Number.isFinite(x));
+}
+
+/** Platform credit (0..1) and its errors; a missing guess gets no credit. */
+function scorePlatform(truth: NonNullable<Room["platform"]>, guess: Guess["platform"] | undefined, interval: number): ScorePlatformDetail {
+  if (!guess) return { present: false, points: 0 };
+  // an infinite plane's only observable location is its offset along its normal
+  const nt = normalize(truth.normal);
+  const positionError = Math.abs(dot(nt, sub(guess.position, truth.position)));
+  const normalError = angleDeg(truth.normal, guess.normal);
+  const velocityError = length(sub(truth.velocity, guess.velocity));
+  const posPts = positionError <= POS_TOL ? 1 : Math.max(0, 1 - (positionError - POS_TOL) / POS_ZERO);
+  const nrmPts = normalError <= NORMAL_TOL ? 1 : Math.max(0, 1 - (normalError - NORMAL_TOL) / (NORMAL_ZERO - NORMAL_TOL));
+  const dispError = velocityError * interval;
+  const velPts = dispError <= VELOCITY_TOL ? 1 : Math.max(0, 1 - (dispError - VELOCITY_TOL) / VELOCITY_ZERO);
+  return {
+    present: true,
+    positionError,
+    normalError,
+    velocityError,
+    points: PLATFORM_W.position * posPts + PLATFORM_W.normal * nrmPts + PLATFORM_W.velocity * velPts,
+  };
+}
+
+function scoreInFrame(room: Room, guessed: GuessObj[], symmetry: string, platformGuess?: Guess["platform"]): Score {
   const truth = room.objects;
   const n = truth.length;
   const m = guessed.length;
@@ -239,8 +238,18 @@ function scoreInFrame(room: Room, guessed: GuessObj[], symmetry: string): Score 
   const raw = details.reduce((s, d) => s + d.points, 0) / Math.max(1, n);
   // Each extra object costs as much as one missing object.
   const penalised = Math.max(0, raw - extraGuesses / Math.max(1, n));
-  const total = Math.round(penalised * 1000) / 10;
+  // Platform mode: the platform carries PLATFORM_SHARE of the total, the objects the rest.
+  const platform = room.platform ? scorePlatform(room.platform, platformGuess, SNAPSHOT_INTERVAL) : undefined;
+  const combined = platform ? (1 - PLATFORM_SHARE) * penalised + PLATFORM_SHARE * platform.points : penalised;
+  const total = Math.round(combined * 1000) / 10;
+  const platformExact =
+    !platform ||
+    (platform.present &&
+      (platform.positionError ?? 1) <= POS_TOL &&
+      (platform.normalError ?? 180) <= NORMAL_TOL &&
+      (platform.velocityError ?? 1) * SNAPSHOT_INTERVAL <= VELOCITY_TOL);
   const exact =
+    platformExact &&
     extraGuesses === 0 &&
     details.every(
       (d) =>
@@ -251,7 +260,7 @@ function scoreInFrame(room: Room, guessed: GuessObj[], symmetry: string): Score 
         (d.positionError ?? 1) <= POS_TOL &&
         (d.orientationError === undefined ? truth[details.indexOf(d)].shape !== "cube" : d.orientationError <= ORI_TOL),
     );
-  return { total: exact ? 100 : Math.min(total, 99.9), exact, symmetry, countTruth: n, countGuess: m, details, extraGuesses };
+  return { total: exact ? 100 : Math.min(total, 99.9), exact, symmetry, countTruth: n, countGuess: m, details, extraGuesses, ...(platform ? { platform } : {}) };
 }
 
 /**

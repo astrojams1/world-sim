@@ -3,12 +3,13 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { addObjects, buildRoomScene, makeCamera, type SceneObject } from "@/lib/scene";
-import type { Room } from "@/lib/types";
+import { addContent, buildRoomScene, makeCamera, roomContent, type SceneContent } from "@/lib/scene";
+import { SNAPSHOT_INTERVAL } from "@/lib/room";
+import type { Platform, Room } from "@/lib/types";
 
 interface Props {
   room: Room;
-  guess?: SceneObject[] | null;
+  guess?: SceneContent | null;
   showTruth?: boolean;
 }
 
@@ -30,6 +31,14 @@ function makeLabel(text: string, color: string): THREE.Sprite {
   return sprite;
 }
 
+/** An arrow on the platform showing how far everything on it moves by the second snapshot. */
+function velocityArrow(platform: Platform, color: number): THREE.ArrowHelper {
+  const v = new THREE.Vector3(...platform.velocity);
+  const len = v.length() * SNAPSHOT_INTERVAL;
+  const origin = new THREE.Vector3(...platform.position).addScaledVector(new THREE.Vector3(...platform.normal), 0.01);
+  return new THREE.ArrowHelper(v.normalize(), origin, Math.max(len, 0.02), color, 0.03, 0.02);
+}
+
 export default function RoomViewer({ room, guess, showTruth = true }: Props) {
   const mountRef = useRef<HTMLDivElement>(null);
 
@@ -41,12 +50,19 @@ export default function RoomViewer({ room, guess, showTruth = true }: Props) {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.localClippingEnabled = true; // the platform plane is clipped to the room
     mount.appendChild(renderer.domElement);
 
     const scene = buildRoomScene(room);
     // Walls face inward, so the near walls are culled while orbiting and you can see inside.
-    if (showTruth) addObjects(scene, room.objects);
-    if (guess && guess.length) addObjects(scene, guess, { ghost: true });
+    if (showTruth) {
+      addContent(scene, roomContent(room));
+      if (room.platform) scene.add(velocityArrow(room.platform, 0xffffff));
+    }
+    if (guess && (guess.objects.length || guess.platform)) {
+      addContent(scene, guess, { ghost: true });
+      if (guess.platform) scene.add(velocityArrow(guess.platform, 0xffd166));
+    }
 
     // Camera frusta + labels
     for (const spec of room.cameras) {
@@ -78,13 +94,32 @@ export default function RoomViewer({ room, guess, showTruth = true }: Props) {
     controls.enableDamping = true;
     controls.minDistance = 0.3;
     controls.maxDistance = 6;
+    // On touch screens a one-finger vertical swipe scrolls the page; horizontal drags orbit and two fingers zoom.
+    renderer.domElement.style.touchAction = "pan-y";
+    let interacted = false;
+    controls.addEventListener("start", () => {
+      interacted = true;
+    });
+
+    /** Move the view camera back (along its current direction) until the whole room fits the canvas. */
+    const fit = () => {
+      const vfov = (viewCam.fov * Math.PI) / 180;
+      const hfov = 2 * Math.atan(Math.tan(vfov / 2) * viewCam.aspect);
+      const radius = 1.0; // the room plus a little margin, around the orbit target
+      const distance = radius / Math.sin(Math.min(vfov, hfov) / 2);
+      const dir = viewCam.position.clone().sub(controls.target).normalize();
+      viewCam.position.copy(controls.target).addScaledVector(dir, distance);
+    };
 
     const resize = () => {
       const w = mount.clientWidth;
       const h = mount.clientHeight;
-      renderer.setSize(w, h, false);
+      // updateStyle stays on: on a 2x/3x phone screen the drawing buffer is larger than the CSS box, and the
+      // canvas must still be laid out at the box's size or it overflows and looks zoomed in
+      renderer.setSize(w, h);
       viewCam.aspect = w / h;
       viewCam.updateProjectionMatrix();
+      if (!interacted) fit();
     };
     resize();
     const ro = new ResizeObserver(resize);

@@ -5,10 +5,11 @@
  *   npm run dev                                  # in another terminal, with OPENAI_API_KEY in .env.local
  *   npx playwright install chromium              # once
  *   node scripts/bench.mjs --label baseline [--seeds 101,102,...] [--model gpt-5-mini] [--effort medium] [--objects 8]
- *                          [--parallel 3] [--url http://localhost:3000] [--out bench/results]
+ *                          [--mode platform] [--parallel 3] [--url http://localhost:3000] [--out bench/results]
  *
  * Every request the page makes to /api/analyze is intercepted and checked: the body may contain only
- * { model, reasoningEffort, images:{A,B} } and the images must be exactly the data URLs shown in the page.
+ * { model, reasoningEffort, mode, images:{A,B[,A2,B2]} }, the mode must be the one selected, and the images must be
+ * exactly the data URLs shown in the page (two in static mode, four in platform mode).
  * Writes <out>/<label>.json with per-seed rows and a summary (score, exact matches, time, tokens, cost).
  */
 import fs from "node:fs";
@@ -29,6 +30,9 @@ const seeds = args.seeds ? args.seeds.split(",").map(Number) : BENCH_SEEDS;
 // Object count per room: unset = the default draw of 2-5 (the historical benchmark); a number is the capacity
 // dimension (every room gets exactly that many objects).
 const objects = args.objects ? Number(args.objects) : null;
+// Task mode: "static" (the historical benchmark) or "platform" (mode 2: objects on a moving platform, four images).
+const mode = args.mode ?? "static";
+const feedIds = mode === "platform" ? ["A", "B", "A2", "B2"] : ["A", "B"];
 const model = args.model ?? "gpt-5-mini";
 const effort = args.effort ?? "medium";
 const parallel = Number(args.parallel ?? 3);
@@ -59,7 +63,7 @@ function estimateCost(modelId, usage) {
   return (input * p.input + cached * p.cached + output * p.output) / 1e6 + CODE_INTERPRETER_SESSION_USD;
 }
 
-const ALLOWED_KEYS = new Set(["model", "reasoningEffort", "images"]);
+const ALLOWED_KEYS = new Set(["model", "reasoningEffort", "mode", "images"]);
 
 async function runSeed(browser, seed) {
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
@@ -75,18 +79,25 @@ async function runSeed(browser, seed) {
         violations.push("POST body is not JSON");
       }
       for (const k of Object.keys(body)) if (!ALLOWED_KEYS.has(k)) violations.push(`unexpected request field: ${k}`);
+      if ((body.mode ?? "static") !== mode) violations.push(`mode sent is ${body.mode}, expected ${mode}`);
       if (!shownFeeds) {
-        shownFeeds = await page.evaluate(() => ({
-          A: document.querySelector('img[alt="Camera A"]')?.getAttribute("src"),
-          B: document.querySelector('img[alt="Camera B"]')?.getAttribute("src"),
-        }));
+        shownFeeds = await page.evaluate(
+          (ids) => Object.fromEntries(ids.map((id) => [id, document.querySelector(`img[alt="Camera ${id}"]`)?.getAttribute("src")])),
+          feedIds,
+        );
       }
-      if (body.images?.A !== shownFeeds.A || body.images?.B !== shownFeeds.B) violations.push("images sent differ from the images shown");
+      const sent = Object.keys(body.images ?? {}).sort().join(",");
+      if (sent !== [...feedIds].sort().join(",")) violations.push(`images sent are [${sent}], expected [${feedIds}]`);
+      for (const id of feedIds) if (body.images?.[id] !== shownFeeds[id]) violations.push(`image ${id} sent differs from the image shown`);
     }
     await route.continue();
   });
   await page.goto(url, { waitUntil: "networkidle" });
   await page.waitForSelector('img[alt="Camera A"]', { timeout: 30000 });
+  if (mode !== "static") {
+    await page.selectOption('select[aria-label="Mode"]', mode);
+    await page.waitForTimeout(600);
+  }
   const seedInput = page.locator("input").first();
   await seedInput.fill(String(seed));
   await seedInput.press("Enter");
@@ -96,6 +107,7 @@ async function runSeed(browser, seed) {
     await page.waitForTimeout(600);
   }
   await page.waitForTimeout(600);
+  await page.waitForFunction((ids) => ids.every((id) => document.querySelector(`img[alt="Camera ${id}"]`)?.getAttribute("src")), feedIds, { timeout: 30000 });
   await page.selectOption('select[aria-label="Model"]', model);
   if (model.startsWith("gpt-5")) await page.selectOption('select[aria-label="Reasoning"]', effort);
   const t0 = Date.now();
@@ -118,6 +130,7 @@ async function runSeed(browser, seed) {
   const usage = result.usage ?? null;
   return {
     seed,
+    mode,
     objects: result.objects ?? null,
     score: result.score,
     exact: Boolean(result.exact),
@@ -166,6 +179,7 @@ const summary = {
   label,
   model,
   effort,
+  mode,
   seeds,
   objects,
   rooms: rows.length,
