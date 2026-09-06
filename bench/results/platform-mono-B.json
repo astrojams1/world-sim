@@ -1,0 +1,3351 @@
+[
+ {
+  "name": "101-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.494,
+     0.251,
+     0.49
+    ],
+    "normal": [
+     0.026,
+     0.999,
+     0.04
+    ],
+    "velocity": [
+     0.124,
+     0.003,
+     -0.161
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.15,
+     "position": [
+      0.611,
+      0.309,
+      0.834
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.736,
+      0.297,
+      0.425
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.179,
+      0.344,
+      0.249
+     ],
+     "rotation": [
+      -3.103,
+      0.029,
+      -3.116
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.508,
+     0.4932,
+     0.7548
+    ],
+    "normal": [
+     -0.0315,
+     0.0268,
+     -0.9991
+    ],
+    "velocity": [
+     0.1665,
+     0.1322,
+     -0.0017
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.7498,
+      0.182,
+      0.6637
+     ],
+     "rotation": [
+      -1.542,
+      -0.062,
+      0.0315
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.5803,
+      0.7425,
+      0.7092
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.15,
+     "position": [
+      0.1658,
+      0.6118,
+      0.6937
+     ],
+     "rotation": null
+    }
+   ]
+  },
+  "seconds": 6.4,
+  "error": null,
+  "plane_iou": 0.97,
+  "motion_fit": 0.858,
+  "blobs": 3,
+  "score": 100,
+  "exact": true,
+  "symmetry": "+y-z-x",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 2,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.0028231188426986148,
+    "points": 1
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.010429765098026013,
+    "points": 1
+   },
+   {
+    "truthId": 3,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.0083504490897196,
+    "orientationError": 2.0049907146965924,
+    "points": 1.0000000000000002
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.005734205867477249,
+   "normalError": 0.4890662251155517,
+   "velocityError": 0.009958915603618713,
+   "points": 1
+  }
+ },
+ {
+  "name": "102-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.495,
+     0.481,
+     0.495
+    ],
+    "normal": [
+     0.23,
+     0.942,
+     0.245
+    ],
+    "velocity": [
+     0.119,
+     -0.03,
+     0.003
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.478,
+      0.611,
+      0.421
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.144,
+      0.695,
+      0.207
+     ],
+     "rotation": [
+      -2.015,
+      -1.27,
+      -2.249
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.5065,
+     0.4939,
+     0.5255
+    ],
+    "normal": [
+     -0.2405,
+     0.2262,
+     -0.9439
+    ],
+    "velocity": [
+     -0.0055,
+     0.1241,
+     0.0312
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.8048,
+      0.1438,
+      0.3126
+     ],
+     "rotation": [
+      -1.2988,
+      -0.1474,
+      0.2456
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.5882,
+      0.4786,
+      0.3951
+     ],
+     "rotation": null
+    }
+   ]
+  },
+  "seconds": 5,
+  "error": null,
+  "plane_iou": 0.983,
+  "motion_fit": 0.928,
+  "blobs": 2,
+  "score": 100,
+  "exact": true,
+  "symmetry": "+y-z-x",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.01105486318323292,
+    "points": 1
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.014037093716293194,
+    "orientationError": 1.1801876711984516,
+    "points": 1.0000000000000002
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.006742525775408032,
+   "normalError": 0.35443544051442855,
+   "velocityError": 0.005805170109480003,
+   "points": 1
+  }
+ },
+ {
+  "name": "103-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.596,
+     0.312,
+     0.553
+    ],
+    "normal": [
+     -0.44,
+     0.864,
+     -0.245
+    ],
+    "velocity": [
+     0.128,
+     0.045,
+     -0.071
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.229,
+      0.259,
+      0.72
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.468,
+      0.369,
+      0.575
+     ],
+     "rotation": [
+      2.94,
+      0.151,
+      2.68
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.5963,
+     0.5536,
+     0.6927
+    ],
+    "normal": [
+     -0.434,
+     -0.2413,
+     -0.868
+    ],
+    "velocity": [
+     0.1307,
+     -0.0726,
+     -0.0452
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.465,
+      0.5814,
+      0.6354
+     ],
+     "rotation": [
+      -3.0527,
+      1.0954,
+      1.2477
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.233,
+      0.7217,
+      0.7412
+     ],
+     "rotation": null
+    }
+   ]
+  },
+  "seconds": 6.3,
+  "error": null,
+  "plane_iou": 0.984,
+  "motion_fit": 0.913,
+  "blobs": 2,
+  "score": 100,
+  "exact": true,
+  "symmetry": "+x-z+y",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.004350861983561409,
+    "points": 1
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.008325863318599493,
+    "orientationError": 0.532716427243857,
+    "points": 1.0000000000000002
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.00433953746592473,
+   "normalError": 0.46435348539917065,
+   "velocityError": 0.0031448370387032864,
+   "points": 1
+  }
+ },
+ {
+  "name": "104-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.421,
+     0.33,
+     0.57
+    ],
+    "normal": [
+     0.394,
+     0.85,
+     -0.349
+    ],
+    "velocity": [
+     0.025,
+     0.035,
+     0.115
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.157,
+      0.576,
+      0.659
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.671,
+      0.356,
+      0.775
+     ],
+     "rotation": [
+      -1.581,
+      -1.138,
+      -1.227
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.15,
+     "position": [
+      0.664,
+      0.269,
+      0.482
+     ],
+     "rotation": [
+      -0.782,
+      -0.733,
+      -0.559
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.578,
+     0.4289,
+     0.6716
+    ],
+    "normal": [
+     -0.3872,
+     0.3528,
+     -0.8518
+    ],
+    "velocity": [
+     -0.0345,
+     -0.1152,
+     -0.032
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.8475,
+      0.3443,
+      0.426
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.15,
+     "position": [
+      0.3133,
+      0.2021,
+      0.61
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.2,
+     "position": [
+      0.3187,
+      0.4911,
+      0.6979
+     ],
+     "rotation": null
+    }
+   ]
+  },
+  "seconds": 5.8,
+  "error": null,
+  "plane_iou": 0.969,
+  "motion_fit": 0.832,
+  "blobs": 3,
+  "score": 83,
+  "exact": false,
+  "symmetry": "-x-z-y",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.0059279001341116045,
+    "points": 1
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": false,
+    "colorOk": true,
+    "sizeError": 0.04999999999999999,
+    "positionError": 0.04389646910629602,
+    "points": 0.6374220740993654
+   },
+   {
+    "truthId": 3,
+    "matched": true,
+    "guessIndex": 2,
+    "shapeOk": false,
+    "colorOk": true,
+    "sizeError": 0.05000000000000002,
+    "positionError": 0.04602727452283051,
+    "points": 0.6355956694566214
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.0013502126104081196,
+   "normalError": 0.45798254284241935,
+   "velocityError": 0.009964436762808022,
+   "points": 1
+  }
+ },
+ {
+  "name": "105-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.503,
+     0.319,
+     0.503
+    ],
+    "normal": [
+     -0.019,
+     1,
+     -0.015
+    ],
+    "velocity": [
+     0.046,
+     -0.002,
+     -0.204
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.652,
+      0.425,
+      0.741
+     ],
+     "rotation": [
+      -0.014,
+      0.014,
+      0.019
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.311,
+      0.393,
+      0.664
+     ],
+     "rotation": [
+      0.001,
+      -0.679,
+      0.024
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.501,
+     0.5028,
+     0.6875
+    ],
+    "normal": [
+     -0.0055,
+     -0.015,
+     -0.9999
+    ],
+    "velocity": [
+     0.0444,
+     -0.2167,
+     0.003
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.647,
+      0.7528,
+      0.5829
+     ],
+     "rotation": [
+      -2.0669,
+      1.559,
+      0.4811
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.318,
+      0.6455,
+      0.5863
+     ],
+     "rotation": null
+    }
+   ]
+  },
+  "seconds": 6,
+  "error": null,
+  "plane_iou": 0.977,
+  "motion_fit": 0.882,
+  "blobs": 2,
+  "score": 87.7,
+  "exact": false,
+  "symmetry": "+x-z+y",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.015054899534702987,
+    "orientationError": 1.6027496895060442,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": false,
+    "colorOk": true,
+    "sizeError": 0.05000000000000002,
+    "positionError": 0.0286311019697112,
+    "points": 0.6493333333333333
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.006457108344342081,
+   "normalError": 0.7732467723717661,
+   "velocityError": 0.012839392508993578,
+   "points": 1
+  }
+ },
+ {
+  "name": "106-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.471,
+     0.385,
+     0.523
+    ],
+    "normal": [
+     0.237,
+     0.952,
+     -0.194
+    ],
+    "velocity": [
+     -0.171,
+     0.048,
+     0.027
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.688,
+      0.36,
+      0.277
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.317,
+      0.474,
+      0.386
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.15,
+     "position": [
+      0.461,
+      0.485,
+      0.613
+     ],
+     "rotation": [
+      -0.289,
+      -0.345,
+      -0.255
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.5254,
+     0.532,
+     0.6203
+    ],
+    "normal": [
+     -0.2002,
+     -0.2517,
+     -0.9469
+    ],
+    "velocity": [
+     0.0199,
+     0.1715,
+     -0.0498
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.15,
+     "position": [
+      0.6152,
+      0.5438,
+      0.5189
+     ],
+     "rotation": [
+      -1.7367,
+      -0.4303,
+      0.2221
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.2857,
+      0.3123,
+      0.6501
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.3865,
+      0.6857,
+      0.5295
+     ],
+     "rotation": null
+    }
+   ]
+  },
+  "seconds": 8.3,
+  "error": null,
+  "plane_iou": 0.97,
+  "motion_fit": 0.931,
+  "blobs": 3,
+  "score": 100,
+  "exact": true,
+  "symmetry": "-y-z+x",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.013333791658789323,
+    "points": 1
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 2,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.004448595283906992,
+    "points": 1
+   },
+   {
+    "truthId": 3,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.006564297372910505,
+    "orientationError": 2.101971700137569,
+    "points": 1.0000000000000002
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.0062218609178196806,
+   "normalError": 0.9596369240059637,
+   "velocityError": 0.0073416619371910585,
+   "points": 1
+  }
+ },
+ {
+  "name": "107-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.547,
+     0.69,
+     0.469
+    ],
+    "normal": [
+     0.235,
+     0.959,
+     -0.155
+    ],
+    "velocity": [
+     0.231,
+     -0.071,
+     -0.088
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.326,
+      0.827,
+      0.657
+     ],
+     "rotation": [
+      3.073,
+      -0.362,
+      -2.887
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.734,
+      0.745,
+      0.768
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.279,
+      0.798,
+      0.408
+     ],
+     "rotation": [
+      -2.505,
+      -1.244,
+      -2.319
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.664,
+      0.671,
+      0.207
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.685,
+     0.5442,
+     0.5295
+    ],
+    "normal": [
+     0.9612,
+     0.2295,
+     0.153
+    ],
+    "velocity": [
+     -0.0707,
+     0.2336,
+     0.0937
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.7406,
+      0.7308,
+      0.227
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.8223,
+      0.3159,
+      0.3365
+     ],
+     "rotation": [
+      -2.719,
+      0.0472,
+      -1.8464
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.6671,
+      0.6617,
+      0.7926
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.7898,
+      0.2787,
+      0.5963
+     ],
+     "rotation": [
+      -1.855,
+      -0.1825,
+      -1.7836
+     ]
+    }
+   ]
+  },
+  "seconds": 8.3,
+  "error": null,
+  "plane_iou": 0.974,
+  "motion_fit": 0.874,
+  "blobs": 4,
+  "score": 100,
+  "exact": true,
+  "symmetry": "+y+x-z",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.01289767420894165,
+    "orientationError": 3.5769501678178215,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.007389181280764438,
+    "points": 1
+   },
+   {
+    "truthId": 3,
+    "matched": true,
+    "guessIndex": 3,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.009263908462414868,
+    "orientationError": 1.1635650749456214,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 4,
+    "matched": true,
+    "guessIndex": 2,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.004545327270945461,
+    "points": 1
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.005688541338360279,
+   "normalError": 0.3570472756261773,
+   "velocityError": 0.006272160712226695,
+   "points": 1
+  }
+ },
+ {
+  "name": "108-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.5,
+     0.369,
+     0.5
+    ],
+    "normal": [
+     -0.001,
+     1,
+     -0.001
+    ],
+    "velocity": [
+     -0.105,
+     0,
+     0.155
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.364,
+      0.444,
+      0.166
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.555,
+      0.444,
+      0.597
+     ],
+     "rotation": [
+      -0.002,
+      0.816,
+      0.001
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.834,
+      0.419,
+      0.364
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.891,
+      0.419,
+      0.101
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.5003,
+     0.4996,
+     0.6345
+    ],
+    "normal": [
+     -0.0025,
+     0.0032,
+     -1
+    ],
+    "velocity": [
+     0.1461,
+     0.106,
+     0
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.6016,
+      0.4403,
+      0.5591
+     ],
+     "rotation": [
+      -1.5702,
+      0.7959,
+      0.0036
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.3653,
+      0.1678,
+      0.5838
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.1649,
+      0.6409,
+      0.5608
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.1016,
+      0.1105,
+      0.5843
+     ],
+     "rotation": null
+    }
+   ]
+  },
+  "seconds": 8,
+  "error": null,
+  "plane_iou": 0.976,
+  "motion_fit": 0.89,
+  "blobs": 4,
+  "score": 100,
+  "exact": true,
+  "symmetry": "-y-z+x",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 2,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.006946941773183356,
+    "points": 1
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.007270488291717417,
+    "orientationError": 1.1627460712276574,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 3,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.003573513677041068,
+    "points": 1
+   },
+   {
+    "truthId": 4,
+    "matched": true,
+    "guessIndex": 3,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.0036742346141748154,
+    "points": 1
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.003500696499305198,
+   "normalError": 0.15256055613349082,
+   "velocityError": 0.008956003573022949,
+   "points": 1
+  }
+ },
+ {
+  "name": "109-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.492,
+     0.274,
+     0.478
+    ],
+    "normal": [
+     0.033,
+     0.995,
+     0.097
+    ],
+    "velocity": [
+     -0.025,
+     0.016,
+     -0.16
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.803,
+      0.305,
+      0.84
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.38,
+      0.36,
+      0.403
+     ],
+     "rotation": [
+      0.144,
+      0.987,
+      -0.06
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.541,
+      0.344,
+      0.783
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.5249,
+     0.4896,
+     0.7259
+    ],
+    "normal": [
+     -0.1096,
+     0.0457,
+     -0.9929
+    ],
+    "velocity": [
+     0.1345,
+     0.0144,
+     -0.0142
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.607,
+      0.3574,
+      0.6352
+     ],
+     "rotation": [
+      -1.7059,
+      1.0213,
+      0.2114
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.2021,
+      0.6179,
+      0.6667
+     ],
+     "rotation": [
+      -1.7653,
+      1.1372,
+      0.2639
+     ]
+    }
+   ]
+  },
+  "seconds": 7.4,
+  "error": null,
+  "plane_iou": 0.97,
+  "motion_fit": 0.79,
+  "blobs": 2,
+  "score": 70.1,
+  "exact": false,
+  "symmetry": "+y-z-x",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": false,
+    "points": 0
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.025175384803414642,
+    "orientationError": 2.522280912815887,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 3,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": false,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.07905763720223363,
+    "points": 0.743934128911733
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.000260931775260001,
+   "normalError": 1.0318175311025641,
+   "velocityError": 0.04696647740676322,
+   "points": 0.9811483584369297
+  }
+ },
+ {
+  "name": "110-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.479,
+     0.548,
+     0.53
+    ],
+    "normal": [
+     -0.351,
+     0.799,
+     0.488
+    ],
+    "velocity": [
+     -0.05,
+     0.135,
+     -0.257
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.444,
+      0.631,
+      0.523
+     ],
+     "rotation": [
+      0.252,
+      0.661,
+      0.461
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.754,
+      0.653,
+      0.761
+     ],
+     "rotation": [
+      -2.49,
+      0.268,
+      2.769
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.168,
+      0.517,
+      0.46
+     ],
+     "rotation": [
+      -0.435,
+      1.148,
+      1.025
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.4817,
+     0.5256,
+     0.4592
+    ],
+    "normal": [
+     -0.3546,
+     0.4978,
+     -0.7915
+    ],
+    "velocity": [
+     0.337,
+     -1.094,
+     -0.8391
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.3828,
+      0.8384,
+      0.5739
+     ],
+     "rotation": [
+      -3.0737,
+      1.1642,
+      2.0297
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.0763,
+      0.6817,
+      0.6758
+     ],
+     "rotation": [
+      -2.4917,
+      1.207,
+      1.4882
+     ]
+    }
+   ]
+  },
+  "seconds": 6.3,
+  "error": null,
+  "plane_iou": 0.887,
+  "motion_fit": 0.371,
+  "blobs": 3,
+  "score": 52.9,
+  "exact": false,
+  "symmetry": "+x-z+y",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": false,
+    "points": 0
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.441886648361319,
+    "orientationError": 26.97359755279949,
+    "points": 0.6515040069920015
+   },
+   {
+    "truthId": 3,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.30778502237763283,
+    "orientationError": 11.104234280895534,
+    "points": 0.7587435971594705
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.008848823872002271,
+   "normalError": 0.7365421461691892,
+   "velocityError": 1.1602132605689353,
+   "points": 0.6666666666666666
+  }
+ },
+ {
+  "name": "201-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.497,
+     0.399,
+     0.488
+    ],
+    "normal": [
+     0.033,
+     0.993,
+     0.114
+    ],
+    "velocity": [
+     0.023,
+     -0.019,
+     0.157
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.2,
+     "position": [
+      0.309,
+      0.536,
+      0.227
+     ],
+     "rotation": [
+      -3,
+      -0.665,
+      -3.1
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.15,
+     "position": [
+      0.691,
+      0.435,
+      0.769
+     ],
+     "rotation": [
+      0.121,
+      0.157,
+      -0.033
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.548,
+      0.448,
+      0.486
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.5033,
+     0.5116,
+     0.6048
+    ],
+    "normal": [
+     -0.0309,
+     -0.1102,
+     -0.9934
+    ],
+    "velocity": [
+     -0.0299,
+     -0.1629,
+     0.019
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.2,
+     "position": [
+      0.6918,
+      0.7889,
+      0.4675
+     ],
+     "rotation": [
+      1.5037,
+      0.9523,
+      3.0883
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.4512,
+      0.5196,
+      0.5552
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.15,
+     "position": [
+      0.3092,
+      0.2326,
+      0.5663
+     ],
+     "rotation": [
+      1.4558,
+      -0.1426,
+      3.1104
+     ]
+    }
+   ]
+  },
+  "seconds": 8.1,
+  "error": null,
+  "plane_iou": 0.968,
+  "motion_fit": 0.914,
+  "blobs": 3,
+  "score": 100,
+  "exact": true,
+  "symmetry": "-x-z-y",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.016300306745580036,
+    "orientationError": 2.7561452899594823,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 2,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.002071231517720835,
+    "orientationError": 0.8939448034446228,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 3,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.006499230723708723,
+    "points": 1
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.0037374495992650216,
+   "normalError": 0.24974735365107004,
+   "velocityError": 0.009078546139112796,
+   "points": 1
+  }
+ },
+ {
+  "name": "202-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.509,
+     0.409,
+     0.464
+    ],
+    "normal": [
+     -0.089,
+     0.925,
+     0.37
+    ],
+    "velocity": [
+     0.121,
+     0.004,
+     0.02
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.378,
+      0.376,
+      0.649
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.2,
+     "position": [
+      0.317,
+      0.533,
+      0.377
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.4075,
+     0.4906,
+     0.4632
+    ],
+    "normal": [
+     0.9249,
+     0.0938,
+     0.3685
+    ],
+    "velocity": [
+     0.001,
+     -0.125,
+     0.0292
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.2,
+     "position": [
+      0.533,
+      0.6819,
+      0.3709
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.3755,
+      0.6214,
+      0.6458
+     ],
+     "rotation": null
+    }
+   ]
+  },
+  "seconds": 7.2,
+  "error": null,
+  "plane_iou": 0.987,
+  "motion_fit": 0.905,
+  "blobs": 2,
+  "score": 100,
+  "exact": true,
+  "symmetry": "-y+x+z",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.00329393381840011,
+    "points": 1
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.006198386886924697,
+    "points": 1
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.0017187167688860598,
+   "normalError": 0.2879130131145025,
+   "velocityError": 0.010470912090166741,
+   "points": 1
+  }
+ },
+ {
+  "name": "203-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.61,
+     0.639,
+     0.474
+    ],
+    "normal": [
+     0.612,
+     0.777,
+     -0.147
+    ],
+    "velocity": [
+     0.094,
+     -0.117,
+     -0.225
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.695,
+      0.674,
+      0.672
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.711,
+      0.612,
+      0.41
+     ],
+     "rotation": [
+      3.106,
+      -0.194,
+      -2.468
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.588,
+      0.743,
+      0.591
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.82,
+      0.604,
+      0.82
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.6049,
+     0.4747,
+     0.3706
+    ],
+    "normal": [
+     0.6228,
+     -0.1501,
+     -0.7678
+    ],
+    "velocity": [
+     0.0796,
+     -0.236,
+     0.1107
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.6958,
+      0.3991,
+      0.3615
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.7836,
+      0.7739,
+      0.3919
+     ],
+     "rotation": [
+      0.6423,
+      0.7003,
+      -2.1897
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.5999,
+      0.6051,
+      0.2759
+     ],
+     "rotation": null
+    }
+   ]
+  },
+  "seconds": 6.1,
+  "error": null,
+  "plane_iou": 0.976,
+  "motion_fit": 0.692,
+  "blobs": 3,
+  "score": 72.6,
+  "exact": false,
+  "symmetry": "+x-z+y",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0.04999999999999999,
+    "positionError": 0.2752004723833155,
+    "points": 0.6691042220381156
+   },
+   {
+    "truthId": 2,
+    "matched": false,
+    "points": 0
+   },
+   {
+    "truthId": 3,
+    "matched": true,
+    "guessIndex": 2,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.02641268634576956,
+    "points": 1
+   },
+   {
+    "truthId": 4,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": false,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.058881066566426866,
+    "points": 0.7669930667812265
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.010683930370488379,
+   "normalError": 0.8320984260657308,
+   "velocityError": 0.019184629264074913,
+   "points": 1
+  }
+ },
+ {
+  "name": "204-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.5,
+     0.504,
+     0.499
+    ],
+    "normal": [
+     0.007,
+     0.964,
+     -0.267
+    ],
+    "velocity": [
+     -0.229,
+     -0.012,
+     -0.05
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.701,
+      0.666,
+      0.714
+     ],
+     "rotation": [
+      2.879,
+      -0.781,
+      -3.132
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.299,
+      0.634,
+      0.682
+     ],
+     "rotation": [
+      -0.276,
+      -0.666,
+      -0.009
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.479,
+      0.455,
+      0.135
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.484,
+      0.51,
+      0.334
+     ],
+     "rotation": [
+      2.886,
+      -1.092,
+      -3.126
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "normal": [
+     0.2697,
+     0.011,
+     -0.9629
+    ],
+    "velocity": [
+     0.0455,
+     -0.2333,
+     0.0101
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.8653,
+      0.4832,
+      0.5502
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.6628,
+      0.4841,
+      0.4935
+     ],
+     "rotation": [
+      1.4446,
+      0.4554,
+      -2.8366
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.2845,
+      0.7002,
+      0.3381
+     ],
+     "rotation": [
+      1.3225,
+      0.7421,
+      -2.767
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.3171,
+      0.3029,
+      0.3686
+     ],
+     "rotation": [
+      1.3704,
+      0.6441,
+      -2.7976
+     ]
+    }
+   ]
+  },
+  "seconds": 9,
+  "error": null,
+  "plane_iou": 0.97,
+  "motion_fit": 0.921,
+  "blobs": 4,
+  "score": 100,
+  "exact": true,
+  "symmetry": "+y-z-x",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 2,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.004438468204234528,
+    "orientationError": 0.9088114743226103,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 3,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.004772839825512729,
+    "orientationError": 0.36536803288764713,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 3,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.006691038783328093,
+    "points": 1
+   },
+   {
+    "truthId": 4,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.0047434164902526365,
+    "orientationError": 0.5226079323149001,
+    "points": 1.0000000000000002
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.004121693630146061,
+   "normalError": 0.28303396810599046,
+   "velocityError": 0.006507687761409579,
+   "points": 1
+  }
+ },
+ {
+  "name": "205-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.495,
+     0.642,
+     0.44
+    ],
+    "normal": [
+     -0.03,
+     0.922,
+     -0.387
+    ],
+    "velocity": [
+     0.064,
+     0.05,
+     0.113
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.157,
+      0.637,
+      0.326
+     ],
+     "rotation": [
+      -0.389,
+      -0.331,
+      0.032
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.15,
+     "position": [
+      0.536,
+      0.66,
+      0.286
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.382,
+      0.685,
+      0.424
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.4956,
+     0.4418,
+     0.3656
+    ],
+    "normal": [
+     -0.03,
+     -0.3976,
+     -0.9171
+    ],
+    "velocity": [
+     0.0615,
+     0.1151,
+     -0.0519
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.15,
+     "position": [
+      0.539,
+      0.2876,
+      0.3493
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.3816,
+      0.4253,
+      0.322
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.1525,
+      0.3252,
+      0.3729
+     ],
+     "rotation": [
+      -1.9698,
+      -0.3245,
+      0.0316
+     ]
+    }
+   ]
+  },
+  "seconds": 6.8,
+  "error": null,
+  "plane_iou": 0.979,
+  "motion_fit": 0.893,
+  "blobs": 3,
+  "score": 100,
+  "exact": true,
+  "symmetry": "+x-z+y",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 2,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.010904127658827218,
+    "orientationError": 0.6777072685145834,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.009902019995940207,
+    "points": 1
+   },
+   {
+    "truthId": 3,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.007130918594402947,
+    "points": 1
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.007718894383144144,
+   "normalError": 0.6686583596259985,
+   "velocityError": 0.0037775653535048167,
+   "points": 1
+  }
+ },
+ {
+  "name": "206-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.552,
+     0.61,
+     0.513
+    ],
+    "normal": [
+     0.429,
+     0.897,
+     0.104
+    ],
+    "velocity": [
+     0.154,
+     -0.05,
+     -0.204
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.564,
+      0.675,
+      0.379
+     ],
+     "rotation": [
+      -0.222,
+      -0.609,
+      -0.551
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.207,
+      0.853,
+      0.321
+     ],
+     "rotation": [
+      -0.048,
+      -0.33,
+      -0.471
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.428,
+      0.755,
+      0.256
+     ],
+     "rotation": [
+      -1.307,
+      -1.123,
+      -1.437
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.4487,
+     0.395,
+     0.5123
+    ],
+    "normal": [
+     -0.4366,
+     -0.8936,
+     0.1046
+    ],
+    "velocity": [
+     -0.1589,
+     0.0536,
+     -0.205
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "blue",
+     "size": 0.15,
+     "position": [
+      0.4339,
+      0.3008,
+      0.3631
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.5781,
+      0.245,
+      0.2491
+     ],
+     "rotation": [
+      -2.038,
+      -1.0939,
+      1.2566
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.7973,
+      0.1468,
+      0.3247
+     ],
+     "rotation": [
+      -1.2368,
+      -1.0764,
+      1.9734
+     ]
+    }
+   ]
+  },
+  "seconds": 7.2,
+  "error": null,
+  "plane_iou": 0.975,
+  "motion_fit": 0.855,
+  "blobs": 3,
+  "score": 91.8,
+  "exact": false,
+  "symmetry": "-x-y+z",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": false,
+    "colorOk": true,
+    "sizeError": 0.04999999999999999,
+    "positionError": 0.0290320512537437,
+    "points": 0.6493333333333333
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 2,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.0056762663785273355,
+    "orientationError": 9.137975043026914,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 3,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.009209777413162572,
+    "orientationError": 5.451114411851693,
+    "points": 1.0000000000000002
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.004859397632424942,
+   "normalError": 0.47800396441275755,
+   "velocityError": 0.00616198020120157,
+   "points": 1
+  }
+ },
+ {
+  "name": "207-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.537,
+     0.287,
+     0.406
+    ],
+    "normal": [
+     -0.158,
+     0.904,
+     0.398
+    ],
+    "velocity": [
+     0.224,
+     -0.04,
+     0.18
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.722,
+      0.427,
+      0.288
+     ],
+     "rotation": [
+      2.612,
+      -1.376,
+      2.189
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.15,
+     "position": [
+      0.425,
+      0.321,
+      0.472
+     ],
+     "rotation": [
+      -1.988,
+      1.337,
+      2.39
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.328,
+      0.394,
+      0.206
+     ],
+     "rotation": [
+      0.536,
+      -0.647,
+      0.199
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.4631,
+     0.5948,
+     0.7174
+    ],
+    "normal": [
+     0.1536,
+     -0.3951,
+     -0.9057
+    ],
+    "velocity": [
+     -0.223,
+     -0.1856,
+     0.0432
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.6678,
+      0.8009,
+      0.607
+     ],
+     "rotation": [
+      1.3393,
+      -0.8552,
+      -2.9052
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.15,
+     "position": [
+      0.5729,
+      0.5265,
+      0.683
+     ],
+     "rotation": [
+      1.1849,
+      -0.162,
+      -2.9853
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.2734,
+      0.7175,
+      0.5765
+     ],
+     "rotation": [
+      1.1362,
+      0.1484,
+      -2.9856
+     ]
+    }
+   ]
+  },
+  "seconds": 8.2,
+  "error": null,
+  "plane_iou": 0.978,
+  "motion_fit": 0.885,
+  "blobs": 3,
+  "score": 100,
+  "exact": true,
+  "symmetry": "-x-z-y",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 2,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.00797872170212751,
+    "orientationError": 2.077890875713031,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.00476025209416485,
+    "orientationError": 0.5688567047030123,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 3,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.008139410298049817,
+    "orientationError": 2.5676275952333647,
+    "points": 1.0000000000000002
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.004278950728754191,
+   "normalError": 0.31675277078193476,
+   "velocityError": 0.006526867548832284,
+   "points": 1
+  }
+ },
+ {
+  "name": "208-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.52,
+     0.453,
+     0.511
+    ],
+    "normal": [
+     -0.377,
+     0.902,
+     -0.21
+    ],
+    "velocity": [
+     0.251,
+     0.116,
+     0.047
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.534,
+      0.525,
+      0.557
+     ],
+     "rotation": [
+      1.95,
+      -1.11,
+      2.129
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.256,
+      0.362,
+      0.354
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.4772,
+     0.4459,
+     0.4877
+    ],
+    "normal": [
+     0.3808,
+     0.9015,
+     0.2057
+    ],
+    "velocity": [
+     -0.2472,
+     0.1157,
+     -0.0497
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.1,
+     "position": [
+      0.4641,
+      0.5172,
+      0.4424
+     ],
+     "rotation": [
+      -2.9759,
+      0.1415,
+      -2.7468
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.7412,
+      0.3546,
+      0.6421
+     ],
+     "rotation": null
+    }
+   ]
+  },
+  "seconds": 5.7,
+  "error": null,
+  "plane_iou": 0.985,
+  "motion_fit": 0.885,
+  "blobs": 2,
+  "score": 100,
+  "exact": true,
+  "symmetry": "-x+y-z",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.00805046582503152,
+    "orientationError": 5.85664725114241,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.00882099767600013,
+    "points": 1
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.007733445769683734,
+   "normalError": 0.3300028611586018,
+   "velocityError": 0.004671188285650664,
+   "points": 1
+  }
+ },
+ {
+  "name": "209-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.563,
+     0.699,
+     0.406
+    ],
+    "normal": [
+     0.274,
+     0.87,
+     -0.41
+    ],
+    "velocity": [
+     -0.13,
+     0.125,
+     0.179
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.808,
+      0.668,
+      0.321
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.586,
+      0.711,
+      0.201
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.4033,
+     0.2743,
+     0.563
+    ],
+    "normal": [
+     -0.3815,
+     -0.8903,
+     0.2486
+    ],
+    "velocity": [
+     0.1589,
+     -0.091,
+     -0.0823
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.2,
+     "position": [
+      0.2363,
+      0.2221,
+      0.5219
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.3551,
+      0.2559,
+      0.7247
+     ],
+     "rotation": null
+    }
+   ]
+  },
+  "seconds": 4.7,
+  "error": null,
+  "plane_iou": 0.892,
+  "motion_fit": 0.888,
+  "blobs": 2,
+  "score": 92.7,
+  "exact": false,
+  "symmetry": "+z-y+x",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.11786818909273188,
+    "points": 0.8995792124654494
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.09914892838553527,
+    "points": 0.9209726532736742
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.0243350752847085,
+   "normalError": 2.477496384312538,
+   "velocityError": 0.061929798966248874,
+   "points": 0.9645224455930568
+  }
+ },
+ {
+  "name": "210-p",
+  "camera": "B",
+  "truth": {
+   "platform": {
+    "position": [
+     0.496,
+     0.313,
+     0.506
+    ],
+    "normal": [
+     0.024,
+     0.999,
+     -0.033
+    ],
+    "velocity": [
+     0.135,
+     0.001,
+     0.137
+    ]
+   },
+   "objects": [
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.2,
+     "position": [
+      0.638,
+      0.416,
+      0.716
+     ],
+     "rotation": [
+      -0.022,
+      0.393,
+      -0.026
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.321,
+      0.393,
+      0.537
+     ]
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.358,
+      0.385,
+      0.29
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.747,
+      0.347,
+      0.188
+     ],
+     "rotation": [
+      3.012,
+      1.32,
+      -3.045
+     ]
+    }
+   ]
+  },
+  "guess": {
+   "platform": {
+    "position": [
+     0.4916,
+     0.4967,
+     0.6998
+    ],
+    "normal": [
+     0.0418,
+     0.0165,
+     -0.999
+    ],
+    "velocity": [
+     -0.1386,
+     0.1395,
+     -0.0035
+    ]
+   },
+   "objects": [
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.7179,
+      0.3623,
+      0.632
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "sphere",
+     "color": "red",
+     "size": 0.15,
+     "position": [
+      0.4685,
+      0.3246,
+      0.6209
+     ],
+     "rotation": null
+    },
+    {
+     "shape": "cube",
+     "color": "red",
+     "size": 0.1,
+     "position": [
+      0.8118,
+      0.7563,
+      0.6674
+     ],
+     "rotation": [
+      -1.7312,
+      -1.3374,
+      -0.1818
+     ]
+    },
+    {
+     "shape": "cube",
+     "color": "blue",
+     "size": 0.2,
+     "position": [
+      0.2921,
+      0.6457,
+      0.5938
+     ],
+     "rotation": [
+      -1.6508,
+      -1.1611,
+      -0.1051
+     ]
+    }
+   ]
+  },
+  "seconds": 6.5,
+  "error": null,
+  "plane_iou": 0.962,
+  "motion_fit": 0.913,
+  "blobs": 4,
+  "score": 100,
+  "exact": true,
+  "symmetry": "+y-z-x",
+  "extraGuesses": 0,
+  "details": [
+   {
+    "truthId": 1,
+    "matched": true,
+    "guessIndex": 3,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.014864050591948352,
+    "orientationError": 1.1179973427935679,
+    "points": 1.0000000000000002
+   },
+   {
+    "truthId": 2,
+    "matched": true,
+    "guessIndex": 1,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.015375955254877702,
+    "points": 1
+   },
+   {
+    "truthId": 3,
+    "matched": true,
+    "guessIndex": 0,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.019232784509789533,
+    "points": 1
+   },
+   {
+    "truthId": 4,
+    "matched": true,
+    "guessIndex": 2,
+    "shapeOk": true,
+    "colorOk": true,
+    "sizeError": 0,
+    "positionError": 0.017143220234250002,
+    "orientationError": 1.2360625555705045,
+    "points": 1.0000000000000002
+   }
+  ],
+  "platform": {
+   "present": true,
+   "positionError": 0.01285174642089338,
+   "normalError": 0.6624567302780923,
+   "velocityError": 0.0053907327887774215,
+   "points": 1
+  }
+ }
+]
