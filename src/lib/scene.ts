@@ -67,8 +67,12 @@ export function buildRoomScene(room: Room): THREE.Scene {
   sun.shadow.camera.bottom = -1;
   sun.shadow.camera.near = 0.5;
   sun.shadow.camera.far = 6;
-  sun.shadow.bias = -0.0005;
-  sun.shadow.normalBias = 0.01;
+  // The shadow map spans 2 units at 2048 texels (about 0.001 units per texel). The normal bias pushes each receiver
+  // sample along its normal to avoid acne; a few texels suffice. A large one (0.01, half a small object's radius)
+  // lifts the sample points near a contact out of the occluder's shadow and leaves a lit gap between an object
+  // resting on the platform and its shadow.
+  sun.shadow.bias = -0.0002;
+  sun.shadow.normalBias = 0.002;
   scene.add(sun);
   scene.add(sun.target);
 
