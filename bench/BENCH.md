@@ -66,6 +66,7 @@ floor rows are the helper alone.
 | 2-4 | platform-offline-1 (offline, 201-210) | 100.0 | 10 | 17.7 | helper alone |
 | 2-4 | platform-1 | 100 | 10 | 38.1 | first API run (gpt-5-mini, low): 8062 tokens, $0.032/room; every room one cell, answer copied verbatim |
 | 2-4 | platform-1-confirm | 100 | 10 | 36.6 | **mode-2 record** (two-run mean 100.0): 7971 tokens, $0.032/room |
+| 2-4 | shadow-fix (offline, 101-110 + 201-210) | 100.0 | 20 | 21 | renderer only: the sun's shadow normal bias 0.01 -> 0.002 (and bias -0.0005 -> -0.0002) removes the lit gap between an object resting on the plane and its shadow. Helper unchanged; offline floor 100.0 on all 20 rooms. Mode 1 on freshly rendered rooms 101-110 + 201-210: 99.5 mean before and after (13 -> 14 exact; 104 exact, 108's hidden-cube orientation 18 -> 28 deg). The committed paper rooms keep the old shadows. |
 
 ### Experiment: one camera instead of two (mode 2 unchanged)
 
