@@ -64,6 +64,7 @@ export default function App() {
   const [status, setStatus] = useState<string>("");
   const [liveRuns, setLiveRuns] = useState<CodeRun[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [showGuess, setShowGuess] = useState(true);
   const [showTruth, setShowTruth] = useState(true);
@@ -100,6 +101,7 @@ export default function App() {
     if (!feeds || running) return;
     setRunning(true);
     setError(null);
+    setNotice(null);
     setResult(null);
     setLiveRuns([]);
     abortRef.current = false;
@@ -117,6 +119,12 @@ export default function App() {
         }),
       });
       const start = await res.json();
+      if (start.limited) {
+        // Daily free-run limit reached: a friendly notice, not an error.
+        setStatus("");
+        setNotice(start.error);
+        return;
+      }
       if (!res.ok) throw new Error(start.error ?? `HTTP ${res.status}`);
       const id: string = start.responseId;
 
@@ -340,6 +348,7 @@ export default function App() {
         {status && <span className="ml-auto font-medium">{status}</span>}
       </section>
 
+      {notice && <div className="rounded-lg border border-sky-500/50 bg-sky-500/10 p-3 text-sm text-sky-200">{notice}</div>}
       {error && <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-3 text-sm text-red-300">{error}</div>}
 
       {result && (

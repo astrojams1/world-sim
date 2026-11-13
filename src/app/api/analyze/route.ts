@@ -4,6 +4,9 @@ import { buildSystemPrompt, buildUserText, GUESS_SCHEMA, SANDBOX_FILES, SESSION_
 import { WORLDSIM_PY } from "@/lib/sandbox/worldsim_py";
 import { ALLOWED_MODELS, type ModelId } from "@/lib/models";
 import type { Guess } from "@/lib/types";
+import { reserve, LIMIT_MESSAGES } from "@/lib/spend-limit";
+import { SPEND_LIMITS, runEstimateUsd } from "@/lib/spend-config";
+import { spendStore, visitorKey } from "@/lib/spend-store";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -47,6 +50,14 @@ export async function POST(req: NextRequest) {
   }
   if (!body.images?.A?.startsWith("data:image/jpeg") || !body.images?.B?.startsWith("data:image/jpeg")) {
     return Response.json({ error: "Two JPEG camera images are required." }, { status: 400 });
+  }
+
+  const store = spendStore();
+  const decision = store
+    ? await reserve(store, SPEND_LIMITS, visitorKey(req.headers), { usd: runEstimateUsd(body.model, body.reasoningEffort), run: true })
+    : ({ ok: false, reason: "unavailable", message: LIMIT_MESSAGES.unavailable } as const);
+  if (!decision.ok) {
+    return Response.json({ limited: true, reason: decision.reason, error: decision.message }, { status: 429 });
   }
 
   const client = new OpenAI({ apiKey });
