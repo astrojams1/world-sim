@@ -39,6 +39,16 @@ The client uploads the feeds, starts a background response and polls for the res
 
 Default is `gpt-5-mini` (cheap, accepts images, has built-in reasoning, uses the sandbox reliably). `gpt-5.4-mini`, `gpt-5-nano`, `gpt-4.1-mini` and `gpt-4o-mini` are selectable. Reasoning effort applies to the gpt-5 family and defaults to `low`: on the benchmark, low effort scores the same as medium at roughly half the time and 30% fewer tokens. A run takes roughly 15-40 s and about 3 cents (model tokens plus one code-interpreter session); the benchmark record is in `bench/BENCH.md`.
 
+## Free-run limits (public site)
+
+Each **Analyze** run spends the owner's OpenAI credit, so the public deployment caps it (set 2026-11-12, when the site was first marketed):
+
+- **3 runs per visitor per UTC day** (visitor = SHA-256 of IP + day; raw IPs are never stored).
+- **$2.00 per UTC day for the whole site.** One default run (gpt-5-mini, low effort) costs about **$0.032** (~6,300 tokens at $0.25/$2.00 per 1M plus a $0.03 code-interpreter session; `bench/BENCH.md`, OpenAI pricing page 2026-11-12). Each run reserves $0.05 (or $0.10 for medium/high effort or gpt-5.4-mini) against the ceiling, so $2 allows 20-40 runs a day. Before marketing the site cost cents a day; $2 keeps a stranger or a bot from running up more than that.
+- When a limit is hit the page shows "Today's free runs are used up. Come back tomorrow!" instead of an error.
+
+The counter is one JSON file per day in a private Vercel Blob store (`world-sim-spend`, written with conditional `ifMatch` writes, `src/lib/spend-limit.ts`, `src/lib/spend-store.ts`). Change the numbers in `src/lib/spend-config.ts` or with the Vercel env vars `DAILY_CEILING_USD` and `PER_VISITOR_RUNS`. Without `BLOB_READ_WRITE_TOKEN` a production deployment refuses paid runs (fails closed); local `npm run dev` and the bench use an in-memory counter. `npm test` runs the limit tests.
+
 ## Running locally
 
 ```bash
