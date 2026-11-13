@@ -4,6 +4,9 @@ import { buildSystemPrompt, buildUserText, guessSchema, imageIdsForMode, SANDBOX
 import { WORLDSIM_PY } from "@/lib/sandbox/worldsim_py";
 import { ALLOWED_MODELS, type ModelId } from "@/lib/models";
 import { MODES, type Guess, type Mode, type Vec3 } from "@/lib/types";
+import { reserve, LIMIT_MESSAGES } from "@/lib/spend-limit";
+import { BENCH_LIMITS, BENCH_HEADER, SPEND_LIMITS, runEstimateUsd } from "@/lib/spend-config";
+import { spendStore, visitorKey } from "@/lib/spend-store";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -52,6 +55,17 @@ export async function POST(req: NextRequest) {
   const ids = imageIdsForMode(mode);
   if (!ids.every((id) => body.images?.[id]?.startsWith("data:image/jpeg"))) {
     return Response.json({ error: `${ids.length} JPEG camera images are required (${ids.join(", ")}).` }, { status: 400 });
+  }
+
+  // The owner's benchmark (scripts/bench.mjs --api) draws on its own daily budget instead of the visitor limits.
+  const bench = req.headers.get(BENCH_HEADER) === "1";
+  const store = spendStore(bench ? "bench" : "spend");
+  const cost = { usd: runEstimateUsd(body.model, body.reasoningEffort, mode), run: true };
+  const decision = store
+    ? await reserve(store, bench ? BENCH_LIMITS : SPEND_LIMITS, bench ? "bench" : visitorKey(req.headers), cost)
+    : ({ ok: false, reason: "unavailable", message: LIMIT_MESSAGES.unavailable } as const);
+  if (!decision.ok) {
+    return Response.json({ limited: true, reason: decision.reason, error: decision.message }, { status: 429 });
   }
 
   const client = new OpenAI({ apiKey });

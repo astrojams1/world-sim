@@ -106,7 +106,7 @@ async function runSeed(browser, seed) {
       try {
         const r = await fetch(apiOrigin + path, {
           method: req.method(),
-          headers: req.method() === "POST" ? { "content-type": "application/json" } : {},
+          headers: req.method() === "POST" ? { "content-type": "application/json", "x-world-sim-bench": "1" } : {},
           body: req.method() === "POST" ? req.postData() : undefined,
         });
         await route.fulfill({ status: r.status, contentType: r.headers.get("content-type") ?? "application/json", body: Buffer.from(await r.arrayBuffer()) });
